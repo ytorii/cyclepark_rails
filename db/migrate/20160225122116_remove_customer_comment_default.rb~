@@ -1,0 +1,4 @@
+class RemoveCustomerCommentDefault < ActiveRecord::Migration
+  def change
+  end
+end

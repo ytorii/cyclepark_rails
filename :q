@@ -1,0 +1,299 @@
+= ..ccrreeaattee
+
+(from ruby core)
+=== IImmpplleemmeennttaattiioonn  ffrroomm  CCSSttrruuccttBBuuiillddeerr
+------------------------------------------------------------------------------
+  create(klass, types, members)
+
+------------------------------------------------------------------------------
+
+Construct a new class given a C:
+* class klass (CUnion, CStruct, or other that provide an #entity_class)
+* types (Fiddle::TYPE_INT, Fiddle::TYPE_SIZE_T, etc., see the C types
+  constants)
+* corresponding members
+
+Fiddle::Importer#struct and Fiddle::Importer#union wrap this functionality in
+an easy-to-use manner.
+
+Example:
+
+  require 'fiddle/struct'
+  require 'fiddle/cparser'
+
+  include Fiddle::CParser
+
+  types, members = parse_struct_signature(['int i','char c'])
+
+  MyStruct = Fiddle::CStructBuilder.create(Fiddle::CUnion, types, members)
+
+  obj = MyStruct.allocate
+
+
+(from ruby core)
+=== IImmpplleemmeennttaattiioonn  ffrroomm  CCSSttrruuccttBBuuiillddeerr
+------------------------------------------------------------------------------
+  create(klass, types, members)
+
+------------------------------------------------------------------------------
+
+Construct a new class given a C:
+* class klass (CUnion, CStruct, or other that provide an #entity_class)
+* types (Fiddle::TYPE_INT, Fiddle::TYPE_SIZE_T, etc., see the C types
+  constants)
+* corresponding members
+
+Fiddle::Importer#struct and Fiddle::Importer#union wrap this functionality in
+an easy-to-use manner.
+
+Example:
+
+  require 'fiddle/struct'
+  require 'fiddle/cparser'
+
+  include Fiddle::CParser
+
+  types, members = parse_struct_signature(['int i','char c'])
+
+  MyStruct = Fiddle::CStructBuilder.create(Fiddle::CUnion, types, members)
+
+  obj = MyStruct.allocate
+
+
+(from ruby core)
+=== IImmpplleemmeennttaattiioonn  ffrroomm  NNooAAlliiaassYYAAMMLLTTrreeee
+------------------------------------------------------------------------------
+  create()
+
+------------------------------------------------------------------------------
+
+
+(from ruby core)
+=== IImmpplleemmeennttaattiioonn  ffrroomm  RReeqquuiirreemmeenntt
+------------------------------------------------------------------------------
+  create(input)
+
+------------------------------------------------------------------------------
+
+Factory method to create a Gem::Requirement object.  Input may be a Version, a
+String, or nil.  Intended to simplify client code.
+
+If the input is "weird", the default version requirement is returned.
+
+
+(from ruby core)
+=== IImmpplleemmeennttaattiioonn  ffrroomm  VVeerrssiioonn
+------------------------------------------------------------------------------
+  create(input)
+
+------------------------------------------------------------------------------
+
+Factory method to create a Version object. Input may be a Version or a String.
+Intended to simplify client code.
+
+  ver1 = Version.create('1.3.17')   # -> (Version object)
+  ver2 = Version.create(ver1)       # -> (ver1)
+  ver3 = Version.create(nil)        # -> nil
+
+
+(from ruby core)
+=== IImmpplleemmeennttaattiioonn  ffrroomm  IIMMAAPP
+------------------------------------------------------------------------------
+  create(mailbox)
+
+------------------------------------------------------------------------------
+
+Sends a CREATE command to create a new mailbox.
+
+A Net::IMAP::NoResponseError is raised if a mailbox with that name cannot be
+created.
+
+
+(from ruby core)
+=== IImmpplleemmeennttaattiioonn  ffrroomm  RReessppoonnssee
+------------------------------------------------------------------------------
+  OpenSSL::OCSP::Response.create(status, basic_response = nil) -> response
+
+------------------------------------------------------------------------------
+
+Creates an OpenSSL::OCSP::Response from status and basic_response.
+
+
+(from ruby core)
+=== IImmpplleemmeennttaattiioonn  ffrroomm  PPKKCCSS1122
+------------------------------------------------------------------------------
+  PKCS12.create(pass, name, key, cert [, ca, [, key_pbe [, cert_pbe [, key_iter [, mac_iter [, keytype]]]]]])
+
+------------------------------------------------------------------------------
+
+=== PPaarraammeetteerrss
+* pass - string
+* name - A string describing the key.
+* key - Any PKey.
+* cert - A X509::Certificate.
+  * The public_key portion of the certificate must contain a valid public key.
+  * The not_before and not_after fields must be filled in.
+* ca - An optional array of X509::Certificate's.
+* key_pbe - string
+* cert_pbe - string
+* key_iter - integer
+* mac_iter - integer
+* keytype - An integer representing an MSIE specific extension.
+
+Any optional arguments may be supplied as nil to preserve the OpenSSL
+defaults.
+
+See the OpenSSL documentation for PKCS12_create().
+
+
+(from ruby core)
+=== IImmpplleemmeennttaattiioonn  ffrroomm  JJSSOONNTTrreeee
+------------------------------------------------------------------------------
+  create(options = {})
+
+------------------------------------------------------------------------------
+
+
+(from ruby core)
+=== IImmpplleemmeennttaattiioonn  ffrroomm  TTooRRuubbyy
+------------------------------------------------------------------------------
+  create()
+
+------------------------------------------------------------------------------
+
+
+(from ruby core)
+=== IImmpplleemmeennttaattiioonn  ffrroomm  YYAAMMLLTTrreeee
+------------------------------------------------------------------------------
+  create(options = {})
+
+------------------------------------------------------------------------------
+
+
+(from ruby core)
+=== IImmpplleemmeennttaattiioonn  ffrroomm  NNaammee
+------------------------------------------------------------------------------
+  create(arg)
+
+------------------------------------------------------------------------------
+
+Creates a new DNS name from arg.  arg can be:
+
+Name:
+  returns arg.
+
+String:
+  Creates a new Name.
+
+
+
+(from ruby core)
+=== IImmpplleemmeennttaattiioonn  ffrroomm  IIPPvv44
+------------------------------------------------------------------------------
+  create(arg)
+
+------------------------------------------------------------------------------
+
+
+(from ruby core)
+=== IImmpplleemmeennttaattiioonn  ffrroomm  IIPPvv66
+------------------------------------------------------------------------------
+  create(arg)
+
+------------------------------------------------------------------------------
+
+Creates a new IPv6 address from arg which may be:
+
+IPv6:
+  returns arg.
+
+String:
+  arg must match one of the IPv6::Regex* constants
+
+
+
+(from ruby core)
+=== IImmpplleemmeennttaattiioonn  ffrroomm  AAlltt
+------------------------------------------------------------------------------
+  create(arg)
+
+------------------------------------------------------------------------------
+
+Creates a new LOC::Alt from arg which may be:
+
+LOC::Alt:
+  returns arg.
+
+String:
+  arg must match the LOC::Alt::Regex constant
+
+
+
+(from ruby core)
+=== IImmpplleemmeennttaattiioonn  ffrroomm  CCoooorrdd
+------------------------------------------------------------------------------
+  create(arg)
+
+------------------------------------------------------------------------------
+
+Creates a new LOC::Coord from arg which may be:
+
+LOC::Coord:
+  returns arg.
+
+String:
+  arg must match the LOC::Coord::Regex constant
+
+
+
+(from ruby core)
+=== IImmpplleemmeennttaattiioonn  ffrroomm  SSiizzee
+------------------------------------------------------------------------------
+  create(arg)
+
+------------------------------------------------------------------------------
+
+Creates a new LOC::Size from arg which may be:
+
+LOC::Size:
+  returns arg.
+
+String:
+  arg must match the LOC::Size::Regex constant
+
+
+
+(from ruby core)
+=== IImmpplleemmeennttaattiioonn  ffrroomm  TTeemmppffiillee
+------------------------------------------------------------------------------
+  create(basename, tmpdir=nil, mode: 0, **options) { |tmpfile| ... }
+
+------------------------------------------------------------------------------
+
+Creates a temporary file as usual File object (not Tempfile). It doesn't use
+finalizer and delegation.
+
+If no block is given, this is similar to Tempfile.new except creating File
+instead of Tempfile. The created file is not removed automatically. You should
+use File.unlink to remove it.
+
+If a block is given, then a File object will be constructed, and the block is
+invoked with the object as the argument. The File object will be automatically
+closed and the temporary file is removed after the block terminates. The call
+returns the value of the block.
+
+In any case, all arguments (+*args+) will be treated as Tempfile.new.
+
+  Tempfile.create('foo', '/home/temp') do |f|
+     ... do something with f ...
+  end
+
+
+(from ruby core)
+=== IImmpplleemmeennttaattiioonn  ffrroomm  PPaarrsseerrWWrriitteerrCChhoooosseeMMiixxiinn
+------------------------------------------------------------------------------
+  create()
+
+------------------------------------------------------------------------------
+
+

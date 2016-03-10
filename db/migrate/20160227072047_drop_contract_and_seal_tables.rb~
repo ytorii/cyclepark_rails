@@ -1,0 +1,4 @@
+class DropContractAndSealTables < ActiveRecord::Migration
+  def change
+  end
+end

@@ -1,0 +1,4 @@
+class AddIndexToStaff < ActiveRecord::Migration
+  def change
+  end
+end

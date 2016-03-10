@@ -1,0 +1,50 @@
+<table border="1" cellspacing="0" cellpadding="2" width="1000" style="font-size: 25px;">
+
+  <tr>
+    <td bgcolor="yellow" width="130"><font size="6">
+        No：<%= @leaf.number %> </font>
+    </td>
+    <td width="150" >
+      <% case @leaf.vhiecle_type
+         when 1 %>自転車
+      <% when 2 %> <% unless @leaf.largebike_flag then %>バイク<% else %>大型バイク<% end %>
+      <% when 3 %>２号地
+      <% end %>
+    </td>
+    <td>
+      <% unless @leaf.student_flag then %>一般<% else %>学生<% end %>
+    </td>
+    <td colspan="2">
+      <% if @leaf.valid_flag then %>契約中<% else %>解約<% end %>
+    </td>
+    <td width="200">
+      <%= @leaf.customer.receipt %>
+    </td>
+  </tr>
+
+  <tr>
+    <td>住所：</td>
+    <td colspan="4" width="700"><font size="6">
+        <%= @leaf.customer.address %>
+    </td>
+    <td width="200">
+      <%= @leaf.customer.comment %>
+    </td>
+  </tr>
+
+  <tr>
+    <td>ﾌﾘｶﾞﾅ：</td>
+    <td>
+      <%= @leaf.customer.first_read %>
+    </td>
+    <td>
+      <%= @leaf.customer.last_read %>
+    </td>
+    <td rowspan="2">
+      <% if @leaf.customer.sex then %>男性<% else %>女性<% end %>
+    </td>
+    <td>
+      自宅： <%= @leaf.customer.phone_number %>
+    </td>
+    <td width="200">
+      利用開始日：<%= @leaf.start_date.strftime('%Y年%m月%d日') %>より

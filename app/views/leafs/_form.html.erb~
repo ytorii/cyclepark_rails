@@ -1,0 +1,88 @@
+<%= form_for(@leaf) do |f| %>
+  <% if @leaf.errors.any? %>
+  <div id="error_explanation">
+  <h2><%= pluralize(@leaf.errors.count, "error") %> prohibited this leaf from being saved:</h2>
+
+  <ul>
+    <% @leaf.errors.full_messages.each do |message| %>
+      <li><%= message %></li>
+  <% end %>
+  </ul>
+</div>
+  <% end %>
+
+<div class="field">
+  <%= f.label :number %><br>
+  <%= f.number_field :number %>
+</div>
+<div class="field">
+  <%= f.label :vhiecle_type %><br>
+  <label><%= f.radio_button :vhiecle_type, 1, class: :rd %>１号地</label>
+  <label><%= f.radio_button :vhiecle_type, 2, class: :rd %>バイク</label>
+  <label><%= f.radio_button :vhiecle_type, 3, class: :rd %>２号地</label>
+</div>
+<div class="field">
+  <%= f.label :student_flag %><br>
+  <%= f.check_box :student_flag %>
+</div>
+<div class="field">
+  <%= f.label :largebike_flag %><br>
+  <%= f.check_box :largebike_flag %>
+</div>
+<div class="field">
+  <%= f.label :start_date %><br>
+  <%= f.date_select :start_date %>
+</div>
+<div class="field">
+  <%= f.label :last_date %><br>
+  <%= f.date_select :last_date %>
+</div>
+<%= f.hidden_field :valid_flag, :value => true %>
+<%= f.fields_for :customer do |c| %>
+  <div class="field">
+  <%= c.label :first_name %><br>
+  <%= c.text_field :first_name %>
+</div>
+<div class="field">
+  <%= c.label :last_name %><br>
+  <%= c.text_field :last_name %>
+</div>
+<div class="field">
+  <%= c.label :first_read %><br>
+  <%= c.text_field :first_read %>
+</div>
+<div class="field">
+  <%= c.label :last_read %><br>
+  <%= c.text_field :last_read %>
+</div>
+<div class="field">
+  <%= c.label :sex %><br>
+  <label><%= c.radio_button :sex, true, class: :rd %>男性</label>
+  <label><%= c.radio_button :sex, false, class: :rd %>女性</label>
+</div>
+<div class="field">
+  <%= c.label :address %><br>
+  <%= c.text_field :address %>
+</div>
+<div class="field">
+  <%= c.label :phone_number %><br>
+  <%= c.text_field :phone_number %>
+</div>
+<div class="field">
+  <%= c.label :cell_number %><br>
+  <%= c.text_field :cell_number %>
+</div>
+<div class="field">
+  <%= c.label :receipt %><br>
+  <%= c.text_field :receipt %>
+</div>
+<div class="field">
+  <%= c.label :comment %><br>
+  <%= c.text_field :comment %>
+</div>
+<% end %>
+
+<div class="actions">
+  <%= f.submit %>
+</div>
+<% end %>

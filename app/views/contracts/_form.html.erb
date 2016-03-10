@@ -1,0 +1,59 @@
+<%= form_for(@leaf) do |l| %>
+  <% if @leaf.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@leaf.errors.count, "error") %> prohibited this contract from being saved:</h2>
+
+      <ul>
+      <% @leaf.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+<%= l.fields_for :contract do |f| %>
+  <div class="field">
+    <%= f.label :leaf_id %><br>
+    <%= f.text_field :leaf_id %>
+  </div>
+  <div class="field">
+    <%= f.label :contract_date %><br>
+    <%= f.date_select :contract_date %>
+  </div>
+  <div class="field">
+    <%= f.label :start_month %><br>
+    <%= f.date_select :start_month %>
+  </div>
+  <div class="field">
+    <%= f.label :term1 %><br>
+    <%= f.number_field :term1 %>
+  </div>
+  <div class="field">
+    <%= f.label :money1 %><br>
+    <%= f.number_field :money1 %>
+  </div>
+  <div class="field">
+    <%= f.label :term2 %><br>
+    <%= f.number_field :term2 %>
+  </div>
+  <div class="field">
+    <%= f.label :money2 %><br>
+    <%= f.number_field :money2 %>
+  </div>
+  <div class="field">
+    <%= f.label :new_flag %><br>
+    <%= f.check_box :new_flag %>
+  </div>
+  <div class="field">
+    <%= f.label :skip_flag %><br>
+    <%= f.check_box :skip_flag %>
+  </div>
+  <div class="field">
+    <%= f.label :staff_nickname %><br>
+    <%= f.text_field :staff_nickname %>
+  </div>
+<% end %>
+  <div class="actions">
+    <%= l.submit %>
+  </div>
+<% end %>

@@ -1,0 +1,4 @@
+class ChangeCustomerComment < ActiveRecord::Migration
+  def change
+  end
+end

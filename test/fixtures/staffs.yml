@@ -1,0 +1,16 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+#salt: 5f90a188468f64998c5a
+
+admin_user:
+  id: 1
+  nickname: admin
+  password: 2cf00a11121ad260ed32b290f9aefa01279bd5a2
+  salt: 5f90a188468f64998c5a
+  admin_flag: true
+
+normal_user:
+  id: 2
+  nickname: normal
+  password: 2cf00a11121ad260ed32b290f9aefa01279bd5a2
+  salt: 5f90a188468f64998c5a
+  admin_flag: false

@@ -1,0 +1,4 @@
+class AddColumnToLeafs < ActiveRecord::Migration
+  def change
+  end
+end

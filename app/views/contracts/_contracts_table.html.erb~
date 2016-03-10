@@ -1,0 +1,23 @@
+<table border="1" cellspacing="0" cellpadding="2">
+
+  <tr>
+    <th>開始月</th><th>期間１</th><th>金額１</th><th>期間２</th><th>金額２</th><th>契約日</th>><th>更・新</th><th>シール</th><th>貼付日</th>
+  </tr>
+
+<% @leaf.contracts.each do |contract| %>
+  <% unless contract.start_month.blank? %>
+  <tr>
+    <td><%= contract.start_month.strftime('%Y/%m') %></td>
+    <td><%= contract.term1 %></td>
+    <td><%= contract.money1 %></td>
+    <td><%= contract.term2 %></td>
+    <td><%= contract.money2 %></td>
+    <td><%= contract.contract_date.strftime('%m/%d') %></td>
+    <td> <% if contract.new_flag then %>新規<% else %>更新<% end %></td>
+    <td> <% if contract.seals.first.sealed_flag then %>済<% else %>未貼<% end %></td>
+    <td> <% if contract.seals.first.sealed_flag then %>済<% else %>未貼<% end %></td>
+    <td><%= contract.seals.first.sealed_date.strftime('%m/%d') unless contract.seals.first.sealed_date.blank? %></td>
+  </tr>
+  <% end %>
+<% end %>
+</table>

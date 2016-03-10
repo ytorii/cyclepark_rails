@@ -1,0 +1,15 @@
+class CreateStaffdetails < ActiveRecord::Migration
+  def change
+    create_table :staffdetails do |t|
+      t.references :staff, index: true, foreign_key: true
+      t.string :name
+      t.string :read
+      t.string :address
+      t.date :birthday
+      t.string :phone_number
+      t.string :cell_number
+
+      t.timestamps null: false
+    end
+  end
+end

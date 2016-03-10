@@ -1,0 +1,39 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Leafs</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Number</th>
+      <th>Type</th>
+      <th>Student flag</th>
+      <th>Largebike flag</th>
+      <th>Valid flag</th>
+      <th>Start date</th>
+      <th>Last date</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @leafs.each do |leaf| %>
+      <tr>
+        <td><%= leaf.number %></td>
+        <td><%= leaf.type %></td>
+        <td><%= leaf.student_flag %></td>
+        <td><%= leaf.largebike_flag %></td>
+        <td><%= leaf.valid_flag %></td>
+        <td><%= leaf.start_date %></td>
+        <td><%= leaf.last_date %></td>
+        <td><%= link_to 'Show', leaf %></td>
+        <td><%= link_to 'Edit', edit_leaf_path(leaf) %></td>
+        <td><%= link_to 'Destroy', leaf, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Leaf', new_leaf_path %>

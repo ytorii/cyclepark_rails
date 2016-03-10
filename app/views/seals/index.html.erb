@@ -1,0 +1,35 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Seals</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Contract</th>
+      <th>Month</th>
+      <th>Sealed flag</th>
+      <th>Sealed date</th>
+      <th>Staff nickname</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @seals.each do |seal| %>
+      <tr>
+        <td><%= seal.contract %></td>
+        <td><%= seal.month %></td>
+        <td><%= seal.sealed_flag %></td>
+        <td><%= seal.sealed_date %></td>
+        <td><%= seal.staff_nickname %></td>
+        <td><%= link_to 'Show', seal %></td>
+        <td><%= link_to 'Edit', edit_seal_path(seal) %></td>
+        <td><%= link_to 'Destroy', seal, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Seal', new_seal_path %>

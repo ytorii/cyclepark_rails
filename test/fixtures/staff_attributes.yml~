@@ -1,0 +1,22 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+#salt: 5f90a188468f64998c5a
+
+admin_user_attribute:
+  id: 1
+  user_id: 1
+  name: '管理者　ユーザ'
+  read: 'かんりしゃ　ゆーざ'
+  address: '寝屋川市八坂町１７－１'
+  birthday: 1984-04-01
+  phone_number: '072-838-2058'
+  cell_number: '090-1111-2222'
+
+normal_user_attribute:
+  id: 2
+  user_id: 2
+  name: '一般　ユーザ'
+  read: 'いっぱん　ゆーざ'
+  address: '寝屋川市八坂町１６－５'
+  birthday: 2011-03-01
+  phone_number: '072-821-2000'
+  cell_number: '090-3333-4444'

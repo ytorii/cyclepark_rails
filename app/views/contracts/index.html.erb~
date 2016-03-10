@@ -1,0 +1,45 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Contracts</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Leaf</th>
+      <th>Contract date</th>
+      <th>Start month</th>
+      <th>Term1</th>
+      <th>Money1</th>
+      <th>Term2</th>
+      <th>Money2</th>
+      <th>New flag</th>
+      <th>Skip flag</th>
+      <th>Staff nickname</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @contracts.each do |contract| %>
+      <tr>
+        <td><%= contract.leaf %></td>
+        <td><%= contract.contract_date %></td>
+        <td><%= contract.start_month %></td>
+        <td><%= contract.term1 %></td>
+        <td><%= contract.money1 %></td>
+        <td><%= contract.term2 %></td>
+        <td><%= contract.money2 %></td>
+        <td><%= contract.new_flag %></td>
+        <td><%= contract.skip_flag %></td>
+        <td><%= contract.staff_nickname %></td>
+        <td><%= link_to 'Show', contract %></td>
+        <td><%= link_to 'Edit', edit_contract_path(contract) %></td>
+        <td><%= link_to 'Destroy', contract, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Contract', new_leaf_contract_path %>

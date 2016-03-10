@@ -1,0 +1,13 @@
+<p class="error" style="color: Red"><%= @error %><%= flash[:error] %></p>
+<%= form_tag( { action: :auth }, id: :login )do %>
+  <div class="field">
+    <%= label_tag :nickname, 'スタッフ名' %>:<br />
+    <%= text_field_tag :nickname, '', size: 10 %>
+  </div>
+  <div class="field">
+    <%= label_tag :password, 'パスワード' %>:<br />
+    <%= password_field_tag :password, '', size: 10 %>
+  </div>
+  <%= hidden_field_tag :referer, flash[:referer] %>
+  <%= submit_tag 'ログイン' %>
+<% end %>
