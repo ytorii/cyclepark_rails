@@ -42,10 +42,11 @@ class SealsController < ApplicationController
   def update
     respond_to do |format|
       if @seal.update(seal_params)
-        format.html { redirect_to @seal, notice: 'Seal was successfully updated.' }
+        format.html { redirect_to leaf_path(params[:leaf_id]), notice: 'シール貼付情報を更新しました。' }
         format.json { render :show, status: :ok, location: @seal }
       else
-        format.html { render :edit }
+        @leaf = Leaf.find(params[:leaf_id])
+        format.html { render "leafs/show" }
         format.json { render json: @seal.errors, status: :unprocessable_entity }
       end
     end

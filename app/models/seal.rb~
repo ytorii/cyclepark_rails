@@ -11,10 +11,5 @@ class Seal < ActiveRecord::Base
   validates :staff_nickname,
     presence: { if: 'sealed_flag' },
     length: { maximum: 10, allow_blank: true }
-  before_validation do
-    p "seal_validation"
-  end
-  after_validation do
-    p "after_seal_validation"
-  end
+  validate :staff_exists?
 end
