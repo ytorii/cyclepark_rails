@@ -52,37 +52,43 @@ RSpec.describe LeafsController, type: :controller do
 
   let(:valid_contract) {
     {
-      leaf_id: 1,
-      contract_date: "2016-02-29",
-      start_month: "",
-      term1: 1,
-      money1: 1000,
-      term2: 6,
-      money2: 18000,
-      new_flag: '',
-      skip_flag: false,
-      staff_nickname: "admin",
-      seals_attributes: [{
-        sealed_flag: true
-      }]
+      contract:
+      {
+        leaf_id: 1,
+        contract_date: "2016-02-29",
+        start_month: "",
+        term1: 1,
+        money1: 1000,
+        term2: 6,
+        money2: 18000,
+        new_flag: '',
+        skip_flag: false,
+        staff_nickname: "admin",
+        seals_attributes: [{
+          sealed_flag: true
+        }]
+      }
     }
   }
 
   let(:invalid_contract) {
     {
-      leaf_id: 1,
-      contract_date: "2016-02-29",
-      start_month: "2016-02-29",
-      term1: '',
-      money1: 1000 ,
-      term2: 6,
-      money2: 18000,
-      new_flag: true,
-      skip_flag: false,
-      staff_nickname: "admin",
-      seals_attributes: [{
-        sealed_flag: true
-      }]
+      contract:
+      {
+        leaf_id: 1,
+        contract_date: "2016-02-29",
+        start_month: "2016-02-29",
+        term1: '',
+        money1: 1000 ,
+        term2: 6,
+        money2: 18000,
+        new_flag: true,
+        skip_flag: false,
+        staff_nickname: "admin",
+        seals_attributes: [{
+          sealed_flag: true
+        }]
+      }
     }
   }
 
@@ -154,7 +160,9 @@ RSpec.describe LeafsController, type: :controller do
     end
   end
 
-  describe "PUT #update", :focus => false do
+  describe "PUT #update for leaf and customer", :focus => true do
+    let(:leaf){Leaf.create! valid_attributes}
+
     context "with valid params" do
       let(:new_attributes) {
         {
@@ -181,7 +189,6 @@ RSpec.describe LeafsController, type: :controller do
       }
 
       it "updates the requested leaf." do
-        leaf = Leaf.create! valid_attributes
         put :update, {:id => leaf.to_param, :leaf => new_attributes}, valid_session
         leaf.reload
           expect(leaf.student_flag).to eq(true)
@@ -189,29 +196,85 @@ RSpec.describe LeafsController, type: :controller do
       end
 
       it "assigns the requested leaf as @leaf." do
-        leaf = Leaf.create! valid_attributes
         put :update, {:id => leaf.to_param, :leaf => new_attributes}, valid_session
         expect(assigns(:leaf)).to eq(leaf)
       end
 
-      it "redirects to the leaf's contract page." do
-        leaf = Leaf.create! valid_attributes
+      it "redirects to the leaf's page." do
         put :update, {:id => leaf.to_param, :leaf => new_attributes}, valid_session
-        expect(response).to redirect_to(new_leaf_contract_path(leaf.to_param))
+        expect(response).to redirect_to(leaf_path(leaf.to_param))
       end
     end
 
     context "with invalid params" do
       it "assigns the leaf as @leaf" do
-        leaf = Leaf.create! valid_attributes
         put :update, {:id => leaf.to_param, :leaf => invalid_attributes}, valid_session
         expect(assigns(:leaf)).to eq(leaf)
       end
 
       it "re-renders the 'edit' template" do
-        leaf = Leaf.create! valid_attributes
         put :update, {:id => leaf.to_param, :leaf => invalid_attributes}, valid_session
         expect(response).to render_template("edit")
+      end
+    end
+  end
+
+  describe "PUT #update for contract", :focus => true do
+    let(:leaf){Leaf.create! valid_attributes}
+
+    context "with valid params" do
+      it "creates one new Contract." do
+        expect {
+          put :update, {:id => leaf.to_param, :leaf => valid_contract}, valid_session
+        }.to change(Contract, :count).by(1)
+      end
+
+      it "creates seven new Seals." do
+        expect {
+          put :update, {:id => leaf.to_param, :leaf => valid_contract}, valid_session
+        }.to change(Seal, :count).by(7)
+      end
+
+      it "updates leaf's last month to Seals' last month." do
+        put :update, {:id => leaf.to_param, :leaf => valid_contract}, valid_session
+        leaf.reload
+        expect(leaf.last_date).to eq(leaf.contracts.last.seals.last.month)
+      end
+
+      it "redirects to the created contract" do
+        put :update, {:id => leaf.to_param, :leaf => valid_contract}, valid_session
+        expect(response).to redirect_to(leaf)
+      end
+    end
+
+    context "with invalid params" do
+      it "fails to create new Contract." do
+        expect {
+          put :update, {:id => leaf.to_param, :leaf => invalid_contract}, valid_session
+        }.to change(Contract, :count).by(0)
+      end
+
+      it "fails to create new Seals." do
+        expect {
+          put :update, {:id => leaf.to_param, :leaf => invalid_contract}, valid_session
+        }.to change(Seal, :count).by(0)
+      end
+
+      it "fails to update leaf's last month to Seals' last month." do
+        last_date = leaf.last_date 
+        put :update, {:id => leaf.to_param, :leaf => invalid_contract}, valid_session
+        leaf.reload
+        expect(leaf.last_date).to eq(last_date)
+      end
+
+      it "assigns a newly built but unsaved contract as @contract" do
+        put :update, {:id => leaf.to_param, :leaf => invalid_contract}, valid_session
+        expect(assigns(:leaf)).to eq(leaf)
+      end
+
+      it "re-renders the 'show' template" do
+        put :update, {:id => leaf.to_param, :leaf => invalid_contract}, valid_session
+        expect(response).to render_template("show")
       end
     end
   end
@@ -231,59 +294,4 @@ RSpec.describe LeafsController, type: :controller do
     end
   end
 
-  describe "POST #addContract", :focus => true do
-    before{
-      create(:first)
-    }
-
-    context "with valid params" do
-      it "creates one new Contract." do
-        expect {
-          post :addContract, {:contract => valid_contract, :sealed_flag => true}, valid_session
-        }.to change(Contract, :count).by(1)
-      end
-
-      it "creates seven new Seals." do
-        expect {
-          post :addContract, {:contract => valid_contract}, valid_session
-        }.to change(Seal, :count).by(7)
-      end
-
-      it "updates leaf's last month to Seals' last month." do
-        post :addContract, {:contract => valid_contract}, valid_session
-        expect(Leaf.find(1).last_date).to eq(Seal.all.last.month)
-      end
-
-      it "redirects to the created contract" do
-        @leaf = Leaf.find(1)
-        post :addContract, {:contract => valid_contract}, valid_session
-        expect(response).to redirect_to(@leaf)
-      end
-    end
-
-    context "with invalid params" do
-      it "fails to create new Contract." do
-        expect {
-          post :addContract, {:contract => invalid_contract, :sealed_flag => true}, valid_session
-        }.to change(Contract, :count).by(0)
-      end
-
-      it "fails to created new Seals." do
-        expect {
-          post :addContract, {:contract => invalid_contract}, valid_session
-        }.to change(Seal, :count).by(0)
-      end
-
-      it "fails to update leaf's last month to Seals' last month." do
-        last_date = Leaf.find(1).last_date 
-        post :addContract, {:contract => invalid_contract}, valid_session
-        expect(Leaf.find(1).last_date).to eq(last_date)
-      end
-
-      it "assigns a newly built but unsaved contract as @contract" do
-        post :addContract, {:contract => invalid_contract}, valid_session
-        expect(assigns(:contract)).to be_a_new(Contract)
-      end
-    end
-  end
 end

@@ -10,7 +10,7 @@ class ApplicationController < ActionController::Base
       begin
         @staff = Staff.find(session[:staff])
       rescue ActiveRecord::RecordNotFound
-        p Staff.find(1)
+        p 'FAIL!!!'
         reset_session
       end
     end

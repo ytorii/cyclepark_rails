@@ -18,18 +18,20 @@
     
     <% contract.seals.each do |seal| %>
       <% if seal.sealed_flag then %>
-        <td><%= seal.month.strftime('%m') %>月貼済 <%= seal.sealed_date.strftime('%m/%d') %> <%= seal.staff_nickname %></td>
+      <td><%= seal.month.strftime('%m月') %>貼済 <%= seal.sealed_date.strftime('%m/%d') %> <%= seal.staff_nickname %></td>
       <% else %>
-        <%= form_for(seal, :url => {:action => 'updateSeal'}) do |f| %>
+        <%= form_for(seal, :url => {:action => 'renewSeal'}) do |f| %>
           <%= f.hidden_field :staff_nickname, :value => session[:nickname] %>
-        <div class="actions">
-          <%= f.submit %>
-        </div>
-        <% end%>
-      <% break %>
+    <td>
+      <div class="actions">
+        <%= f.submit(["#{seal.month.strftime('%m月')}分シール貼付"]) %>
+      </div>
+    </td>
+        <% end %>
+        <% break %>
       <% end %>
     <% end %>
-  </tr>
   <% end %>
+  </tr>
 <% end %>
 </table>

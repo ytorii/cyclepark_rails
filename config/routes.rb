@@ -1,13 +1,18 @@
 Rails.application.routes.draw do
-  resources :customers
-  resources :leafs do
-    resources :contracts do
-      resources :seals
-    end
-  end
-  resources :staffdetails
+  #resources :customers
+  resources :leafs
+  #resources :contracts
+  #resources :seals
+  #resources :staffdetails
   resources :staffs
-  match ':controller(/:action(/:id))', via: [ :get, :post, :patch ]
+  
+  get 'login' => 'login#index'
+  post 'login/auth' => 'login#auth'
+  post 'leafs/addContract' => 'leafs#addContract'
+  patch 'leafs/updateSeal' => 'leafs#updateSeal'
+
+  root :to => 'login#index'
+  #match ':controller(/:action(/:id))', via: [ :get, :post, :patch ]
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

@@ -2,7 +2,7 @@ FactoryGirl.define do
   factory :first_contract, class: Contract do
     Leaf
     contract_date "2016-02-20"
-    start_month ""
+    start_month "2016-02-20"
     term1 1
     money1 1000 
     term2 6
@@ -12,7 +12,7 @@ FactoryGirl.define do
     staff_nickname "admin"
 
     after(:build) do |first_contract|
-      build(:first_seal, contract: first_contract)
+      build(:seal_true, month: "2016-02-20", contract: first_contract)
     end
   end
 

@@ -49,13 +49,35 @@ class LeafsController < ApplicationController
   # PATCH/PUT /leafs/1
   # PATCH/PUT /leafs/1.json
   def update
-    respond_to do |format|
-      if @leaf.update(leaf_params)
-        format.html { redirect_to leaf_path(@leaf), notice: '顧客情報を変更しました。' }
-        format.json { render :show, status: :ok, location: @leaf }
-      else
-        format.html { render :edit }
-        format.json { render json: @leaf.errors, status: :unprocessable_entity }
+
+    @contract = Contract.new(contract_params[:contract])
+    
+    #params[:leaf][:contract]
+    if @contract.leaf_id
+      respond_to do |format|
+        if @contract.save
+          unless @contract.new_flag
+            message = '契約を更新しました。'
+          else
+            message = '新規契約を登録しました。'
+          end
+
+          format.html { redirect_to leaf_path(@leaf), notice: message }
+          format.json { render :show, status: :created, location: @contract }
+        else
+          format.html { render :show }
+          format.json { render json: @contract.errors, status: :unprocessable_entity }
+        end
+      end
+    else
+      respond_to do |format|
+        if @leaf.update(leaf_params)
+          format.html { redirect_to leaf_path(@leaf), notice: '顧客情報を変更しました。' }
+          format.json { render :show, status: :ok, location: @leaf }
+        else
+          format.html { render :edit }
+          format.json { render json: @leaf.errors, status: :unprocessable_entity }
+        end
       end
     end
   end
@@ -70,7 +92,7 @@ class LeafsController < ApplicationController
     end
   end
 
-  # POST /contracts/addContract
+  # POST /leafs/addContract
   def addContract
     @contract = Contract.new(contract_params)
 
@@ -94,6 +116,10 @@ class LeafsController < ApplicationController
     end
   end
 
+  # POST /leafs/updateSeal
+  def updateSeal
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_leaf
@@ -106,6 +132,7 @@ class LeafsController < ApplicationController
     end
 
     def contract_params
-      params.require(:contract).permit(:leaf_id, :contract_date, :term1, :money1, :term2, :money2, :skip_flag, :staff_nickname, seals_attributes: [:id, :sealed_flag])
+      params.require(:leaf).permit(contract: [:id, :leaf_id, :contract_date, :term1, :money1, :term2, :money2, :skip_flag, :staff_nickname, seals_attributes: [:id, :sealed_flag]])
+      #params.require(:contract).permit(:leaf_id, :contract_date, :term1, :money1, :term2, :money2, :skip_flag, :staff_nickname, seals_attributes: [:id, :sealed_flag])
     end
 end
