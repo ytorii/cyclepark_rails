@@ -2,6 +2,6 @@
 
 <p id="notice"><%= notice %></p>
 <%= render 'customer_table' %>
-<%= render 'contract_addition_form' %>
+<%= render 'contracts_addition_form' %>
 <%= render 'contracts_table' %>
 

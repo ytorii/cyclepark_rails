@@ -17,11 +17,7 @@ class ContractsController < ApplicationController
 
   # GET /contracts/new
   def new
-    # As contract model is the nested resources, 
-    # it needs to be built from leaf. 
-    @leaf = Leaf.find(params[:leaf_id])
-    @contract = @leaf.contracts.build
-    @contract.seals.build
+    @contract = Contract.new
   end
 
   # GET /contracts/1/edit
@@ -35,19 +31,18 @@ class ContractsController < ApplicationController
 
     respond_to do |format|
       if @contract.save
-
         unless @contract.new_flag
           message = '契約を更新しました。'
         else
           message = '新規契約を登録しました。'
         end
 
-        format.html { redirect_to new_leaf_contract_path(@contract.leaf_id), notice: message }
+        format.html { redirect_to leaf_path(@contract.leaf_id), notice: message }
         format.json { render :show, status: :created, location: @contract }
       else
         # @leaf is needed to show customer information.
         @leaf = Leaf.find(@contract.leaf_id)
-        format.html { render :new }
+        format.html { render template: "leafs/show" }
         format.json { render json: @contract.errors, status: :unprocessable_entity }
       end
     end

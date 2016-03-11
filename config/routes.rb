@@ -1,15 +1,15 @@
 Rails.application.routes.draw do
   #resources :customers
-  resources :leafs
-  #resources :contracts
-  #resources :seals
+  resources :leafs do
+    resources :contracts do
+      resources :seals
+    end
+  end
   #resources :staffdetails
   resources :staffs
   
   get 'login' => 'login#index'
   post 'login/auth' => 'login#auth'
-  post 'leafs/addContract' => 'leafs#addContract'
-  patch 'leafs/updateSeal' => 'leafs#updateSeal'
 
   root :to => 'login#index'
   #match ':controller(/:action(/:id))', via: [ :get, :post, :patch ]
