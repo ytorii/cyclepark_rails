@@ -10,7 +10,11 @@ RSpec.describe SealsController, type: :controller do
   }
 
   let(:invalid_attributes) {
-    skip("Add a hash of attributes invalid for your model")
+    {
+      sealed_flag: '',
+      sealed_date: "2016-02-28",
+      staff_nickname: "admin"
+    }
   }
 
   # This should return the minimal set of values that should be in the session
@@ -87,7 +91,7 @@ RSpec.describe SealsController, type: :controller do
     end
   end
 
-  describe "PUT #update" do
+  describe "PUT #update", :focus => true do
     before{
       first_contract.leaf = first
       first_contract.save!
@@ -120,7 +124,7 @@ RSpec.describe SealsController, type: :controller do
         expect(assigns(:seal)).to eq(seal)
       end
 
-      it "redirects to the seal" do
+      it "redirects to the leaf" do
         seal = Seal.where(sealed_flag: false).first 
         put :update, {:leaf_id => first.id, :contract_id => first_contract.id, :id => seal.to_param, :seal => new_attributes}, valid_session
         seal.reload
@@ -131,15 +135,15 @@ RSpec.describe SealsController, type: :controller do
 
     context "with invalid params" do
       it "assigns the seal as @seal" do
-        seal = Seal.create! valid_attributes
-        put :update, {:id => seal.to_param, :seal => invalid_attributes}, valid_session
+        seal = Seal.where(sealed_flag: false).first 
+        put :update, {:leaf_id => first.id, :contract_id => first_contract.id, :id => seal.to_param, :seal => invalid_attributes}, valid_session
         expect(assigns(:seal)).to eq(seal)
       end
 
-      it "re-renders the 'edit' template" do
-        seal = Seal.create! valid_attributes
-        put :update, {:id => seal.to_param, :seal => invalid_attributes}, valid_session
-        expect(response).to render_template("edit")
+      it "re-renders the leaf's 'show' template" do
+        seal = Seal.where(sealed_flag: false).first 
+        put :update, {:leaf_id => first.id, :contract_id => first_contract.id, :id => seal.to_param, :seal => invalid_attributes}, valid_session
+        expect(response).to render_template("leafs/show")
       end
     end
   end
