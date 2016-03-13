@@ -28,8 +28,8 @@ FactoryGirl.define do
     skip_flag false
     staff_nickname "admin"
 
-    after(:create) do |first_contract_add|
-      create(:first_seal_add, contract: first_contract_add)
+    after(:build) do |first_contract_add|
+      first_contract_add.seals.build(sealed_flag: false)
     end
   end
 end

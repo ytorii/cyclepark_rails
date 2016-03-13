@@ -1,45 +1,29 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Listing Contracts</h1>
+<%= render 'shared/customer_table' %>
+<br/>
+<table border="1" cellspacing="0" cellpadding="2">
+  <tr>
+    <th>開始月</th><th>期間１</th><th>金額１</th><th>期間２</th><th>金額２</th><th>契約日</th><th>更・新</th><th>担当者</th>
+  </tr>
 
-<table>
-  <thead>
-    <tr>
-      <th>Leaf</th>
-      <th>Contract date</th>
-      <th>Start month</th>
-      <th>Term1</th>
-      <th>Money1</th>
-      <th>Term2</th>
-      <th>Money2</th>
-      <th>New flag</th>
-      <th>Skip flag</th>
-      <th>Staff nickname</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @contracts.each do |contract| %>
-      <tr>
-        <td><%= contract.leaf %></td>
-        <td><%= contract.contract_date %></td>
-        <td><%= contract.start_month %></td>
-        <td><%= contract.term1 %></td>
-        <td><%= contract.money1 %></td>
-        <td><%= contract.term2 %></td>
-        <td><%= contract.money2 %></td>
-        <td><%= contract.new_flag %></td>
-        <td><%= contract.skip_flag %></td>
-        <td><%= contract.staff_nickname %></td>
-        <td><%= link_to 'Show', leaf_contract_path(contract.leaf, contract) %></td>
-        <td><%= link_to 'Edit', edit_leaf_contract_path(contract.leaf, contract) %></td>
-        <td><%= link_to 'Destroy', leaf_contract_path(contract.leaf, contract), method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
+<% @contracts.each do |c| %>
+  <tr>
+    <td><%= c.start_month.strftime('%Y/%m') %></td>
+    <td><%= c.term1 %></td>
+    <td><%= c.money1 %></td>
+    <td><%= c.term2 %></td>
+    <td><%= c.money2 %></td>
+    <td><%= c.contract_date.strftime('%m/%d') %></td>
+    <td><% if c.new_flag then %>新規<% else %>更新<% end %></td>
+    <td><%= c.staff_nickname %></td>
+    <td><%= link_to '編集', edit_leaf_contract_path(c.leaf, c) %></td>
+    <td><% if c.id == @contracts.last.id %>
+          <%= link_to '削除', leaf_contract_path(c.leaf, c), method: :delete, data: { confirm: '本当に削除しますか？' } %>
+        <% end %>
+    </td>
+  </tr>
+<% end %>
 </table>
-
-<br>
-
-<%= link_to 'New Contract', new_leaf_contract_path %>
+<br/>
+<%= link_to '戻る', leaf_path(@leaf) %>

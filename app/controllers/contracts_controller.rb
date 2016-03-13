@@ -1,4 +1,8 @@
 class ContractsController < ApplicationController
+  include SessionAction
+  
+  # edit action is allowed for only admin staffs.
+  before_action :check_admin, only: [:index, :show, :edit, :update, :destroy]
   before_action :set_contract, only: [:show, :edit, :update, :destroy]
 
   # GET /contracts
@@ -22,12 +26,13 @@ class ContractsController < ApplicationController
 
   # GET /contracts/1/edit
   def edit
+    @leaf = Leaf.find(params[:leaf_id])
   end
 
   # POST /contracts
   # POST /contracts.json
   def create
-    @contract = Contract.new(contract_params)
+    @contract = Contract.new(create_params)
 
     respond_to do |format|
       if @contract.save
@@ -52,10 +57,11 @@ class ContractsController < ApplicationController
   # PATCH/PUT /contracts/1.json
   def update
     respond_to do |format|
-      if @contract.update(contract_params)
-        format.html { redirect_to @contract, notice: 'Contract was successfully updated.' }
+      if @contract.update(update_params)
+        format.html { redirect_to leaf_path(@contract.leaf_id), notice: '契約が変更されました。' }
         format.json { render :show, status: :ok, location: @contract }
       else
+        @leaf = Leaf.find(@contract.leaf_id)
         format.html { render :edit }
         format.json { render json: @contract.errors, status: :unprocessable_entity }
       end
@@ -65,10 +71,15 @@ class ContractsController < ApplicationController
   # DELETE /contracts/1
   # DELETE /contracts/1.json
   def destroy
-    @contract.destroy
     respond_to do |format|
-      format.html { redirect_to contracts_url, notice: 'Contract was successfully destroyed.' }
-      format.json { head :no_content }
+       if @contract.destroy
+        format.html { redirect_to leaf_path(@contract.leaf_id), notice: '契約が削除されました。' }
+        format.json { render :show, status: :ok, location: @contract }
+      else
+        @leaf = Leaf.find(@contract.leaf_id)
+        format.html { render "leafs/show" }
+        format.json { render json: @contract.errors, status: :unprocessable_entity }
+      end
     end
   end
 
@@ -79,7 +90,11 @@ class ContractsController < ApplicationController
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
-    def contract_params
+    def create_params
       params.require(:contract).permit(:leaf_id, :contract_date, :term1, :money1, :term2, :money2, :skip_flag, :staff_nickname, seals_attributes: [:id, :sealed_flag])
+    end
+
+    def update_params
+      params.require(:contract).permit(:id, :leaf_id, :contract_date, :term1, :money1, :term2, :money2, :skip_flag, :staff_nickname, seals_attributes: [:id, :sealed_flag, :sealed_date, :month, :staff_nickname])
     end
 end

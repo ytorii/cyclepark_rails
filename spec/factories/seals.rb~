@@ -1,6 +1,6 @@
 FactoryGirl.define do
   factory :seal_true, class: Seal do
-    association :first_contract
+    Contract
     month "2016-02-20"
     sealed_flag true
     sealed_date "2016-02-20"
@@ -8,7 +8,7 @@ FactoryGirl.define do
   end
 
   factory :seal_false, class: Seal do
-    association :first_contract
+    Contract
     month ""
     sealed_flag false
     sealed_date ""

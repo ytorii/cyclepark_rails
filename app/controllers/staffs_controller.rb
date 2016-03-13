@@ -1,6 +1,9 @@
 require 'securerandom'
 
 class StaffsController < ApplicationController
+  include SessionAction
+  
+  # Staff actions are allowed for only admin staffs.
   before_action :check_admin
   before_action :set_staff, only: [:show, :edit, :update, :destroy]
 
@@ -76,7 +79,6 @@ class StaffsController < ApplicationController
     params.require(:staff).permit(:nickname, :password, :admin_flag, staffdetail_attributes: [:id, :name, :read, :address, :birthday, :phone_number, :cell_number] )
   end
 
-  # Staff actions are allowed for only admin users.
   def check_admin
     unless Staff.find(session[:staff]).admin_flag
       flash[:referer] = request.fullpath

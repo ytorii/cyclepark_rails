@@ -13,7 +13,7 @@ RSpec.describe ContractsController, type: :controller do
       money2: 18000,
       new_flag: '',
       skip_flag: false,
-      staff_nickname: "admin",
+      staff_nickname: 'admin',
       seals_attributes: [{
         sealed_flag: true
       }]
@@ -43,9 +43,10 @@ RSpec.describe ContractsController, type: :controller do
 
   before{
     create(:admin)
+    create(:normal)
   }
 
-  describe "GET #index", :focus => false do
+  describe "GET #index", focus: false do
     it "assigns all contracts as @contracts" do
       contract = Contract.create! valid_attributes
       get :index, {}, valid_session
@@ -53,7 +54,7 @@ RSpec.describe ContractsController, type: :controller do
     end
   end
 
-  describe "GET #show", :focus => false do
+  describe "GET #show", focus: false do
     it "assigns the requested contract as @contract" do
       contract = Contract.create! valid_attributes
       get :show, {:id => contract.to_param}, valid_session
@@ -61,7 +62,7 @@ RSpec.describe ContractsController, type: :controller do
     end
   end
 
-  describe "GET #edit", :focus => false do
+  describe "GET #edit", focus: false do
     it "assigns the requested contract as @contract" do
       contract = Contract.create! valid_attributes
       get :edit, {:id => contract.to_param}, valid_session
@@ -81,7 +82,7 @@ RSpec.describe ContractsController, type: :controller do
     end
   end
 
-  describe "POST #create", :focus => true do
+  describe "POST #create", focus: false do
     context "with valid params" do
       it "creates one new Contract." do
         expect {
@@ -101,7 +102,6 @@ RSpec.describe ContractsController, type: :controller do
       end
 
       it "redirects to the related leaf." do
-        #@leaf = Leaf.find(1)
         post :create, {:contract => valid_attributes, :leaf_id => first.id}, valid_session
         expect(response).to redirect_to(first)
       end
@@ -140,59 +140,123 @@ RSpec.describe ContractsController, type: :controller do
     end
   end
 
-  describe "PUT #update" do
+  describe "PUT #update", focus: false do
+    let(:contract) { build(:first_contract_add) }
+
+    before{
+      contract.leaf = first
+      contract.seals.first.sealed_flag = true
+      contract.save!
+    }
+
     context "with valid params" do
       let(:new_attributes) {
-        skip("Add a hash of attributes valid for your model")
+        {
+          id: contract.id,
+          leaf_id: first.id,
+          contract_date: "2016-02-02",
+          money1: 3000,
+          staff_nickname: "normal",
+          start_month: "2016-02-01",
+          term1: 1,
+          term2: '',
+          money2: '',
+          new_flag: 'true',
+          skip_flag: false,
+          seals_attributes: [{
+            id: contract.seals[0].id,
+            month: '2016-02-01',
+            sealed_date: '2016-01-01',
+            sealed_flag: false,
+            staff_nickname: 'admin'
+          }]
+        }
       }
 
       it "updates the requested contract" do
-        contract = Contract.create! valid_attributes
-        put :update, {:id => contract.to_param, :contract => new_attributes}, valid_session
+        put :update, {:id => contract.to_param, :leaf_id => contract.leaf_id, :contract => new_attributes}, valid_session
         contract.reload
-        skip("Add assertions for updated state")
+        expect(contract.money1).to eq(3000)
+        expect(contract.staff_nickname).to eq("normal")
+        expect(contract.contract_date).to eq(Date.parse("2016-02-02"))
+      end
+
+      it "updates sealed_flag and staf_nickname to nil with false sealed_flag." do
+        put :update, {:id => contract.to_param, :leaf_id => contract.leaf_id, :contract => new_attributes}, valid_session
+        contract.reload
+        expect(contract.seals.first.sealed_flag).to eq(false)
+        expect(contract.seals.first.sealed_date).to eq(nil)
+        expect(contract.seals.first.staff_nickname).to eq(nil)
       end
 
       it "assigns the requested contract as @contract" do
-        contract = Contract.create! valid_attributes
-        put :update, {:id => contract.to_param, :contract => valid_attributes}, valid_session
+        put :update, {:id => contract.to_param, :leaf_id => contract.leaf_id, :contract => new_attributes}, valid_session
+        contract.reload
         expect(assigns(:contract)).to eq(contract)
       end
 
-      it "redirects to the contract" do
-        contract = Contract.create! valid_attributes
-        put :update, {:id => contract.to_param, :contract => valid_attributes}, valid_session
-        expect(response).to redirect_to(contract)
+      it "redirects to the leaf" do
+        put :update, {:id => contract.to_param, :leaf_id => contract.leaf_id, :contract => new_attributes}, valid_session
+        contract.reload
+        expect(response).to redirect_to(leaf_path(contract.leaf_id))
       end
     end
 
-    context "with invalid params" do
-      it "assigns the contract as @contract" do
-        contract = Contract.create! valid_attributes
-        put :update, {:id => contract.to_param, :contract => invalid_attributes}, valid_session
+    context "with changed terms" do
+      it "assigns the requested contract as @contract" do
+        put :update, {:id => contract.to_param, :leaf_id => contract.leaf_id, :contract => valid_attributes}, valid_session
+        contract.reload
         expect(assigns(:contract)).to eq(contract)
       end
 
-      it "re-renders the 'edit' template" do
-        contract = Contract.create! valid_attributes
-        put :update, {:id => contract.to_param, :contract => invalid_attributes}, valid_session
-        expect(response).to render_template("edit")
+      it "re-renders the 'new' template" do
+        put :update, {:id => contract.to_param, :leaf_id => contract.leaf_id, :contract => valid_attributes}, valid_session
+        expect(response).to render_template(:edit)
       end
     end
   end
 
-  describe "DELETE #destroy" do
+  describe "DELETE #destroy", focus: true do
+    let(:contract) { build(:first_contract) }
+    let(:contract_add) { build(:first_contract_add) }
+
+    before{
+      contract_add.leaf = first
+      contract_add.seals.first.sealed_flag = true
+      contract_add.save!
+
+      contract.leaf = first
+      contract.seals.first.sealed_flag = true
+      contract.save!
+    }
+
     it "destroys the requested contract" do
-      contract = Contract.create! valid_attributes
       expect {
-        delete :destroy, {:id => contract.to_param}, valid_session
+        delete :destroy, {:id => contract.to_param, :leaf_id => contract.leaf_id}, valid_session
       }.to change(Contract, :count).by(-1)
     end
 
-    it "redirects to the contracts list" do
-      contract = Contract.create! valid_attributes
-      delete :destroy, {:id => contract.to_param}, valid_session
-      expect(response).to redirect_to(contracts_url)
+    it "destroys seals related to the destroyed contract." do
+      expect {
+        delete :destroy, {:id => contract.to_param, :leaf_id => contract.leaf_id}, valid_session
+      }.to change(Seal, :count).by(-7)
+    end
+
+    it "changes leaf's last_date to the last seal's month after deleted." do
+        delete :destroy, {:id => contract.to_param, :leaf_id => contract.leaf_id}, valid_session
+        first.reload
+        expect(first.last_date).to eq(contract_add.seals.last.month)
+    end
+
+    it "rejects to destroy contract unless it is the last contract." do
+      expect {
+        delete :destroy, {:id => contract_add.to_param, :leaf_id => contract_add.leaf_id}, valid_session
+      }.to change(Contract, :count).by(0)
+    end
+
+    it "redirects to the leaf" do
+      delete :destroy, {:id => contract.to_param, :leaf_id => contract.leaf_id}, valid_session
+      expect(response).to redirect_to(leaf_path(first.id))
     end
   end
 

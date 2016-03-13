@@ -1,6 +1,9 @@
 require 'securerandom'
 
 class StaffsController < ApplicationController
+  include SessionAction
+  
+  # Staff actions are allowed for only admin staffs.
   before_action :check_admin
   before_action :set_staff, only: [:show, :edit, :update, :destroy]
 
@@ -45,12 +48,10 @@ class StaffsController < ApplicationController
   # PATCH/PUT /staffs/1.json
   def update
     respond_to do |format|
-      p staff_params
       if @staff.update(staff_params)
         format.html { redirect_to @staff, notice: 'スタッフ情報を更新しました。' }
         format.json { render :show, status: :ok, location: @staff }
       else
-        p @staff.errors
         format.html { render :edit }
         format.json { render json: @staff.errors, status: :unprocessable_entity }
       end
@@ -78,7 +79,6 @@ class StaffsController < ApplicationController
     params.require(:staff).permit(:nickname, :password, :admin_flag, staffdetail_attributes: [:id, :name, :read, :address, :birthday, :phone_number, :cell_number] )
   end
 
-  # Staff actions are allowed for only admin users.
   def check_admin
     unless Staff.find(session[:staff]).admin_flag
       flash[:referer] = request.fullpath

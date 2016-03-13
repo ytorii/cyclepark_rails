@@ -1,6 +1,6 @@
 <p id="notice"><%= notice %></p>
 
-<%= render 'shared/customer_layout' %>
-<%= render 'shared/contracts_addition_form' %>
+<%= render 'shared/customer_table' %>
 <%= render 'shared/contracts_table' %>
+<%= render 'shared/contracts_addition_form' %>
 <%= link_to 'Back', leafs_path %>

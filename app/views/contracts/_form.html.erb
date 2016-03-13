@@ -1,59 +1,62 @@
-<%= form_for(@leaf) do |l| %>
-  <% if @leaf.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@leaf.errors.count, "error") %> prohibited this contract from being saved:</h2>
+<%= form_for([@leaf, @contract]) do |f| %>
+  <% if @contract.errors.any? %>
+  <div id="error_explanation">
+  <h2><%= pluralize(@contract.errors.count, "error") %> prohibited this contract from being saved:</h2>
 
-      <ul>
-      <% @leaf.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
+  <ul>
+    <% @contract.errors.full_messages.each do |message| %>
+      <li><%= message %></li>
+  <% end %>
+  </ul>
+</div>
   <% end %>
 
-<%= l.fields_for :contract do |f| %>
+  <%= f.hidden_field :leaf_id, :value => @contract.leaf_id %>
+  <%= f.hidden_field :start_month, :value => @contract.start_month %>
+  <%= f.hidden_field :term1, :value => @contract.term1 %>
+  <%= f.hidden_field :term2, :value => @contract.term2 %>
+  <%= f.hidden_field :new_flag, :value => @contract.new_flag %>
+  <%= f.hidden_field :skip_flag, :value => @contract.skip_flag %>
+<div class="field">
+  <%= f.label :contract_date %><br>
+  <%= f.date_select :contract_date %>
+</div>
+<div class="field">
+  <%= f.label :money1 %><br>
+  <%= f.number_field :money1 %>
+</div>
+<% if @contract.term2.to_i > 0 %>
+<div class="field">
+  <%= f.label :money2 %><br>
+  <%= f.number_field :money2 %>
+</div>
+<% end %>
+<div class="field">
+  <%= f.label :staff_nickname %><br>
+  <%= f.text_field :staff_nickname %>
+</div>
+<%= f.fields_for :seals do |s| %>
+<%= field_set_tag 'Seal form' do %>
+  <%= s.hidden_field :contract_id, :value => @contract.id %>
   <div class="field">
-    <%= f.label :leaf_id %><br>
-    <%= f.text_field :leaf_id %>
+    <%= s.label :month %><br>
+    <%= s.date_select :month, { disabled: true } %>
   </div>
   <div class="field">
-    <%= f.label :contract_date %><br>
-    <%= f.date_select :contract_date %>
+    <%= s.label :sealed_flag %><br>
+    <%= s.check_box :sealed_flag %>
   </div>
   <div class="field">
-    <%= f.label :start_month %><br>
-    <%= f.date_select :start_month %>
+    <%= s.label :sealed_date %><br>
+    <%= s.date_select :sealed_date %>
   </div>
   <div class="field">
-    <%= f.label :term1 %><br>
-    <%= f.number_field :term1 %>
-  </div>
-  <div class="field">
-    <%= f.label :money1 %><br>
-    <%= f.number_field :money1 %>
-  </div>
-  <div class="field">
-    <%= f.label :term2 %><br>
-    <%= f.number_field :term2 %>
-  </div>
-  <div class="field">
-    <%= f.label :money2 %><br>
-    <%= f.number_field :money2 %>
-  </div>
-  <div class="field">
-    <%= f.label :new_flag %><br>
-    <%= f.check_box :new_flag %>
-  </div>
-  <div class="field">
-    <%= f.label :skip_flag %><br>
-    <%= f.check_box :skip_flag %>
-  </div>
-  <div class="field">
-    <%= f.label :staff_nickname %><br>
-    <%= f.text_field :staff_nickname %>
+    <%= s.label :staff_nickname %><br>
+    <%= s.text_field :staff_nickname %>
   </div>
 <% end %>
-  <div class="actions">
-    <%= l.submit %>
-  </div>
+<% end %>
+<div class="actions">
+  <%= f.submit %>
+</div>
 <% end %>

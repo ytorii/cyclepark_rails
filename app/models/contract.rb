@@ -25,21 +25,29 @@ class Contract < ActiveRecord::Base
   validates :skip_flag,
     inclusion: {in: [true, false]}
   validate :staff_exists?
+  validate :terms_same_length?, on: :update
 
-  # First Seal needs to insert parameters before validation.
   before_validation do
-    setContractParams
-    setFirstSealParams
+    # Setting params are needed only when create new records
+    if self.new_record?
+      setContractParams
+      setFirstSealParams
+    else
+      setSealCancelParams
+    end
   end
 
-  # The rest of Seals needs to insert parameters after validation.
-  # The related leaf's last_date is contract's last month.
-  before_save do
-   setRestSealsParams
-   updateLeafLastdate
+  before_create do
+    setRestSealsParams
+    updateLeafLastdate
   end
+
+  before_destroy :isLastContract?
+  after_destroy :backdateLeafLastdate
 
   private
+  # New_flag and start_month should be determined automatically
+  # iside the model itself.
   def setContractParams
     leaf = Leaf.find(self.leaf_id)
 
@@ -52,30 +60,70 @@ class Contract < ActiveRecord::Base
     end
   end
 
+  # First Seal needs to insert parameters before validation.
+  # Because its parameters depend on inputs from web pages.
   def setFirstSealParams
     if self.seals.first.sealed_flag
-      self.seals.first.attributes = {month: self.start_month, sealed_date: self.contract_date, staff_nickname: self.staff_nickname}
+      self.seals.first.attributes = { month: self.start_month, sealed_date: self.contract_date, staff_nickname: self.staff_nickname }
     else
-      self.seals.first.month = self.start_month
+      self.seals.first.attributes = { month: self.start_month, sealed_date: nil, staff_nickname: nil }
     end
   end
 
+  # The rest of Seals should be inserted parameters after validation.
+  # At before validation, this causes unnessesary errors.
   def setRestSealsParams
     month = self.start_month
-    #term2 = self.term2.present? ? self.term2 : 0
+
+    # term1 and term2 must be translated to 0 when they are nil or false.
     (self.term1.to_i + self.term2.to_i - 1).times do |term|
       month = month.next_month
       self.seals.build(month: month, sealed_flag: false)
     end
   end
 
+  # All canceled Seal should initialize date and nickname.
+  def setSealCancelParams
+    self.seals.each do |seal|
+      unless seal.sealed_flag
+        seal.sealed_date = nil
+        seal.staff_nickname = nil
+      end
+    end
+  end
+
+  # The related leaf's last_date is contract's last month.
   def updateLeafLastdate
     Leaf.find(self.leaf_id).update_attribute(:last_date, self.seals.last.month)
   end
 
+  # staff_nickname must exist in StaffDB.
   def staff_exists?
     unless Staff.where(nickname: self.staff_nickname).exists?
       errors.add(:staff_nickname, 'は存在しないスタッフです。')
     end
+  end
+  
+  # Terms length must not be changed after create!
+  def terms_same_length?
+    prev = Contract.find(self.id)
+    unless (self.term1 == prev.term1 && self.term2 == prev.term2)
+      errors.add(:term1, '契約期間の変更はできません。')
+    end
+  end
+  
+  # Only the last contract is allowed to be deleted!
+  def isLastContract?
+    last = Leaf.find(self.leaf_id).contracts.last
+    unless (self.id == last.id)
+      errors.add(:start_month, '最後尾以外の契約は削除できません。i')
+      return false
+    end
+  end
+  
+  # Leaf's last_date should be backdated after contract delete.
+  def backdateLeafLastdate
+    leaf = Leaf.find(self.leaf_id)
+    leaf.update_attribute(:last_date, leaf.contracts.last.seals.last.month )
   end
 end

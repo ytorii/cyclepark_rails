@@ -4,12 +4,13 @@ RSpec.describe Contract, type: :model do
   let(:first_contract){ build(:first_contract) }
   let(:first_contract_add){ build(:first_contract_add) }
   let(:first){ create(:first) }
+  let(:admin){ create(:admin) }
 
   before{
-    create(:admin)
+    admin
     first_contract.leaf_id = first.id
-    first_contract.seals.build({sealed_flag: true })
   }
+
   %w{contract_date}.each do |column|
     describe "#{column}" do
       before{
@@ -192,14 +193,11 @@ RSpec.describe Contract, type: :model do
       before{
         first_contract.save!
         first.reload
-
-        #first_contract_add = build(:first_contract)
         first_contract_add.leaf_id = first.id
-        first_contract_add.seals.build({sealed_flag: false })
         first_contract_add.save!
       }
 
-      it "sets contract's new_flag to true" do
+      it "sets contract's new_flag to false" do
         expect(first_contract_add.new_flag).to eq(false)
       end
 
