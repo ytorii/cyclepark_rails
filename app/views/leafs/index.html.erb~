@@ -6,7 +6,7 @@
   <thead>
     <tr>
       <th>Number</th>
-      <th>Type</th>
+      <th>Vhiecle Type</th>
       <th>Student flag</th>
       <th>Largebike flag</th>
       <th>Valid flag</th>
@@ -20,7 +20,7 @@
     <% @leafs.each do |leaf| %>
       <tr>
         <td><%= leaf.number %></td>
-        <td><%= leaf.type %></td>
+        <td><%= leaf.vhiecle_type %></td>
         <td><%= leaf.student_flag %></td>
         <td><%= leaf.largebike_flag %></td>
         <td><%= leaf.valid_flag %></td>

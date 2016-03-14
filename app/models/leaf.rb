@@ -24,4 +24,13 @@ class Leaf < ActiveRecord::Base
   validates :last_date,
     format: { with: /\A20[0-9]{2}(\/|-)(0[1-9]|1[0-2])(\/|-)(0[1-9]|(1|2)[0-9]|3[01])\z/, unless: 'last_date.blank?'}
 
+  before_destroy :isInvalidLeaf?
+  
+  # Only the invalid leaf is allowed to be deleted!
+  def isInvalidLeaf?
+    if self.valid_flag
+      errors.add(:valid_flag, '契約中のリーフは削除できません。i')
+      return false
+    end
+  end
 end

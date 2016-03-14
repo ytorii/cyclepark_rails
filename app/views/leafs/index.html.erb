@@ -26,14 +26,17 @@
         <td><%= leaf.valid_flag %></td>
         <td><%= leaf.start_date %></td>
         <td><%= leaf.last_date %></td>
-        <td><%= link_to 'Show', leaf %></td>
-        <td><%= link_to 'Edit', edit_leaf_path(leaf) %></td>
-        <td><%= link_to 'Destroy', leaf, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to '詳細', leaf %></td>
+        <td><%= link_to '編集', edit_leaf_path(leaf) %></td>
+        <td><% unless leaf.valid_flag %>
+          <%= link_to '削除', leaf, method: :delete, data: { confirm: '本当に削除しますか？' } %>
+        <% end %>
+        </td>
       </tr>
     <% end %>
-  </tbody>
-</table>
+      </tbody>
+    </table>
 
-<br>
+    <br>
 
-<%= link_to 'New Leaf', new_leaf_path %>
+    <%= link_to 'New Leaf', new_leaf_path %>

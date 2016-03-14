@@ -1,5 +1,8 @@
 class LeafsController < ApplicationController
+  include SessionAction
+
   before_action :set_leaf, only: [:show, :edit, :update, :destroy]
+  before_action :check_admin, only: [:index, :destroy]
 
   # GET /leafs
   # GET /leafs.json

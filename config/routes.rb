@@ -1,11 +1,9 @@
 Rails.application.routes.draw do
-  #resources :customers
   resources :leafs do
     resources :contracts do
       resources :seals
     end
   end
-  #resources :staffdetails
   resources :staffs
   
   get 'login' => 'login#index'

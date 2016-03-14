@@ -26,7 +26,6 @@ class Contract < ActiveRecord::Base
     inclusion: {in: [true, false]}
   validate :staff_exists?
   validate :terms_same_length?, on: :update
-  #validate :last_contract?, on: :destroy
 
   before_validation do
     # Setting params are needed only when create new records
@@ -43,9 +42,12 @@ class Contract < ActiveRecord::Base
     updateLeafLastdate
   end
 
-  before_destroy :last_contract?
+  before_destroy :isLastContract?
+  after_destroy :backdateLeafLastdate
 
   private
+  # New_flag and start_month should be determined automatically
+  # iside the model itself.
   def setContractParams
     leaf = Leaf.find(self.leaf_id)
 
@@ -62,9 +64,9 @@ class Contract < ActiveRecord::Base
   # Because its parameters depend on inputs from web pages.
   def setFirstSealParams
     if self.seals.first.sealed_flag
-      self.seals.first.attributes = {month: self.start_month, sealed_date: self.contract_date, staff_nickname: self.staff_nickname}
+      self.seals.first.attributes = { month: self.start_month, sealed_date: self.contract_date, staff_nickname: self.staff_nickname }
     else
-      self.seals.first.month = self.start_month
+      self.seals.first.attributes = { month: self.start_month, sealed_date: nil, staff_nickname: nil }
     end
   end
 
@@ -110,12 +112,26 @@ class Contract < ActiveRecord::Base
     end
   end
   
-  # Only the last contract may be deleted!
-  def last_contract?
+  # Only the last contract is allowed to be deleted!
+  def isLastContract?
     last = Leaf.find(self.leaf_id).contracts.last
     unless (self.id == last.id)
-      errors.add(:start_date, '最後尾以外の契約は削除できません。i')
+      errors.add(:start_month, '最後尾以外の契約は削除できません。i')
       return false
+    end
+  end
+  
+  # Leaf's last_date should be backdated after contract delete.
+  def backdateLeafLastdate
+    leaf = Leaf.find(self.leaf_id)
+    last_contract = leaf.contracts.last
+
+    # When deleting new contract or deleting whole the leaf,
+    # there is no contract and leaf's last date is set to nil.
+    if last_contract
+      leaf.update_attribute(:last_date, last_contract.seals.last.month )
+    else
+      leaf.update_attribute(:last_date, nil )
     end
   end
 end

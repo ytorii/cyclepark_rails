@@ -121,9 +121,17 @@ class Contract < ActiveRecord::Base
     end
   end
   
-  # Leaf's last_date should be backdated after contract delete.
+  # Leaf's last_date should be backdated after the last contract deleted.
   def backdateLeafLastdate
     leaf = Leaf.find(self.leaf_id)
-    leaf.update_attribute(:last_date, leaf.contracts.last.seals.last.month )
+    last_contract = leaf.contracts.last
+
+    # When deleting new contract or deleting whole the leaf,
+    # there is no contract and leaf's last date is set to nil.
+    if last_contract
+      leaf.update_attribute(:last_date, last_contract.seals.last.month )
+    else
+      leaf.update_attribute(:last_date, nil )
+    end
   end
 end

@@ -38,7 +38,8 @@ RSpec.describe ContractsController, type: :controller do
     }
   }
 
-  let(:valid_session) { {staff: '1', leaf_id: 1 } }
+  let(:valid_session) { {staff: '1'} }
+  let(:normal_session) { {staff: '2'} }
   let(:first) {create(:first)}
 
   before{
@@ -98,7 +99,7 @@ RSpec.describe ContractsController, type: :controller do
 
       it "updates leaf's last month to Seals' last month." do
         post :create, {:contract => valid_attributes, :leaf_id => first.id}, valid_session
-        expect(Leaf.find(1).last_date).to eq(Seal.all.last.month)
+        expect(Leaf.find(first.id).last_date).to eq(Seal.all.last.month)
       end
 
       it "redirects to the related leaf." do
