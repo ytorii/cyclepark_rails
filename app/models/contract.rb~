@@ -56,17 +56,30 @@ class Contract < ActiveRecord::Base
       self.start_month = leaf.start_date
     else
       self.new_flag = false
+      p self.start_month
+      p leaf.last_date.next_month
       self.start_month = leaf.last_date.next_month
+      p self.start_month
     end
   end
 
   # First Seal needs to insert parameters before validation.
   # Because its parameters depend on inputs from web pages.
   def setFirstSealParams
-    if self.seals.first.sealed_flag
-      self.seals.first.attributes = { month: self.start_month, sealed_date: self.contract_date, staff_nickname: self.staff_nickname }
+    first_seal = self.seals.first
+
+    if first_seal.sealed_flag
+      first_seal.attributes = {
+        month: self.start_month,
+        sealed_date: self.contract_date,
+        staff_nickname: self.staff_nickname
+      }
     else
-      self.seals.first.attributes = { month: self.start_month, sealed_date: nil, staff_nickname: nil }
+      first_seal.attributes = {
+        month: self.start_month,
+        sealed_date: nil,
+        staff_nickname: nil 
+      }
     end
   end
 
