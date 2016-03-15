@@ -3,44 +3,29 @@ require 'rails_helper'
 RSpec.describe ContractsController, type: :controller do
 
   let(:valid_attributes) {
-    {
-      leaf_id: 1,
-      contract_date: "2016-02-29",
-      start_month: "",
-      term1: 1,
-      money1: 1000,
-      term2: 6,
-      money2: 18000,
-      new_flag: '',
-      skip_flag: false,
-      staff_nickname: 'admin',
-      seals_attributes: [{
-        sealed_flag: true
-      }]
-    }
+    attributes_for(:first_contract, leaf_id: 1).merge({
+      seals_attributes: [{ sealed_flag: true }]
+    })
   }
 
   let(:invalid_attributes) {
-    {
-      leaf_id: 1,
-      contract_date: "2016-02-29",
-      start_month: "2016-02-29",
-      term1: '',
-      money1: 1000 ,
-      term2: 6,
-      money2: 18000,
-      new_flag: true,
-      skip_flag: false,
-      staff_nickname: "admin",
-      seals_attributes: [{
-        sealed_flag: true
-      }]
-    }
+    attributes_for(:first_contract, leaf_id: 1, term1: '').merge({
+      seals_attributes: [{ sealed_flag: true }]
+    })
   }
 
+  let(:new_attributes) {
+    attributes_for(:first_contract_add, money1: 3000, contract_date: Date.parse("2016-02-02"), staff_nickname: 'normal').merge({
+      seals_attributes: [{ id: contract.seals[0].id, sealed_flag: false }]
+    })
+  }
   let(:valid_session) { {staff: '1'} }
   let(:normal_session) { {staff: '2'} }
+
   let(:first) {create(:first)}
+
+  let(:contract) { build(:first_contract) }
+  let(:contract_add) { build(:first_contract_add) }
 
   before{
     create(:admin)
@@ -141,39 +126,11 @@ RSpec.describe ContractsController, type: :controller do
     end
   end
 
-  describe "PUT #update", focus: false do
-    let(:contract) { build(:first_contract_add) }
-
-    before{
-      contract.leaf = first
-      contract.seals.first.sealed_flag = true
-      contract.save!
-    }
+  describe "PUT #update" do
+    let(:contract) { create(:first_contract_add, leaf_id: first.id) }
+    before{ contract }
 
     context "with valid params" do
-      let(:new_attributes) {
-        {
-          id: contract.id,
-          leaf_id: first.id,
-          contract_date: "2016-02-02",
-          money1: 3000,
-          staff_nickname: "normal",
-          start_month: "2016-02-01",
-          term1: 1,
-          term2: '',
-          money2: '',
-          new_flag: 'true',
-          skip_flag: false,
-          seals_attributes: [{
-            id: contract.seals[0].id,
-            month: '2016-02-01',
-            sealed_date: '2016-01-01',
-            sealed_flag: false,
-            staff_nickname: 'admin'
-          }]
-        }
-      }
-
       it "updates the requested contract" do
         put :update, {:id => contract.to_param, :leaf_id => contract.leaf_id, :contract => new_attributes}, valid_session
         contract.reload
@@ -213,22 +170,14 @@ RSpec.describe ContractsController, type: :controller do
       it "re-renders the 'new' template" do
         put :update, {:id => contract.to_param, :leaf_id => contract.leaf_id, :contract => valid_attributes}, valid_session
         expect(response).to render_template(:edit)
-      end
-    end
-  end
+      end end end
 
   describe "DELETE #destroy", focus: true do
-    let(:contract) { build(:first_contract) }
-    let(:contract_add) { build(:first_contract_add) }
-
+    let(:contract_add) { create(:first_contract_add, leaf_id: first.id) }
+    let(:contract) { create(:first_contract, leaf_id: first.id) }
     before{
-      contract_add.leaf = first
-      contract_add.seals.first.sealed_flag = true
-      contract_add.save!
-
-      contract.leaf = first
-      contract.seals.first.sealed_flag = true
-      contract.save!
+      contract_add
+      contract
     }
 
     it "destroys the requested contract" do
@@ -260,5 +209,4 @@ RSpec.describe ContractsController, type: :controller do
       expect(response).to redirect_to(leaf_path(first.id))
     end
   end
-
 end

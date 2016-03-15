@@ -77,7 +77,7 @@ class ContractsController < ApplicationController
         format.json { render :show, status: :ok, location: @contract }
       else
         @leaf = Leaf.find(@contract.leaf_id)
-        format.html { render "leaf/show" }
+        format.html { render "leafs/show" }
         format.json { render json: @contract.errors, status: :unprocessable_entity }
       end
     end

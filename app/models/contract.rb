@@ -33,7 +33,7 @@ class Contract < ActiveRecord::Base
       setContractParams
       setFirstSealParams
     else
-      setSealCancelParams
+      setCanceledSealsParams
     end
   end
 
@@ -83,7 +83,7 @@ class Contract < ActiveRecord::Base
   end
 
   # All canceled Seal should initialize date and nickname.
-  def setSealCancelParams
+  def setCanceledSealsParams
     self.seals.each do |seal|
       unless seal.sealed_flag
         seal.sealed_date = nil

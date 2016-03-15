@@ -176,7 +176,7 @@ RSpec.describe StaffsController, type: :controller do
       end
     end
 
-    describe "DELETE #destroy", :focus => true do
+    describe "DELETE #destroy" do
       it "destroys the requested staff and staffdetail" do
         staff = Staff.create! valid_attributes
         expect {

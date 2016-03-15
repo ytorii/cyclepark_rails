@@ -19,11 +19,6 @@ class ContractsController < ApplicationController
     @contract = @leaf.contracts.find(params[:id])
   end
 
-  # GET /contracts/new
-  def new
-    @contract = Contract.new
-  end
-
   # GET /contracts/1/edit
   def edit
     @leaf = Leaf.find(params[:leaf_id])

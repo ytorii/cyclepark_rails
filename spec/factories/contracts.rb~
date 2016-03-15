@@ -29,7 +29,11 @@ FactoryGirl.define do
     staff_nickname "admin"
 
     after(:build) do |first_contract_add|
+      p "pass"
       first_contract_add.seals.build(sealed_flag: false)
+    end
+    after(:create) do |first_contract|
+      first_contract.seals.create(sealed_flag: true)
     end
   end
 end

@@ -1,41 +1,5 @@
 class SealsController < ApplicationController
-  before_action :set_seal, only: [:show, :edit, :update, :destroy]
-
-  # GET /seals
-  # GET /seals.json
-  def index
-    @seals = Seal.all
-  end
-
-  # GET /seals/1
-  # GET /seals/1.json
-  def show
-  end
-
-  # GET /seals/new
-  def new
-    @seal = Seal.new
-  end
-
-  # GET /seals/1/edit
-  def edit
-  end
-
-  # POST /seals
-  # POST /seals.json
-  def create
-    @seal = Seal.new(seal_params)
-
-    respond_to do |format|
-      if @seal.save
-        format.html { redirect_to @seal, notice: 'Seal was successfully created.' }
-        format.json { render :show, status: :created, location: @seal }
-      else
-        format.html { render :new }
-        format.json { render json: @seal.errors, status: :unprocessable_entity }
-      end
-    end
-  end
+  before_action :set_seal, only: [:update, :destroy]
 
   # PATCH/PUT /seals/1
   # PATCH/PUT /seals/1.json
