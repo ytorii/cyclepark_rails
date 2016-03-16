@@ -56,10 +56,7 @@ class Contract < ActiveRecord::Base
       self.start_month = leaf.start_date
     else
       self.new_flag = false
-      p self.start_month
-      p leaf.last_date.next_month
       self.start_month = leaf.last_date.next_month
-      p self.start_month
     end
   end
 
@@ -138,13 +135,15 @@ class Contract < ActiveRecord::Base
   def backdateLeafLastdate
     leaf = Leaf.find(self.leaf_id)
     last_contract = leaf.contracts.last
+    p leaf
+    p leaf.contracts
 
     # When deleting new contract or deleting whole the leaf,
     # there is no contract and leaf's last date is set to nil.
     if last_contract
-      leaf.update_attribute(:last_date, last_contract.seals.last.month )
+      leaf.update(last_date: last_contract.seals.last.month )
     else
-      leaf.update_attribute(:last_date, nil )
+      leaf.update(last_date: nil )
     end
   end
 end

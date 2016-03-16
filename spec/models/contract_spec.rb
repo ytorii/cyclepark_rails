@@ -103,105 +103,27 @@ RSpec.describe Contract, type: :model do
     end
   end
 
-  describe ".buildSeals" do
-    context "when sealed_flag is true" do
-      before{
-        first_contract.save!
-      }
+  describe "term1 and term2" do
+    before { first_contract.save! }
 
-      it "saves Seal records as many as sum of term1 and term2." do
-        expect(Contract.find(first_contract.id).seals.size).to eq(first_contract.term1 + first_contract.term2)
-      end
-
-      it "increments each seal's month from start_month one by one." do
-        month = first_contract.start_month
-        first_contract.seals.size.times do |i|
-          expect(Contract.find(first_contract.id).seals[i].month).to eq(month)
-          month = month.next_month
-        end
-      end
-
-      it "updates leaf's last month to Seals' last month." do
-        first.reload
-        expect(Leaf.find(first_contract.leaf_id).last_date).to eq(first_contract.seals.last.month)
-      end
-
-      it "sets true to the first seal's sealed_flag and sets false to the others." do
-        expect(Contract.find(first_contract.id).seals.first.sealed_flag).to eq(true)
-        (first_contract.seals.size - 1).times do |i|
-          expect(Contract.find(first_contract.id).seals[i + 1].sealed_flag).to eq(false)
-        end
-      end
-
-      it "sets contract's staff_nickname to the first seal's staff_nickname" do
-        expect(Contract.find(first_contract.id).seals.first.staff_nickname).to eq(first_contract.staff_nickname)
-      end
-
-      it "sets contract's contract_date to the first seal's sealed_date" do
-        expect(Contract.find(first_contract.id).seals.first.sealed_date).to eq(first_contract.contract_date)
+    context "with unchanged terms" do
+      before{ first_contract.update(term1: 1) }
+      it "is valid." do
+        expect(first_contract).to be_valid
       end
     end
 
-    context "when sealed_flag is false" do
-      before{
-        first_contract.seals.first.sealed_flag = false
-        first_contract.save!
-      }
-
-      it "saves Seal records as many as sum of term1 and term2." do
-        expect(Contract.find(first_contract.id).seals.size).to eq(first_contract.term1 + first_contract.term2)
-      end
-
-      it "increments each seal's month from start_month one by one." do
-        month = first_contract.start_month
-        first_contract.seals.size.times do |i|
-          expect(Contract.find(first_contract.id).seals[i].month).to eq(month)
-          month = month.next_month
-        end
-      end
-
-      it "updates leaf's last month to Seals' last month." do
-        first.reload
-        expect(Leaf.find(first_contract.leaf_id).last_date).to eq(first_contract.seals.last.month)
-      end
-
-      it "sets false to all seal's sealed_flag." do
-        first_contract.seals.size.times do |i|
-          expect(Contract.find(first_contract.id).seals[i].sealed_flag).to eq(false)
-        end
-      end
-    end
-  end
-
-  describe ".buildContract" do
-    context "when leaf has no contracts" do
-      before{
-        first_contract.save!
-      }
-
-      it "sets contract's new_flag to true" do
-        expect(first_contract.new_flag).to eq(true)
-      end
-
-      it "sets contract's start_month to leaf's start_date" do
-        expect(first_contract.start_month).to eq(first.start_date)
+    context "with changed term1." do
+      before{ first_contract.update(term1: 3)}
+      it "is invalid" do
+        expect(first_contract).not_to be_valid
       end
     end
 
-    context "when leaf has existed contracts" do
-      before{
-        first_contract.save!
-        first.reload
-        #first_contract_add.leaf_id = first.id
-        first_contract_add.save!
-      }
-
-      it "sets contract's new_flag to false" do
-        expect(first_contract_add.new_flag).to eq(false)
-      end
-
-      it "sets contract's start_month to next of leaf's last_date" do
-        expect(first_contract_add.start_month).to eq(first.last_date.next_month)
+    context "with changed term2." do
+      before{ first_contract.update(term2: 3)}
+      it "is invalid" do
+        expect(first_contract).not_to be_valid
       end
     end
   end
@@ -210,10 +132,10 @@ RSpec.describe Contract, type: :model do
     context "with no contracts" do
       before { first_contract.send(:setContractParams) }
 
-      it "sets new_flag to false." do
+      it "sets new_flag to true." do
         expect(first_contract.new_flag).to eq(true)
       end
-      it "sets start_month to next month of leaf's start_date." do
+      it "sets start_month to leaf's start_date." do
         expect(first_contract.start_month).to eq(first.start_date)
       end
     end
@@ -225,7 +147,7 @@ RSpec.describe Contract, type: :model do
         first_contract_add.send(:setContractParams)
       }
 
-      it "sets new_flag to true." do
+      it "sets new_flag to false." do
         expect(first_contract_add.new_flag).to eq(false)
       end
       it "sets start_month to next month of leaf's last_date." do
@@ -297,7 +219,7 @@ RSpec.describe Contract, type: :model do
     end
   end
 
-  describe ".setCanceledSealsParams", focus: true do
+  describe ".setCanceledSealsParams" do
     subject { first_contract.seals }
 
     before {
@@ -321,6 +243,62 @@ RSpec.describe Contract, type: :model do
           expect(subject[i].sealed_date).to eq(nil)
           expect(subject[i].staff_nickname).to eq(nil)
         end
+      end
+    end
+  end
+
+  describe ".updateLeafLastdate" do
+    subject { Leaf.find(first.id).last_date  }
+
+    before {
+      first_contract.send(:setFirstSealParams)
+      first_contract.send(:setRestSealsParams)
+      first_contract.send(:updateLeafLastdate)
+    }
+
+    it "updates leaf's last_date to contract's last month." do
+      is_expected.to eq(first_contract.seals.last.month)
+    end
+  end
+
+  describe ".isLastContract?" do
+    before { 
+      first_contract.save!
+      first_contract_add.save!
+    }
+
+    context "with last contract" do
+      it "returns nil(means no problem)" do
+        expect(first_contract_add.send(:isLastContract?)).to eq(nil)
+      end
+    end
+
+    context "with not the last contract" do
+      it "returns false" do
+        expect(first_contract.send(:isLastContract?)).to eq(false)
+      end
+    end
+  end
+
+  describe ".backdateLeafLastdate", focus: true do
+    subject { Leaf.find(first.id).last_date  }
+
+    context "when leaf has contract" do
+      before {
+        first_contract_add.save!
+        first_contract.save!
+      }
+
+      it "updates leaf's last_date to contract's last month." do
+        first_contract.send(:backdateLeafLastdate)
+        is_expected.to eq(first_contract.seals.last.month)
+      end
+    end
+
+    context "when leaf has no contract" do
+      it "updates leaf's last_date to nil." do
+        first_contract.send(:backdateLeafLastdate)
+        is_expected.to eq(nil)
       end
     end
   end

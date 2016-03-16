@@ -139,9 +139,9 @@ class Contract < ActiveRecord::Base
     # When deleting new contract or deleting whole the leaf,
     # there is no contract and leaf's last date is set to nil.
     if last_contract
-      leaf.update_attribute(:last_date, last_contract.seals.last.month )
+      leaf.update(last_date: last_contract.seals.last.month )
     else
-      leaf.update_attribute(:last_date, nil )
+      leaf.update(last_date: nil )
     end
   end
 end

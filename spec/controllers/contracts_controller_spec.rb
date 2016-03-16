@@ -28,47 +28,48 @@ RSpec.describe ContractsController, type: :controller do
   let(:contract_add) { build(:first_contract_add) }
 
   before{
+    first
     create(:admin)
     create(:normal)
   }
 
-  describe "GET #index", focus: false do
+  describe "GET #index" do
     it "assigns all contracts as @contracts" do
       contract = Contract.create! valid_attributes
-      get :index, {}, valid_session
+      get :index, { :leaf_id => first.id }, valid_session
       expect(assigns(:contracts)).to eq([contract])
     end
   end
 
-  describe "GET #show", focus: false do
+  describe "GET #show" do
     it "assigns the requested contract as @contract" do
       contract = Contract.create! valid_attributes
-      get :show, {:id => contract.to_param}, valid_session
+      get :show, {:id => contract.to_param, :leaf_id => first.id}, valid_session
       expect(assigns(:contract)).to eq(contract)
     end
   end
 
-  describe "GET #edit", focus: false do
+  describe "GET #edit" do
     it "assigns the requested contract as @contract" do
       contract = Contract.create! valid_attributes
-      get :edit, {:id => contract.to_param}, valid_session
+      get :edit, {:id => contract.to_param, :leaf_id => first.id}, valid_session
       expect(assigns(:contract)).to eq(contract)
     end
   end
 
-  describe "GET #new" do
-    it "assigns @leaf from leaf_id in the request params." do
-      get :new, { :leaf_id => 1 }, valid_session
-      expect(assigns(:leaf).id).to eq(1)
-    end
+#  describe "GET #new", focus: false do
+#    it "assigns @leaf from leaf_id in the request params." do
+#      get :new, { :leaf_id => first.id }, valid_session
+#      expect(assigns(:leaf).id).to eq(first.id)
+#    end
+#
+#    it "assigns leaf_id in the request params to @contract." do
+#      get :new, { :leaf_id => first.id }, valid_session
+#      expect(assigns(:contract).leaf_id).to eq(first.id)
+#    end
+#  end
 
-    it "assigns leaf_id in the request params to @contract." do
-      get :new, { :leaf_id => 1 }, valid_session
-      expect(assigns(:contract).leaf_id).to eq(1)
-    end
-  end
-
-  describe "POST #create", focus: false do
+  describe "POST #create" do
     context "with valid params" do
       it "creates one new Contract." do
         expect {
@@ -173,7 +174,7 @@ RSpec.describe ContractsController, type: :controller do
         expect(response).to render_template(:edit)
       end end end
 
-  describe "DELETE #destroy", focus: true do
+  describe "DELETE #destroy" do
     let(:contract_add) { create(:first_contract_add, leaf_id: first.id) }
     let(:contract) { create(:first_contract, leaf_id: first.id) }
 
