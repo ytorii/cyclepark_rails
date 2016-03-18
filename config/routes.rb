@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+
   resources :leafs do
     resources :contracts do
       resources :seals
@@ -9,13 +10,16 @@ Rails.application.routes.draw do
   get 'login' => 'login#index'
   post 'login/auth' => 'login#auth'
 
-  root :to => 'login#index'
+  get 'menu' => 'menu#index'
+  post 'menu/show' => 'menu#show'
+  post 'menu/list' => 'menu#list'
+
   #match ':controller(/:action(/:id))', via: [ :get, :post, :patch ]
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  # root 'welcome#index'
+  root 'menu#index'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
