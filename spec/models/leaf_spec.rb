@@ -129,4 +129,28 @@ RSpec.describe Leaf, type: :model do
       end
     end
   end
+
+  describe "Number in the same vhiecle_type" do
+    before{
+      # As first's number is sequencial,
+      # we need to specify the number here!
+      first.number = 1
+      first.save!
+    }
+
+    context "when number doesn't exist" do
+      it "is valid" do
+        first_add = build(:first, number: 2)
+        expect(first_add).to be_valid
+      end
+    end
+
+    context "when number already exists" do
+      it "is invalid" do
+        first_add = build(:first, number: 1)
+        expect(first_add).not_to be_valid
+        expect(first_add.errors[:number]).to be_present
+      end
+    end
+  end
 end

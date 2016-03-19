@@ -4,7 +4,8 @@ class Contract < ActiveRecord::Base
   accepts_nested_attributes_for :seals
 
   scope :daily_contracts_scope, -> (in_contract_date){
-    joins(leaf: :customer)
+
+    result = Contract.joins(leaf: :customer)
     .where('contract_date = ?', in_contract_date)
     .select('
        leafs.number AS number,
@@ -61,6 +62,31 @@ class Contract < ActiveRecord::Base
 
   before_destroy :isLastContract?
   after_destroy :backdateLeafLastdate
+
+  def Contract.calcContractsSummary(inContractLists)
+
+    # The number of vhiecler_ type + 1(for total)
+    rows = 4
+
+    # About initializing matrix of array, see '楽しいRuby' p268.
+    result = Array.new(rows) do
+      [0, 0]
+    end
+
+    unless inContractLists.nil?
+      inContractLists.each do |list|
+        row = list[:vhiecle_type]
+        result[row][0] += 1
+        result[row][1] += list[:money1].to_i + list[:money2].to_i
+      end
+
+      result[0] = [result[1], result[2], result[3]].transpose.map(&:sum)
+      #result[0] = result[1].zip(result[2], result[3]).map{|f, s, t| f + s + t}
+    end
+    
+    result
+
+  end
 
   private
   # New_flag and start_month should be determined automatically

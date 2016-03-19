@@ -23,13 +23,22 @@ class Leaf < ActiveRecord::Base
     format: { with: /\A20[0-9]{2}(\/|-)(0[1-9]|1[0-2])(\/|-)(0[1-9]|(1|2)[0-9]|3[01])\z/, allow_blank: true}
   validates :last_date,
     format: { with: /\A20[0-9]{2}(\/|-)(0[1-9]|1[0-2])(\/|-)(0[1-9]|(1|2)[0-9]|3[01])\z/, unless: 'last_date.blank?'}
+  validate :sameNumberExists?
 
   before_destroy :isInvalidLeaf?
   
+  private
   # Only the invalid leaf is allowed to be deleted!
   def isInvalidLeaf?
     if self.valid_flag
-      errors.add(:valid_flag, '契約中のリーフは削除できません。i')
+      errors.add(:valid_flag, '契約中のリーフは削除できません。')
+      return false
+    end
+  end
+
+  def sameNumberExists?
+    if Leaf.where('number = ? and vhiecle_type = ?', self.number, self.vhiecle_type).exists?
+      errors.add(:number, '指定された番号は既に使用されています。')
       return false
     end
   end

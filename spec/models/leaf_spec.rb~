@@ -128,22 +128,29 @@ RSpec.describe Leaf, type: :model do
         end
       end
     end
+  end
 
-    context 'is valid' do
-      it "with empty in creation." do
-        first[:last_date] = ''
-        expect(first).to be_valid
+  describe "Number in the same vhiecle_type", focus: true do
+    before{
+      # As first's number is sequencial,
+      # we need to specify the number here!
+      first.number = 1
+      first.save!
+    }
+
+    context "when number doesn't exist" do
+      it "is valid" do
+        first_add = build(:first, number: 2)
+        expect(first_add).to be_valid
       end
     end
 
-    context 'is invalid' do
-      it "with empty in update." do
-        first.save!
-        first.update(last_date: '')
-        expect(first).not_to be_valid
-        expect(first.errors[:last_date]).to be_present
+    context "when number already exists" do
+      it "is invalid" do
+        first_add = build(:first, number: 1)
+        expect(first_add).not_to be_valid
+        expect(first_add.errors[:number]).to be_present
       end
     end
   end
-
 end
