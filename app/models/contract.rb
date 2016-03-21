@@ -42,21 +42,22 @@ class Contract < ActiveRecord::Base
     inclusion: {in: [true, false]}
   validates :skip_flag,
     inclusion: {in: [true, false]}
-  validate :staff_exists?
-  validate :terms_same_length?, on: :update
+  validate :staffExists?
+  validate :monthAlreadyExists?, on: :create
+  validate :termsSameLength?, on: :update
 
   before_validation do
     # Setting params are needed only when create new records
     if self.new_record?
       setContractParams
       setFirstSealParams
+      setRestSealsParams
     else
       setCanceledSealsParams
     end
   end
 
   before_create do
-    setRestSealsParams
     updateLeafLastdate
   end
 
@@ -65,7 +66,7 @@ class Contract < ActiveRecord::Base
 
   def Contract.calcContractsSummary(inContractLists)
 
-    # The number of vhiecler_ type + 1(for total)
+    # The number of vhiecle_type + 1(for total)
     rows = 4
 
     # About initializing matrix of array, see '楽しいRuby' p268.
@@ -110,13 +111,13 @@ class Contract < ActiveRecord::Base
 
     if first_seal.sealed_flag
       first_seal.attributes = {
-        month: self.start_month,
+        month: self.start_month.beginning_of_month,
         sealed_date: self.contract_date,
         staff_nickname: self.staff_nickname
       }
     else
       first_seal.attributes = {
-        month: self.start_month,
+        month: self.start_month.beginning_of_month,
         sealed_date: nil,
         staff_nickname: nil 
       }
@@ -124,9 +125,10 @@ class Contract < ActiveRecord::Base
   end
 
   # The rest of Seals should be inserted parameters after validation.
-  # At before validation, this causes unnessesary errors.
+  # Fixed by adding to_i mehotd!!
+  # => At before validation, this causes unnessesary errors.
   def setRestSealsParams
-    month = self.start_month
+    month = self.start_month.beginning_of_month
 
     # term1 and term2 must be translated to 0 when they are nil or false.
     (self.term1.to_i + self.term2.to_i - 1).times do |term|
@@ -151,14 +153,27 @@ class Contract < ActiveRecord::Base
   end
 
   # staff_nickname must exist in StaffDB.
-  def staff_exists?
+  def staffExists?
     unless Staff.where(nickname: self.staff_nickname).exists?
       errors.add(:staff_nickname, 'は存在しないスタッフです。')
     end
   end
   
+  #Seal's month must be unique in the leaf.
+  def monthAlreadyExists?
+    self.seals.each do |seal|
+      if Contract.joins(:seals).where(
+        "leaf_id = ? and seals.month = ?",
+        self.leaf_id, seal.month
+      ).exists?
+        errors.add(:month, 'は既に契約済みです。')
+        return false
+      end
+    end
+  end
+
   # Terms length must not be changed after create!
-  def terms_same_length?
+  def termsSameLength?
     prev = Contract.find(self.id)
     unless (self.term1 == prev.term1 && self.term2 == prev.term2)
       errors.add(:term1, '契約期間の変更はできません。')
@@ -181,7 +196,7 @@ class Contract < ActiveRecord::Base
 
     # When deleting new contract or deleting whole the leaf,
     # there is no contract and leaf's last date is set to nil.
-    if last_contract
+    unless last_contract.nil?
       leaf.update(last_date: last_contract.seals.last.month )
     else
       leaf.update(last_date: nil )

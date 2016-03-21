@@ -2,8 +2,14 @@ class LoginController < ApplicationController
   # To avoid nonstop loop of checking logined, skip check_login action
   skip_before_action :check_logined
   
+  #It just shows the login page.
+  def index
+  end
+
   def auth
+
     staff = Staff.authenticate(params[:nickname], params[:password])
+
     if staff then
       reset_session
       session[:staff] = staff.id

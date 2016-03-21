@@ -83,9 +83,13 @@ RSpec.describe Contract, type: :model do
 
       context 'is invalid' do
         it "with empty." do
-          first_contract[column] = ''
-          expect(first_contract).not_to be_valid
-          expect(first_contract.errors[column]).to be_present
+          # As new_flag is set in the Contract's method,
+          # it never be an empty.
+          if column == "skip_flag"
+            first_contract[column] = ''
+            expect(first_contract).not_to be_valid
+            expect(first_contract.errors[column]).to be_present
+          end
         end
       end
     end
@@ -163,7 +167,7 @@ RSpec.describe Contract, type: :model do
       before { first_contract.send(:setFirstSealParams) }
 
       it "sets seal's month to start_month." do
-        expect(subject.month).to eq(first_contract.start_month)
+        expect(subject.month).to eq(first_contract.start_month.beginning_of_month)
       end
       it "sets seal's staff_nickname to contract's." do
         expect(subject.staff_nickname).to eq(first_contract.staff_nickname)
@@ -179,8 +183,8 @@ RSpec.describe Contract, type: :model do
         first_contract.send(:setFirstSealParams)
       }
 
-      it "sets seal's month to start_month." do
-        expect(subject.month).to eq(first_contract.start_month)
+      it "sets seal's month to the first date of contract's start_month." do
+        expect(subject.month).to eq(first_contract.start_month.beginning_of_month)
       end
       it "sets seal's staff_nickname to nil." do
         expect(subject.staff_nickname).to eq(nil)
@@ -205,7 +209,7 @@ RSpec.describe Contract, type: :model do
     end
 
     it "increments each seal's month from start_month one by one." do
-      month = first_contract.start_month
+      month = first_contract.start_month.beginning_of_month
       subject.each do |seal|
         expect(seal.month).to eq(month)
         month = month.next_month
@@ -280,7 +284,7 @@ RSpec.describe Contract, type: :model do
     end
   end
 
-  describe ".backdateLeafLastdate", focus: true do
+  describe ".backdateLeafLastdate" do
     subject { Leaf.find(first.id).last_date  }
 
     context "when leaf has contract" do
@@ -299,6 +303,28 @@ RSpec.describe Contract, type: :model do
       it "updates leaf's last_date to nil." do
         first_contract.send(:backdateLeafLastdate)
         is_expected.to eq(nil)
+      end
+    end
+  end
+
+  describe "Seal's month" do
+    before { first_contract.save! }
+
+    context "when month is unique in the leaf." do
+      before{ first_contract_add }
+      it "is valid." do
+        expect(first_contract_add).to be_valid
+      end
+    end
+
+    context "when month is NOT unique in the leaf." do
+      before{
+        first.update(last_date: Date.parse("2016-02-20"))
+        first_contract_add
+      }
+
+      it "is invalid." do
+        expect(first_contract_add).not_to be_valid
       end
     end
   end

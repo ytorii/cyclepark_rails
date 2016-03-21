@@ -130,26 +130,50 @@ RSpec.describe Leaf, type: :model do
     end
   end
 
-  describe "Number in the same vhiecle_type" do
-    before{
-      # As first's number is sequencial,
-      # we need to specify the number here!
-      first.number = 1
-      first.save!
-    }
+  describe "Number in the same vhiecle_type", focus: true do
+    context "with valid leafs" do
+      before{
+        # As first's number is sequencial,
+        # we need to specify the number here!
+        first.number = 1
+        first.save!
+      }
 
-    context "when number doesn't exist" do
-      it "is valid" do
-        first_add = build(:first, number: 2)
-        expect(first_add).to be_valid
+      context "when number doesn't exist" do
+        it "is valid." do
+          first_add = build(:first, number: 2)
+          expect(first_add).to be_valid
+        end
+      end
+
+      context "when number already exists" do
+        it "is invalid." do
+          first_add = build(:first, number: 1)
+          expect(first_add).not_to be_valid
+          expect(first_add.errors[:number]).to be_present
+        end
       end
     end
 
-    context "when number already exists" do
-      it "is invalid" do
-        first_add = build(:first, number: 1)
-        expect(first_add).not_to be_valid
-        expect(first_add.errors[:number]).to be_present
+    context "with invalid leafs" do
+      before{
+        first.number = 1
+        first.valid_flag = false
+        first.save!
+      }
+
+      context "when number doesn't exist" do
+        it "is valid." do
+          first_add = build(:first, number: 2, valid_flag: false)
+          expect(first_add).to be_valid
+        end
+      end
+
+      context "when number already exists" do
+        it "is valid." do
+          first_add = build(:first, number: 1, valid_flag: false)
+          expect(first_add).to be_valid
+        end
       end
     end
   end

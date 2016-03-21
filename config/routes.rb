@@ -1,18 +1,21 @@
 Rails.application.routes.draw do
 
+  #The routes for seals is needed, do not remove!
   resources :leafs do
     resources :contracts do
       resources :seals
     end
   end
+
   resources :staffs
   
   get 'login' => 'login#index'
   post 'login/auth' => 'login#auth'
 
   get 'menu' => 'menu#index'
-  post 'menu/show' => 'menu#show'
-  post 'menu/list' => 'menu#list'
+  post 'leafs_search' => 'leafs_search#index'
+  post 'daily_contracts_report' => 'daily_contracts_report#index'
+  get 'count_contracts_summary' => 'count_contracts_summary#index'
 
   #match ':controller(/:action(/:id))', via: [ :get, :post, :patch ]
   # The priority is based upon order of creation: first created -> highest priority.
