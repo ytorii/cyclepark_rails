@@ -11,19 +11,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160306070253) do
+ActiveRecord::Schema.define(version: 20160323094633) do
 
   create_table "contracts", force: :cascade do |t|
     t.integer  "leaf_id"
-    t.date     "contract_date"
-    t.date     "start_month"
-    t.integer  "term1"
-    t.integer  "money1"
-    t.integer  "term2"
-    t.integer  "money2"
-    t.boolean  "new_flag"
-    t.boolean  "skip_flag"
-    t.string   "staff_nickname"
+    t.date     "contract_date",  null: false
+    t.date     "start_month",    null: false
+    t.integer  "term1",          null: false
+    t.integer  "money1",         null: false
+    t.integer  "term2",          null: false
+    t.integer  "money2",         null: false
+    t.boolean  "new_flag",       null: false
+    t.boolean  "skip_flag",      null: false
+    t.string   "staff_nickname", null: false
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
   end
@@ -65,8 +65,8 @@ ActiveRecord::Schema.define(version: 20160306070253) do
 
   create_table "seals", force: :cascade do |t|
     t.integer  "contract_id"
-    t.date     "month"
-    t.boolean  "sealed_flag"
+    t.date     "month",          null: false
+    t.boolean  "sealed_flag",    null: false
     t.date     "sealed_date"
     t.string   "staff_nickname"
     t.datetime "created_at",     null: false

@@ -39,33 +39,15 @@ RSpec.describe Contract, type: :model do
 
   { term1: 9, money1: 18000, term2: 9, money2: 18000}.each do |key, value|
     describe "#{key}" do
-      it "is valid with #{value} words." do
+      it "is valid with #{value}." do
         first_contract[key] = value
         expect(first_contract).to be_valid
       end
 
-      it "is invalid with #{value + 1} words." do
+      it "is invalid with #{value + 1}." do
         first_contract[key] = value + 1
         expect(first_contract).not_to be_valid
         expect(first_contract.errors[key]).to be_present
-      end
-    end
-  end
-
-  describe "money2" do
-    it "is invalid with empty when term2 exists." do
-      first_contract[:money2] = ''
-      expect(first_contract).not_to be_valid
-      expect(first_contract.errors[:money2]).to be_present
-    end
-  end
-
-  describe "term2, money2" do
-    ['', nil].each do |value|
-      it "are valid with both empty or nil" do
-        first_contract[:term2] = value
-        first_contract[:money2] = value
-        expect(first_contract).to be_valid
       end
     end
   end
@@ -80,18 +62,6 @@ RSpec.describe Contract, type: :model do
           end
         end
       end
-
-      context 'is invalid' do
-        it "with empty." do
-          # As new_flag is set in the Contract's method,
-          # it never be an empty.
-          if column == "skip_flag"
-            first_contract[column] = ''
-            expect(first_contract).not_to be_valid
-            expect(first_contract.errors[column]).to be_present
-          end
-        end
-      end
     end
   end
 
@@ -100,7 +70,7 @@ RSpec.describe Contract, type: :model do
       expect(first_contract).to be_valid
     end
 
-    it "is valid with nickanme in Staffs DB." do
+    it "is invalid with nickanme NOT in Staffs DB." do
       first_contract[:staff_nickname] = 'nostaff'
       expect(first_contract).not_to be_valid
       expect(first_contract.errors[:staff_nickname]).to be_present
@@ -158,13 +128,50 @@ RSpec.describe Contract, type: :model do
         expect(first_contract_add.start_month).to eq(first.last_date.next_month)
       end
     end
+
+    context "with skip_flag is true" do
+      before {
+        first_contract.skip_flag = true
+        first_contract.send(:setContractParams)
+      }
+
+      { term1: 1, money1: 0, term2: 0, money2: 0}.each do |key, value|
+        it "sets #{key} to #{value}" do
+          expect(first_contract[key]).to eq(value)
+        end
+      end
+    end
+
+    [false, nil].each do |value|
+      context "with skip_flag is #{value}" do
+        before {
+          first_contract.skip_flag = value
+          first_contract.term2 = nil
+          first_contract.money2 = nil
+          first_contract.send(:setContractParams)
+        }
+
+        it "sets skip_flag to false" do
+          expect(first_contract.skip_flag).to eq(false)
+        end
+
+        ["term2", "money2"].each do |column|
+          it "sets nil #{column} to 0" do
+            expect(first_contract[column]).to eq(0)
+          end
+        end
+      end
+    end
   end
 
   describe ".setFirstSealParams" do
     subject { first_contract.seals.first }
 
     context "with first sealed_flag true" do
-      before { first_contract.send(:setFirstSealParams) }
+      before {
+        first_contract.send(:setContractParams)
+        first_contract.send(:setFirstSealParams)
+      }
 
       it "sets seal's month to start_month." do
         expect(subject.month).to eq(first_contract.start_month.beginning_of_month)
@@ -180,6 +187,7 @@ RSpec.describe Contract, type: :model do
     context "with first sealed_flag false" do
       before {
         subject.sealed_flag = false
+        first_contract.send(:setContractParams)
         first_contract.send(:setFirstSealParams)
       }
 
@@ -200,6 +208,7 @@ RSpec.describe Contract, type: :model do
 
     before {
       subject.first.sealed_flag = false
+      first_contract.send(:setContractParams)
       first_contract.send(:setFirstSealParams)
       first_contract.send(:setRestSealsParams)
     }

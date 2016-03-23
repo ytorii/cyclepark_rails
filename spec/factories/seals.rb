@@ -15,4 +15,11 @@ FactoryGirl.define do
     staff_nickname ""
   end
 
+  factory :first_seal, class: Seal do
+    Contract
+    month "2016-02-01"
+    sealed_flag true
+    sealed_date "2016-01-25"
+    staff_nickname "admin"
+  end
 end

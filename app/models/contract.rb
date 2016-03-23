@@ -4,8 +4,7 @@ class Contract < ActiveRecord::Base
   accepts_nested_attributes_for :seals
 
   scope :daily_contracts_scope, -> (in_contract_date){
-
-    result = Contract.joins(leaf: :customer)
+    joins(leaf: :customer)
     .where('contract_date = ?', in_contract_date)
     .select('
        leafs.number AS number,
@@ -17,7 +16,7 @@ class Contract < ActiveRecord::Base
        contracts.money1,
        contracts.money2, 
        contracts.staff_nickname, 
-       contracts.contract_date 
+       contracts.contract_date
     ')
   }
 
@@ -34,9 +33,10 @@ class Contract < ActiveRecord::Base
     presence: true,
     numericality: { greater_than_or_equal_to: 0, less_than: 18001, allow_blank: true }
   validates :term2,
-    numericality: { if: 'term2.present?', greater_than: 0, less_than: 10 }
+    presence: true,
+    numericality: { greater_than_or_equal_to: 0, less_than: 10, allow_blank: true }
   validates :money2,
-    presence: { if: 'term2.present?' },
+    presence: true,
     numericality: { greater_than_or_equal_to: 0, less_than: 18001, allow_blank: true }
   validates :new_flag,
     inclusion: {in: [true, false]}
@@ -64,7 +64,7 @@ class Contract < ActiveRecord::Base
   before_destroy :isLastContract?
   after_destroy :backdateLeafLastdate
 
-  def Contract.calcContractsSummary(inContractLists)
+  def Contract.calcContractsSummary(inContractsList)
 
     # The number of vhiecle_type + 1(for total)
     rows = 4
@@ -75,13 +75,14 @@ class Contract < ActiveRecord::Base
     end
 
     # to_i method is needed in the case of nil
-    unless inContractLists.nil?
-      inContractLists.each do |list|
-        row = list[:vhiecle_type]
+    unless inContractsList.nil?
+      inContractsList.each do |contract|
+        row = contract[:vhiecle_type]
         result[row][0] += 1
-        result[row][1] += list[:money1].to_i + list[:money2].to_i
+        result[row][1] += contract[:money1].to_i + contract[:money2].to_i
       end
 
+      # First row has total counts and money of daily contracts
       result[0] = [result[1], result[2], result[3]].transpose.map(&:sum)
     end
     
@@ -95,12 +96,31 @@ class Contract < ActiveRecord::Base
   def setContractParams
     leaf = Leaf.find(self.leaf_id)
 
+    # New contract starts with leaf's start date
     if (leaf.contracts.size == 0)
       self.new_flag = true
-      self.start_month = leaf.start_date
+      self.start_month = leaf.start_date.beginning_of_month
+    # Extended contract starts with next month of leaf's last date
     else
       self.new_flag = false
-      self.start_month = leaf.last_date.next_month
+      self.start_month = leaf.last_date.next_month.beginning_of_month
+    end
+
+    # Term2 an money2 should be numeric for calculation.
+
+    # The skipped contracts has only one term and no money.
+    if self.skip_flag
+      self.term1 = 1
+      self.term2 = 0
+      self.money1 = 0
+      self.money2 = 0
+    else
+      # The skip_flag should be false if it is nil.
+      self.skip_flag = false
+
+      # Transform nil => 0.
+      self.term2 = self.term2.to_i
+      self.money2 = self.money2.to_i
     end
   end
 
@@ -111,13 +131,13 @@ class Contract < ActiveRecord::Base
 
     if first_seal.sealed_flag
       first_seal.attributes = {
-        month: self.start_month.beginning_of_month,
+        month: self.start_month,
         sealed_date: self.contract_date,
         staff_nickname: self.staff_nickname
       }
     else
       first_seal.attributes = {
-        month: self.start_month.beginning_of_month,
+        month: self.start_month,
         sealed_date: nil,
         staff_nickname: nil 
       }
@@ -128,7 +148,7 @@ class Contract < ActiveRecord::Base
   # Fixed by adding to_i mehotd!!
   # => At before validation, this causes unnessesary errors.
   def setRestSealsParams
-    month = self.start_month.beginning_of_month
+    month = self.start_month
 
     # term1 and term2 must be translated to 0 when they are nil or false.
     (self.term1.to_i + self.term2.to_i - 1).times do |term|

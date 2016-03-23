@@ -17,6 +17,8 @@ Rails.application.routes.draw do
   post 'daily_contracts_report' => 'daily_contracts_report#index'
   get 'count_contracts_summary' => 'count_contracts_summary#index'
 
+  post 'multi_seals_update' => 'multi_seals_update#index'
+  get 'multi_seals_update/update'
   #match ':controller(/:action(/:id))', via: [ :get, :post, :patch ]
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
