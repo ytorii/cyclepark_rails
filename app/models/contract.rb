@@ -3,23 +3,6 @@ class Contract < ActiveRecord::Base
   has_many :seals, dependent: :destroy
   accepts_nested_attributes_for :seals
 
-  scope :daily_contracts_scope, -> (in_contract_date){
-    joins(leaf: :customer)
-    .where('contract_date = ?', in_contract_date)
-    .select('
-       leafs.number AS number,
-       leafs.vhiecle_type AS vhiecle_type,
-       customers.first_name AS first_name,
-       customers.last_name AS last_name,
-       contracts.term1,
-       contracts.term2,
-       contracts.money1,
-       contracts.money2, 
-       contracts.staff_nickname, 
-       contracts.contract_date
-    ')
-  }
-
   validates :contract_date,
     presence: true,
     format: { with: /\A20[0-9]{2}(\/|-)(0[1-9]|1[0-2])(\/|-)(0[1-9]|(1|2)[0-9]|3[01])\z/, allow_blank: true}
@@ -64,30 +47,42 @@ class Contract < ActiveRecord::Base
   before_destroy :isLastContract?
   after_destroy :backdateLeafLastdate
 
-  def Contract.calcContractsSummary(inContractsList)
+  scope :daily_contracts_scope, -> (in_contract_date){
+    joins(leaf: :customer)
+    .where('contract_date = ?', in_contract_date)
+    .select('
+       leafs.number AS number,
+       leafs.vhiecle_type AS vhiecle_type,
+       customers.first_name AS first_name,
+       customers.last_name AS last_name,
+       contracts.term1,
+       contracts.term2,
+       contracts.money1,
+       contracts.money2, 
+       contracts.staff_nickname, 
+       contracts.contract_date
+    ')
+  }
 
-    # The number of vhiecle_type + 1(for total)
+  def Contract.calcContractsSummary(inContractDate)
+
+    # Total(1) + vhiecle_type(3)
     rows = 4
 
-    # About initializing matrix of array, see '楽しいRuby' p268.
-    result = Array.new(rows) do
-      [0, 0]
-    end
+    result = Contract.where('contract_date = ?', inContractDate)
+                     .joins(:leaf)
+                     .group(:vhiecle_type)
+                     .pluck('count(*), sum(money1 + money2)')
 
-    # to_i method is needed in the case of nil
-    unless inContractsList.nil?
-      inContractsList.each do |contract|
-        row = contract[:vhiecle_type]
-        result[row][0] += 1
-        result[row][1] += contract[:money1].to_i + contract[:money2].to_i
+    # Add total counts and money to the lead of array
+    unless result.size == 0 
+      result.unshift(result.transpose.map(&:sum))
+      # If no contracts in the day, all counts and money are 0!
+    else
+      result = Array.new(rows) do
+        [0, 0]
       end
-
-      # First row has total counts and money of daily contracts
-      result[0] = [result[1], result[2], result[3]].transpose.map(&:sum)
     end
-    
-    result
-
   end
 
   private
@@ -145,13 +140,11 @@ class Contract < ActiveRecord::Base
   end
 
   # The rest of Seals should be inserted parameters after validation.
-  # Fixed by adding to_i mehotd!!
-  # => At before validation, this causes unnessesary errors.
   def setRestSealsParams
     month = self.start_month
 
     # term1 and term2 must be translated to 0 when they are nil or false.
-    (self.term1.to_i + self.term2.to_i - 1).times do |term|
+    (self.term1 + self.term2 - 1).times do |term|
       month = month.next_month
       self.seals.build(month: month, sealed_flag: false)
     end
