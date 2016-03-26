@@ -1,0 +1,40 @@
+%h1 Menu page
+%p= flash.notice
+%br
+%h2 契約中リーフの検索
+= search_form_for(@query, url: leafs_search_path, method: :post) do |f|
+  = f.label :number, '契約番号'
+  = f.search_field :number_eq 
+  = f.label :vhiecle_type, '契約種別'
+  = f.search_field :vhiecle_type_eq 
+  = f.hidden_field :valid_flag_eq, :value => true
+  = f.submit
+%hr
+%h2 解約したリーフの検索
+= search_form_for(@query, url: leafs_search_path, method: :post) do |f|
+  = f.label :number, '契約番号'
+  = f.search_field :number_eq 
+  = f.label :vhiecle_type, '契約種別'
+  = f.search_field :vhiecle_type_eq 
+  = f.hidden_field :valid_flag_eq, :value => false
+  = f.submit
+%hr
+%h2 名前からリーフを検索
+= search_form_for(@query, url: leafs_search_path, method: :post) do |f|
+  = f.label :customer_first_name_or_customer_last_name_cont, '名前'
+  = f.search_field :customer_first_name_or_customer_last_name_cont 
+  = f.submit
+%hr
+%h2 日毎契約一覧
+= search_form_for(@query, url: daily_contracts_report_path, method: :post) do |f|
+  = f.hidden_field :daily_contracts_scope, :value => Date.current
+  = f.submit
+%hr
+%h2 シール状態一括更新
+= search_form_for(@query, url: multi_seals_update_path, method: :post) do |f|
+  = f.hidden_field :vhiecle_type_eq, :value => 1
+  = f.hidden_field :valid_flag_eq, :value => true
+  = f.hidden_field :contracts_seals_sealed_flag_eq, :value => false
+  = f.hidden_field :contracts_seals_month_eq,
+      :value => Date.current.next_month.strftime('%Y-%m')
+  = f.submit

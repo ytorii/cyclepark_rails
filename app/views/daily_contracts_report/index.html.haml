@@ -1,0 +1,36 @@
+%h1 日毎契約一覧
+= search_form_for(@query, url: daily_contracts_report_path, method: :post) do |f|
+  = f.label :daily_contracts_scope, '契約日'
+  = f.date_field :daily_contracts_scope
+  = f.submit
+%hr
+%h2 合計#{@contracts_total[0][0]}件 ￥#{@contracts_total[0][1]}
+%h3
+  １号地#{@contracts_total[1][0]}件 ￥#{@contracts_total[1][1]},
+  バイク#{@contracts_total[2][0]}件 ￥#{@contracts_total[2][1]},
+  ２号地#{@contracts_total[3][0]}件 ￥#{@contracts_total[3][1]}
+
+%br
+
+%table{border: "1"}
+  %thead
+    %tr
+      %th Number
+      %th Vhiecle Type
+      %th Name
+      %th Term
+      %th Money
+      %th Staff Name
+  %tbody
+    - @contracts_lists.each do |list|
+      -if list
+        %tr
+          %td= list[:number] 
+          %td= list[:vhiecle_type]
+          %td= list[:first_name]
+          %td= list[:term1]
+          %td= list[:money1]
+          %td= list[:staff_nickname]
+          %td= list[:contract_date]
+  
+= link_to 'Back', menu_path 

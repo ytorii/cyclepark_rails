@@ -1,0 +1,27 @@
+
+%table{border: "1"}
+  %thead
+    %tr
+      %th Number
+      %th Vhiecle Type
+      %th Student flag
+      %th Largebike flag
+      %th Valid flag
+      %th Start date
+      %th Last date
+      %th{:colspan => "2"}
+
+  %tbody
+    - @leafs.each do |leaf|
+      %tr
+        %td= leaf.number 
+        %td= leaf.vhiecle_type 
+        %td= leaf.student_flag 
+        %td= leaf.largebike_flag 
+        %td= leaf.valid_flag 
+        %td= leaf.start_date 
+        %td= leaf.last_date 
+        %td= leaf.customer.first_name
+        %td= link_to '詳細', leaf 
+
+= link_to 'Back', menu_path 

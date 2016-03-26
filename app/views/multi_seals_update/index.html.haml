@@ -1,0 +1,20 @@
+%h1 シール状態一括更新
+= search_form_for(@query, url: multi_seals_update_path, method: :post) do |f|
+  = f.label :vhiecle_type, '契約種別'
+  = f.search_field :vhiecle_type_eq 
+  = f.label :contracts_seals_month, '貼付け対象月'
+  = f.month_field :contracts_seals_month_eq
+  = f.hidden_field :valid_flag_eq, :value => true
+  = f.hidden_field :contracts_seals_sealed_flag_eq, :value => false
+  = f.submit("シール未貼付け番号を表示")
+%hr
+%br
+= form_for(@unsealed_list, url: {action: :update}, method: :post) do |f|
+  = f.hidden_field :staff_nickname, :value => session[:nickname]
+  = f.label :sealed_date, '貼付け作業日'
+  = f.date_field :sealed_date
+  %br
+  = f.collection_check_boxes(:numbers_sealsid_list,
+      @unsealed_list.numbers_sealsid_list, :seal_id, :number)
+  %br
+  = f.submit("シール貼付け処理")

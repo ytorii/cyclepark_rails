@@ -1,0 +1,23 @@
+%h1 契約台数集計
+%table{border: "1"}
+  %thead
+    %tr
+      %th Number
+      %th Vhiecle Type
+      %th Name
+      %th Term
+      %th Money
+      %th Staff Name
+  %tbody
+    - @contracts_lists.each do |list|
+      -if list
+        %tr
+          %td= list[:number] 
+          %td= list[:vhiecle_type]
+          %td= list[:first_name]
+          %td= list[:term1]
+          %td= list[:money1]
+          %td= list[:staff_nickname]
+          %td= list[:contract_date]
+  
+= link_to 'Back', menu_path 

@@ -1,0 +1,5 @@
+class CountContractsSummaryController < ApplicationController
+  def index
+    @counts = Leaf.countContractsSummary
+  end
+end

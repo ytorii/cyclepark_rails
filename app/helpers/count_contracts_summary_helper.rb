@@ -1,0 +1,2 @@
+module CountContractsSummaryHelper
+end
