@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Seal, type: :model do
   let(:first_seal){ build(:first_seal) }
 
-  %w{date sealed_date}.each do |column|
+  %w{month sealed_date}.each do |column|
     describe "#{column}" do
       context 'is valid' do
         ['2000/1/1', '2000-1-1', '2099/12/31'].each do |value|

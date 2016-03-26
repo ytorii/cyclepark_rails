@@ -27,31 +27,29 @@ class Leaf < ActiveRecord::Base
 
   before_destroy :isInvalidLeaf?
 
-  # The skipped contracts must not be included in number of contracts.
+  # The skipped contracts must not be included in counts.
   scope :count_contracts,
-    ->(vhiecle_type, student_flag, largebike_flag, month) {
-    joins(contracts: :seals).where(
-      "vhiecle_type = ? and
-         student_flag = ? and
-         largebike_flag = ? and
-         contracts.skip_flag = 'f' and
-         seals.month = ?",
-         vhiecle_type, student_flag, largebike_flag, month
-    ).count
+    ->(month) {
+    counts = Leaf.joins(contracts: :seals)
+                 .where("contracts.skip_flag = 'f' and
+                         seals.month = ?", month)
+                 .group(:vhiecle_type, :student_flag, :largebike_flag)
+                 .count
+      
+    setCountArray(counts)
   }
 
-  # New contracts' start_month is selected month.
+  # New contracts' start_month is requested month.
   # It's NOT seals' month!
   scope :count_new_contracts,
-    ->(vhiecle_type, student_flag, largebike_flag, month) {
-    joins(:contracts).where(
-      "vhiecle_type = ? and
-       student_flag = ? and
-       largebike_flag = ? and
-       contracts.new_flag = 't' and
-       contracts.start_month = ?",
-       vhiecle_type, student_flag, largebike_flag, month
-    ).count
+    ->(month) {
+    counts = Leaf.joins(:contracts)
+                .where("contracts.new_flag = 't' and
+                        contracts.start_month = ?", month)
+                .group(:vhiecle_type, :student_flag, :largebike_flag)
+                .count
+
+    setCountArray(counts)
   }
 
   #This method is public because it's called by controller.
@@ -72,8 +70,9 @@ class Leaf < ActiveRecord::Base
     month = Date.today.prev_month.beginning_of_month
     i = 0
     while i < 6 do
-      count_array[i] = countMonthlyContracts(month)
-      count_array[i+1] = countMonthlyNewContracts(month)
+      #count_array[i] = setCountArray(Leaf.count_contracts(month))
+      count_array[i] = Leaf.count_contracts(month)
+      count_array[i+1] = Leaf.count_new_contracts(month)
       i += 2
       month = month.next_month
     end
@@ -115,29 +114,19 @@ class Leaf < ActiveRecord::Base
     end
   end
 
-  def self.countMonthlyContracts(month)
-    result = [0, 0, 0, 0, 0, 0, 0]
-    result[0] = Leaf.count_contracts(1, false, false, month)
-    result[1] = Leaf.count_contracts(1, true, false, month)
-    result[2] = result[0] + result[1]
-    result[3] = Leaf.count_contracts(2, false, false, month)
-    result[4] = Leaf.count_contracts(2, false, true, month)
-    result[5] = result[3] + result[4]
-    result[6] = Leaf.count_contracts(3, false, false, month)
+  # Convert count result hash from DB to count array including total
+  def self.setCountArray(inCounts)
 
-    result
-  end
-
-  def self.countMonthlyNewContracts(month)
     result = [0, 0, 0, 0, 0, 0, 0]
 
-    result[0] = Leaf.count_new_contracts(1, false, false, month)
-    result[1] = Leaf.count_new_contracts(1, true, false, month)
+    # .to_i makes nil to 0
+    result[0] = inCounts[[1, false, false]].to_i
+    result[1] = inCounts[[1, true, false]].to_i
     result[2] = result[0] + result[1]
-    result[3] = Leaf.count_new_contracts(2, false, false, month)
-    result[4] = Leaf.count_new_contracts(2, false, true, month)
+    result[3] = inCounts[[2, false, false]].to_i
+    result[4] = inCounts[[2, false, true]].to_i
     result[5] = result[3] + result[4]
-    result[6] = Leaf.count_new_contracts(3, false, false, month)
+    result[6] = inCounts[[3, false, false]].to_i
 
     result
   end

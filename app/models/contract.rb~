@@ -65,44 +65,30 @@ class Contract < ActiveRecord::Base
   }
 
   def Contract.calcContractsSummary(inContractDate)
-#
-#    # The number of vhiecle_type + 1(for total)
-#    rows = 4
-#
-#    # About initializing matrix of array, see '楽しいRuby' p268.
-#    result = Array.new(rows) do
-#      [0, 0]
-#    end
-#
-#    # to_i method is needed in the case of nil
-#    unless inContractsList.nil?
-#      inContractsList.each do |contract|
-#        row = contract[:vhiecle_type]
-#        result[row][0] += 1
-#        result[row][1] += contract[:money1].to_i + contract[:money2].to_i
-#      end
-#
-#      # First row has total counts and money of daily contracts
-#      result[0] = [result[1], result[2], result[3]].transpose.map(&:sum)
-#    end
 
     # Total(1) + vhiecle_type(3)
     rows = 4
 
-    result = Contract.where('contract_date = ?', inContractDate)
+    # [ counts, money ]
+    result = Array.new(rows) do
+      [0, 0]
+    end
+
+    # Get counts and money of each vhiecle types.
+    contracts_counts = Contract.where('contract_date = ?', inContractDate)
                      .joins(:leaf)
                      .group(:vhiecle_type)
-                     .pluck('count(*), sum(money1 + money2)')
+                     .pluck('leafs.vhiecle_type, count(*), sum(money1 + money2)')
 
-    # Add total counts and money to the lead of array
-    unless result.size == 0 
-      result.unshift(result.transpose.map(&:sum))
-      # If no contracts in the day, all counts and money are 0!
-    else
-      result = Array.new(rows) do
-        [0, 0]
-      end
+    # Insert counts and money to each vhiecle_type's row.
+    contracts_counts.each do |count|
+      result[count[0]] = [ count[1], count[2] ]
     end
+    
+    # Add total counts and money to the first row.
+    result[0] = result.transpose.map(&:sum)
+
+    result
   end
 
   private
