@@ -3,12 +3,14 @@ class Contract < ActiveRecord::Base
   has_many :seals, dependent: :destroy
   accepts_nested_attributes_for :seals
 
+  date_format = /\A20[0-9]{2}(\/|-)(0[1-9]|1[0-2])(\/|-)(0[1-9]|(1|2)[0-9]|3[01])\z/
+
   validates :contract_date,
     presence: true,
-    format: { with: /\A20[0-9]{2}(\/|-)(0[1-9]|1[0-2])(\/|-)(0[1-9]|(1|2)[0-9]|3[01])\z/, allow_blank: true}
+    format: { with: date_format, allow_blank: true}
   validates :start_month,
     presence: true,
-    format: { with: /\A20[0-9]{2}(\/|-)(0[1-9]|1[0-2])(\/|-)(0[1-9]|(1|2)[0-9]|3[01])\z/, allow_blank: true}
+    format: { with: date_format, allow_blank: true}
   validates :term1,
     presence: true,
     numericality: { greater_than: 0, less_than: 10, allow_blank: true }

@@ -78,7 +78,9 @@ class Contract < ActiveRecord::Base
     contracts_counts = Contract.where('contract_date = ?', inContractDate)
                      .joins(:leaf)
                      .group(:vhiecle_type)
-                     .pluck('leafs.vhiecle_type, count(*), sum(money1 + money2)')
+                     .pluck('leafs.vhiecle_type,
+                             count(*),
+                             sum(money1 + money2)')
 
     # Insert counts and money to each vhiecle_type's row.
     contracts_counts.each do |count|

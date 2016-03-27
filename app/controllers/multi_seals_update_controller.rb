@@ -16,8 +16,8 @@ class MultiSealsUpdateController < ApplicationController
     @unsealed_list = UpdateMultiSeals.new(update_params)
     
     respond_to do |format|
-      if @unsealed_list.updateSelectedSeals(update_params)
-        format.html { redirect_to multi_seals_update_path,
+      if @unsealed_list.updateSelectedSeals
+        format.html { redirect_to menu_path,
                       notice: 'シール情報を更新しました。' }
         format.json { render :index, status: :ok,
                       location: multi_seals_update_path }
@@ -52,7 +52,7 @@ class MultiSealsUpdateController < ApplicationController
     # "2016-05" => "2016-05-01"
     #params[:multi_seals_update][:month].concat("-01")
 
-    params.require(:update_multi_seals_form)
+    params.require(:update_multi_seals)
       .permit(
         :staff_nickname,
         :sealed_date,

@@ -3,6 +3,8 @@ require 'nkf'
 class Customer < ActiveRecord::Base
   belongs_to :leaf
 
+  read_format = /\A[\p{Katakana}\u30fc\p{blank}]+\z/
+
   validates :first_name,
     presence: true,
     length: { maximum: 10, allow_blank: true }
@@ -11,11 +13,11 @@ class Customer < ActiveRecord::Base
     length: { maximum: 10, allow_blank: true }
   validates :first_read,
     presence: true,
-    format: { with: /\A[\p{Katakana}\u30fc\p{blank}]+\z/, allow_blank: true },
+    format: { with: read_format, allow_blank: true },
     length: { maximum: 20, allow_blank: true }
   validates :last_read,
     presence: true,
-    format: { with: /\A[\p{Katakana}\u30fc\p{blank}]+\z/, allow_blank: true },
+    format: { with: read_format, allow_blank: true },
     length: { maximum: 20, allow_blank: true }
   validates :sex,
     inclusion: {in: [true, false]}

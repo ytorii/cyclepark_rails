@@ -6,6 +6,8 @@ class Leaf < ActiveRecord::Base
   accepts_nested_attributes_for :customer
   accepts_nested_attributes_for :contracts
 
+  date_format = /\A20[0-9]{2}(\/|-)(0[1-9]|1[0-2])(\/|-)(0[1-9]|(1|2)[0-9]|3[01])\z/
+
   validates :number,
     presence: true,
     numericality: { greater_than: 0, less_than: 1013, allow_blank: true }
@@ -20,9 +22,9 @@ class Leaf < ActiveRecord::Base
     inclusion: {in: [true, false]}
   validates :start_date,
     presence: true,
-    format: { with: /\A20[0-9]{2}(\/|-)(0[1-9]|1[0-2])(\/|-)(0[1-9]|(1|2)[0-9]|3[01])\z/, allow_blank: true}
+    format: { with: date_format, allow_blank: true}
   validates :last_date,
-    format: { with: /\A20[0-9]{2}(\/|-)(0[1-9]|1[0-2])(\/|-)(0[1-9]|(1|2)[0-9]|3[01])\z/, unless: 'last_date.blank?'}
+    format: { with: date_format, unless: 'last_date.blank?'}
   validate :sameNumberExists?, on: :create
 
   before_destroy :isInvalidLeaf?

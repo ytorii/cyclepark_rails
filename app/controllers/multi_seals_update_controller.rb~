@@ -13,12 +13,11 @@ class MultiSealsUpdateController < ApplicationController
   end
 
   def update
-    # Form instance to utilize validations, 
     @unsealed_list = UpdateMultiSeals.new(update_params)
     
     respond_to do |format|
-      if @unsealed_list.updateSelectedSeals(update_params)
-        format.html { redirect_to multi_seals_update_path,
+      if @unsealed_list.updateSelectedSeals
+        format.html { redirect_to menu_path,
                       notice: 'シール情報を更新しました。' }
         format.json { render :index, status: :ok,
                       location: multi_seals_update_path }

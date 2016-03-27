@@ -22,4 +22,13 @@ FactoryGirl.define do
     sealed_date "2016-01-25"
     staff_nickname "admin"
   end
+
+  factory :seal_multi, class: Seal do
+    sequence(:contract_id) { |n| n}
+    month "2016-04-01"
+    sealed_flag false
+    sealed_date nil
+    staff_nickname nil
+  end
+
 end

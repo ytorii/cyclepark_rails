@@ -42,7 +42,7 @@ RSpec.describe Customer, type: :model do
     end
   end
 
-  describe 'Receipt', :focus => true do
+  describe 'Receipt' do
     it "is '不要' by default." do
       first_customer.save!
       expect(Customer.find(1).receipt).to eq('不要')

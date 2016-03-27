@@ -70,7 +70,7 @@ RSpec.describe Contract, type: :model do
       expect(first_contract).to be_valid
     end
 
-    it "is valid with nickanme in Staffs DB." do
+    it "is invalid with nickanme NOT in Staffs DB." do
       first_contract[:staff_nickname] = 'nostaff'
       expect(first_contract).not_to be_valid
       expect(first_contract.errors[:staff_nickname]).to be_present
