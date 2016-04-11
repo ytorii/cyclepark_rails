@@ -18,7 +18,6 @@ class LoginController < ApplicationController
     else
       flash.now[:referer] = params[:referer]
       @error = 'ユーザ名／パスワードが間違っています。'
-      p 'ユーザ名／パスワードが間違っています。'
       render 'index'
     end
   end

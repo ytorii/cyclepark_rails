@@ -167,7 +167,7 @@ a:hover img{
 ---------------------------*/
 #side{
   width: 140px;
-  height: 580px;
+  height: 530px;
   padding: 15px 15px;
   background-color: #d7d0c3;
   text-align: center;

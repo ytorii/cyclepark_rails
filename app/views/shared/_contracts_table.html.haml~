@@ -1,0 +1,57 @@
+#contracts_list
+  - if @contracts_list.size == 0 then
+    - 12.times do |i|
+      .month_box
+        .contract_box
+          = i + 1
+          月
+        .seal_box
+  - else
+    - (@leaf.start_date.month.to_i - 1).times do |i|
+      .month_box
+        .contract_box
+          = i + 1
+          月
+        .seal_box
+    - @contracts_list.each do |c| 
+      - c.seals.each_with_index do |s, i| 
+        - term1 = c.term1 
+        - term2 = c.term2 
+        .month_box
+          .contract_box.stamped
+            = s.month.strftime('%-m')
+            月
+            %br
+            = c.contract_date.strftime('%-m/%-d')
+            %br
+            = c.staff_nickname
+            %br
+            - if (i == term1 - 1) 
+              = number_to_currency(c.money1.to_i, unit: '\\', format: '%u%n')
+            - elsif term2 > 0 && (i == term1 + term2 - 1) 
+              = number_to_currency(c.money2.to_i, unit: '\\', format: '%u%n')
+            - else 
+          - if s.sealed_flag then 
+            .seal_box.stamped
+              = s.sealed_date.strftime('%-m/%-d')
+              貼済
+              %br
+              = s.staff_nickname 
+          - elsif (i == 0 || c.seals[i-1].sealed_flag ) then 
+            .seal_box
+              = form_for([@leaf,c,s]) do |f| 
+                = f.hidden_field :sealed_flag, :value => true 
+                = f.hidden_field :sealed_date, :value => Date.today 
+                = f.hidden_field :staff_nickname, :value => session[:nickname] 
+                = f.submit(["#{s.month.strftime('%-m月')}分貼付"], class: 'seal_btn radius')
+          - else 
+            .seal_box
+              シール未貼
+    - last_month = @leaf.last_date.month.to_i
+    - (12 - last_month).times do |i|
+      .month_box
+        .contract_box
+          = last_month + (i + 1)
+          月
+        .seal_box
+        - i += 1

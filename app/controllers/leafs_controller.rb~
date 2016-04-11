@@ -13,6 +13,8 @@ class LeafsController < ApplicationController
   # GET /leafs/1
   # GET /leafs/1.json
   def show
+    @query = Leaf.ransack params[:q]
+    @contracts_list = @leaf.contracts.all
     @contract = @leaf.contracts.build
     @contract.seals.build
   end
@@ -32,10 +34,9 @@ class LeafsController < ApplicationController
   def create
 
     @leaf = Leaf.new(leaf_params)
-    p leaf_params
 
     respond_to do |format|
-      if @leaf.save!
+      if @leaf.save
         format.html { redirect_to leaf_path(@leaf), notice: '顧客情報を登録しました。' }
         format.json { render :show, status: :created, location: @leaf }
       else

@@ -1,0 +1,27 @@
+%header#header
+  #inner
+    %h1 リーフ
+
+#contents.clearfix
+  %aside#side
+    #normal
+      = search_form_for(@query, url: daily_contracts_report_path, method: :post) do |f|
+        = f.hidden_field :daily_contracts_scope, :value => Date.current
+        = f.submit '今日の契約', class:'normal_btn radius'
+      = link_to (button_tag '別のリーフを探す', type: 'button', class: 'normal_btn radius'), menu_path, method: :get 
+
+    - admin_flag = Staff.find(session[:staff]).admin_flag
+    - if admin_flag
+      #admin
+        %a{ :href => count_contracts_summary_path }
+          %p.admin_link.radius= '契約台数集計'
+  %main#main
+    = render 'shared/customer_table'
+    = render 'shared/contracts_table'
+    #edit_menu
+      - if admin_flag
+        = link_to (button_tag '契約の変更・削除', class: 'edit_btn radius'), leaf_contracts_path(@leaf.to_param), method: :get
+      = link_to (button_tag '顧客情報変更', class: 'edit_btn radius'), edit_leaf_path(@leaf), method: :get 
+      = link_to (button_tag '契約の更新', class: 'contract_btn radius'), menu_path, method: :get 
+%footer#footer
+  #inner

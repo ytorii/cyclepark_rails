@@ -1,0 +1,68 @@
+#customer_table
+  #first_box.clearfix
+    #vhiecle_type.first_box_content
+      - case @leaf.vhiecle_type
+      - when 1
+        自転車
+      - when 2 
+        - unless @leaf.largebike_flag then
+          バイク
+        - else
+          大型バイク
+      - when 3
+        ２号地
+    #contract_number.first_box_content
+      No：
+      = @leaf.number  
+    #student_flag.first_box_content
+      - unless @leaf.student_flag then
+        一般
+      - else
+        学生
+    #start_date.first_box_content
+      - if @leaf.valid_flag then
+        = @leaf.start_date.strftime('%Y年%-m月%-d日')
+        から契約中
+      - else
+        = @leaf.last_date.strftime('%Y年%-m月')
+        末で解約
+  #second_box
+    #label_address.second_box_content
+      住所
+    #address.second_box_content
+      = @leaf.customer.address 
+    #comment.second_box_content
+      = @leaf.customer.comment 
+    #label_phone.second_box_content
+      自宅
+    .phone_number.second_box_content
+      = @leaf.customer.phone_number 
+    #label_cell.second_box_content
+      携帯
+    .phone_number.second_box_content
+      = @leaf.customer.cell_number 
+  #third_box.clearfix
+    #label_name.third_box_content
+      氏名
+    #read_name_box
+      #read_box.third_box_content
+        = @leaf.customer.first_read 
+        &nbsp
+        = @leaf.customer.last_read
+      #name_box.third_box_content
+        = @leaf.customer.first_name 
+        &nbsp
+        = @leaf.customer.last_name 
+    #sex.third_box_content
+      - if @leaf.customer.sex then
+        男性
+      - else
+        女性
+    #receipt.third_box_content
+      領収書　
+      - unless @leaf.customer.receipt.blank?
+        %br
+        = @leaf.customer.receipt 
+      - else
+        不要
+= link_to (button_tag '顧客情報変更', type: 'button'), edit_leaf_path(@leaf), method: :get 

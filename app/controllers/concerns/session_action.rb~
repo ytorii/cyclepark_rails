@@ -1,4 +1,4 @@
-module SessionAction < ActiveSupport::Concern
+module SessionAction extend ActiveSupport::Concern
 
   def check_admin
     unless Staff.find(session[:staff]).admin_flag

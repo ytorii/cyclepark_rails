@@ -1,15 +1,57 @@
-%h1 Menu page
-%p= flash.notice
-%br
-%h2 契約中リーフの検索
-= search_form_for(@query, url: leafs_search_path, method: :post) do |f|
-  = f.label :number, '契約番号'
-  = f.search_field :number_eq 
-  = f.label :vhiecle_type, '契約種別'
-  = f.search_field :vhiecle_type_eq 
-  = f.hidden_field :valid_flag_eq, :value => true
-  = f.submit
-%hr
+%header#header
+  #inner
+    %h1 メインメニュー
+#contents.clearfix
+  %aside#side
+    #normal
+      = search_form_for(@query, url: daily_contracts_report_path, method: :post) do |f|
+        = f.hidden_field :daily_contracts_scope, :value => Date.current
+        = f.submit "今日の契約一覧", class:'normal_btn radius'
+      = search_form_for(@query, url: multi_seals_update_path, method: :post) do |f|
+        = f.hidden_field :vhiecle_type_eq, :value => 1
+        = f.hidden_field :valid_flag_eq, :value => true
+        = f.hidden_field :contracts_seals_sealed_flag_eq, :value => false
+        = f.hidden_field :contracts_seals_month_eq,
+          :value => Date.current.next_month.strftime('%Y-%m')
+        = f.submit 'シール貼付一括処理', class:'normal_btn radius'
+    - if Staff.find(session[:staff]).admin_flag
+      #admin
+        %a{ :href => count_contracts_summary_path }
+          %p.admin_link.radius= '契約台数集計'
+        %a{ :href => staffs_path }
+          %p.admin_link.radius= 'スタッフ管理'
+  
+  %main#main
+    %section#number_search
+      %div#number_label.form_label
+        %h2 契約番号から探す
+      #number_form
+        = search_form_for(@query, url: leafs_search_path, method: :post) do |f|
+          = f.radio_button :vhiecle_type_eq, 1, id: 'vtype_1', checked: true
+          = label_tag :vtype_1, '１号地', class: 'vtype_rd radius'
+          = f.radio_button :vhiecle_type_eq, 2, id: 'vtype_2'
+          = label_tag :vtype_2, 'バイク', class: 'vtype_rd radius'
+          = f.radio_button :vhiecle_type_eq, 3, id: 'vtype_3'
+          = label_tag :vtype_3, '２号地', class: 'vtype_rd radius'
+          %br
+          = f.label :number, '契約番号'
+          = f.search_field :number_eq, :id => 'number_input'
+          = f.hidden_field :valid_flag_eq, :value => true
+          = f.submit '探す', :class => 'btn_submit'
+    %section#name_search
+      %div#name_label.form_label
+        %h2 名前から探す
+      #name_form
+        %p#name_text= '名前またはフリガナの一部'
+        = search_form_for(@query, url: leafs_search_path, method: :post) do |f|
+          = f.search_field :customer_first_name_or_customer_last_name_cont, id: 'name_input'
+          = f.submit '探す', :class => 'btn_submit'
+      %aside
+        %a#new_contract.radius{ :href => new_leaf_path }
+          %p.link_text 新規契約の登録
+
+%footer#footer
+  #inner
 %h2 解約したリーフの検索
 = search_form_for(@query, url: leafs_search_path, method: :post) do |f|
   = f.label :number, '契約番号'
@@ -17,24 +59,4 @@
   = f.label :vhiecle_type, '契約種別'
   = f.search_field :vhiecle_type_eq 
   = f.hidden_field :valid_flag_eq, :value => false
-  = f.submit
-%hr
-%h2 名前からリーフを検索
-= search_form_for(@query, url: leafs_search_path, method: :post) do |f|
-  = f.label :customer_first_name_or_customer_last_name_cont, '名前'
-  = f.search_field :customer_first_name_or_customer_last_name_cont 
-  = f.submit
-%hr
-%h2 日毎契約一覧
-= search_form_for(@query, url: daily_contracts_report_path, method: :post) do |f|
-  = f.hidden_field :daily_contracts_scope, :value => Date.current
-  = f.submit
-%hr
-%h2 シール状態一括更新
-= search_form_for(@query, url: multi_seals_update_path, method: :post) do |f|
-  = f.hidden_field :vhiecle_type_eq, :value => 1
-  = f.hidden_field :valid_flag_eq, :value => true
-  = f.hidden_field :contracts_seals_sealed_flag_eq, :value => false
-  = f.hidden_field :contracts_seals_month_eq,
-      :value => Date.current.next_month.strftime('%Y-%m')
   = f.submit
