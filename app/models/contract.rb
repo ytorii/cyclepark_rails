@@ -37,6 +37,8 @@ class Contract < ActiveRecord::Base
       setContractParams
       setFirstSealParams
       setRestSealsParams
+    # Setting params for correcting existing records,
+    # especially in correcting seal records.
     else
       setCanceledSealsParams
     end
@@ -97,7 +99,7 @@ class Contract < ActiveRecord::Base
 
   private
   # New_flag and start_month should be determined automatically
-  # iside the model itself.
+  # by the model itself, not by inputs from web pages.
   def setContractParams
     leaf = Leaf.find(self.leaf_id)
 
@@ -111,8 +113,6 @@ class Contract < ActiveRecord::Base
       self.start_month = leaf.last_date.next_month.beginning_of_month
     end
 
-    # Term2 an money2 should be numeric for calculation.
-
     # The skipped contracts has only one term and no money.
     if self.skip_flag
       self.term1 = 1
@@ -120,10 +120,10 @@ class Contract < ActiveRecord::Base
       self.money1 = 0
       self.money2 = 0
     else
-      # The skip_flag should be false if it is nil.
+      # The skip_flag should be false if the input value is nil.
       self.skip_flag = false
 
-      # Transform nil => 0.
+      # Nil inputs is transformed to 0 by the to_i method.
       self.term2 = self.term2.to_i
       self.money2 = self.money2.to_i
     end
@@ -153,7 +153,7 @@ class Contract < ActiveRecord::Base
   def setRestSealsParams
     month = self.start_month
 
-    # term1 and term2 must be translated to 0 when they are nil or false.
+    # Sub 1 time because the first seal record is already build
     (self.term1 + self.term2 - 1).times do |term|
       month = month.next_month
       self.seals.build(month: month, sealed_flag: false)
@@ -196,6 +196,7 @@ class Contract < ActiveRecord::Base
   end
 
   # Terms length must not be changed after create!
+  # Because this change causes empty terms in the leaf.
   def termsSameLength?
     prev = Contract.find(self.id)
     unless (self.term1 == prev.term1 && self.term2 == prev.term2)
