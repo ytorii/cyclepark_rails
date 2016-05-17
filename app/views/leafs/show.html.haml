@@ -22,6 +22,17 @@
       - if admin_flag
         = link_to (button_tag '契約の変更・削除', class: 'edit_btn radius'), leaf_contracts_path(@leaf.to_param), method: :get
       = link_to (button_tag '顧客情報変更', class: 'edit_btn radius'), edit_leaf_path(@leaf), method: :get 
-      = link_to (button_tag '契約の更新', class: 'contract_btn radius'), menu_path, method: :get 
+      %button.btn.contract_btn.radius{data: {toggle: 'modal', target: '#addContractForm'}} 契約の更新
+
 %footer#footer
   #inner
+
+#addContractForm.modal.fade
+  .modal-dialog
+    .modal-content
+      .modal-header
+        %h4.modal-title 契約更新画面
+    .modal-body
+      = render 'shared/contracts_addition_form'
+    .modal-footer
+      %button.btn{"data-dismiss" => "modal"} 閉じる

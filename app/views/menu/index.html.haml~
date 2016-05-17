@@ -14,12 +14,12 @@
         = f.hidden_field :contracts_seals_month_eq,
           :value => Date.current.next_month.strftime('%Y-%m')
         = f.submit 'シール貼付一括処理', class:'normal_btn radius'
-    - if 
-    #admin
-      %a{ :href => count_contracts_summary_path }
-        %p.admin_link.radius= '契約台数集計'
-      %a{ :href => staffs_path }
-        %p.admin_link.radius= 'スタッフ管理'
+    - if Staff.find(session[:staff]).admin_flag
+      #admin
+        %a{ :href => count_contracts_summary_path }
+          %p.admin_link.radius= '契約台数集計'
+        %a{ :href => staffs_path }
+          %p.admin_link.radius= 'スタッフ管理'
   
   %main#main
     %section#number_search

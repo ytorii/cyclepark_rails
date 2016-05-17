@@ -1,4 +1,4 @@
-#contracts_list
+#contracts_list.clearfix
   - if @contracts_list.size == 0 then
     - 12.times do |i|
       .month_box

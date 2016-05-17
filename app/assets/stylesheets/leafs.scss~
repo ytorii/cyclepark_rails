@@ -7,15 +7,16 @@
    Customer Table
 
 ---------------------------*/
-#customer_table{
+div#customer_table{
   width: 760px;
   height: 215px;
   color: #000;
+  font-size: 100%;
 }
 
-#first_box{
+div#first_box{
   width: 760px;
-  height: 50px;
+  height: 52px;
   border-top: #000 1px solid;
   border-bottom: #000 1px solid;
 }
@@ -40,13 +41,14 @@
 }
 
 #student_flag{
-  width: 70px;
+  width: 100px;
 }
 
 #start_date{
-  width: 265px;
+  //width: 265px;
   padding: 0;
-  font-size: 100%;
+  font-size: 120%;
+  float: right;
 }
 
 #second_box{
@@ -57,30 +59,28 @@
 .second_box_content{
   border-right: #000 1px solid;
   border-bottom: #000 1px solid;
-  padding: 0 20px;
   font-size: 150%;
   float: left;
 }
 
 #label_address{
   width: 20px;
-  height: 49px;
+  height: 50px;
   border-left: #000 1px solid;
   font-size: 100%;
-  padding: 0;
 }
 
 #address{
-  width: 459px;
-  height: 49px;
+  width: 460px;
+  height: 50px;
   overflow: auto;
-  font-size: 130%;
+  padding: 0 10px;
+  font-size: 140%;
 }
 
 #comment{
-  width: 237px;
-  height: 79px;
-  padding: 0;
+  width: 280px;
+  height: 80px;
   font-size: 100%;
   overflow: auto;
   float: right;
@@ -88,34 +88,32 @@
 
 #label_phone{
   width: 20px;
-  height: 29px;
+  height: 30px;
   border-left: #000 1px solid;
-  padding: 0;
   font-size: 70%;
   text-align: center;
 }
 
 #label_cell{
-  width: 21px;
-  height: 29px;
-  padding: 0;
+  width: 20px;
+  height: 30px;
   font-size: 70%;
   text-align: center;
 }
 
 .phone_number{
-  width: 198px;
-  height: 29px;
+  width: 220px;
+  height: 30px;
+  padding: 0 10px;
   font-size: 110%;
 }
 
 #third_box{
   width: 760px;
-  height: 80px;
+  height: 82px;
 }
 
 .third_box_content{
-  padding: 0 20px;
   border-right: #000 1px solid;
   border-bottom: #000 1px solid;
   float: left;
@@ -125,25 +123,27 @@
   width: 20px;
   height: 80px;
   border-left: #000 1px solid;
-  padding: 0;
+  padding: 15px 0;
 }
 
 #read_name_box{
-  width: 459px;
+  width: 420px;
   height: 80px;
   float: left;
 }
 
 #read_box{
-  width: 419px;
-  height: 29px;
+  width: 420px;
+  height: 30px;
   border-bottom: #000 1px dotted;
+  padding: 0 10px
 }
 
 #name_box{
-  width: 419px;
+  width: 420px;
   height: 50px;
   font-size: 200%;
+  padding: 0 10px
 }
 
 #sex{
@@ -155,7 +155,7 @@
 }
 
 #receipt{
-  width: 237px;
+  width: 280px;
   height: 80px;
   padding: 0;
   float: right;
@@ -170,7 +170,7 @@
   border-top: #000 1px solid;
   color: #000;
   width: 760px;
-  height: 294px;
+  height: 293px;
   overflow: auto;
 }
 
@@ -200,17 +200,23 @@
 }
 
 .seal_btn{
-  height: 20px;
+  height: 30px;
   background: #68d000;
   border: none;
+  margin: 5px 0;
   font-size: 120%;
 	font-family: "HG丸ゴシックM-PRO", "HGMaruGothicMPRO";
 }
 
+/*--------------------------
+
+  Edit Buttons 
+
+---------------------------*/
 #edit_menu{
   width: 760px;
   height: 40px;
-  margin-top: 20px;
+  margin-top: 15px;
   clear: both;
   text-align: center;
 }
@@ -230,5 +236,16 @@
 
 .contract_btn{
   background: #f90;
+  font-size: 100px;
   float: right;
+}
+
+/*--------------------------
+
+  Add Contract Form
+
+---------------------------*/
+.modal-content{
+  color: #000;
+  //background: #f90;
 }

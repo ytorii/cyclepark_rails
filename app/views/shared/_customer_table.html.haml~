@@ -65,4 +65,3 @@
         = @leaf.customer.receipt 
       - else
         不要
-= link_to (button_tag '顧客情報変更', type: 'button'), edit_leaf_path(@leaf), method: :get 
