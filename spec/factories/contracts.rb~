@@ -19,11 +19,11 @@ FactoryGirl.define do
   factory :first_contract_add, class: Contract do
     Leaf
     contract_date "2016-01-01"
-    start_month ""
+    start_month nil
     term1 1
     money1 3500 
-    term2 ''
-    money2 ''
+    term2 nil
+    money2 nil
     new_flag true
     skip_flag false
     staff_nickname "admin"

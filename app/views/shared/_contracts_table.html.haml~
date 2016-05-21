@@ -1,4 +1,4 @@
-#contracts_list.clearfix
+#contracts_list
   - if @contracts_list.size == 0 then
     - 12.times do |i|
       .month_box
@@ -27,7 +27,10 @@
             = c.staff_nickname
             %br
             - if (i == term1 - 1) 
-              = number_to_currency(c.money1.to_i, unit: '\\', format: '%u%n')
+              - if !c.skip_flag
+                = number_to_currency(c.money1.to_i, unit: '\\', format: '%u%n')
+              - else
+                休み
             - elsif term2 > 0 && (i == term1 + term2 - 1) 
               = number_to_currency(c.money2.to_i, unit: '\\', format: '%u%n')
             - else 
@@ -44,7 +47,7 @@
                 = f.hidden_field :sealed_date, :value => Date.today 
                 = f.hidden_field :staff_nickname, :value => session[:nickname] 
                 = f.submit(["#{s.month.strftime('%-m月')}分貼付"], class: 'seal_btn radius')
-          - else 
+          - elsif !c.skip_flag 
             .seal_box
               シール未貼
     - last_month = @leaf.last_date.month.to_i

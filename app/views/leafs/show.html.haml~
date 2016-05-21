@@ -1,20 +1,10 @@
+- admin_flag = Staff.find(session[:staff]).admin_flag
 %header#header
   #inner
     %h1 リーフ
 
 #contents.clearfix
-  %aside#side
-    #normal
-      = search_form_for(@query, url: daily_contracts_report_path, method: :post) do |f|
-        = f.hidden_field :daily_contracts_scope, :value => Date.current
-        = f.submit '今日の契約', class:'normal_btn radius'
-      = link_to (button_tag '別のリーフを探す', type: 'button', class: 'normal_btn radius'), menu_path, method: :get 
-
-    - admin_flag = Staff.find(session[:staff]).admin_flag
-    - if admin_flag
-      #admin
-        %a{ :href => count_contracts_summary_path }
-          %p.admin_link.radius= '契約台数集計'
+  = render 'shared/side_menu'
   %main#main
     = render 'shared/customer_table'
     = render 'shared/contracts_table'
@@ -28,11 +18,11 @@
   #inner
 
 #addContractForm.modal.fade
-  .modal-dialog.modal-sm
+  .modal-dialog
     .modal-content
-      .modal-header
+      .modal-header{ style: 'background: #f90;' }
         %h4.modal-title 契約更新画面
-    .modal-body
-      = render 'shared/contracts_addition_form'
-    .modal-footer
-      %button.btn{"data-dismiss" => "modal"} 閉じる
+      .modal-body
+        = render 'shared/contracts_addition_form'
+      .modal-footer
+        %button.btn{"data-dismiss" => "modal"} 閉じる

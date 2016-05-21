@@ -28,11 +28,11 @@
       #number_form
         = search_form_for(@query, url: leafs_search_path, method: :post) do |f|
           = f.radio_button :vhiecle_type_eq, 1, id: 'vtype_1', checked: true
-          = label_tag :vtype_1, '１号地', class: 'vtype_rd radius'
+          = label_tag :vtype_1, '１号地', class: 'custom_rd radius'
           = f.radio_button :vhiecle_type_eq, 2, id: 'vtype_2'
-          = label_tag :vtype_2, 'バイク', class: 'vtype_rd radius'
+          = label_tag :vtype_2, 'バイク', class: 'custom_rd radius'
           = f.radio_button :vhiecle_type_eq, 3, id: 'vtype_3'
-          = label_tag :vtype_3, '２号地', class: 'vtype_rd radius'
+          = label_tag :vtype_3, '２号地', class: 'custom_rd radius'
           %br
           = f.label :number, '契約番号'
           = f.search_field :number_eq, :id => 'number_input'

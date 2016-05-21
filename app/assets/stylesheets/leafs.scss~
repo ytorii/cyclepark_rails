@@ -249,3 +249,11 @@ div#first_box{
   color: #000;
   //background: #f90;
 }
+
+#term2{
+  display: none;
+}
+
+#reset_btn{
+  display: none;
+}

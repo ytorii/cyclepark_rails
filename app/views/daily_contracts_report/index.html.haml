@@ -1,36 +1,62 @@
-%h1 日毎契約一覧
-= search_form_for(@query, url: daily_contracts_report_path, method: :post) do |f|
-  = f.label :daily_contracts_scope, '契約日'
-  = f.date_field :daily_contracts_scope
-  = f.submit
-%hr
-%h2 合計#{@contracts_total[0][0]}件 ￥#{@contracts_total[0][1]}
-%h3
-  １号地#{@contracts_total[1][0]}件 ￥#{@contracts_total[1][1]},
-  バイク#{@contracts_total[2][0]}件 ￥#{@contracts_total[2][1]},
-  ２号地#{@contracts_total[3][0]}件 ￥#{@contracts_total[3][1]}
+%header#header
+  #inner
+    %h1 日毎契約一覧
 
-%br
-
-%table{border: "1"}
-  %thead
-    %tr
-      %th Number
-      %th Vhiecle Type
-      %th Name
-      %th Term
-      %th Money
-      %th Staff Name
-  %tbody
-    - @contracts_lists.each do |list|
-      -if list
-        %tr
-          %td= list[:number] 
-          %td= list[:vhiecle_type]
-          %td= list[:first_name]
-          %td= list[:term1]
-          %td= list[:money1]
-          %td= list[:staff_nickname]
-          %td= list[:contract_date]
-  
-= link_to 'Back', menu_path 
+#contents.clearfix
+  = render 'shared/side_menu'
+  %main#main
+    #daily_contracts
+      = search_form_for(@query, url: daily_contracts_report_path, method: :post) do |f|
+        = f.label :daily_contracts_scope, '契約日'
+        = f.date_field :daily_contracts_scope
+        = f.submit
+      %hr
+      #daily_contracts_total
+        %h2 合計  #{@contracts_total[0][0]}件 #{number_to_currency(@contracts_total[0][1], unit: '\\', format: '%u%n')}
+        %h3
+          １号地  #{@contracts_total[1][0]}件 #{number_to_currency(@contracts_total[1][1], unit: '\\', format: '%u%n')},
+          バイク  #{@contracts_total[2][0]}件 #{number_to_currency(@contracts_total[2][1], unit: '\\', format: '%u%n')},
+          ２号地  #{@contracts_total[3][0]}件 #{number_to_currency(@contracts_total[3][1], unit: '\\', format: '%u%n')}
+      
+      %br
+      #daily_contracts_list
+        %table.table.table-bordered.table-striped
+          %thead
+            %tr
+              %th 契約種別
+              %th 車種
+              %th 契約番号
+              %th 氏名
+              %th 契約月
+              %th 金額
+              %th 担当者
+          %tbody
+            - @contracts_lists.each do |list|
+              -if list
+                %tr
+                  %td 
+                    - if list[:new_flag]
+                      .new_contract
+                        新規
+                    - else
+                      更新
+                  %td 
+                    - case list[:vhiecle_type]
+                    - when 1
+                      自転車
+                    - when 2 
+                      - unless list[:largebike_flag] == 't'
+                        バイク
+                      - else
+                        大型バイク
+                    - when 3
+                      ２号地
+                  %td= list[:number] 
+                  %td= list[:first_name] + ' ' + list[:last_name]
+                  %td= list.seals.map{|seal| seal.month.strftime('%-m')}.join(', ')
+                  %td= number_to_currency(list[:money1], unit: '\\', format: '%u%n')
+                  %td= list[:staff_nickname]
+          
+      = link_to 'Back', menu_path 
+%footer#footer
+  #inner

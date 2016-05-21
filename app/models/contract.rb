@@ -11,18 +11,15 @@ class Contract < ActiveRecord::Base
   validates :start_month,
     presence: true,
     format: { with: date_format, allow_blank: true}
+  # Term1 must be longer than 0 because 0 length contract is not allowed.
   validates :term1,
-    presence: true,
     numericality: { greater_than: 0, less_than: 10, allow_blank: true }
   validates :money1,
-    presence: true,
-    numericality: { greater_than_or_equal_to: 0, less_than: 18001, allow_blank: true }
+    numericality: { greater_than_or_equal_to: 0, less_than: 18001 }
   validates :term2,
-    presence: true,
-    numericality: { greater_than_or_equal_to: 0, less_than: 10, allow_blank: true }
+    numericality: { greater_than_or_equal_to: 0, less_than: 10 }
   validates :money2,
-    presence: true,
-    numericality: { greater_than_or_equal_to: 0, less_than: 18001, allow_blank: true }
+    numericality: { greater_than_or_equal_to: 0, less_than: 18001 }
   validates :new_flag,
     inclusion: {in: [true, false]}
   validates :skip_flag,
@@ -32,11 +29,14 @@ class Contract < ActiveRecord::Base
   validate :termsSameLength?, on: :update
 
   before_validation do
+    # Change nil inputs to 0.
+    setSkipAndNilParams
+
     # Setting params are needed only when create new records
     if self.new_record?
       setContractParams
       setFirstSealParams
-      setRestSealsParams
+      #setRestSealsParams
     # Setting params for correcting existing records,
     # especially in correcting seal records.
     else
@@ -44,7 +44,10 @@ class Contract < ActiveRecord::Base
     end
   end
 
+  # Except first seal record, all seal records parameters are
+  # automatically set, so no needs to be validated.
   before_create do
+    setRestSealsParams if self.new_record?
     updateLeafLastdate
   end
 
@@ -52,20 +55,24 @@ class Contract < ActiveRecord::Base
   after_destroy :backdateLeafLastdate
 
   scope :daily_contracts_scope, -> (in_contract_date){
-    joins(leaf: :customer)
-    .where('contract_date = ?', in_contract_date)
+    result = Contract.joins(leaf: :customer)
+    .where("contract_date = ? and skip_flag = 'f'", in_contract_date)
     .select('
+       contracts.id,
        leafs.number AS number,
        leafs.vhiecle_type AS vhiecle_type,
+       leafs.largebike_flag AS largebike_flag,
        customers.first_name AS first_name,
        customers.last_name AS last_name,
        contracts.term1,
        contracts.term2,
        contracts.money1,
        contracts.money2, 
-       contracts.staff_nickname, 
-       contracts.contract_date
+       contracts.new_flag,
+       contracts.staff_nickname
     ')
+
+    result
   }
 
   def Contract.calcContractsSummary(inContractDate)
@@ -79,7 +86,7 @@ class Contract < ActiveRecord::Base
     end
 
     # Get counts and money of each vhiecle types.
-    contracts_counts = Contract.where('contract_date = ?', inContractDate)
+    contracts_counts = Contract.where("contract_date = ? and skip_flag = 'f'", inContractDate)
                      .joins(:leaf)
                      .group(:vhiecle_type)
                      .pluck('leafs.vhiecle_type,
@@ -98,6 +105,27 @@ class Contract < ActiveRecord::Base
   end
 
   private
+
+  # 
+  def setSkipAndNilParams
+    # The skipped contracts has only one term and no money.
+    if self.skip_flag
+      self.term1 = 1
+      self.term2 = 0
+      self.money1 = 0
+      self.money2 = 0
+    else
+      # The skip_flag should be false if the input value is nil.
+      self.skip_flag = false
+
+      # Nil inputs is transformed to 0.
+      # term1 is not allowed with 0, so validation rejects after this
+      self.term1 = self.term1.to_i
+      self.term2 = self.term2.to_i
+      self.money2 = self.money2.to_i
+    end
+  end
+
   # New_flag and start_month should be determined automatically
   # by the model itself, not by inputs from web pages.
   def setContractParams
@@ -112,29 +140,15 @@ class Contract < ActiveRecord::Base
       self.new_flag = false
       self.start_month = leaf.last_date.next_month.beginning_of_month
     end
-
-    # The skipped contracts has only one term and no money.
-    if self.skip_flag
-      self.term1 = 1
-      self.term2 = 0
-      self.money1 = 0
-      self.money2 = 0
-    else
-      # The skip_flag should be false if the input value is nil.
-      self.skip_flag = false
-
-      # Nil inputs is transformed to 0 by the to_i method.
-      self.term2 = self.term2.to_i
-      self.money2 = self.money2.to_i
-    end
   end
 
   # First Seal needs to insert parameters before validation.
   # Because its parameters depend on inputs from web pages.
   def setFirstSealParams
     first_seal = self.seals.first
-
-    if first_seal.sealed_flag
+    
+    # make nil sealed_flag false
+    if (first_seal.sealed_flag ||= false)
       first_seal.attributes = {
         month: self.start_month,
         sealed_date: self.contract_date,
@@ -208,7 +222,7 @@ class Contract < ActiveRecord::Base
   def isLastContract?
     last = Leaf.find(self.leaf_id).contracts.last
     unless (self.id == last.id)
-      errors.add(:start_month, '最後尾以外の契約は削除できません。i')
+      errors.add(:start_month, '最後尾以外の契約は削除できません。')
       return false
     end
   end

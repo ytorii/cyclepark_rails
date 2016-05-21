@@ -102,6 +102,42 @@ RSpec.describe Contract, type: :model do
     end
   end
 
+  describe ".setSkipAndNilParams" do
+    context "with skip_flag is true" do
+      before {
+        first_contract.skip_flag = true
+        first_contract.send(:setSkipAndNilParams)
+      }
+
+      { term1: 1, money1: 0, term2: 0, money2: 0}.each do |key, value|
+        it "sets #{key} to #{value}" do
+          expect(first_contract[key]).to eq(value)
+        end
+      end
+    end
+
+    [false, nil].each do |value|
+      context "with skip_flag is #{value}" do
+        before {
+          first_contract.skip_flag = value
+          first_contract.term2 = nil
+          first_contract.money2 = nil
+          first_contract.send(:setSkipAndNilParams)
+        }
+
+        it "sets skip_flag to false" do
+          expect(first_contract.skip_flag).to eq(false)
+        end
+
+        ["term2", "money2"].each do |column|
+          it "sets nil #{column} to 0" do
+            expect(first_contract[column]).to eq(0)
+          end
+        end
+      end
+    end
+  end
+
   describe ".setContractParams" do
     context "with no contracts" do
       before { first_contract.send(:setContractParams) }
@@ -129,39 +165,6 @@ RSpec.describe Contract, type: :model do
       end
     end
 
-    context "with skip_flag is true" do
-      before {
-        first_contract.skip_flag = true
-        first_contract.send(:setContractParams)
-      }
-
-      { term1: 1, money1: 0, term2: 0, money2: 0}.each do |key, value|
-        it "sets #{key} to #{value}" do
-          expect(first_contract[key]).to eq(value)
-        end
-      end
-    end
-
-    [false, nil].each do |value|
-      context "with skip_flag is #{value}" do
-        before {
-          first_contract.skip_flag = value
-          first_contract.term2 = nil
-          first_contract.money2 = nil
-          first_contract.send(:setContractParams)
-        }
-
-        it "sets skip_flag to false" do
-          expect(first_contract.skip_flag).to eq(false)
-        end
-
-        ["term2", "money2"].each do |column|
-          it "sets nil #{column} to 0" do
-            expect(first_contract[column]).to eq(0)
-          end
-        end
-      end
-    end
   end
 
   describe ".setFirstSealParams" do
@@ -187,6 +190,24 @@ RSpec.describe Contract, type: :model do
     context "with first sealed_flag false" do
       before {
         subject.sealed_flag = false
+        first_contract.send(:setContractParams)
+        first_contract.send(:setFirstSealParams)
+      }
+
+      it "sets seal's month to the first date of contract's start_month." do
+        expect(subject.month).to eq(first_contract.start_month.beginning_of_month)
+      end
+      it "sets seal's staff_nickname to nil." do
+        expect(subject.staff_nickname).to eq(nil)
+      end
+      it "sets seal's sealed_date to nil." do
+        expect(subject.sealed_date).to eq(nil)
+      end
+    end
+
+    context "with first sealed_flag nil" do
+      before {
+        subject.sealed_flag = nil
         first_contract.send(:setContractParams)
         first_contract.send(:setFirstSealParams)
       }
