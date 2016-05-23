@@ -35,7 +35,7 @@
           = label_tag :vtype_3, '２号地', class: 'custom_rd radius'
           %br
           = f.label :number, '契約番号'
-          = f.search_field :number_eq, :id => 'number_input'
+          = f.search_field :number_eq, :id => 'number_input', :autofocus => true
           = f.hidden_field :valid_flag_eq, :value => true
           = f.submit '探す', :class => 'btn_submit'
     %section#name_search

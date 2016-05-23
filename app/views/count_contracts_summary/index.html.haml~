@@ -1,23 +1,33 @@
-%h1 契約台数集計
-%table{border: "1"}
-  %thead
-    %tr
-      %th Number
-      %th Vhiecle Type
-      %th Name
-      %th Term
-      %th Money
-      %th Staff Name
-  %tbody
-    - @contracts_lists.each do |list|
-      -if list
-        %tr
-          %td= list[:number] 
-          %td= list[:vhiecle_type]
-          %td= list[:first_name]
-          %td= list[:term1]
-          %td= list[:money1]
-          %td= list[:staff_nickname]
-          %td= list[:contract_date]
-  
-= link_to 'Back', menu_path 
+%header#header
+  #inner
+    %h1 契約台数集計
+
+#contents.clearfix
+  = render 'shared/side_menu'
+  %main#main
+    #count_contracts_summary{style: 'color: #000'}
+      %table.table.table-bordered.table-striped
+        %thead
+          %tr.success
+            %th 車種
+            %th 今月台数
+            %th 前月比
+            %th 翌月未更新
+            %th 今月新規
+            %th 翌月台数
+            %th 翌月新規
+        %tbody
+          - vtype = %w{一般 学生 １号地合計 普通バイク 大型バイク バイク合計 ２号地}
+          - i = 0
+          - while i < vtype.size do
+            %tr
+              %td= vtype[i]
+              %td #{@counts["present_total"][i]} 台
+              %td #{@counts["diffs_prev"][i]} 台
+              %td.warning #{@counts["next_unpaid"][i]} 台
+              %td #{@counts["present_new"][i]} 台
+              %td #{@counts["next_total"][i]} 台
+              %td #{@counts["next_new"][i]} 台
+            - i += 1
+%footer#footer
+  #inner

@@ -12,17 +12,17 @@
         = f.submit
       %hr
       #daily_contracts_total
-        %h2 合計  #{@contracts_total[0][0]}件 #{number_to_currency(@contracts_total[0][1], unit: '\\', format: '%u%n')}
-        %h3
-          １号地  #{@contracts_total[1][0]}件 #{number_to_currency(@contracts_total[1][1], unit: '\\', format: '%u%n')},
-          バイク  #{@contracts_total[2][0]}件 #{number_to_currency(@contracts_total[2][1], unit: '\\', format: '%u%n')},
-          ２号地  #{@contracts_total[3][0]}件 #{number_to_currency(@contracts_total[3][1], unit: '\\', format: '%u%n')}
+        合計  #{@contracts_total[0][0]}件 #{number_to_currency(@contracts_total[0][1], unit: '\\', format: '%u%n')}
+        %br
+        １号地  #{@contracts_total[1][0]}件 #{number_to_currency(@contracts_total[1][1], unit: '\\', format: '%u%n')},
+        バイク  #{@contracts_total[2][0]}件 #{number_to_currency(@contracts_total[2][1], unit: '\\', format: '%u%n')},
+        ２号地  #{@contracts_total[3][0]}件 #{number_to_currency(@contracts_total[3][1], unit: '\\', format: '%u%n')}
       
       %br
       #daily_contracts_list
         %table.table.table-bordered.table-striped
           %thead
-            %tr
+            %tr.success
               %th 契約種別
               %th 車種
               %th 契約番号
