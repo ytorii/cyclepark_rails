@@ -71,5 +71,6 @@ group :development do
   gem 'guard-shell', require: false
   gem 'ridgepole'
   gem 'rails-erd'
+  gem 'erb2haml'
 end
 

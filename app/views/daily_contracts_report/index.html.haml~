@@ -36,7 +36,7 @@
                 %tr
                   %td 
                     - if list[:new_flag]
-                      .new_contract
+                      .new_contract_list
                         新規
                     - else
                       更新
@@ -56,7 +56,5 @@
                   %td= list.seals.map{|seal| seal.month.strftime('%-m')}.join(', ')
                   %td= number_to_currency(list[:money1], unit: '\\', format: '%u%n')
                   %td= list[:staff_nickname]
-          
-      = link_to 'Back', menu_path 
 %footer#footer
   #inner

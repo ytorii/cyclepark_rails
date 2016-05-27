@@ -1,8 +1,0 @@
-<% if @leaf.valid_flag %>
-  <%= form_for(@leaf) do |f| %>
-    <%= f.hidden_field :valid_flag, :value => false %>
-<div class="actions">
-    <%= f.submit '解約する', data: { confirm: '本当に解約しますか？' } %>
-</div>
-  <% end %>
-<% end %>

@@ -228,15 +228,15 @@ div#first_box{
 	font-family: "HG丸ゴシックM-PRO", "HGMaruGothicMPRO";
 }
 
-.edit_btn{
+.edit_cont_btn{
   background: #658aff;
   margin-right: 15px;
   float: left;
 }
 
-.contract_btn{
+.add_cont_btn{
   background: #f90;
-  font-size: 100px;
+  font-size: 120px;
   float: right;
 }
 
@@ -247,13 +247,16 @@ div#first_box{
 ---------------------------*/
 .modal-content{
   color: #000;
-  //background: #f90;
 }
 
 #term2{
   display: none;
 }
 
-#reset_btn{
+#contadd_submit_btn{
+  margin: 15px 0 0 0;
+}
+
+#contadd_reset_btn{
   display: none;
 }

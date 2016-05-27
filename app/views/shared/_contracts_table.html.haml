@@ -1,4 +1,6 @@
 #contracts_list
+  // Seal form appears only once in the list.
+  - sealform_flag = true
   - if @contracts_list.size == 0 then
     - 12.times do |i|
       .month_box
@@ -15,8 +17,6 @@
         .seal_box
     - @contracts_list.each do |c| 
       - c.seals.each_with_index do |s, i| 
-        - term1 = c.term1 
-        - term2 = c.term2 
         .month_box
           .contract_box.stamped
             = s.month.strftime('%-m')
@@ -26,12 +26,12 @@
             %br
             = c.staff_nickname
             %br
-            - if (i == term1 - 1) 
+            - if (i == c.term1 - 1) 
               - if c.skip_flag
                 休み
               - else
                 = number_to_currency(c.money1.to_i, unit: '\\', format: '%u%n')
-            - elsif term2 > 0 && (i == term1 + term2 - 1) 
+            - elsif c.term2 > 0 && (i == c.term1 + c.term2 - 1) 
               = number_to_currency(c.money2.to_i, unit: '\\', format: '%u%n')
             - else 
           - if s.sealed_flag then 
@@ -40,7 +40,8 @@
               貼済
               %br
               = s.staff_nickname 
-          - elsif !c.skip_flag && (i == 0 || c.seals[i-1].sealed_flag ) then 
+          - elsif sealform_flag && !c.skip_flag then 
+            - sealform_flag = false
             .seal_box
               = form_for([@leaf,c,s]) do |f| 
                 = f.hidden_field :sealed_flag, :value => true 
