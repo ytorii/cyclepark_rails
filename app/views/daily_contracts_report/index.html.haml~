@@ -54,7 +54,10 @@
                   %td= list[:number] 
                   %td= list[:first_name] + ' ' + list[:last_name]
                   %td= list.seals.map{|seal| seal.month.strftime('%-m')}.join(', ')
-                  %td= number_to_currency(list[:money1], unit: '\\', format: '%u%n')
+                  %td
+                    =number_to_currency(list[:money1], unit: '\\', format: '%u%n')
+                    - if list[:money2] > 0 
+                      =number_to_currency(list[:money2], unit: '\\', format: '%u%n')
                   %td= list[:staff_nickname]
 %footer#footer
   #inner

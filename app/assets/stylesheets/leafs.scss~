@@ -260,3 +260,16 @@ div#first_box{
 #contadd_reset_btn{
   display: none;
 }
+
+/*--------------------------
+
+   New and Edit Leaf Form
+
+---------------------------*/
+#largebike_checkbox{
+  display: none;
+}
+
+#invalidate_customer{
+  text-align: right;
+}

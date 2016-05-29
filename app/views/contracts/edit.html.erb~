@@ -1,5 +1,0 @@
-<h1>Editing Contract</h1>
-
-<%= render 'form' %>
-
-<%= link_to 'Back', leaf_contracts_path(@leaf.to_param) %>

@@ -21,7 +21,7 @@ ja:
     sex: 性別
     start_date: 利用開始日
     student_flag: 学割利用
-    type: 契約種別
+    vhiecle_type: 契約種別
     term1: 契約期間１
     money1: 金額１
     term2: 契約期間２
@@ -30,6 +30,7 @@ ja:
     sealed_flag: シール貼付
     sealed_date: シール貼付け作業日
     skip_flag: 休み
+    numbers_sealsid_list: 契約番号リスト
 
 
   activerecord:

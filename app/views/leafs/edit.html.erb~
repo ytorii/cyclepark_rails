@@ -1,6 +1,0 @@
-<h1>Editing Leaf</h1>
-
-<%= render 'form' %>
-
-<%= link_to 'Show', @leaf %> |
-<%= link_to 'Back', leafs_path %>
