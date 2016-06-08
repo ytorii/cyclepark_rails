@@ -88,7 +88,7 @@ RSpec.describe ContractsController, type: :controller do
         expect(Leaf.find(first.id).last_date).to eq(Seal.all.last.month)
       end
 
-      it "redirects to the related leaf." do
+      it "redirects to the leaf's page." do
         post :create, {:contract => valid_attributes, :leaf_id => first.id}, valid_session
         expect(response).to redirect_to(first)
       end
@@ -119,10 +119,10 @@ RSpec.describe ContractsController, type: :controller do
         expect(assigns(:contract)).to be_a_new(Contract)
       end
 
-      it "re-renders the 'new' template" do
+      it "redirects to the leaf's page." do
         post :create, {:contract => invalid_attributes, :leaf_id => first.id}, valid_session
         expect(assigns(:contract)).to be_a_new(Contract)
-        expect(response).to render_template("leafs/show")
+        expect(response).to redirect_to(first)
       end
     end
   end
@@ -155,7 +155,7 @@ RSpec.describe ContractsController, type: :controller do
         expect(assigns(:contract)).to eq(contract)
       end
 
-      it "redirects to the leaf" do
+      it "redirects to the leaf's page." do
         put :update, {:id => contract.to_param, :leaf_id => contract.leaf_id, :contract => new_attributes}, valid_session
         contract.reload
         expect(response).to redirect_to(leaf_path(contract.leaf_id))
@@ -169,10 +169,12 @@ RSpec.describe ContractsController, type: :controller do
         expect(assigns(:contract)).to eq(contract)
       end
 
-      it "re-renders the 'new' template" do
+      it "redirects to the leaf's page." do
         put :update, {:id => contract.to_param, :leaf_id => contract.leaf_id, :contract => valid_attributes}, valid_session
-        expect(response).to render_template(:edit)
-      end end end
+        expect(response).to redirect_to(leaf_path(contract.leaf_id))
+      end
+    end
+  end
 
   describe "DELETE #destroy" do
     let(:contract_add) { create(:first_contract_add, leaf_id: first.id) }
@@ -207,7 +209,7 @@ RSpec.describe ContractsController, type: :controller do
       }.to change(Contract, :count).by(0)
     end
 
-    it "redirects to the leaf" do
+    it "redirects to the leaf's page." do
       delete :destroy, {:id => contract.to_param, :leaf_id => contract.leaf_id}, valid_session
       expect(response).to redirect_to(leaf_path(first.id))
     end

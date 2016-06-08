@@ -8,18 +8,22 @@ div.form_label{
   text-align: center;
 }
 
-input[type=radio]{
+input[type=radio] + .custom_rd{
   display: none;
-}
-
-input[type=radio]:checked + .custom_rd{
-  background: #f90;
 }
 
 label.custom_rd{
   padding: 10px 10px;
   margin: 10px 20px;
   background: #969696;
+}
+
+input[type=radio]:checked + .orange_rd{
+  background: #f90;
+}
+
+input[type=radio]:checked + .green_rd{
+  background: #91ff37;
 }
 
 input[type=submit].btn_submit{

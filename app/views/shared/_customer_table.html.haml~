@@ -41,7 +41,7 @@
       携帯
     .phone_number.second_box_content
       = @leaf.customer.cell_number 
-  #third_box.clearfix
+  #third_box
     #label_name.third_box_content
       氏名
     #read_name_box

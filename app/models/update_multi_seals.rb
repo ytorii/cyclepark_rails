@@ -33,7 +33,7 @@ class UpdateMultiSeals
                  }
                )
 
-    # If non exist id is contained, all update is cancelled
+    # If unexist id is contained, all update is cancelled
     Seal.transaction do
       Seal.update(ids, attributes)
     end
@@ -45,7 +45,6 @@ class UpdateMultiSeals
     rescue ActiveRecord::RecordNotFound => e
       errors.add(:numbers_sealsid_list, '存在しないシール情報です。')
       return false
-
   end
 
   private
@@ -58,7 +57,7 @@ class UpdateMultiSeals
   
   # If no number is selected, [""] array is sent from client.
   def isBlankArray?
-    if self.numbers_sealsid_list[0] == ""
+    if self.numbers_sealsid_list.blank? || self.numbers_sealsid_list[0] == ""
       errors.add(:numbers_sealsid_list, 'が選択されていません。')
       return false
     end

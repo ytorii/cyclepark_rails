@@ -9,16 +9,17 @@ Rails.application.routes.draw do
 
   resources :staffs
   
-  get 'login' => 'login#index'
+  get  'login' => 'login#index'
   post 'login/auth' => 'login#auth'
 
-  get 'menu' => 'menu#index'
+  get  'menu' => 'menu#index'
   post 'leafs_search' => 'leafs_search#index'
+  get  'daily_contracts_report' => 'daily_contracts_report#index'
   post 'daily_contracts_report' => 'daily_contracts_report#index'
-  get 'count_contracts_summary' => 'count_contracts_summary#index'
+  get  'count_contracts_summary' => 'count_contracts_summary#index'
 
   post 'multi_seals_update' => 'multi_seals_update#index'
-  get 'multi_seals_update/update'
+  post 'multi_seals_update/update' => 'multi_seals_update#update'
   #match ':controller(/:action(/:id))', via: [ :get, :post, :patch ]
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

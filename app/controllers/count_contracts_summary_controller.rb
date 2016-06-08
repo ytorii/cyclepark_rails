@@ -1,6 +1,5 @@
 class CountContractsSummaryController < ApplicationController
   def index
-    @query = Leaf.ransack params[:q]
-    @counts = Leaf.countContractsSummary
+    @counts = CountContractsSummary.new().summary
   end
 end

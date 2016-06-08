@@ -6,17 +6,17 @@
   = render 'shared/side_menu'
   %main#main
     #daily_contracts
-      = search_form_for(@query, url: daily_contracts_report_path, method: :post) do |f|
-        = f.label :daily_contracts_scope, '契約日'
-        = f.date_field :daily_contracts_scope
-        = f.submit
+      = form_tag( url: daily_contracts_report_path) do
+        = label :daily_contracts_scope, '契約日'
+        = date_field_tag :contract_date
+        = submit_tag '指定した日付を表示' 
       %hr
       #daily_contracts_total
-        合計  #{@contracts_total[0][0]}件 #{number_to_currency(@contracts_total[0][1], unit: '\\', format: '%u%n')}
+        合計  #{@report.contracts_total[0][0]}件 #{number_to_currency(@report.contracts_total[0][1], unit: '\\', format: '%u%n')}
         %br
-        １号地  #{@contracts_total[1][0]}件 #{number_to_currency(@contracts_total[1][1], unit: '\\', format: '%u%n')},
-        バイク  #{@contracts_total[2][0]}件 #{number_to_currency(@contracts_total[2][1], unit: '\\', format: '%u%n')},
-        ２号地  #{@contracts_total[3][0]}件 #{number_to_currency(@contracts_total[3][1], unit: '\\', format: '%u%n')}
+        １号地  #{@report.contracts_total[1][0]}件 #{number_to_currency(@report.contracts_total[1][1], unit: '\\', format: '%u%n')},
+        バイク  #{@report.contracts_total[2][0]}件 #{number_to_currency(@report.contracts_total[2][1], unit: '\\', format: '%u%n')},
+        ２号地  #{@report.contracts_total[3][0]}件 #{number_to_currency(@report.contracts_total[3][1], unit: '\\', format: '%u%n')}
       
       %br
       #daily_contracts_list
@@ -31,33 +31,34 @@
               %th 金額
               %th 担当者
           %tbody
-            - @contracts_lists.each do |list|
-              -if list
+            - @report.contracts_list.each do |contract|
+              -if contract
                 %tr
                   %td 
-                    - if list[:new_flag]
-                      .new_contract_list
+                    - if contract[:new_flag]
+                      .new_contract_contract
                         新規
                     - else
                       更新
                   %td 
-                    - case list[:vhiecle_type]
+                    - case contract[:vhiecle_type]
                     - when 1
                       自転車
                     - when 2 
-                      - unless list[:largebike_flag] == 't'
+                      - unless contract[:largebike_flag] == 't'
                         バイク
                       - else
                         大型バイク
                     - when 3
                       ２号地
-                  %td= list[:number] 
-                  %td= list[:first_name] + ' ' + list[:last_name]
-                  %td= list.seals.map{|seal| seal.month.strftime('%-m')}.join(', ')
+                  %td= contract[:number] 
+                  %td= contract[:first_name] + ' ' + contract[:last_name]
+                  %td= contract.seals.map{|seal| seal.month.strftime('%-m')}.join(', ')
                   %td
-                    =number_to_currency(list[:money1], unit: '\\', format: '%u%n')
-                    - if list[:money2] > 0 
-                      =number_to_currency(list[:money2], unit: '\\', format: '%u%n')
-                  %td= list[:staff_nickname]
+                    =number_to_currency(contract[:money1], unit: '\\', format: '%u%n')
+                    - if contract[:money2] > 0 
+                      %br
+                      =number_to_currency(contract[:money2], unit: '\\', format: '%u%n')
+                  %td= contract[:staff_nickname]
 %footer#footer
   #inner

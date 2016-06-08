@@ -13,7 +13,6 @@ class LeafsController < ApplicationController
   # GET /leafs/1
   # GET /leafs/1.json
   def show
-    @query = Leaf.ransack params[:q]
     @contracts_list = @leaf.contracts.all
     @contract = @leaf.contracts.build
     @contract.seals.build

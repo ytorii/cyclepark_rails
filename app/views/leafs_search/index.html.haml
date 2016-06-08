@@ -1,27 +1,42 @@
-%h1 該当する顧客を選択してください
-%table{border: "1"}
-  %thead
-    %tr
-      %th Number
-      %th Vhiecle Type
-      %th Student flag
-      %th Largebike flag
-      %th Valid flag
-      %th Start date
-      %th Last date
-      %th{:colspan => "2"}
+%header#header
+  #inner
+    %h1 顧客検索結果
 
-  %tbody
-    - @leafs.each do |leaf|
-      %tr
-        %td= leaf.number 
-        %td= leaf.vhiecle_type 
-        %td= leaf.student_flag 
-        %td= leaf.largebike_flag 
-        %td= leaf.valid_flag 
-        %td= leaf.start_date 
-        %td= leaf.last_date 
-        %td= leaf.customer.first_name
-        %td= link_to '詳細', leaf 
-
-= link_to 'Back', menu_path 
+#contents.clearfix
+  = render 'shared/side_menu'
+  %main#main
+    .black_font
+      %h2 該当する顧客を選択してください。（契約中の顧客のみ表示されます）
+      %table.table.table-bordered.table-striped
+        %thead
+          %tr.success
+            %th 契約番号
+            %th 契約種別
+            %th 氏名
+            %th 利用開始日
+            %th 最終更新月
+            %th リーフへ移動
+        %tbody
+          - @leafs.each do |leaf|
+            %tr
+              %td= leaf.number 
+              %td
+                - case leaf.vhiecle_type
+                - when 1
+                  - unless @leaf.student_flag then
+                    自転車 一般
+                  - else
+                    自転車 学生
+                - when 2 
+                  - unless @leaf.largebike_flag then
+                    バイク
+                  - else
+                    大型バイク
+                - when 3
+                  ２号地
+              %td= leaf.customer.first_name + ' ' + leaf.customer.last_name 
+              %td= leaf.start_date.strftime('%Y年%-m月%-d日')
+              %td= leaf.last_date.strftime('%Y年%-m月')
+              %td= link_to '移動', leaf 
+%footer#footer
+  #inner

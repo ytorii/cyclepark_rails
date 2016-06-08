@@ -37,12 +37,14 @@ class ContractsController < ApplicationController
           message = '新規契約を登録しました。'
         end
 
-        format.html { redirect_to leaf_path(@contract.leaf_id), notice: message }
+        format.html {
+          redirect_to leaf_path(@contract.leaf_id), notice: message
+        }
         format.json { render :show, status: :created, location: @contract }
       else
-        # @leaf is needed to show customer information.
-        @leaf = Leaf.find(@contract.leaf_id)
-        format.html { render template: "leafs/show" }
+        # To run Leaf's show method, page needs to be redirected.
+        # As Only a few inputs, re-input is a little work!
+        format.html { redirect_to leaf_path(@contract.leaf_id), alert: @contract.errors }
         format.json { render json: @contract.errors, status: :unprocessable_entity }
       end
     end
@@ -56,8 +58,7 @@ class ContractsController < ApplicationController
         format.html { redirect_to leaf_path(@contract.leaf_id), notice: '契約が変更されました。' }
         format.json { render :show, status: :ok, location: @contract }
       else
-        @leaf = Leaf.find(@contract.leaf_id)
-        format.html { render :edit }
+        format.html { redirect_to leaf_path(@contract.leaf_id), notice: @contract.errors }
         format.json { render json: @contract.errors, status: :unprocessable_entity }
       end
     end

@@ -33,26 +33,31 @@ class MultiSealsUpdateController < ApplicationController
   private
   # Never trust parameters from the scary internet, only allow the white list through.
   def ransack_params
+    # Get method has no params, so fixed conditions are set.
+    if params[:q].nil?
+      params[:q] = {
+        "contracts_seals_month_eq" => Date.current.next_month.beginning_of_month,
+        "vhiecle_type_eq" => 1,
+        "valid_flag" => true,
+        "contracts_seals_sealed_flag_eq" => false
+      }
+    else
+      # Seals' months are the day beginning of month
+      # "2016-05" => "2016-05-01"
+      params[:q][:contracts_seals_month_eq].concat("-01")
 
-    # Seals months are saved with the day beginning of month
-    # "2016-05" => "2016-05-01"
-    params[:q][:contracts_seals_month_eq].concat("-01")
-
-    params.require(:q)
+      params.require(:q)
       .permit(
         :vhiecle_type_eq,
         :valid_flag_eq,
         :contracts_seals_month_eq,
         :contracts_seals_sealed_flag_eq
       )
+    end
   end
 
   def update_params
-    # Seals months are saved with the day beginning of month
-    # "2016-05" => "2016-05-01"
-    #params[:multi_seals_update][:month].concat("-01")
-
-    params.require(:update_multi_seals_form)
+    params.require(:update_multi_seals)
       .permit(
         :staff_nickname,
         :sealed_date,

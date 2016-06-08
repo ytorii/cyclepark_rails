@@ -1,7 +1,7 @@
 #contracts_list
   // Seal form appears only once in the list.
   - sealform_flag = true
-  - if @contracts_list.size == 0 then
+  - if @contracts_list.blank? then
     - 12.times do |i|
       .month_box
         .contract_box
