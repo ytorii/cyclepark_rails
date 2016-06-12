@@ -5,6 +5,7 @@ ja:
     birthday: 誕生日
     cell_number: 携帯電話番号
     comment: コメント
+    customer_first_name_or_customer_last_name_cont: 名前
     first_name: 姓
     first_read: セイ
     last_name: 名
@@ -13,7 +14,9 @@ ja:
     last_date: 最終更新月
     name: 名前
     nickname: スタッフ名
+    staff_nickname: スタッフ名
     number: 契約番号
+    number_eq: 契約番号
     password: パスワード
     phone_number: 固定電話番号
     read: ふりがな
@@ -21,7 +24,10 @@ ja:
     sex: 性別
     start_date: 利用開始日
     student_flag: 学割利用
+    valid_flag: 契約状態
+    valid_flag_eq: 契約状態
     vhiecle_type: 契約種別
+    vhiecle_type_eq: 契約種別
     term1: 契約期間１
     money1: 金額１
     term2: 契約期間２

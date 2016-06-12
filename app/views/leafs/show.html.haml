@@ -5,9 +5,13 @@
 #contents.clearfix
   = render 'shared/side_menu'
   %main#main
-    = render 'shared/display_messages'
-    = render 'shared/customer_table'
-    = render 'shared/contracts_table'
+    // 位置をabsoluteで指定すること
+    #messages_field
+      = render 'shared/display_messages'
+    #customer_field
+      = render 'shared/customer_table'
+    #contracts_field
+      = render 'shared/contracts_table'
     #edit_menu
       - if Staff.find(session[:staff]).admin_flag
         = link_to (button_tag '契約の変更・削除', class: 'edit_cont_btn radius'), leaf_contracts_path(@leaf.to_param), method: :get
@@ -22,7 +26,7 @@
       .modal-body
         = render 'shared/contracts_addition_form'
       .modal-footer
-        %button.btn{"data-dismiss" => "modal"} 閉じる
+        %button.btn{"id" => "contadd_close_btn", "data-dismiss" => "modal"} 閉じる
 
 %footer#footer
   #inner

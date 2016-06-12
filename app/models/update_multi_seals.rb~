@@ -41,7 +41,7 @@ class UpdateMultiSeals
     # Successed all update, return true
     return true
 
-    # RecordNotFound exception raised with non exist id
+    # RecordNotFound exception raised with unexist id
     rescue ActiveRecord::RecordNotFound => e
       errors.add(:numbers_sealsid_list, '存在しないシール情報です。')
       return false

@@ -1,7 +1,3 @@
-# Place all the behaviors and hooks related to the matching controller here.
-# All this logic will automatically be available in application.js.
-# You can use CoffeeScript in this file: http://coffeescript.org/
-
 # Scripts for the leaf's show page.
 leafs_show = ->
   # Scrolling to the end of contract list.
@@ -40,11 +36,27 @@ leafs_form = ->
         $('#student_checkbox').css({'display':'none'})
         $('#largebike_checkbox').css({'display':'none'})
 
+# Scripts for the contract addition submit button
+contract_addition = ->
+  $(document).ajaxStart ->
+    $('#contadd_submit_btn').val('処理中...').attr('disabled', 'true')
+  .ajaxComplete ->
+    $('#contadd_reset_btn').click()
+    $('#contadd_close_btn').click()
+    $('#contadd_submit_btn').val('登録する').removeAttr('disabled')
+    $('#contracts_list').scrollTop($('#contracts_list')[0].scrollHeight)
+    # Remove popup messages from server after 5 seconds.
+    setTimeout ->
+      $("#system_messages").fadeTo(500,0).slideUp ->
+        $(this).remove()
+    , 5000
+
 # On page load, this function will be called.
-ready = ->
+init = ->
   leafs_show()
   leafs_form()
+  contract_addition()
 
-$(document).ready(ready)
+$(document).ready(init)
 # ready function for Turbolinks
-$(document).on('page:load', ready)
+$(document).on('page:load', init)

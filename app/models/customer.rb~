@@ -4,6 +4,7 @@ class Customer < ActiveRecord::Base
   belongs_to :leaf
 
   read_format = /\A[\p{Katakana}\u30fc\p{blank}]+\z/
+
   validates :first_name,
     presence: true,
     length: { maximum: 10, allow_blank: true }
