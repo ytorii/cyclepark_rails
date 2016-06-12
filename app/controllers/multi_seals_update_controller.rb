@@ -22,8 +22,8 @@ class MultiSealsUpdateController < ApplicationController
         format.json { render :index, status: :ok,
                       location: multi_seals_update_path }
       else
-        format.html { redirect_to menu_path,
-                      notice: @unsealed_list.errors.full_messages }
+        format.html { redirect_to multi_seals_update_path,
+                      alert: @unsealed_list.errors.full_messages }
         format.json { render json: errors,
                       status: :unprocessable_entity }
       end
@@ -36,7 +36,8 @@ class MultiSealsUpdateController < ApplicationController
     # Get method has no params, so fixed conditions are set.
     if params[:q].nil?
       params[:q] = {
-        "contracts_seals_month_eq" => Date.current.next_month.beginning_of_month,
+        "contracts_seals_month_eq" =>
+          Date.current.next_month.beginning_of_month,
         "vhiecle_type_eq" => 1,
         "valid_flag" => true,
         "contracts_seals_sealed_flag_eq" => false

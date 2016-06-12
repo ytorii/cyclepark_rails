@@ -8,15 +8,15 @@
     #multi_seal_update{style: "color: #000"}
       = search_form_for(@query, url: multi_seals_update_path, method: :post) do |f|
         = field_set_tag '一括更新の対象の車種と月を変更' do
-          = f.radio_button :vhiecle_type, 1, id: 'vtype_1',
+          = f.radio_button :vhiecle_type_eq, 1, id: 'vtype_1',
             class: 'custom_rd', checked: true
           = label_tag :vtype_1, '１号地',
             class: 'custom_rd_label blue_rd radius'
-          = f.radio_button :vhiecle_type, 2, id: 'vtype_2',
+          = f.radio_button :vhiecle_type_eq, 2, id: 'vtype_2',
             class: 'custom_rd'
           = label_tag :vtype_2, 'バイク',
             class: 'custom_rd_label orange_rd radius'
-          = f.radio_button :vhiecle_type, 3, id: 'vtype_3',
+          = f.radio_button :vhiecle_type_eq, 3, id: 'vtype_3',
             class: 'custom_rd'
           = label_tag :vtype_3, '２号地',
             class: 'custom_rd_label green_rd radius'
