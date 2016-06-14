@@ -1,3 +1,19 @@
+# Scripts for ajax function to get term's money
+get_termsprice = (in_data) ->
+  req = $.ajax({
+    async: true
+    url: "/termsprice"
+    type: "POST"
+    data: in_data
+    dataType: 'json'
+  })
+
+  req.done (data, stat, xhr) ->
+    $('#contract_money1').val(data.price)
+
+  req.fail (xhr, stat, err) ->
+    console.log({ fail: stat, error: err, xhr: xhr })
+
 # Scripts for the leaf's show page.
 leafs_show = ->
   # Scrolling to the end of contract list.
@@ -38,18 +54,32 @@ leafs_form = ->
 
 # Scripts for the contract addition submit button
 contract_addition = ->
+  # Submit is prohibited in all ajax actions!
   $(document).ajaxStart ->
     $('#contadd_submit_btn').val('処理中...').attr('disabled', 'true')
   .ajaxComplete ->
-    $('#contadd_reset_btn').click()
-    $('#contadd_close_btn').click()
     $('#contadd_submit_btn').val('登録する').removeAttr('disabled')
-    $('#contracts_list').scrollTop($('#contracts_list')[0].scrollHeight)
-    # Remove popup messages from server after 5 seconds.
-    setTimeout ->
-      $("#system_messages").fadeTo(500,0).slideUp ->
-        $(this).remove()
-    , 5000
+  
+  # Getting money for selected term with ajax.
+  $('input[name="contract[term1]"]:radio').change (e) ->
+    post_data = {
+      term: $(@).val()
+      leaf_id: $('#contract_leaf_id').val()
+    }
+    get_termsprice(post_data)
+
+  # Close and reset value only when contract addition is done.
+  $('#contadd_submit_btn').on 'click', (e) ->
+    $('#new_contract').on('ajax:complete', (event, data, status) ->
+      $('#contadd_reset_btn').click()
+      $('#contadd_close_btn').click()
+      $('#contracts_list').scrollTop($('#contracts_list')[0].scrollHeight)
+      # Remove popup messages from server after 5 seconds.
+      setTimeout ->
+        $("#system_messages").fadeTo(500,0).slideUp ->
+          $(this).remove()
+      , 5000
+    )
 
 # On page load, this function will be called.
 init = ->

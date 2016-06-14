@@ -5,6 +5,7 @@
 #contents.clearfix
   = render 'shared/side_menu'
   %main#main
+    // 位置をabsoluteで指定すること
     #messages_field
       = render 'shared/display_messages'
     #customer_field
