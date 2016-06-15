@@ -1,5 +1,30 @@
+# Close and reset value only when contract addition is done.
+add_addcontract_event = ->
+  $('#contadd_submit_btn').on 'click', (e) ->
+    $('#new_contract').on('ajax:complete', (event, data, status) ->
+      $('#contadd_reset_btn').click()
+      $('#contadd_close_btn').click()
+      $('#contracts_list').scrollTop($('#contracts_list')[0].scrollHeight)
+      # Remove popup messages from server after 5 seconds.
+      setTimeout ->
+        $("#system_messages").fadeTo(500,0).slideUp ->
+          $(this).remove()
+      , 5000
+    )
+# Scripts for event handler to get term's money
+add_termsprice_event = (money_index) ->
+  term_id = 'input[name="contract[term' + money_index + ']"]:radio'
+  $(term_id).change (e) ->
+    if $('input[name="cont_type"]:radio:checked').val() is money_index
+      post_data = {
+        term: $(@).val()
+        leaf_id: $('#contract_leaf_id').val()
+      }
+      get_termsprice(post_data, money_index)
+
 # Scripts for ajax function to get term's money
-get_termsprice = (in_data) ->
+get_termsprice = (in_data, in_money_index) ->
+  target_money_id = '#contract_money' + in_money_index
   req = $.ajax({
     async: true
     url: "/termsprice"
@@ -9,7 +34,7 @@ get_termsprice = (in_data) ->
   })
 
   req.done (data, stat, xhr) ->
-    $('#contract_money1').val(data.price)
+    $(target_money_id).val(data.price)
 
   req.fail (xhr, stat, err) ->
     console.log({ fail: stat, error: err, xhr: xhr })
@@ -34,7 +59,6 @@ leafs_show = ->
         $('#additionForm').css({'display':'none'})
         $('#contract_skip_flag').val(true) 
     $('#contadd_reset_btn').click()
-    $('#contract_term1').focus()
 
 # Scripts for the leaf's new and edit form.
 leafs_form = ->
@@ -60,26 +84,10 @@ contract_addition = ->
   .ajaxComplete ->
     $('#contadd_submit_btn').val('登録する').removeAttr('disabled')
   
-  # Getting money for selected term with ajax.
-  $('input[name="contract[term1]"]:radio').change (e) ->
-    post_data = {
-      term: $(@).val()
-      leaf_id: $('#contract_leaf_id').val()
-    }
-    get_termsprice(post_data)
+  add_termsprice_event('1')
+  add_termsprice_event('2')
 
-  # Close and reset value only when contract addition is done.
-  $('#contadd_submit_btn').on 'click', (e) ->
-    $('#new_contract').on('ajax:complete', (event, data, status) ->
-      $('#contadd_reset_btn').click()
-      $('#contadd_close_btn').click()
-      $('#contracts_list').scrollTop($('#contracts_list')[0].scrollHeight)
-      # Remove popup messages from server after 5 seconds.
-      setTimeout ->
-        $("#system_messages").fadeTo(500,0).slideUp ->
-          $(this).remove()
-      , 5000
-    )
+  add_addcontract_event()
 
 # On page load, this function will be called.
 init = ->
