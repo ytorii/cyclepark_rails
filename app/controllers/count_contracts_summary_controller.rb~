@@ -1,5 +1,8 @@
 class CountContractsSummaryController < ApplicationController
+  include SessionAction
+
   def index
-    @counts = CountContractsSummary.new.summary
+    summary = CountContractsSummary.new()
+    @counts = summary.countContractsSummary()
   end
 end

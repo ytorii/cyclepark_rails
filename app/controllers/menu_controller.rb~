@@ -1,6 +1,4 @@
 class MenuController < ApplicationController
   def index
-  # Ransack object for searching leafs form in the side bar.
-  @query = Leaf.ransack params[:q]
   end
 end

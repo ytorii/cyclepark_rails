@@ -1,4 +1,5 @@
 class MultiSealsUpdateController < ApplicationController
+
   def index
     @query = Leaf.ransack(ransack_params)
 

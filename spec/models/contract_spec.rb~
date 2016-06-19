@@ -122,7 +122,7 @@ RSpec.describe Contract, type: :model do
           first_contract.skip_flag = value
           first_contract.term2 = nil
           first_contract.money2 = nil
-          first_contract.send(:setContractParams)
+          first_contract.send(:setSkipAndNilParams)
         }
 
         it "sets skip_flag to false" do

@@ -59,8 +59,8 @@ FactoryGirl.define do
     Leaf
     first_name "クァン・ティ"
     last_name "フォン・ジャン"
-    first_read "クァン・ティ"
-    last_read "フォン・ジャン"
+    first_read "クァン　ティ"
+    last_read "フォン　ジャン"
     sex false
     address "寝屋川市高柳２－１－１"
     phone_number "072-826-6158"

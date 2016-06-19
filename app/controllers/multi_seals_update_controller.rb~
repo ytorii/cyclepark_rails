@@ -1,4 +1,6 @@
 class MultiSealsUpdateController < ApplicationController
+  include SessionAction
+
   def index
     @query = Leaf.ransack(ransack_params)
 
@@ -36,7 +38,8 @@ class MultiSealsUpdateController < ApplicationController
     # Get method has no params, so fixed conditions are set.
     if params[:q].nil?
       params[:q] = {
-        "contracts_seals_month_eq" => Date.current.next_month.beginning_of_month,
+        "contracts_seals_month_eq" =>
+          Date.current.next_month.beginning_of_month,
         "vhiecle_type_eq" => 1,
         "valid_flag" => true,
         "contracts_seals_sealed_flag_eq" => false
