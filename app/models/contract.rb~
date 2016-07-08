@@ -1,4 +1,6 @@
 class Contract < ActiveRecord::Base
+  include StaffsExist
+
   belongs_to :leaf, counter_cache: true
   has_many :seals, dependent: :destroy
   accepts_nested_attributes_for :seals
@@ -17,13 +19,13 @@ class Contract < ActiveRecord::Base
     numericality: { greater_than: 0, less_than: 10, allow_blank: true }
   validates :money1,
     presence: true,
-    numericality: { greater_than_or_equal_to: 0, less_than: 18001 }
+    numericality: { greater_than_or_equal_to: 0, less_than: 18001, allow_blank: true  }
   validates :term2,
     presence: true,
-    numericality: { greater_than_or_equal_to: 0, less_than: 10 }
+    numericality: { greater_than_or_equal_to: 0, less_than: 10, allow_blank: true  }
   validates :money2,
     presence: true,
-    numericality: { greater_than_or_equal_to: 0, less_than: 18001 }
+    numericality: { greater_than_or_equal_to: 0, less_than: 18001, allow_blank: true  }
   validates :new_flag,
     inclusion: {in: [true, false]}
   validates :skip_flag,
@@ -59,7 +61,6 @@ class Contract < ActiveRecord::Base
   after_destroy :backdateLeafLastdate
 
   private
-
   def setSkipAndNilParams
     # The skipped contracts has only one term and no money.
     if self.skip_flag
@@ -140,13 +141,6 @@ class Contract < ActiveRecord::Base
   # The related leaf's last_date is contract's last month.
   def updateLeafLastdate
     Leaf.find(self.leaf_id).update_attribute(:last_date, self.seals.last.month)
-  end
-
-  # staff_nickname must exist in StaffDB.
-  def staffExists?
-    unless Staff.where(nickname: self.staff_nickname).exists?
-      errors.add(:staff_nickname, 'は存在しないスタッフです。')
-    end
   end
   
   #Seal's month must be unique in the leaf.

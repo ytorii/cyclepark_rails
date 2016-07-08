@@ -81,8 +81,8 @@ FactoryGirl.define do
 
   factory :contract, class: Contract do
     Leaf
-    contract_date "2016-01-16"
-    start_month "2016-01-01"
+    contract_date "2016-05-16"
+    start_month "2016-05-01"
     staff_nickname "admin"
 
     after(:build) do |contract|
@@ -159,6 +159,21 @@ FactoryGirl.define do
       end
     end
 
+    factory :contract_6, class: Contract do
+      term1 6
+
+      factory :contract_6_normal, class: Contract do
+        money1 18000 
+      end
+
+      factory :contract_6_student, class: Contract do
+        money1 15800 
+      end
+
+      factory :contract_6_second, class: Contract do
+        money1 15000 
+      end
+    end
     factory :contract_skip, class: Contract do
       term1 1
       money1 0 

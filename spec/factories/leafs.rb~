@@ -172,7 +172,7 @@ FactoryGirl.define do
   end
 
   factory :count, class: Leaf do
-    month1 = Date.parse("2016-01-01")
+    month1 = Date.parse("2016-05-01")
     month2 = month1.next_month
     month3 = month2.next_month
 
@@ -242,7 +242,7 @@ FactoryGirl.define do
         end
       end
 
-      factory :count_large_bike_1, class: Leaf do
+      factory :count_largebike_1, class: Leaf do
         start_date month1
         largebike_flag true
         after(:create) do |leaf|

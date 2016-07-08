@@ -8,17 +8,17 @@
     #daily_contracts
       = form_tag( url: daily_contracts_report_path, id: :select_report_day) do
         = label :daily_contracts_scope, '契約日'
-        = date_field_tag :contract_date
+        = date_field_tag :contracts_date
         = submit_tag '指定した日付を表示' 
       %hr
       #daily_contracts_total
-        .lead= @report.contracts_date.to_date.strftime('%Y年%-m月%-d日').concat('の契約一覧')
-        合計  #{@report.contracts_total[0][0]}件 #{number_to_currency(@report.contracts_total[0][1], unit: '\\', format: '%u%n')}
+        .lead= @contracts_date.to_date.strftime('%Y年%-m月%-d日').concat('の契約一覧')
+        合計  #{@contracts_total[0][0]}件 #{number_to_currency(@contracts_total[0][1], unit: '\\', format: '%u%n')}
         %br
-        １号地  #{@report.contracts_total[1][0]}件 #{number_to_currency(@report.contracts_total[1][1], unit: '\\', format: '%u%n')},
-        バイク  #{@report.contracts_total[2][0]}件 #{number_to_currency(@report.contracts_total[2][1], unit: '\\', format: '%u%n')},
-        ２号地  #{@report.contracts_total[3][0]}件 #{number_to_currency(@report.contracts_total[3][1], unit: '\\', format: '%u%n')}
-      
+        １号地  #{@contracts_total[1][0]}件 #{number_to_currency(@contracts_total[1][1], unit: '\\', format: '%u%n')},
+        バイク  #{@contracts_total[2][0]}件 #{number_to_currency(@contracts_total[2][1], unit: '\\', format: '%u%n')},
+        ２号地  #{@contracts_total[3][0]}件 #{number_to_currency(@contracts_total[3][1], unit: '\\', format: '%u%n')}
+
       %br
       #daily_contracts_list
         %table.table.table-bordered.table-striped
@@ -32,7 +32,7 @@
               %th 金額
               %th 担当者
           %tbody
-            - @report.contracts_list.each do |contract|
+            - @contracts_list.each do |contract|
               -if contract
                 %tr
                   %td 

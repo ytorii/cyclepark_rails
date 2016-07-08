@@ -8,7 +8,7 @@ class LeafsSearchController < ApplicationController
       if ransack_validator.invalid?
         format.html { redirect_to menu_path, alert: ransack_validator.errors.full_messages }
         format.json { render json: @ransack_validator.errors, status: :unprocessable_entity }
-      elsif @leafs.size == 0
+      elsif @leafs.empty?
         format.html { redirect_to menu_path, alert: ['指定したリーフは存在しません。']  }
         format.json { render json: @leafs.errors, status: :unprocessable_entity }
       elsif @leafs.size == 1

@@ -81,8 +81,8 @@ FactoryGirl.define do
 
   factory :contract, class: Contract do
     Leaf
-    contract_date "2016-01-16"
-    start_month "2016-01-01"
+    contract_date "2016-05-16"
+    start_month "2016-05-01"
     staff_nickname "admin"
 
     after(:build) do |contract|

@@ -17,17 +17,15 @@
             %th 翌月台数
             %th 翌月新規
         %tbody
-          - vtype = %w{一般 学生 １号地合計 普通バイク 大型バイク バイク合計 ２号地}
-          - i = 0
-          - while i < vtype.size do
+          - vtypes = %w{一般 学生 １号地合計 普通バイク 大型バイク バイク合計 ２号地}
+          - vtypes.each_with_index do |vtype, i|
             %tr
-              %td= vtype[i]
+              %td= vtype
               %td #{@counts["present_total"][i]} 台
               %td #{@counts["diffs_prev"][i]} 台
               %td.warning #{@counts["next_unpaid"][i]} 台
               %td #{@counts["present_new"][i]} 台
               %td #{@counts["next_total"][i]} 台
               %td #{@counts["next_new"][i]} 台
-            - i += 1
 %footer#footer
   #inner

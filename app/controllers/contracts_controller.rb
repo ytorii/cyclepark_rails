@@ -87,10 +87,37 @@ class ContractsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def create_params
-      params.require(:contract).permit(:leaf_id, :contract_date, :term1, :money1, :term2, :money2, :skip_flag, :staff_nickname, seals_attributes: [:id, :sealed_flag])
+      params.require(:contract).permit(
+        :leaf_id,
+        :contract_date,
+        :term1,
+        :money1,
+        :term2,
+        :money2,
+        :skip_flag,
+        :staff_nickname,
+        seals_attributes: [:id, :sealed_flag]
+      )
     end
 
     def update_params
-      params.require(:contract).permit(:id, :leaf_id, :contract_date, :term1, :money1, :term2, :money2, :skip_flag, :staff_nickname, seals_attributes: [:id, :sealed_flag, :sealed_date, :month, :staff_nickname])
+      params.require(:contract).permit(
+        :id,
+        :leaf_id,
+        :contract_date,
+        :term1,
+        :money1,
+        :term2,
+        :money2,
+        :skip_flag,
+        :staff_nickname,
+        seals_attributes: [
+          :id,
+          :sealed_flag,
+          :sealed_date,
+          :month,
+          :staff_nickname
+        ]
+      )
     end
 end

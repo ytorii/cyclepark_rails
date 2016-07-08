@@ -1,5 +1,6 @@
 class UpdateMultiSeals
   include ActiveModel::Model
+  include StaffsExist
 
   attr_accessor :sealed_date
   attr_accessor :numbers_sealsid_list
@@ -11,9 +12,7 @@ class UpdateMultiSeals
   validates :sealed_date, 
     presence: true,
     format: { with: date_format, allow_blank: true}
-  validates :numbers_sealsid_list,
-    presence: true
-  validate :isBlankArray?
+  validate :isValidArray?
   validate :staffExists?
 
   def updateSelectedSeals
@@ -21,17 +20,15 @@ class UpdateMultiSeals
     return false if self.invalid?
 
     ids = self.numbers_sealsid_list
-    
-    # List contains "" value in the end.
-    # As this causes exception, it needs to be removed!
-    ids.pop if ids.last == ""
 
-    attributes = Array.new(ids.size, {
-                   sealed_flag: true,
-                   sealed_date: self.sealed_date,
-                   staff_nickname: self.staff_nickname
-                 }
-               )
+    attributes = Array.new(
+      ids.size,
+      {
+        sealed_flag: true,
+        sealed_date: self.sealed_date,
+        staff_nickname: self.staff_nickname
+      }
+    )
 
     # If unexist id is contained, all update is cancelled
     Seal.transaction do
@@ -48,16 +45,14 @@ class UpdateMultiSeals
   end
 
   private
-  # staff_nickname must exist in StaffDB.
-  def staffExists?
-    unless Staff.where(nickname: self.staff_nickname).exists?
-      errors.add(:staff_nickname, 'は存在しないスタッフです。')
-    end
-  end
-  
   # If no number is selected, [""] array is sent from client.
-  def isBlankArray?
-    if self.numbers_sealsid_list.blank? || self.numbers_sealsid_list[0] == ""
+  def isValidArray?
+    sealsid_list = self.numbers_sealsid_list
+
+    if !sealsid_list.is_a?(Array) || !sealsid_list.all?{|id| id =~ /^\d+/} 
+      errors.add(:numbers_sealsid_list, 'は不正な形式です')
+      return false
+    elsif sealsid_list.empty?
       errors.add(:numbers_sealsid_list, 'が選択されていません。')
       return false
     end

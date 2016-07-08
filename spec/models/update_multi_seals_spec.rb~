@@ -18,7 +18,7 @@ RSpec.describe UpdateMultiSeals, type: :model do
       end
     end
 
-    ['1999/12/31', '2100/01/01', ''].each do |value|
+    ['1999/12/31', '2100/01/01', '', 'あ'].each do |value|
       context "with #{value}" do
         it 'is invalid.' do
           multi_seals.sealed_date = value
@@ -47,7 +47,7 @@ RSpec.describe UpdateMultiSeals, type: :model do
   end
 
   describe "numbers_sealsid_list" do
-    ['', [""]].each do |value|
+    [ '', 'あ', [""], ["1", "2", 'a'] ].each do |value|
       context "with #{value}" do
         it 'is invalid.' do
           multi_seals.numbers_sealsid_list = value
@@ -58,12 +58,13 @@ RSpec.describe UpdateMultiSeals, type: :model do
     end
   end
 
-  describe ".updateSelectedSeals", focus: true do
+  describe ".updateSelectedSeals" do
     before{
       month = Date.parse("2016-04-01")
 
       10.times do
         create(:seal_multi, month: month)
+        month = month.next_month
       end
     }
 
@@ -88,6 +89,13 @@ RSpec.describe UpdateMultiSeals, type: :model do
       end
     end
 
+    context "with 0 size numbers_sealsid_list" do
+      it 'returns false.' do
+        multi_seals.numbers_sealsid_list = []
+        expect(multi_seals.updateSelectedSeals).to eq(false)
+      end
+    end
+
     context "with existed seal ids in the list" do
       let(:selected_seals){ Seal.find(multi_seals.numbers_sealsid_list) }
 
@@ -103,7 +111,8 @@ RSpec.describe UpdateMultiSeals, type: :model do
 
       it 'sets sealed_date of selected seals to 2016-03-31.' do
         selected_seals.each do |seal|
-          expect(seal.sealed_date).to eq(Date.parse(multi_seals.sealed_date))
+          expect(seal.sealed_date).
+            to eq(Date.parse(multi_seals.sealed_date))
         end
       end
 
@@ -128,10 +137,12 @@ RSpec.describe UpdateMultiSeals, type: :model do
     end
 
     context "with NOT existed seal ids in the list" do
-      let(:selected_seals){ Seal.find([ 1, 3, 5, 6]) }
+      # Seal ids except non exist one.
+      # Check should be executed with these, to avoid exception!
+      let(:selected_seals){ Seal.find([ 1, 3, 5, 6 ]) }
 
       before{
-        multi_seals.numbers_sealsid_list = [ 1, 3, 12, 5, 6]
+        multi_seals.numbers_sealsid_list = [ 1, 3, 12, 5, 6 ]
         multi_seals.updateSelectedSeals
       }
 

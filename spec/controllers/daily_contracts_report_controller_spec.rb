@@ -14,16 +14,29 @@ RSpec.describe DailyContractsReportController, type: :controller do
   }
 
   shared_examples "gets daily contract index page" do |session|
-    before{ get :index, {:contract_date => '2016-01-16'}, session }
-    it "returns http redirect." do
-      expect(response).to have_http_status(:success)
+    context "with valid param" do
+      before{ get :index, {:contracts_date => '2016-05-16'}, session }
+      it "returns http success." do
+        expect(response).to have_http_status(:success)
+      end
+
+      it "assigns contracts report as @report." do
+        report = DailyContractsReport.new('2016-05-16')
+        expect(assigns(:contracts_date)).to eq(report.contracts_date)
+        expect(assigns(:contracts_list)).to eq(report.getContractsList())
+        expect(assigns(:contracts_total)).to eq(report.calcContractsSummary)
+      end
     end
 
-    it "assigns contracts report as @report." do
-      report = DailyContractsReport.new('2016-01-16')
-      expect(assigns(:report).contracts_date).to eq(report.contracts_date)
-      expect(assigns(:report).contracts_list).to eq(report.contracts_list)
-      expect(assigns(:report).contracts_total).to eq(report.contracts_total)
+    context "with invalid param" do
+      before{ get :index, {:contracts_date => 'あ'}, session }
+      it "redirect to menu page." do
+        expect(response).to redirect_to("/menu")
+      end
+
+      it "returns flash alert message." do
+        expect(flash[:alert]).to be_present
+      end
     end
   end
 

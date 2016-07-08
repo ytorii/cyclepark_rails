@@ -28,8 +28,8 @@ ja:
     valid_flag_eq: 契約状態
     vhiecle_type: 契約種別
     vhiecle_type_eq: 契約種別
-    term1: 契約期間１
-    money1: 金額１
+    term1: 契約期間
+    money1: 金額
     term2: 契約期間２
     money2: 金額２
     contract_date: 契約日
