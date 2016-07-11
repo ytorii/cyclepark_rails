@@ -1,0 +1,24 @@
+%p#notice= notice
+%h1 Listing Seals
+%table
+  %thead
+    %tr
+      %th Contract
+      %th Month
+      %th Sealed flag
+      %th Sealed date
+      %th Staff nickname
+      %th{:colspan => "3"}
+  %tbody
+    - @seals.each do |seal|
+      %tr
+        %td= seal.contract
+        %td= seal.month
+        %td= seal.sealed_flag
+        %td= seal.sealed_date
+        %td= seal.staff_nickname
+        %td= link_to 'Show', seal
+        %td= link_to 'Edit', edit_seal_path(seal)
+        %td= link_to 'Destroy', seal, method: :delete, data: { confirm: 'Are you sure?' }
+%br/
+= link_to 'New Seal', new_seal_path

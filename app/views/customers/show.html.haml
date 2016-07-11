@@ -1,0 +1,34 @@
+%p#notice= notice
+%p
+  %strong First name:
+  = @customer.first_name
+%p
+  %strong Last name:
+  = @customer.last_name
+%p
+  %strong First read:
+  = @customer.first_read
+%p
+  %strong Last read:
+  = @customer.last_read
+%p
+  %strong Sex:
+  = @customer.sex
+%p
+  %strong Address:
+  = @customer.address
+%p
+  %strong Phone number:
+  = @customer.phone_number
+%p
+  %strong Cell number:
+  = @customer.cell_number
+%p
+  %strong Receipt:
+  = @customer.receipt
+%p
+  %strong Comment:
+  = @customer.comment
+= link_to 'Edit', edit_customer_path(@customer)
+|
+= link_to 'Back', customers_path

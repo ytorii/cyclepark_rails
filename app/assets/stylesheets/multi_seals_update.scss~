@@ -1,0 +1,9 @@
+// Place all the styles related to the MultiSealsUpdate controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+#number_btns{
+}
+
+.number_btn{
+  margin: 5px 5px;
+}

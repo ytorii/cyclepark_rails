@@ -1,0 +1,52 @@
+.black_font
+  = form_for(@customer) do |f|
+    - if @customer.errors.any?
+      #error_explanation
+        %h2
+          = pluralize(@customer.errors.count, "error")
+          prohibited this customer from being saved:
+        %ul
+          - @customer.errors.full_messages.each do |message|
+            %li= message
+    .field
+      = f.label :first_name
+      %br/
+      = f.text_field :first_name
+    .field
+      = f.label :last_name
+      %br/
+      = f.text_field :last_name
+    .field
+      = f.label :first_read
+      %br/
+      = f.text_field :first_read
+    .field
+      = f.label :last_read
+      %br/
+      = f.text_field :last_read
+    .field
+      = f.label :sex
+      %br/
+      = f.check_box :sex
+    .field
+      = f.label :address
+      %br/
+      = f.text_field :address
+    .field
+      = f.label :phone_number
+      %br/
+      = f.text_field :phone_number
+    .field
+      = f.label :cell_number
+      %br/
+      = f.text_field :cell_number
+    .field
+      = f.label :receipt
+      %br/
+      = f.text_field :receipt
+    .field
+      = f.label :comment
+      %br/
+      = f.text_field :comment
+    .actions
+      = f.submit

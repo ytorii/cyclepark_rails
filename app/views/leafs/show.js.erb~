@@ -1,0 +1,12 @@
+$('#contracts_field').html(
+    "<%= escape_javascript(render 'shared/contracts_table') %>"
+);
+
+$('#messages_field').html(
+    "<%= escape_javascript(render 'shared/display_messages') %>"
+);
+
+setTimeout ->
+  $("#system_messages").fadeTo(500,0).slideUp ->
+    $(this).remove()
+, 5000

@@ -1,0 +1,30 @@
+%p#notice= notice
+%h1 Listing Leafs
+%table
+  %thead
+    %tr
+      %th Number
+      %th Vhiecle Type
+      %th Student flag
+      %th Largebike flag
+      %th Valid flag
+      %th Start date
+      %th Last date
+      %th{:colspan => "3"}
+  %tbody
+    - @leafs.each do |leaf|
+      %tr
+        %td= leaf.number
+        %td= leaf.vhiecle_type
+        %td= leaf.student_flag
+        %td= leaf.largebike_flag
+        %td= leaf.valid_flag
+        %td= leaf.start_date
+        %td= leaf.last_date
+        %td= link_to '詳細', leaf
+        %td= link_to '編集', edit_leaf_path(leaf)
+        %td
+          - unless leaf.valid_flag
+            = link_to '削除', leaf, method: :delete, data: { confirm: '本当に削除しますか？' }
+%br/
+= link_to 'New Leaf', new_leaf_path

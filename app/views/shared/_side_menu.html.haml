@@ -1,0 +1,18 @@
+%aside#side
+  #normal
+    = link_to (button_tag 'メニューに戻る',
+      type: 'button', class: 'normal_btn radius'),
+      menu_path, method: :get 
+    = link_to (button_tag '今日の契約一覧表',
+      type: 'button', class: 'normal_btn radius'),
+      daily_contracts_report_path, method: :get 
+    = link_to (button_tag 'シール貼付一括処理',
+      type: 'button', class: 'normal_btn radius'),
+      multi_seals_update_path, method: :get 
+
+  - if Staff.find(session[:staff]).admin_flag
+    #admin
+      %a{ :href => count_contracts_summary_path }
+        %p.admin_link.radius= '契約台数集計'
+      %a{ :href => staffs_path }
+        %p.admin_link.radius= 'スタッフ管理'

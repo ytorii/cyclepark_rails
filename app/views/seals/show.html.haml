@@ -1,0 +1,19 @@
+%p#notice= notice
+%p
+  %strong Contract:
+  = @seal.contract
+%p
+  %strong Month:
+  = @seal.month
+%p
+  %strong Sealed flag:
+  = @seal.sealed_flag
+%p
+  %strong Sealed date:
+  = @seal.sealed_date
+%p
+  %strong Staff nickname:
+  = @seal.staff_nickname
+= link_to 'Edit', edit_seal_path(@seal)
+|
+= link_to 'Back', seals_path

@@ -1,0 +1,51 @@
+// Radio buttons for selecting type of contract
+%input#normal_contract.custom_rd{ name: 'cont_type', type: 'radio', value: 1, checked: 'true' }
+%label.custom_rd_label.orange_rd.radius{ for: 'normal_contract' } 通常契約
+%input#half_contract.custom_rd{ name: 'cont_type', type: 'radio', value: 2 }
+%label.custom_rd_label.orange_rd.radius{ for: 'half_contract' } 中途契約
+%input#skip_contract.custom_rd{ name: 'cont_type', type: 'radio', value: 3 }
+%label.custom_rd_label.orange_rd.radius{ for: 'skip_contract' } 休み
+
+= form_for([@leaf, @contract], remote: true) do |c|
+  %fieldset{id: 'additionForm'}
+    .field
+      = c.label :term1
+      = c.radio_button :term1, 1, id: 'term1_1', class: 'custom_rd'
+      = label_tag :term1_1, '１ヶ月',
+        class: 'custom_rd_label blue_rd radius'
+      = c.radio_button :term1, 3, id: 'term1_2', class: 'custom_rd'
+      = label_tag :term1_2, '３ヶ月',
+        class: 'custom_rd_label blue_rd radius'
+      = c.radio_button :term1, 6, id: 'term1_3', class: 'custom_rd'
+      = label_tag :term1_3, '６ヶ月',
+        class: 'custom_rd_label blue_rd radius'
+    .field
+      = c.label :money1
+      = c.number_field :money1 
+    #term2
+      .field
+        = c.label :term2
+        = c.radio_button :term2, 1, id: 'term2_1', class: 'custom_rd'
+        = label_tag :term2_1, '１ヶ月',
+          class: 'custom_rd_label blue_rd radius'
+        = c.radio_button :term2, 3, id: 'term2_2', class: 'custom_rd'
+        = label_tag :term2_2, '３ヶ月',
+          class: 'custom_rd_label blue_rd radius'
+        = c.radio_button :term2, 6, id: 'term2_3', class: 'custom_rd'
+        = label_tag :term2_3, '６ヶ月',
+          class: 'custom_rd_label blue_rd radius'
+      .field
+        = c.label :money2
+        = c.number_field :money2 
+    .field
+      = c.fields_for :seals do |s| 
+        = s.label :sealed_flag
+        = s.check_box :sealed_flag 
+  = c.hidden_field :contract_date, :value => Date.current
+  = c.hidden_field :skip_flag, :value => false
+  = c.hidden_field :leaf_id, :value => @contract.leaf_id 
+  = c.hidden_field :staff_nickname, :value => session[:nickname] 
+  .actions
+    = c.submit id: 'contadd_submit_btn'
+  // Hidden reset button used by javascript.
+  %input#contadd_reset_btn{ type: 'reset' }

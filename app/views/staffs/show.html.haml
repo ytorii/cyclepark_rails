@@ -1,0 +1,32 @@
+.black_font
+  %p#notice= notice
+  %p
+    %strong Nickname:
+    = @staff.nickname
+  %p
+    %strong Password:
+    = @staff.password
+  %p
+    %strong Admin flag:
+    = @staff.admin_flag
+  %p
+    %strong Name:
+    = @staff.staffdetail.name
+  %p
+    %strong Read:
+    = @staff.staffdetail.read
+  %p
+    %strong Address:
+    = @staff.staffdetail.address
+  %p
+    %strong Birthday:
+    = @staff.staffdetail.birthday
+  %p
+    %strong Phone number:
+    = @staff.staffdetail.phone_number
+  %p
+    %strong Cell number:
+    = @staff.staffdetail.cell_number
+  = link_to 'Edit', edit_staff_path(@staff)
+  |
+  = link_to 'Back', staffs_path

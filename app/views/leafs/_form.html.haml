@@ -1,0 +1,97 @@
+.container.black_font
+  = form_for(@leaf) do |f|
+    - if @leaf.errors.any?
+      #error_explanation
+        %h2 以下のエラーにより登録に失敗しました。
+        %ul
+          - @leaf.errors.full_messages.each do |message|
+            %li= message
+    .form-group
+      = f.label :number
+      %br/
+      .row
+        .col-xs-4
+          = f.number_field :number, class:'form-control'
+    .form-group
+      = f.label :vhiecle_type
+      %br/
+      = f.radio_button :vhiecle_type, 1, id: 'vtype_1', class: 'custom_rd'
+      = label_tag :vtype_1, '１号地',
+        class: 'custom_rd_label blue_rd radius'
+      = f.radio_button :vhiecle_type, 2, id: 'vtype_2', class: 'custom_rd'
+      = label_tag :vtype_2, 'バイク',
+        class: 'custom_rd_label orange_rd radius'
+      = f.radio_button :vhiecle_type, 3, id: 'vtype_3', class: 'custom_rd'
+      = label_tag :vtype_3, '２号地',
+        class: 'custom_rd_label green_rd radius'
+    #student_checkbox.form-group
+      = f.label :student_flag
+      = f.check_box :student_flag
+    #largebike_checkbox.form-group
+      = f.label :largebike_flag
+      = f.check_box :largebike_flag
+    .form-group
+      = f.label :start_date
+      %br/
+      = f.date_field :start_date
+    = f.hidden_field :valid_flag, :value => true
+    = f.fields_for :customer do |c|
+      .form-inline
+        .form-group
+          = c.label :first_read
+          %br/
+          = c.text_field :first_read, class:'form-control'
+        .form-group
+          = c.label :last_read
+          %br/
+          = c.text_field :last_read, class:'form-control'
+      .form-inline
+        .form-group
+          = c.label :first_name
+          %br/
+          = c.text_field :first_name, class:'form-control'
+        .form-group
+          = c.label :last_name
+          %br/
+          = c.text_field :last_name, class:'form-control'
+      .form-group
+        = c.label :sex
+        %br/
+        = c.radio_button :sex, true, id: 'sex_male',
+          class: 'custom_rd'
+        = label_tag :sex_male, '男性',
+          class: 'custom_rd_label blue_rd radius'
+        = c.radio_button :sex, false, id: 'sex_female',
+          class: 'custom_rd'
+        = label_tag :sex_female, '女性',
+          class: 'custom_rd_label orange_rd radius'
+      .form-group
+        = c.label :address
+        %br/
+        .row
+          .col-xs-6
+            = c.text_field :address, class:'form-control'
+      .form-inline
+        .form-group
+          = c.label :phone_number
+          %br/
+          = c.text_field :phone_number, class:'form-control'
+        .form-group
+          = c.label :cell_number
+          %br/
+          = c.text_field :cell_number, class:'form-control'
+      .form-group
+        = c.label :receipt
+        %br/
+        .row
+          .col-xs-6
+            = c.text_field :receipt, class:'form-control'
+      .form-group
+        = c.label :comment
+        %br/
+        .row
+          .col-xs-6
+            = c.text_field :comment, class:'form-control'
+    .actions
+      %br/
+      = f.submit class:'btn btn-primary'

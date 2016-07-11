@@ -1,0 +1,8 @@
+class DailyContractsReportController < ApplicationController
+  def index
+    @report = DailyContractsReport.new(params[:contract_date])
+    if @report.errors.present?
+      flash[:alert] = @report.errors
+    end
+  end
+end

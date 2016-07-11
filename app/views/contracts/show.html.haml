@@ -1,0 +1,34 @@
+%p#notice= notice
+%p
+  %strong Leaf:
+  = @contract.leaf
+%p
+  %strong Contract date:
+  = @contract.contract_date
+%p
+  %strong Start month:
+  = @contract.start_month
+%p
+  %strong Term1:
+  = @contract.term1
+%p
+  %strong Money1:
+  = @contract.money1
+%p
+  %strong Term2:
+  = @contract.term2
+%p
+  %strong Money2:
+  = @contract.money2
+%p
+  %strong New flag:
+  = @contract.new_flag
+%p
+  %strong Skip flag:
+  = @contract.skip_flag
+%p
+  %strong Staff nickname:
+  = @contract.staff_nickname
+= link_to 'Edit', edit_contract_path(@contract)
+|
+= link_to 'Back', contracts_path

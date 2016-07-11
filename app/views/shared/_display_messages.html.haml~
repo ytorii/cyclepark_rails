@@ -1,0 +1,10 @@
+#system_messages
+  // Success message 
+  - if flash[:notice]
+    .alert.alert-success
+      = flash[:notice]
+  // Error messages
+  - if flash[:alert]
+    .alert.alert-danger
+      - flash[:alert].each do |message|
+        %li= message[0]

@@ -1,0 +1,7 @@
+%h1 Editing Leaf
+= render 'form'
+%br/
+.container
+  = link_to '戻る', @leaf, class:'btn btn-default'
+  #invalidate_customer
+    = render 'invalidate_customer_form'
