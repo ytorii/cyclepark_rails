@@ -16,16 +16,19 @@ class MultiSealsUpdateController < ApplicationController
     end
 
     @unsealed_list = MultiSealsUpdate.new(
-      numbers_sealsid_list: numbers_sealsid_list,
+      #numbers_sealsid_list: numbers_sealsid_list,
+      sealsid_list: numbers_sealsid_list,
       sealed_date: Date.current,
       staff_nickname: session[:nickname]
     )
   end
 
   def update
+    p update_params
     @unsealed_list = MultiSealsUpdate.new(update_params)
     # The last of the list is always '', and it needs to be removed!
     @unsealed_list.sealsid_list.pop
+    p @unsealed_list
 
     respond_to do |format|
       if @unsealed_list.updateSelectedSeals

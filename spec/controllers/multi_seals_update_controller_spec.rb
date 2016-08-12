@@ -22,7 +22,7 @@ RSpec.describe MultiSealsUpdateController, type: :controller do
     end
 
     it "returns seals_list as @unsealed_list." do
-      assinged_lists = assigns(:unsealed_list).seals_id_list
+      assinged_lists = assigns(:unsealed_list).sealsid_list
 
       assinged_lists.each_with_index do |list, i|
         expect([ list.number, list.seal_id ]).
@@ -78,7 +78,7 @@ RSpec.describe MultiSealsUpdateController, type: :controller do
 
     let(:update_valid_params){
       { update_multi_seals: {
-        staf_nickname: session[:nickname],
+        staff_nickname: session[:nickname],
         sealed_date: "2016-06-03",
         sealsid_list: [ 3, 6, "" ] }
       }
@@ -86,7 +86,7 @@ RSpec.describe MultiSealsUpdateController, type: :controller do
 
     let(:update_invalid_params){
       { update_multi_seals: {
-        staf_nickname: session[:nickname],
+        staff_nickname: session[:nickname],
         sealed_date: 'あ',
         sealsid_list: [ 3, 6, "" ] }
       }
@@ -95,7 +95,10 @@ RSpec.describe MultiSealsUpdateController, type: :controller do
     context "with valid params" do
       before{ post :update, update_valid_params, session }
       it "update Seals with selected ids."do
-        update_valid_params.sealsid_list.each do |id|
+        # Pop blank id in the last of list(this is added by rails' tag)
+        update_valid_params[:update_multi_seals][:sealsid_list].pop
+
+        update_valid_params[:update_multi_seals][:sealsid_list].each do |id|
           seal = Seal.find(id)
           expect(seal.sealed_flag).to eq(true)
           expect(seal.staff_nickname).to eq(session[:nickname])
@@ -141,7 +144,7 @@ RSpec.describe MultiSealsUpdateController, type: :controller do
     end
   end
 
-  describe "GET #update", focus: true do
+  describe "GET #update" do
     context "with admin staff" do
       it_behaves_like "updates multi seals",
         { staff: '1', nickname: 'admin' }

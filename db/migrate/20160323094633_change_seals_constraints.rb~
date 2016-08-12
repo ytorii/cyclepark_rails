@@ -1,4 +1,0 @@
-class ChangeSealsConstraints < ActiveRecord::Migration
-  def change
-  end
-end

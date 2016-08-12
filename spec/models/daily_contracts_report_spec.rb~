@@ -61,12 +61,12 @@ RSpec.describe DailyContractsReport, type: :model do
       report = DailyContractsReport.new(date)
 
       it "has 0 size contracts_list." do
-        expect(report.contracts_list.size).to eq(0)
+        expect(report.getContractsList().size).to eq(0)
       end
 
       it "has all 0 amount contracts_total." do
         amount_array = [[0, 0], [0, 0], [0, 0], [0, 0]]
-        expect(report.contracts_total).to eq(amount_array)
+        expect(report.calcContractsSummary()).to eq(amount_array)
       end
     end
 

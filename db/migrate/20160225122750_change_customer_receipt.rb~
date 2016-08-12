@@ -1,4 +1,0 @@
-class ChangeCustomerReceipt < ActiveRecord::Migration
-  def change
-  end
-end

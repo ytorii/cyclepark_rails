@@ -38,6 +38,7 @@ div#first_box{
 #contract_number{
   width: 160px;
   text-align: left;
+  font-size: 120%;
 }
 
 #student_flag{

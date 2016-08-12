@@ -15,7 +15,6 @@ RSpec.describe Staff, type: :model do
 
   specify "nickname must be umique" do
     create(:admin2) 
-    #admin.save!
     expect(admin).not_to be_valid
     expect(admin.errors[:nickname]).to be_present
   end

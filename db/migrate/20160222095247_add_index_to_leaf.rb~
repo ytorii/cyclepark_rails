@@ -1,5 +1,0 @@
-class AddIndexToLeaf < ActiveRecord::Migration
-  def change
-    add_index :leafs, [:nickname, :type, :valid_flag]
-  end
-end

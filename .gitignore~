@@ -16,4 +16,3 @@
 !/log/.keep
 /tmp
 cyclepark.db
-production.sqlite3

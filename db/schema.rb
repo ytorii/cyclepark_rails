@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160323094633) do
+ActiveRecord::Schema.define(version: 20160323094635) do
 
   create_table "contracts", force: :cascade do |t|
     t.integer  "leaf_id"
@@ -28,6 +28,7 @@ ActiveRecord::Schema.define(version: 20160323094633) do
     t.datetime "updated_at",     null: false
   end
 
+  add_index "contracts", ["contract_date", "skip_flag"], name: "index_contracts_on_contract_date_and_skip_flag"
   add_index "contracts", ["leaf_id"], name: "index_contracts_on_leaf_id"
 
   create_table "customers", force: :cascade do |t|
@@ -74,6 +75,7 @@ ActiveRecord::Schema.define(version: 20160323094633) do
   end
 
   add_index "seals", ["contract_id"], name: "index_seals_on_contract_id"
+  add_index "seals", ["month"], name: "index_seals_on_month"
 
   create_table "staffdetails", force: :cascade do |t|
     t.integer  "staff_id"

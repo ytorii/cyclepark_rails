@@ -16,10 +16,10 @@ class Contract < ActiveRecord::Base
   # Term1 must be longer than 0 because 0 length contract is not allowed.
   validates :term1,
     presence: true,
-    numericality: { greater_than: 0, less_than: 10, allow_blank: true }
+    numericality: { greater_than: 0, less_than: 13, allow_blank: true }
   validates :money1,
     presence: true,
-    numericality: { greater_than_or_equal_to: 0, less_than: 18001, allow_blank: true  }
+    numericality: { greater_than_or_equal_to: 0, less_than: 36001, allow_blank: true  }
   validates :term2,
     presence: true,
     numericality: { greater_than_or_equal_to: 0, less_than: 10, allow_blank: true  }

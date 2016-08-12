@@ -18,7 +18,7 @@ describe 'ログイン' do
       fill_in 'password', with: '12345678'
       click_button 'ログイン'
     end
-    expect(page).to have_css('h1', text: 'スタッフ一覧')
+    expect(page).to have_css('h1', text: 'Listing Staffs')
   end
 
   specify 'Fail to log in with correct nickname and wrong password.' do

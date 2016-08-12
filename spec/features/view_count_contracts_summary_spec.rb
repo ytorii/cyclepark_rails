@@ -22,6 +22,7 @@ feature "Count Contracts Summary" do
     end
 
     it "displays count values correctly." do
+
       title =
         %w{一般 学生 １号地合計 普通バイク 大型バイク バイク合計 ２号地}
       counts = [
@@ -43,6 +44,7 @@ feature "Count Contracts Summary" do
           expect(count_text[0]).to have_content(title[i])
           # Checking if count values are correct.
           counts[i].each_with_index do |count, j|
+            p count_text[j+1]
             expect(count_text[j+1]).to have_content("#{count.to_s} 台")
           end
         end

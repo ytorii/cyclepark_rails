@@ -130,7 +130,7 @@ RSpec.describe Leaf, type: :model do
     end
   end
 
-  describe "Number in the same vhiecle_type" do
+  describe "Number in the same vhiecle_type", focus: true do
     context "with valid leafs" do
       before{
         # As first's number is sequencial,
@@ -149,8 +149,6 @@ RSpec.describe Leaf, type: :model do
       context "when number already exists" do
         it "is invalid." do
           first_add = build(:first, number: 1)
-          p first
-          first_add.save!
           expect(first_add).not_to be_valid
           expect(first_add.errors[:number]).to be_present
         end

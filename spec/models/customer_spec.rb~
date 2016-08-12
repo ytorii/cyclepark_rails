@@ -43,9 +43,9 @@ RSpec.describe Customer, type: :model do
   end
 
   describe 'Receipt' do
-    it "is '不要' by default." do
+    it "is '㈱夕日システムズ'." do
       first_customer.save!
-      expect(Customer.find(1).receipt).to eq('不要')
+      expect(Customer.find(1).receipt).to eq('㈱夕日システムズ')
     end
   end
 

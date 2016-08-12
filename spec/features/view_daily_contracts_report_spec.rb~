@@ -65,12 +65,18 @@ feature "Daily Contracts Report" do
       end
 
       context "with invalid contracts date" do
-        it "displays error message." do
+        before{
           within('form') do
             fill_in 'contracts_date', with: 'あ'
           end
           click_button '指定した日付を表示'
+        }
+
+        it "redirects to menu page." do
           expect(page).to have_css('h1', text: 'メインメニュー')
+        end
+
+        it "displays error message." do
           expect(find('#system_messages')).to have_content('は不正な値です')
         end
       end

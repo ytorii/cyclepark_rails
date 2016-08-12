@@ -16,7 +16,8 @@ class MultiSealsUpdateController < ApplicationController
     end
 
     @unsealed_list = MultiSealsUpdate.new(
-      numbers_sealsid_list: numbers_sealsid_list,
+      #numbers_sealsid_list: numbers_sealsid_list,
+      sealsid_list: numbers_sealsid_list,
       sealed_date: Date.current,
       staff_nickname: session[:nickname]
     )

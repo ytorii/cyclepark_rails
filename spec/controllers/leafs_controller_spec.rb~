@@ -27,7 +27,6 @@ RSpec.describe LeafsController, type: :controller do
   let(:first_invalid) { create(:first, valid_flag: false) }
   let(:contract) { build(:first_contract) }
 
-
   before{
     create(:admin)
     create(:normal)
@@ -198,6 +197,5 @@ RSpec.describe LeafsController, type: :controller do
         end
       end
     end
-
   end
 end

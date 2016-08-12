@@ -16,7 +16,7 @@ RSpec.describe CountContractsSummaryController, type: :controller do
   }
 
   shared_examples "gets count contracts summary index page" do |session|
-    before{ get :index, {}, session }
+    before{ get :index, {count_month: nil}, session }
 
     it "returns http success." do
       expect(response).to have_http_status(:success)
@@ -48,7 +48,7 @@ RSpec.describe CountContractsSummaryController, type: :controller do
       end
 
       context "with invalid input" do
-      before{ get :index, {}, {staff: '1'} }
+      before{ get :index, {count_month: 'あ'}, {staff: '1'} }
         it "redirect to menu page." do
           expect(response).to redirect_to("/menu")
         end
@@ -56,7 +56,7 @@ RSpec.describe CountContractsSummaryController, type: :controller do
     end
 
     context "with normal staff" do
-      before{ get :index, {}, {staff: '2'} }
+      before{ get :index, {count_month: nil}, {staff: '2'} }
       it "redirect to login page." do
         expect(response).to redirect_to("/login")
       end

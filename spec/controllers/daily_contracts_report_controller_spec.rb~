@@ -35,7 +35,7 @@ RSpec.describe DailyContractsReportController, type: :controller do
       end
 
       it "returns flash alert message." do
-        expect(flash[:alert]).to eq(report.errors.full_messages)
+        expect(flash[:alert]).to be_present
       end
     end
   end

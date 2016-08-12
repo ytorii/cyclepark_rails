@@ -1,6 +1,0 @@
-class ChangeCustomerComment < ActiveRecord::Migration
-  def change
-    change_column(:customers, :comment, null: true)
-    change_column_default(:customers, :comment, "不要")
-  end
-end

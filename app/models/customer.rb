@@ -12,11 +12,9 @@ class Customer < ActiveRecord::Base
     presence: true,
     length: { maximum: 10, allow_blank: true }
   validates :first_read,
-    presence: true,
     format: { with: read_format, allow_blank: true },
     length: { maximum: 20, allow_blank: true }
   validates :last_read,
-    presence: true,
     format: { with: read_format, allow_blank: true },
     length: { maximum: 20, allow_blank: true }
   validates :sex,

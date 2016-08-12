@@ -10,7 +10,7 @@ class Leaf < ActiveRecord::Base
 
   validates :number,
     presence: true,
-    numericality: { greater_than: 0, less_than: 1013, allow_blank: true }
+    numericality: { greater_than: 0, less_than: 1057, allow_blank: true }
   validates :vhiecle_type,
     presence: true,
     numericality: { greater_than: 0, less_than: 10, allow_blank: true }

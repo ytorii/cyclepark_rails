@@ -5,6 +5,8 @@
 #contents.clearfix
   = render 'shared/side_menu'
   %main#main
+    #messages_field
+      = render 'shared/display_messages'
     #multi_seal_update{style: "color: #000"}
       = search_form_for(@query, url: multi_seals_update_path, method: :post) do |f|
         = field_set_tag '一括更新の対象の車種と月を変更' do
