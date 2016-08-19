@@ -174,10 +174,6 @@ end
 
 def setContractsParams(leaf_id, contracts)
 
-  def isSkipContract?(money)
-    money == '休み'
-  end
-
   result = []
 
   contracts.each do |contract|
@@ -188,7 +184,7 @@ def setContractsParams(leaf_id, contracts)
       money1: contract[6].to_i,
       term2: 0,
       money2: 0,
-      skip_flag: isSkipContract?(contract[6]),
+      skip_flag: contract[6] == '休み',
       staff_nickname: contract[8],
       seals_attributes: [{ sealed_flag: contract[9] }]
     }
@@ -212,7 +208,4 @@ def setSealsParams(seals)
 
   result
 
-end
-
-def checkLeafParams(old_customers)
 end
