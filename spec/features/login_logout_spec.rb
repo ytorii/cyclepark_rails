@@ -1,10 +1,6 @@
 require 'rails_helper'
 
 describe 'ログイン' do
-  before { 
-    create(:admin) 
-    create(:admindetail)
-  }
 
   specify 'Redirect any page to login page without logged in ' do
     visit "/staffs"
@@ -43,16 +39,16 @@ describe 'ログイン' do
     expect(page).to have_css('form#login')
   end
 
-  specify 'Success logging out after logged in.' do
-    visit "/staffs"
-    within('form#login') do
-      fill_in 'nickname', with: 'admin'
-      fill_in 'password', with: '12345678'
-      click_button 'ログイン'
-    end
-    visit "/login/logout"
-    expect(page).to have_css('form#login')
-    visit "/staffs"
-    expect(page).to have_css('form#login')
-  end
+#  specify 'Success logging out after logged in.' do
+#    visit "/staffs"
+#    within('form#login') do
+#      fill_in 'nickname', with: 'admin'
+#      fill_in 'password', with: '12345678'
+#      click_button 'ログイン'
+#    end
+#    visit "/login/logout"
+#    expect(page).to have_css('form#login')
+#    visit "/staffs"
+#    expect(page).to have_css('form#login')
+#  end
 end

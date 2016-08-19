@@ -1,10 +1,6 @@
 require 'rails_helper'
 
 describe 'ログイン' do
-  before { 
-    create(:admin) 
-    create(:admindetail)
-  }
 
   specify 'Redirect any page to login page without logged in ' do
     visit "/staffs"
@@ -18,7 +14,7 @@ describe 'ログイン' do
       fill_in 'password', with: '12345678'
       click_button 'ログイン'
     end
-    expect(page).to have_css('h1', text: 'Listing Staffs')
+    expect(page).to have_css('h1', text: 'スタッフ一覧')
   end
 
   specify 'Fail to log in with correct nickname and wrong password.' do

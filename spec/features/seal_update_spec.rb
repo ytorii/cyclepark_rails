@@ -4,8 +4,6 @@ feature "Seal State Update" do
   describe 'Seal Update' do
 
     before{
-      # create staffs
-      create(:admin) 
       # create leaf and customer
       leaf = create(:first)
       # create contract and seal
@@ -16,17 +14,19 @@ feature "Seal State Update" do
       visit "/leafs/#{leaf.id}"
     }
 
-    it 'updates unsticked seal to sticked.' do
+    it 'updates unsticked seal to be sticked.' do
 
-      click_button '03月分シール貼付'
+      expect(page).to have_css('.seal_box.stamped', count: 1)
+
+      click_button '3月分貼付'
+      today = Date.today.strftime('%-m/%-d')
       
-      check_message3 = '03月貼済 ' + Date.today.strftime("%m/%d") + " admin"
-
-      expect(page).to have_css('p#notice', text: 'シール貼付情報を更新しました。')
-      expect(page).to have_css('td', text: '02月貼済 02/20 admin' )
-      expect(page).to have_css('td', text: check_message3 )
-      expect(page).to have_button '04月分シール貼付' 
-
+      expect(page).to have_css(
+        '.alert-success', text: 'シール貼付情報を更新しました。')
+      expect(page).to have_css('.seal_box.stamped', count: 2)
+      expect(page).to have_css('.seal_box.stamped',
+                               text:"#{today} 貼済 admin")
+      expect(page).to have_button '4月分貼付' 
     end
   end
 end

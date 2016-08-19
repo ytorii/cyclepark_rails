@@ -5,10 +5,6 @@ RSpec.describe MenuController, type: :controller do
   let(:valid_session) { {staff: '1'} }
   let(:invalid_session) { {staff: nil} }
 
-  before{
-    create(:admin)
-  }
-
   describe "GET #index" do
 
     context "with logined session" do

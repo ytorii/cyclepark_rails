@@ -2,16 +2,12 @@ require 'rails_helper'
 
 RSpec.describe MultiSealsUpdateController, type: :controller do
 
-  let(:admin){ create(:admin) }
-  let(:normal){ create(:normal) }
   # As FactoryGirl sequence sets incremental numbers across the test case,
   # numbers needs to be set to fixed value! 
   let(:leaf_fn1){ 1.upto(3){|i| create(:count_first_normal_1, number: i)} }
   let(:leaf_fn2){ create(:count_first_normal_2, number: 4) }
 
   before{
-    admin
-    normal
     leaf_fn1
     leaf_fn2
   }
@@ -77,7 +73,7 @@ RSpec.describe MultiSealsUpdateController, type: :controller do
   shared_examples "updates multi seals" do |session|
 
     let(:update_valid_params){
-      { update_multi_seals: {
+      { multi_seals_update: {
         staff_nickname: session[:nickname],
         sealed_date: "2016-06-03",
         sealsid_list: [ 3, 6, "" ] }
@@ -85,7 +81,7 @@ RSpec.describe MultiSealsUpdateController, type: :controller do
     }
 
     let(:update_invalid_params){
-      { update_multi_seals: {
+      { multi_seals_update: {
         staff_nickname: session[:nickname],
         sealed_date: 'あ',
         sealsid_list: [ 3, 6, "" ] }
@@ -96,9 +92,9 @@ RSpec.describe MultiSealsUpdateController, type: :controller do
       before{ post :update, update_valid_params, session }
       it "update Seals with selected ids."do
         # Pop blank id in the last of list(this is added by rails' tag)
-        update_valid_params[:update_multi_seals][:sealsid_list].pop
+        update_valid_params[:multi_seals_update][:sealsid_list].pop
 
-        update_valid_params[:update_multi_seals][:sealsid_list].each do |id|
+        update_valid_params[:multi_seals_update][:sealsid_list].each do |id|
           seal = Seal.find(id)
           expect(seal.sealed_flag).to eq(true)
           expect(seal.staff_nickname).to eq(session[:nickname])
@@ -109,7 +105,7 @@ RSpec.describe MultiSealsUpdateController, type: :controller do
       it "unchange Seals with unselected ids."do
         unselected_ids =
           Seal.all.pluck(:id) -
-            update_valid_params[:update_multi_seals][:sealsid_list]
+            update_valid_params[:multi_seals_update][:sealsid_list]
 
         unselected_ids.each do |id|
           seal = Seal.find(id)
@@ -148,6 +144,11 @@ RSpec.describe MultiSealsUpdateController, type: :controller do
     context "with admin staff" do
       it_behaves_like "updates multi seals",
         { staff: '1', nickname: 'admin' }
+    end
+
+    context "with normal staff" do
+      it_behaves_like "updates multi seals",
+        { staff: '2', nickname: 'normal' }
     end
   end
 end

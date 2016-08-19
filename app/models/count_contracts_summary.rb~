@@ -10,7 +10,7 @@ class CountContractsSummary
     format: { with: date_format }
 
   def initialize(in_month)
-    @month = in_month.present || Date.today
+    @month = in_month.presence || Date.today
   end
 
   def countContractsSummary

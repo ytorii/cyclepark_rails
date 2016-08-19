@@ -16,6 +16,23 @@ FactoryGirl.define do
     end
   end
 
+  factory :first_contract_false, class: Contract do
+    Leaf
+    contract_date Date.today
+    start_month Date.today.next_month
+    term1 1
+    money1 1000 
+    term2 6
+    money2 18000
+    new_flag false
+    skip_flag false
+    staff_nickname "admin"
+
+    after(:build) do |contract|
+      contract.seals.build(sealed_flag: false)
+    end
+  end
+
   factory :first_contract_add, class: Contract do
     Leaf
     contract_date "2016-01-01"

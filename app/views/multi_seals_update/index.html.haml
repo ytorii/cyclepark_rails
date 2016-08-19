@@ -24,8 +24,6 @@
             class: 'custom_rd_label green_rd radius'
           = f.label :contracts_seals_month, '貼付け対象月'
           = f.month_field :contracts_seals_month_eq
-          = f.hidden_field :valid_flag_eq, :value => true
-          = f.hidden_field :contracts_seals_sealed_flag_eq, :value => false
           = f.submit("シール未貼付け番号を表示")
       %hr
       = form_for(@unsealed_list, url: {action: :update}, method: :post) do |f|

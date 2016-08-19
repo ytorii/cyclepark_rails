@@ -88,8 +88,6 @@ RSpec.describe CountContractsSummary, type: :model do
       let(:count_second_2){ create(:count_second_2) }
 
       before{
-        # staff
-        create(:admin)
         # leafs(contain customers and contracts)
         count_first_normal_1
         count_first_normal_2

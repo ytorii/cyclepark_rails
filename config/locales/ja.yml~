@@ -38,7 +38,6 @@ ja:
     skip_flag: 休み
     numbers_sealsid_list: 契約番号リスト
 
-
   activerecord:
     errors:
       messages:

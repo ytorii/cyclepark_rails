@@ -11,10 +11,6 @@ feature "Daily Contracts Report" do
   let(:today){ Date.today.strftime('%Y年%-m月%-d日').concat('の契約一覧') }
 
   before{
-    # staff
-    create(:admin)
-    create(:normal) 
-
     # leafs(contain customers and contracts)
     daily_first_nrm_1
     daily_first_std_1

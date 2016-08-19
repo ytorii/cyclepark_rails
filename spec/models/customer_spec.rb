@@ -17,6 +17,13 @@ RSpec.describe Customer, type: :model do
         expect(first_customer[column]).to eq('アイウ')
       end
 
+      it "accepts ' ' and '  '." do
+        [' ', '　'].each do |space| 
+          first_customer[column]= space
+          expect(first_customer).to be_valid
+        end
+      end
+
       it "is invalid with except カタカナ." do
         ['亜', 'A', '1', '@'].each do |value|
           first_customer[column] = value

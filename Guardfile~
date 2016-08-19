@@ -54,7 +54,7 @@ guard :rspec, cmd: "spring rspec" do
   #end
 
   # Rails controller changes
-  watch(%r{^app/controllers/(.+)\.rb$}) { |m| rspec.spec.("features/#{m[1]}") }
+  #watch(%r{^app/controllers/(.+)\.rb$}) { |m| rspec.spec.("features/#{m[1]}") }
 
   # Rails model changes
   #watch(%r{^app/models/(.+)\.rb$}) { |m| rspec.spec.("features/#{m[1]}") }

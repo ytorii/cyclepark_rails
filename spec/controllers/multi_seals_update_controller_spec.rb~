@@ -2,16 +2,12 @@ require 'rails_helper'
 
 RSpec.describe MultiSealsUpdateController, type: :controller do
 
-  let(:admin){ create(:admin) }
-  let(:normal){ create(:normal) }
   # As FactoryGirl sequence sets incremental numbers across the test case,
   # numbers needs to be set to fixed value! 
   let(:leaf_fn1){ 1.upto(3){|i| create(:count_first_normal_1, number: i)} }
   let(:leaf_fn2){ create(:count_first_normal_2, number: 4) }
 
   before{
-    admin
-    normal
     leaf_fn1
     leaf_fn2
   }
@@ -92,7 +88,7 @@ RSpec.describe MultiSealsUpdateController, type: :controller do
       }
     }
 
-    context "with valid params", :focus => true do
+    context "with valid params" do
       before{ post :update, update_valid_params, session }
       it "update Seals with selected ids."do
         # Pop blank id in the last of list(this is added by rails' tag)
@@ -148,6 +144,11 @@ RSpec.describe MultiSealsUpdateController, type: :controller do
     context "with admin staff" do
       it_behaves_like "updates multi seals",
         { staff: '1', nickname: 'admin' }
+    end
+
+    context "with normal staff" do
+      it_behaves_like "updates multi seals",
+        { staff: '2', nickname: 'normal' }
     end
   end
 end

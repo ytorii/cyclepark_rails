@@ -2,106 +2,186 @@ require 'rails_helper'
 
 feature "Contract Addition" do
 
-  before{
-    # create staffs
-    create(:admin) 
-    # create leaf and customer
-    leaf = create(:first)
-    login("admin", "12345678")
+  let(:today){ Date.today.strftime('%-m/%-d') }
+  let(:leaf){ create(:first) }
 
-    visit "/leafs/#{leaf.id}"
-  }
+  shared_examples "contract addition" do |nickname, password|
+    before {
+      login(nickname, password)
+      visit "/leafs/#{leaf.id}"
+      open_contadd_modal
+    }
 
-  let(:register_with_valid_input){
+    context 'with opening contract addition modal' do
+      scenario 'Fill the price to 3500 by selecting term １ヶ月.' do
+        # Show the contract addition modal.
+        expect(page).to have_css('h4', text: '契約更新画面' )
 
-    within("form#new_contract") do
-      select "1ヶ月", from: "contract_term1"
-      fill_in 'contract_money1', with: 500
-      select "3ヶ月", from: "contract_term2"
-      fill_in 'contract_money2', with: 9500
-      select "2016", from: "contract_contract_date_1i"
-      select "2月", from: "contract_contract_date_2i"
-      select "1", from: "contract_contract_date_3i"
-      uncheck 'contract_skip_flag'
-      check 'contract_seals_attributes_0_sealed_flag'
-    end
-    click_button '登録する'
+        # Term2 fields are invisible by default.
+        expect(page).not_to have_css('#term2')
 
-    expect(page).to have_css('p#notice', text: '新規契約を登録しました。')
-    expect(page).to have_css('td', text: '2016/02' )
-    expect(page).to have_css('td', text: '1' )
-    expect(page).to have_css('td', text: '500' )
-    expect(page).to have_css('td', text: '3' )
-    expect(page).to have_css('td', text: '9500' )
-    expect(page).to have_css('td', text: '02/01' )
-    expect(page).to have_css('td', text: '新規' )
-    expect(page).to have_css('td', text: 'admin' )
-    expect(page).to have_css('td', text: '2月貼済 02/01 admin' )
-    expect(page).to have_button '03月分シール貼付' 
-  }
+        # Fill the price to 3500 by selecting term １ヶ月.
+        click_term(1, 1)
+        expect(getvalue_script('#contract_money1')).to eq('3500')
 
-  let(:register_with_invalid_input){
-    within("form#new_contract") do
-      select "1ヶ月", from: "contract_term1"
-      select "2016", from: "contract_contract_date_1i"
-      select "2月", from: "contract_contract_date_2i"
-      select "1", from: "contract_contract_date_3i"
-      uncheck 'contract_skip_flag'
-      uncheck 'contract_seals_attributes_0_sealed_flag'
-    end
-    click_button '登録する'
-
-    within("div#error_explanation") do
-      expect(find('ul')).to have_selector('li', text: "Money1を入力してください")
-    end
-  }
-
-  describe 'New contract registration' do
-    context "with valid input" do
-      scenario 'successes to register new contract and seal to the leaf.' do
-        register_with_valid_input
+        # Close the modal form by 閉じる button.
+        find('#contadd_close_btn').click
+        expect(page).not_to have_css('h4', text: '契約更新画面' )
       end
     end
 
-    context "with invalid input" do
-      scenario 'fails to register new contract and seal to the leaf.' do
-        register_with_invalid_input
-      end
-    end
-  end
+    context 'with normal contract for 3 months' do
+      scenario 'Add new contract succeccfully.' do
+        # By default, 通常契約 is selected.
+        click_term(1, 3)
+        check 'contract_seals_attributes_0_sealed_flag'
 
-  describe 'Additional contract registration' do
-    context "with valid input" do
-      scenario "successes to add extended contract and seal to the leaf." do
-        register_with_valid_input
+        # Fill the money1 to 9500 by selecting term.
+        expect(page.find_field('contract_money1').value).to eq('9500')
 
         within("form#new_contract") do
-          select "1ヶ月", from: "contract_term1"
-          fill_in 'contract_money1', with: 3500
-          select "2016", from: "contract_contract_date_1i"
-          select "5月", from: "contract_contract_date_2i"
-          select "31", from: "contract_contract_date_3i"
-          uncheck 'contract_skip_flag'
-          uncheck 'contract_seals_attributes_0_sealed_flag'
+          click_button '登録する'
         end
-        click_button '登録する'
 
-        expect(page).to have_css('p#notice', text: '契約を更新しました。')
-        expect(page).to have_css('td', text: '2016/06' )
-        expect(page).to have_css('td', text: '1' )
-        expect(page).to have_css('td', text: '3500' )
-        expect(page).to have_css('td', text: '05/31' )
-        expect(page).to have_css('td', text: '更新' )
-        expect(page).to have_css('td', text: 'admin' )
-        expect(page).to have_button '03月分シール貼付' 
+        expect(page).to have_css(
+          '.alert-success', text: '新規契約を登録しました。')
+        expect(page).to have_css('.contract_box.stamped', count: 3)
+        expect(page).to have_css('.contract_box.stamped',
+                                 text: "4 月 #{today} #{nickname} \\9,500")
+        expect(page).to have_css('.seal_box.stamped', count: 1)
+        expect(page).to have_css('.seal_box.stamped',
+                                 text: "#{today} 貼済 #{nickname}")
+        expect(page.find_button('3月分貼付')[:value]).to eq('3月分貼付')
       end
     end
 
-    context "with invalid input" do
-      scenario "fails to add extended contract and seal to the leaf." do
-        register_with_valid_input
-        register_with_invalid_input
+    context 'with way contract for 7 months' do
+      scenario 'Add new contract succeccfully.' do
+        find('.custom_rd_label', text: '中途契約').click
+        click_term(1, 1)
+        fill_in 'contract_money1', with: 1200
+        click_term(2, 6)
+
+        # Fill the money2 to 18000 by selecting term.
+        expect(page.find_field('contract_money1').value).to eq('1200')
+        expect(page.find_field('contract_money2').value).to eq('18000')
+
+        click_button '登録する'
+
+        expect(page).to have_css('.alert-success',
+                                 text: '新規契約を登録しました。')
+        expect(page).to have_css('.contract_box.stamped', count: 7)
+        expect(page).to have_css('.contract_box.stamped',
+                                 text: "2 月 #{today} #{nickname} \\1,200")
+        expect(page).to have_css('.contract_box.stamped',
+                                 text: "8 月 #{today} #{nickname} \\18,000")
+        expect(page).to have_css('.seal_box.stamped', count: 0)
+        expect(page.find_button('2月分貼付')[:value]).to eq('2月分貼付')
+      end
+    end
+
+    context 'with skip contract' do
+      scenario 'Add skip contract succeccfully.' do
+        find('.custom_rd_label', text: '休み').click
+
+        # Both term1 and term2 fields are invisible.
+        expect(page).not_to have_css('#term1')
+        expect(page).not_to have_css('#term2')
+
+        click_button '登録する'
+
+        expect(page).to have_css('.alert-success',
+                                 text: '新規契約を登録しました。')
+        expect(page).to have_css('.contract_box.stamped', text: '休み')
+        expect(page).to have_css('.seal_box', text: 'シール未貼')
+      end
+    end
+
+    context 'with sequential contracts input' do
+      scenario 'Add sequential contracts succeccfully.' do
+        # Add a new contract for 1 month. 
+        find('.custom_rd_label', text: '通常契約').click
+        click_term(1, 1)
+        check 'contract_seals_attributes_0_sealed_flag'
+        click_button '登録する'
+        # Waiting for the Rails action
+        sleep 1
+
+        # Add a skip contract.
+        open_contadd_modal
+        find('.custom_rd_label', text: '休み').click
+        click_button '登録する'
+        # Waiting for the Rails action
+        sleep 1
+
+        # Add a way contract for 4 month.
+        open_contadd_modal
+        find('.custom_rd_label', text: '中途契約').click
+        click_term(1, 1)
+        fill_in 'contract_money1', with: 1200
+        click_term(2, 3)
+        check 'contract_seals_attributes_0_sealed_flag'
+        click_button '登録する'
+
+        expect(page).to have_css('.alert-success',
+                                 text: '契約を更新しました。')
+        expect(page).to have_css('.contract_box.stamped', count: 6)
+        expect(page).to have_css('.contract_box.stamped',
+                                 text: "2 月 #{today} #{nickname} \\3,500")
+        expect(page).to have_css('.contract_box.stamped',
+                                 text: "7 月 #{today} #{nickname} \\9,500")
+        expect(page).to have_css('.seal_box.stamped', count: 2)
+        expect(page.find_button('5月分貼付')[:value]).to eq('5月分貼付')
+      end
+    end
+
+    context 'with invalid input' do
+      scenario 'Fail to add a ccontract.' do
+        click_button '登録する' 
+
+        within(".alert-danger") do
+          expect(page).to have_css('li',
+            text: '契約期間は0より大きい値にしてください')
+          expect(page).to have_css('li', text: '金額を入力してください')
+        end
       end
     end
   end
+
+  describe 'Adding contracts to the leaf' do
+    context "by admin staff", :js => true  do
+      it_behaves_like 'contract addition', 'admin', '12345678'
+    end
+
+    context "by normal staff", :js => true do
+      it_behaves_like 'contract addition', 'normal', 'abcdefgh'
+    end
+  end
+end
+
+def click_term(index, length)
+  case length
+  when 1 term = '１ヶ月'
+  when 3 term = '３ヶ月'
+  when 6 term = '６ヶ月'
+  end
+
+  within("div#term#{index}") do
+    find('.custom_rd_label', text: term).click
+  end
+
+  # Waiting for ajax action to fill the money depending on term length.
+  sleep 1
+end
+
+# As the money set by ajax is not refletted to the DOM tree,
+# javascript script os needed to get the money value 
+def getvalue_script(attribute)
+  page.evaluate_script("$('#{attribute}').val()")
+end
+
+def open_contadd_modal
+  find('.add_cont_btn', text: '契約の更新').click
+  # Waiting for the modal opened
+  sleep 1
 end

@@ -10,6 +10,7 @@ abort("The Rails environment is running in production mode!") if Rails.env.produ
 
 require 'spec_helper'
 require 'rspec/rails'
+require 'capybara/poltergeist'
 
 # Add additional requires below this line. Rails is not loaded until this point!
 
@@ -34,7 +35,6 @@ ActiveRecord::Migration.maintain_test_schema!
 
 RSpec.configure do |config|
   config.before(:suite) do
-    FactoryGirl.reload
   end
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
@@ -42,7 +42,7 @@ RSpec.configure do |config|
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false
   # instead of true.
-  config.use_transactional_fixtures = false
+  config.use_transactional_fixtures = true
 
   # RSpec Rails can automatically mix in different behaviours to your tests
   # based on their file location, for example enabling you to call `get` and
@@ -68,31 +68,51 @@ RSpec.configure do |config|
   config.filter_run :focus => true
   config.run_all_when_everything_filtered = true
 
-  # Enable utilizing LoginMacros
-  config.include LoginMacros
-
   # Enable FactoryGirls's methods like create, build.
   config.include FactoryGirl::Syntax::Methods
-  # Enable capybara methods(e.g. visit) in spec files.
+  # Enable Capybara's methods like visit.
   config.include Capybara::DSL
+  # Enable using LoginMacros
+  config.include LoginMacros
+
+  # FactoryGirl configuration
+  config.before(:suite) do
+    FactoryGirl.reload
+  end
+
+  # Poltergeist configuration
+  Capybara.register_driver :poltergeist do |app|
+    Capybara::Poltergeist::Driver.new(
+      #app, :js_errors => true, :timeout => 60, :debug => false
+      app, :js_errors => true, :timeout => 60, :inspector => true
+    )
+  end
+  Capybara.javascript_driver = :poltergeist
+
+  # DatabaseCleaner configuration
+  seed_tables = %w{ Staff Staffdetail }
 
   config.before(:suite) do
-    DatabaseCleaner.clean_with(:truncation)
+    DatabaseCleaner.clean_with(:truncation, {:except => seed_tables})
+
+    SeedFu.fixture_paths = [ "#{Rails.root}/db/fixtures/development" ] 
+    SeedFu.seed
   end
 
+  # For the test WITHOUT JavaScript
   config.before(:each) do
     DatabaseCleaner.strategy = :transaction
+    #DatabaseCleaner.start
   end
 
+  # For the test WITH JavaScript
   config.before(:each, :js => true) do
-    DatabaseCleaner.strategy = :truncation
-  end
-
-  config.before(:each) do
-    DatabaseCleaner.start
+    DatabaseCleaner.strategy = :truncation, {:except => seed_tables}
   end
 
   config.after(:each) do
-    DatabaseCleaner.clean
+    #DatabaseCleaner.clean
   end
+
+  ActiveRecord::Base.shared_connection = ActiveRecord::Base.connection
 end

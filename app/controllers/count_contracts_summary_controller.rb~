@@ -8,7 +8,6 @@ class CountContractsSummaryController < ApplicationController
     summary = CountContractsSummary.new(params[:count_month])
     if summary.valid?
       @counts = summary.countContractsSummary()
-      p @counts
     else
       respond_to do |format|
         format.html {

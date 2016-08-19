@@ -23,12 +23,12 @@
               %td
                 - case leaf.vhiecle_type
                 - when 1
-                  - unless @leaf.student_flag then
+                  - unless leaf.student_flag then
                     自転車 一般
                   - else
                     自転車 学生
                 - when 2 
-                  - unless @leaf.largebike_flag then
+                  - unless leaf.largebike_flag then
                     バイク
                   - else
                     大型バイク
@@ -37,6 +37,6 @@
               %td= leaf.customer.first_name + ' ' + leaf.customer.last_name 
               %td= leaf.start_date.strftime('%Y年%-m月%-d日')
               %td= leaf.last_date.strftime('%Y年%-m月')
-              %td= link_to '移動', leaf 
+              %td= link_to '詳細を見る', leaf 
 %footer#footer
   #inner

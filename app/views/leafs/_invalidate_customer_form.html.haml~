@@ -1,5 +1,5 @@
 - if @leaf.valid_flag
-  = form_for(@leaf) do |f|
+  = form_for(@leaf, id: 'invalidate_leaf') do |f|
     = f.hidden_field :valid_flag, :value => false
     .actions
       = f.submit '解約する', class:'btn btn-warning', data: { confirm: '本当に解約しますか？' }

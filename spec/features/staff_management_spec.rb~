@@ -1,55 +1,33 @@
 require 'rails_helper'
-require 'capybara/poltergeist'
-Capybara.register_driver :poltergeist do |app|
-    Capybara::Poltergeist::Driver.new(app, :js_errors => true, :timeout => 60, :debug => false)
-end
-#Capybara.default_driver = :poltergeist
-Capybara.javascript_driver = :poltergeist
 
-describe 'Access control for staff management', :focus => true do
-  before { 
-    create(:admin) 
-    create(:normal) 
-  }
-
+describe 'Access control for staff management' do
   specify 'Accept access with admin nickname and password.' do
+    login('admin', '12345678')
     visit "/staffs"
-    within('form#login') do
-      fill_in 'nickname', with:  'admin'
-      fill_in 'password', with:  '12345678'
-      click_button 'ログイン'
-    end
-    expect(page).to have_css('h1', text: 'Listing Staffs')
+    expect(page).to have_css('h1', text: 'スタッフ一覧')
   end
 
   specify 'Deny access with normal nickname and password.' do
+    login('normal', 'abcdefgh')
     visit "/staffs"
-    within('form#login') do
-      fill_in 'nickname', with:  'normal'
-      fill_in 'password', with:  'abcdefgh'
-      click_button 'ログイン'
-    end
-
     expect(page).to have_css('form#login')
   end
 end
 
 describe 'GET show Staff' do
-  before { 
-    admin_login
-  } 
+  before { login('admin', '12345678') } 
 
   context "Get index page" do
     it "Response index page" do
       visit "/staffs"
-      expect(page).to have_css('h1', text: 'Listing Staffs')
+      expect(page).to have_css('h1', text: 'スタッフ一覧')
     end
   end
 
   context "Get detail page" do
     it "Response detail page" do
       visit "/staffs/1"
-      expect(page).to have_css('p', text: '管理者ユーザ')
+      expect(page).to have_css('p', text: '管理者 ユーザ')
     end
   end
 end
@@ -67,8 +45,8 @@ describe 'POST create Staff' do
     }
   }
 
-  before { 
-    admin_login
+  before {
+    login('admin', '12345678') 
     visit "/staffs/new"
   } 
 
@@ -151,8 +129,8 @@ describe 'PUT update Staff' do
     }
   }
 
-  before { 
-    admin_login
+  before {
+    login('admin', '12345678') 
     visit "/staffs/new"
     fill_form('form#new_staff', new_account)
     click_button '登録する'
@@ -206,43 +184,24 @@ describe 'DELETE delete Staff' do
     }
   }
 
+  before { login('admin', '12345678') } 
 
   it "delete the selected staff", :js => true do
-
-    create(:admin) 
-    create(:normal) 
     visit "/staffs/new"
-    within('form#login') do
-      fill_in 'nickname', with:  'admin'
-      fill_in 'password', with:  '12345678'
-      click_button 'ログイン'
-    end
     fill_form('form#new_staff', new_account)
     click_button '登録する'
     visit "/staffs"
-    page.save_screenshot('/home/pi2_test/staff_created.png')
-    all('tbody tr')[2].click_link 'Destroy'
+
+    all('tbody tr').last.click_link '削除'
+    
     # As polergiest always returns true for a call to window.confirm,
     # method for alert acceptance is not needed.
     expect(page).to have_css('p#notice', text: 'スタッフ情報を削除しました。')
-    page.save_screenshot('/home/pi2_test/staff_deleted.png')
   end
 end
 
 
 private
-def admin_login
-  create(:admin) 
-  create(:normal) 
-
-  visit "/staffs"
-  within('form#login') do
-    fill_in 'nickname', with:  'admin'
-    fill_in 'password', with:  '12345678'
-    click_button 'ログイン'
-  end
-end
-
 def fill_form(form_id, input_account)
   within(form_id) do
     fill_in 'staff_nickname', with: input_account[:nickname]

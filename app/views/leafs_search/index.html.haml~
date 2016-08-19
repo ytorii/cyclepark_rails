@@ -20,7 +20,20 @@
           - @leafs.each do |leaf|
             %tr
               %td= leaf.number 
-              %td= leaf.vhiecle_type 
+              %td
+                - case leaf.vhiecle_type
+                - when 1
+                  - unless leaf.student_flag then
+                    自転車 一般
+                  - else
+                    自転車 学生
+                - when 2 
+                  - unless leaf.largebike_flag then
+                    バイク
+                  - else
+                    大型バイク
+                - when 3
+                  ２号地
               %td= leaf.customer.first_name + ' ' + leaf.customer.last_name 
               %td= leaf.start_date.strftime('%Y年%-m月%-d日')
               %td= leaf.last_date.strftime('%Y年%-m月')

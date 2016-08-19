@@ -44,7 +44,6 @@ feature "Count Contracts Summary" do
           expect(count_text[0]).to have_content(title[i])
           # Checking if count values are correct.
           counts[i].each_with_index do |count, j|
-            p count_text[j+1]
             expect(count_text[j+1]).to have_content("#{count.to_s} 台")
           end
         end
@@ -65,10 +64,11 @@ feature "Count Contracts Summary" do
 
     context "with valid input" do
       before{
-        # staff
-        create(:admin)
-        create(:normal)
-        # leafs(contain customers and contracts)
+
+        # Fix the date to 2016-06-03 to meet the registered contract date.
+        Timecop.travel("2016-06-03")
+
+        # leafs (contain customers and contracts)
         count_first_normal_1
         count_first_normal_2
         count_first_normal_3
@@ -80,6 +80,10 @@ feature "Count Contracts Summary" do
       }
 
       it_behaves_like "daily contracts report", "admin", "12345678"
+
+      # Return date to current datetime.
+      # Without this, time to elapse of RSpec will be invalid value!
+      Timecop.travel("2016-06-03")
     end
   end
 

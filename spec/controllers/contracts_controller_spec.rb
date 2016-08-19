@@ -27,11 +27,7 @@ RSpec.describe ContractsController, type: :controller do
   let(:contract) { build(:first_contract) }
   let(:contract_add) { build(:first_contract_add) }
 
-  before{
-    first
-    create(:admin)
-    create(:normal)
-  }
+  before{ first }
 
   describe "GET #index" do
     it "assigns all contracts as @contracts" do

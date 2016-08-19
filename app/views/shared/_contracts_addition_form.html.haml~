@@ -8,20 +8,21 @@
 
 = form_for([@leaf, @contract], remote: true) do |c|
   %fieldset{id: 'additionForm'}
-    .field
-      = c.label :term1
-      = c.radio_button :term1, 1, id: 'term1_1', class: 'custom_rd'
-      = label_tag :term1_1, '１ヶ月',
-        class: 'custom_rd_label blue_rd radius'
-      = c.radio_button :term1, 3, id: 'term1_2', class: 'custom_rd'
-      = label_tag :term1_2, '３ヶ月',
-        class: 'custom_rd_label blue_rd radius'
-      = c.radio_button :term1, 6, id: 'term1_3', class: 'custom_rd'
-      = label_tag :term1_3, '６ヶ月',
-        class: 'custom_rd_label blue_rd radius'
-    .field
-      = c.label :money1
-      = c.number_field :money1 
+    #term1
+      .field
+        = c.label :term1
+        = c.radio_button :term1, 1, id: 'term1_1', class: 'custom_rd'
+        = label_tag :term1_1, '１ヶ月',
+          class: 'custom_rd_label blue_rd radius'
+        = c.radio_button :term1, 3, id: 'term1_2', class: 'custom_rd'
+        = label_tag :term1_2, '３ヶ月',
+          class: 'custom_rd_label blue_rd radius'
+        = c.radio_button :term1, 6, id: 'term1_3', class: 'custom_rd'
+        = label_tag :term1_3, '６ヶ月',
+          class: 'custom_rd_label blue_rd radius'
+      .field
+        = c.label :money1
+        = c.number_field :money1 
     #term2
       .field
         = c.label :term2

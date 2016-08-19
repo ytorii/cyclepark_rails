@@ -1,4 +1,4 @@
-#contracts_list.in
+#contracts_list
   // Seal form appears only once in the list.
   - sealform_flag = true
   - if @contracts_list.blank? then

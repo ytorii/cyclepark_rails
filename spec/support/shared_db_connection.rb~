@@ -1,4 +1,4 @@
-class ActiveRecored::Base
+class ActiveRecord::Base
   mattr_accessor :shared_connection
   @@shared_connection = nil
 
@@ -7,4 +7,4 @@ class ActiveRecored::Base
   end
 end
 
-ActiveRecored::Base.shared_connection = ActiveRecord::Base.connection
+ActiveRecord::Base.shared_connection = ActiveRecord::Base.connection

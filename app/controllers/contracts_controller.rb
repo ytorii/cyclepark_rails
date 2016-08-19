@@ -44,8 +44,14 @@ class ContractsController < ApplicationController
       else
         # To run Leaf's show method, page needs to be redirected.
         # As Only a few inputs, re-input is a little work!
-        format.html { redirect_to leaf_path(@contract.leaf_id), alert: @contract.errors.full_messages }
-        format.json { render json: @contract.errors, status: :unprocessable_entity }
+        format.html {
+          redirect_to leaf_path(@contract.leaf_id),
+          alert: @contract.errors.full_messages
+        }
+        format.json {
+          render json: @contract.errors,
+          status: :unprocessable_entity
+        }
       end
     end
   end

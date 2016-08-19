@@ -27,11 +27,6 @@ RSpec.describe LeafsController, type: :controller do
   let(:first_invalid) { create(:first, valid_flag: false) }
   let(:contract) { build(:first_contract) }
 
-  before{
-    create(:admin)
-    create(:normal)
-  }
-
   describe "GET #index" do
     before { first }
 

@@ -5,10 +5,7 @@ RSpec.describe Contract, type: :model do
   let(:first_contract){ build(:first_contract, leaf_id: first.id) }
   let(:first_contract_add){ build(:first_contract_add, leaf_id: first.id) }
 
-  before{
-    create(:admin)
-    first 
-  }
+  before{ first }
 
   %w{contract_date}.each do |column|
     describe "#{column}" do

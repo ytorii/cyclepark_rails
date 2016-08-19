@@ -1,6 +1,6 @@
 FactoryGirl.define do
-  factory :admin, class: Staff do
-    nickname "admin"
+  factory :admin2, class: Staff do
+    nickname "admin2"
     password "12345678"
     admin_flag true
     
@@ -19,12 +19,12 @@ FactoryGirl.define do
     end
   end
 
-  factory :admin2, class: Staff do
-    nickname "admin"
+  factory :admin3, class: Staff do
+    nickname "admin2"
     password "12345678"
     admin_flag true
     
-    after(:create) do |admin|
+    after(:create) do |admin2|
       create(:admindetail, staff: admin2)
     end
   end

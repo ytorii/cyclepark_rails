@@ -14,10 +14,6 @@ RSpec.describe SealsController, type: :controller do
   let(:first) {create(:first)}
   let(:first_contract) {build(:first_contract)}
 
-  before{
-    create(:admin)
-  }
-
   describe "GET #index" do
     it "assigns all seals as @seals" do
       seal = Seal.create! valid_attributes

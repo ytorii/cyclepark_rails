@@ -81,8 +81,6 @@ RSpec.describe DailyContractsReport, type: :model do
       let(:report){DailyContractsReport.new(Date.parse("2016-01-16"))}
 
       before{
-        # staff
-        create(:admin)
         # leafs(contain customers and contracts)
         daily_first_nrm_1
         daily_first_std_1

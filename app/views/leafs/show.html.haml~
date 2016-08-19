@@ -15,7 +15,7 @@
     #edit_menu
       - if Staff.find(session[:staff]).admin_flag
         = link_to (button_tag '契約の変更・削除', class: 'edit_cont_btn radius'), leaf_contracts_path(@leaf.to_param), method: :get
-      = link_to (button_tag '顧客情報変更', class: 'edit_cont_btn radius'), edit_leaf_path(@leaf), method: :get 
+        = link_to (button_tag '顧客情報変更', id: 'edit_link', class: 'edit_cont_btn radius'), edit_leaf_path(@leaf), method: :get 
       %button.btn.add_cont_btn.radius{data: {toggle: 'modal', target: '#addContractForm'}} 契約の更新
 
 #addContractForm.modal.fade

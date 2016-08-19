@@ -2,82 +2,66 @@ require 'rails_helper'
 
 feature "Customer Edit" do
 
-  before{
-    create(:first)
-    create(:student)
-  }
-
-  context "as an admin staff with valid input" do
-    scenario "successed to edit a customer" do
-      admin = create(:admin) 
-      login("admin", "12345678")
+  shared_examples "customer edit" do |nickname, password|
+    before {
+      create(:first) 
+      login(nickname, password)
 
       visit '/leafs/1'
-      click_button '顧客情報変更'
-      expect(current_path).to eq("/leafs/1/edit")
+      click_link '顧客情報変更'
+    }
 
-      edit_leaf = build(:student)
-      edit_leaf.number = 100
-      fill_leaf_form('form#edit_leaf_1', edit_leaf)
-      click_button '更新する'
-      expect(page).to have_css('p#notice', text: '顧客情報を変更しました。')
-    end
-  end
+    context "with valid input" do
+      scenario "successed to edit a customer" do
+        expect(current_path).to eq("/leafs/1/edit")
 
-  context "as a normal staff with valid input" do
-    scenario "successed to edit a customer" do
-      normal = create(:normal) 
-      login("normal", "abcdefgh")
-
-      visit '/leafs/1'
-      click_button '顧客情報変更'
-      expect(current_path).to eq("/leafs/1/edit")
-
-      edit_leaf = build(:student)
-      edit_leaf.number = 100
-      fill_leaf_form('form#edit_leaf_1', edit_leaf)
-      click_button '更新する'
-      expect(page).to have_css('p#notice', text: '顧客情報を変更しました。')
-    end
-  end
-
-  context "with invalid input" do
-    scenario "failed to register new customer" do
-      admin = create(:admin) 
-      login("admin", "12345678")
-
-      visit '/leafs/1'
-      click_button '顧客情報変更'
-      expect(current_path).to eq("/leafs/1/edit")
-
-      edit_leaf = build(:student)
-      edit_leaf.number = ''
-      fill_leaf_form('form#edit_leaf_1', edit_leaf)
-      click_button '更新する'
-      within("div#error_explanation") do
-        expect(find('ul')).to have_selector('li', text: "契約番号を入力してください")
+        edit_leaf = build(:student)
+        edit_leaf.number = 100
+        fill_leaf_form(page.all('#edit_leaf_1')[0], edit_leaf)
+        click_button '更新する'
+        expect(page).to have_css('.alert-success', text: '顧客情報を変更しました。')
       end
     end
+
+    context "with invalid input" do
+      scenario "failed to edit a customer" do
+        expect(current_path).to eq("/leafs/1/edit")
+
+        edit_leaf = build(:student)
+        edit_leaf.number = ''
+        fill_leaf_form(page.all('#edit_leaf_1')[0], edit_leaf)
+        click_button '更新する'
+        within("div#error_explanation") do
+          expect(find('ul')).to have_selector('li', text: "契約番号を入力してください")
+        end
+      end
+    end
+  end
+
+  describe "Admin staff" do
+    it_behaves_like "customer edit", "admin", "12345678"
+  end
+
+  describe "Normal staff" do
+    it_behaves_like "customer edit", "normal", "abcdefgh"
   end
 end
 
 def fill_leaf_form(form_id, new_leaf)
   within(form_id) do
     fill_in 'leaf_number', with: new_leaf.number
-    choose "leaf_vhiecle_type_1"
+    choose "vtype_1"
     check 'leaf_student_flag' if new_leaf.student_flag
     check 'leaf_largebike_flag' if new_leaf.largebike_flag
-    select "2016", from: "leaf_start_date_1i"
-    select "2月", from: "leaf_start_date_2i"
-    select "1", from: "leaf_start_date_3i"
+    fill_in 'leaf_start_date', with: '2016-02-01'
     fill_in 'leaf_customer_attributes_first_name', with: new_leaf.customer.first_name
     fill_in 'leaf_customer_attributes_last_name', with: new_leaf.customer.last_name
     fill_in 'leaf_customer_attributes_first_read', with: new_leaf.customer.first_read
     fill_in 'leaf_customer_attributes_last_read', with: new_leaf.customer.last_read
     if new_leaf.customer.sex
-      choose 'leaf_customer_attributes_sex_true' 
+      choose 'sex_male' 
     else
-      choose 'leaf_customer_attributes_sex_false'
+      choose 'sex_female' 
     end
     fill_in 'leaf_customer_attributes_address', with: new_leaf.customer.address
     fill_in 'leaf_customer_attributes_phone_number', with: new_leaf.customer.phone_number

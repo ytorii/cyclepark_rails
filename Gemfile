@@ -50,6 +50,7 @@ group :development, :test do
   gem 'seedbank'
   gem 'seed_dump'
   gem 'seed-fu'
+  gem 'timecop'
 end
 
 group :test do
