@@ -23,8 +23,8 @@ namespace :migrate_data do
       ActiveRecord::Base.transaction do
 
         # Migrating Leaf and Customer
-        old_customers = old_db.execute("SELECT * FROM t_customer order by valid_flag")
-        #old_customers = old_db.execute("SELECT * FROM t_customer where valid_flag = 1")
+        #old_customers = old_db.execute("SELECT * FROM t_customer order by valid_flag")
+        old_customers = old_db.execute("SELECT * FROM t_customer where valid_flag = 1")
         
         old_customers.each do |old_customer|
           #Debug code
@@ -174,10 +174,6 @@ end
 
 def setContractsParams(leaf_id, contracts)
 
-  def isSkipContract?(money)
-    money == '休み'
-  end
-
   result = []
 
   contracts.each do |contract|
@@ -188,14 +184,13 @@ def setContractsParams(leaf_id, contracts)
       money1: contract[6].to_i,
       term2: 0,
       money2: 0,
-      skip_flag: isSkipContract?(contract[6]),
+      skip_flag: contract[6] == '休み',
       staff_nickname: contract[8],
       seals_attributes: [{ sealed_flag: contract[9] }]
     }
   end
 
   result
-
 end
 
 def setSealsParams(seals)
@@ -211,8 +206,4 @@ def setSealsParams(seals)
   end
 
   result
-
-end
-
-def checkLeafParams(old_customers)
 end
