@@ -72,8 +72,9 @@ RSpec.configure do |config|
   config.include FactoryGirl::Syntax::Methods
   # Enable Capybara's methods like visit.
   config.include Capybara::DSL
-  # Enable using LoginMacros
+  # Enable using Macros
   config.include LoginMacros
+  config.include LinkMacros
 
   # FactoryGirl configuration
   config.before(:suite) do

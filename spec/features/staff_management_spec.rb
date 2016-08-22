@@ -173,7 +173,7 @@ describe 'Staff management feature' do
       click_button '登録する'
       visit "/staffs"
 
-      all('tbody tr').last.click_link '削除'
+      trigger_last_link('削除')
 
       # As polergiest always returns true for a call to window.confirm,
       # method for alert acceptance is not needed.

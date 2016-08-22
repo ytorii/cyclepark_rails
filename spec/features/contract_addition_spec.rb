@@ -161,9 +161,9 @@ end
 
 def click_term(index, length)
   case length
-  when 1 term = '１ヶ月'
-  when 3 term = '３ヶ月'
-  when 6 term = '６ヶ月'
+  when 1 then term = '１ヶ月'
+  when 3 then term = '３ヶ月'
+  when 6 then term = '６ヶ月'
   end
 
   within("div#term#{index}") do
@@ -172,12 +172,6 @@ def click_term(index, length)
 
   # Waiting for ajax action to fill the money depending on term length.
   sleep 1
-end
-
-# As the money set by ajax is not refletted to the DOM tree,
-# javascript script os needed to get the money value 
-def getvalue_script(attribute)
-  page.evaluate_script("$('#{attribute}').val()")
 end
 
 def open_contadd_modal

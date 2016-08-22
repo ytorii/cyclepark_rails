@@ -21,10 +21,10 @@ feature "Contract Edit" do
       before{ 
         login("admin", "12345678")
         visit "/leafs/#{first.id}"
-        click_link '契約の変更・削除'
       }
 
       it "successes to edit a contract." do
+        click_link '契約の変更・削除'
         expect(current_path).to eq("/leafs/#{first.id}/contracts")
 
         within('#contracts_index') do
@@ -49,10 +49,12 @@ feature "Contract Edit" do
       end
 
       it "successes to delete a contract.", :js => true do
+        trigger_link('契約の変更・削除')
+
         expect(current_path).to eq("/leafs/#{first.id}/contracts")
 
         within('#contracts_index') do
-          click_link '削除'
+          trigger_link('削除')
         end
 
         expect(current_path).to eq("/leafs/#{first.id}")

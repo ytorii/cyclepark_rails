@@ -1,6 +1,6 @@
 module LoginMacros
   def login(nickname, password)
-    visit "/"
+    visit "/menu"
     within('form#login') do
       fill_in 'nickname', with: nickname
       fill_in 'password', with: password
