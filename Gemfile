@@ -51,6 +51,9 @@ group :development, :test do
   gem 'seed_dump'
   gem 'seed-fu'
   gem 'timecop'
+  gem 'simplecov'
+  gem 'simplecov-rcov'
+  gem 'rubocop'
 end
 
 group :test do
