@@ -22,7 +22,7 @@ feature "Contract Addition" do
 
         # Fill the price to 3500 by selecting term １ヶ月.
         click_term(1, 1)
-        expect(getvalue_script('#contract_money1')).to eq('3500')
+        expect(page.find_field('contract_money1').value).to eq('3500')
 
         # Close the modal form by 閉じる button.
         find('#contadd_close_btn').click
