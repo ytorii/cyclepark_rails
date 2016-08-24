@@ -34,7 +34,7 @@ RSpec.describe Contract, type: :model do
     end
   end
 
-  { term1: 9, money1: 18000, term2: 9, money2: 18000}.each do |key, value|
+  { term1: 12, money1: 36000, term2: 9, money2: 18000}.each do |key, value|
     describe "#{key}" do
       it "is valid with #{value}." do
         first_contract[key] = value

@@ -34,7 +34,7 @@ feature "Leaf search by name" do
       end
     end
 
-    context 'with invalid input', :focus do
+    context 'with invalid input' do
       it 'fails to show the selected leaf with non-exist number.' do
         within('#name_form') do
           fill_in 'name_input', with: 'ssssss'

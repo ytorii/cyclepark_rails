@@ -77,7 +77,7 @@ RSpec.describe SealsController, type: :controller do
     end
   end
 
-  describe "PUT #update", :focus => true do
+  describe "PUT #update" do
     before{
       first_contract.leaf = first
       first_contract.save!
