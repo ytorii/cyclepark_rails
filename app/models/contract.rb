@@ -9,27 +9,30 @@ class Contract < ActiveRecord::Base
 
   validates :contract_date,
     presence: true,
-    format: { with: date_regexp, allow_blank: true}
+    format: { with: date_regexp, allow_blank: true }
   validates :start_month,
     presence: true,
-    format: { with: date_regexp, allow_blank: true}
+    format: { with: date_regexp, allow_blank: true }
   # Term1 must be longer than 0 because 0 length contract is not allowed.
   validates :term1,
     presence: true,
     numericality: { greater_than: 0, less_than: 13, allow_blank: true }
   validates :money1,
     presence: true,
-    numericality: { greater_than_or_equal_to: 0, less_than: 36001, allow_blank: true  }
+    numericality:
+      { greater_than_or_equal_to: 0, less_than: 36001, allow_blank: true }
   validates :term2,
     presence: true,
-    numericality: { greater_than_or_equal_to: 0, less_than: 10, allow_blank: true  }
+    numericality:
+      { greater_than_or_equal_to: 0, less_than: 10, allow_blank: true }
   validates :money2,
     presence: true,
-    numericality: { greater_than_or_equal_to: 0, less_than: 18001, allow_blank: true  }
+    numericality:
+      { greater_than_or_equal_to: 0, less_than: 18001, allow_blank: true }
   validates :new_flag,
-    inclusion: {in: [true, false]}
+    inclusion: { in: [true, false] }
   validates :skip_flag,
-    inclusion: {in: [true, false]}
+    inclusion: { in: [true, false] }
   validate :staffExists?
   validate :monthAlreadyExists?, on: :create
   validate :termsSameLength?, on: :update
