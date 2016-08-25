@@ -19,7 +19,9 @@ RSpec.describe ContractsController, type: :controller do
       seals_attributes: [{ id: contract.seals[0].id, sealed_flag: false }]
     })
   }
+
   let(:valid_session) { {staff: '1'} }
+
   let(:normal_session) { {staff: '2'} }
 
   let(:first) {create(:first)}
