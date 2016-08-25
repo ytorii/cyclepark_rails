@@ -11,10 +11,10 @@ class CountContractsSummary
 
   def initialize(in_month)
     @month = in_month.presence || Date.current
-    @counts_array = CountContractsArray.new(@month).count_contracts_array
   end
 
   def count_contracts_summary
+    @counts_array = CountContractsArray.new(@month).count_contracts_array
 
     {
       'present_total' => @counts_array[2],
