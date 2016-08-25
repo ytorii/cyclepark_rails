@@ -14,69 +14,6 @@ RSpec.describe SealsController, type: :controller do
   let(:first) {create(:first)}
   let(:first_contract) {build(:first_contract)}
 
-  describe "GET #index" do
-    it "assigns all seals as @seals" do
-      seal = Seal.create! valid_attributes
-      get :index, {}, valid_session
-      expect(assigns(:seals)).to eq([seal])
-    end
-  end
-
-  describe "GET #show" do
-    it "assigns the requested seal as @seal" do
-      seal = Seal.create! valid_attributes
-      get :show, {:id => seal.to_param}, valid_session
-      expect(assigns(:seal)).to eq(seal)
-    end
-  end
-
-  describe "GET #new" do
-    it "assigns a new seal as @seal" do
-      get :new, {}, valid_session
-      expect(assigns(:seal)).to be_a_new(Seal)
-    end
-  end
-
-  describe "GET #edit" do
-    it "assigns the requested seal as @seal" do
-      get :edit, {:id => seal.to_param}, valid_session
-      expect(assigns(:seal)).to eq(seal)
-    end
-  end
-
-  describe "POST #create" do
-    context "with valid params" do
-      it "creates a new Seal" do
-        expect {
-          post :create, {:seal => valid_attributes}, valid_session
-        }.to change(Seal, :count).by(1)
-      end
-
-      it "assigns a newly created seal as @seal" do
-        post :create, {:seal => valid_attributes}, valid_session
-        expect(assigns(:seal)).to be_a(Seal)
-        expect(assigns(:seal)).to be_persisted
-      end
-
-      it "redirects to the created seal" do
-        post :create, {:seal => valid_attributes}, valid_session
-        expect(response).to redirect_to(Seal.last)
-      end
-    end
-
-    context "with invalid params" do
-      it "assigns a newly created but unsaved seal as @seal" do
-        post :create, {:seal => invalid_attributes}, valid_session
-        expect(assigns(:seal)).to be_a_new(Seal)
-      end
-
-      it "re-renders the 'new' template" do
-        post :create, {:seal => invalid_attributes}, valid_session
-        expect(response).to render_template("new")
-      end
-    end
-  end
-
   describe "PUT #update" do
     before{
       first_contract.leaf = first
@@ -133,20 +70,4 @@ RSpec.describe SealsController, type: :controller do
       end
     end
   end
-
-  describe "DELETE #destroy" do
-    it "destroys the requested seal" do
-      seal = Seal.create! valid_attributes
-      expect {
-        delete :destroy, {:id => seal.to_param}, valid_session
-      }.to change(Seal, :count).by(-1)
-    end
-
-    it "redirects to the seals list" do
-      seal = Seal.create! valid_attributes
-      delete :destroy, {:id => seal.to_param}, valid_session
-      expect(response).to redirect_to(seals_url)
-    end
-  end
-
 end

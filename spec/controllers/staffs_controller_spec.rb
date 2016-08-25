@@ -38,10 +38,6 @@ RSpec.describe StaffsController, type: :controller do
 
   let(:valid_session) { {staff: '1'} }
 
-  before{  
-    create(:admin) 
-  }
-
   describe 'Response for GET method.' do
     context "GET #index" do
       it "assigns the requested staff as @staff" do
@@ -138,7 +134,7 @@ RSpec.describe StaffsController, type: :controller do
 
       context "with valid params" do
         it "updates the requested staff" do
-          staff = create(:normal)
+          staff = create(:test)
           put :update, {
             :id => staff.to_param, :staff => new_attributes
           }, valid_session

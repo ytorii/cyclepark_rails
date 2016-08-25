@@ -38,10 +38,6 @@ RSpec.describe StaffsController, type: :controller do
 
   let(:valid_session) { {staff: '1'} }
 
-  before{  
-    create(:admin) 
-  }
-
   describe 'Response for GET method.' do
     context "GET #index" do
       it "assigns the requested staff as @staff" do
@@ -176,7 +172,7 @@ RSpec.describe StaffsController, type: :controller do
       end
     end
 
-    describe "DELETE #destroy", :focus => true do
+    describe "DELETE #destroy" do
       it "destroys the requested staff and staffdetail" do
         staff = Staff.create! valid_attributes
         expect {

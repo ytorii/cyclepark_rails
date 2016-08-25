@@ -130,7 +130,7 @@ RSpec.describe Leaf, type: :model do
     end
   end
 
-  describe "Number in the same vhiecle_type", focus: true do
+  describe "Number in the same vhiecle_type" do
     context "with valid leafs" do
       before{
         # As first's number is sequencial,
