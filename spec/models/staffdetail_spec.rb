@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 RSpec.describe Staffdetail, type: :model do
-  let(:staffdetail){ build(:staffdetail) }
+  let(:staffdetail){ build(:admindetail) }
 
   specify 'Accept valid object' do
     expect(staffdetail).to be_valid

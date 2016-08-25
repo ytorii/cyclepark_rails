@@ -14,7 +14,7 @@ RSpec.describe Leaf, type: :model do
     end
 
     context 'is invalid' do
-      [0, 1013, 'a', 'あ'].each do |value|
+      [0, 1057, 'a', 'あ'].each do |value|
         it "with #{value}." do
           first[:number] = value
           expect(first).not_to be_valid
