@@ -15,15 +15,18 @@ RSpec.describe ContractsController, type: :controller do
   }
 
   let(:new_attributes) {
-    attributes_for(:first_contract_add, money1: 3000, contract_date: Date.parse("2016-02-02"), staff_nickname: 'normal').merge({
-      seals_attributes: [{ id: contract.seals[0].id, sealed_flag: false }]
+    attributes_for(:first_contract_add, money1: 3000, contract_date: '2016-02-02', staff_nickname: 'normal').merge({
+      seals_attributes: [{ id: contract.seals[0].id, sealed_flag: true, sealed_date: '2016-02-02', staff_nickname: 'normal' }]
     })
   }
+
+  # session infomation for staffs
   let(:valid_session) { {staff: '1'} }
   let(:normal_session) { {staff: '2'} }
 
+  # first cutomer
   let(:first) {create(:first)}
-
+  # contracts for first customer
   let(:contract) { build(:first_contract) }
   let(:contract_add) { build(:first_contract_add) }
 
@@ -52,18 +55,6 @@ RSpec.describe ContractsController, type: :controller do
       expect(assigns(:contract)).to eq(contract)
     end
   end
-
-#  describe "GET #new", focus: false do
-#    it "assigns @leaf from leaf_id in the request params." do
-#      get :new, { :leaf_id => first.id }, valid_session
-#      expect(assigns(:leaf).id).to eq(first.id)
-#    end
-#
-#    it "assigns leaf_id in the request params to @contract." do
-#      get :new, { :leaf_id => first.id }, valid_session
-#      expect(assigns(:contract).leaf_id).to eq(first.id)
-#    end
-#  end
 
   describe "POST #create" do
     context "with valid params" do
@@ -124,36 +115,31 @@ RSpec.describe ContractsController, type: :controller do
   end
 
   describe "PUT #update" do
-    let(:contract) { create(:first_contract_add, leaf_id: first.id) }
-
-    before{ contract }
+    let(:contract) { create(:first_contract_edit, leaf_id: first.id) }
 
     context "with valid params" do
-      it "updates the requested contract" do
+      before{
         put :update, {:id => contract.to_param, :leaf_id => contract.leaf_id, :contract => new_attributes}, valid_session
         contract.reload
+      }
+
+      it "updates the requested contract" do
         expect(contract.money1).to eq(3000)
-        expect(contract.staff_nickname).to eq("normal")
         expect(contract.contract_date).to eq(Date.parse("2016-02-02"))
+        expect(contract.staff_nickname).to eq("normal")
       end
 
-      it "updates sealed_flag and staf_nickname to nil with false sealed_flag." do
-        put :update, {:id => contract.to_param, :leaf_id => contract.leaf_id, :contract => new_attributes}, valid_session
-        contract.reload
-        expect(contract.seals.first.sealed_flag).to eq(false)
-        expect(contract.seals.first.sealed_date).to eq(nil)
-        expect(contract.seals.first.staff_nickname).to eq(nil)
+      it "updates sealed_flag and staf_nickname with true sealed_flag." do
+        expect(contract.seals.first.sealed_flag).to eq(true)
+        expect(contract.seals.first.sealed_date).to eq(Date.parse("2016-02-02"))
+        expect(contract.seals.first.staff_nickname).to eq('normal')
       end
 
       it "assigns the requested contract as @contract" do
-        put :update, {:id => contract.to_param, :leaf_id => contract.leaf_id, :contract => new_attributes}, valid_session
-        contract.reload
         expect(assigns(:contract)).to eq(contract)
       end
 
       it "redirects to the leaf's page." do
-        put :update, {:id => contract.to_param, :leaf_id => contract.leaf_id, :contract => new_attributes}, valid_session
-        contract.reload
         expect(response).to redirect_to(leaf_path(contract.leaf_id))
       end
     end

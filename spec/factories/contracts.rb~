@@ -28,8 +28,8 @@ FactoryGirl.define do
     skip_flag false
     staff_nickname "admin"
 
-    after(:build) do |first_contract_false|
-      first_contract.seals.build(sealed_flag: false)
+    after(:build) do |contract|
+      contract.seals.build(sealed_flag: false)
     end
   end
 
@@ -47,6 +47,23 @@ FactoryGirl.define do
 
     after(:build) do |first_contract_add|
       first_contract_add.seals.build(sealed_flag: false)
+    end
+  end
+
+  factory :first_contract_edit, class: Contract do
+    Leaf
+    contract_date "2016-01-01"
+    start_month nil
+    term1 1
+    money1 3500 
+    term2 nil
+    money2 nil
+    new_flag true
+    skip_flag false
+    staff_nickname "admin"
+
+    after(:build) do |first_contract_edit|
+      first_contract_edit.seals.build(sealed_flag: true)
     end
   end
 
