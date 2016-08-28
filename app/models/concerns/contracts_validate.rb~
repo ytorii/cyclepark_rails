@@ -1,0 +1,4 @@
+require 'active_support'
+module ContractsValidate
+  extend ActiveSupport::Concern
+end
