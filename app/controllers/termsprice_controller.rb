@@ -5,6 +5,6 @@ class TermspriceController < ApplicationController
       term: params[:term]
     )
 
-    render json: { "price" => termsprice.getPrice }
+    render json: { "price" => termsprice.calc_price }
   end
 end

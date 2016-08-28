@@ -7,7 +7,8 @@ class Leaf < ActiveRecord::Base
   accepts_nested_attributes_for :customer
   accepts_nested_attributes_for :contracts
 
-  date_format = %r(\A20[0-9]{2}(/|-)(0[1-9]|1[0-2])(/|-)(0[1-9]|(1|2)[0-9]|3[01])\z)
+  date_format =
+    %r(\A20[0-9]{2}(/|-)(0[1-9]|1[0-2])(/|-)(0[1-9]|(1|2)[0-9]|3[01])\z)
 
   validates :number,
             presence: true,

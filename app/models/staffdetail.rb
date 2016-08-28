@@ -5,7 +5,8 @@ class Staffdetail < ActiveRecord::Base
   belongs_to :staff
 
   kana_format = /\A[\p{Katakana}\u30fc\p{blank}]+\z/
-  date_format = %r(\A(19|20)[0-9]{2}(/|-)(0[1-9]|1[0-2])(/|-)(0[1-9]|(1|2)[0-9]|3[01])\z)
+  birthday_format =
+    %r(\A(19|20)[0-9]{2}(/|-)(0[1-9]|1[0-2])(/|-)(0[1-9]|(1|2)[0-9]|3[01])\z)
   cell_format = /\A[0-9]{3}-[0-9]{4}-[0-9]{4}\z/
 
   validates :name,
@@ -20,7 +21,7 @@ class Staffdetail < ActiveRecord::Base
             length: { maximum: 50, allow_blank: true }
   validates :birthday,
             presence: true,
-            format: { with: date_format, allow_blank: true }
+            format: { with: birthday_format, allow_blank: true }
   validates :phone_number,
             presence: { if: 'cell_number.blank?' },
             format: { with: /\A([0-9]|-)+\z/, allow_blank: true },
