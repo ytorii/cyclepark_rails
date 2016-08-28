@@ -1,6 +1,7 @@
 # Model for customer'S contracts
 class Contract < ActiveRecord::Base
   include StaffsExist
+  include RegexpPatterns
   include ContractsValidate
   include ContractsSetParams
 
@@ -8,7 +9,8 @@ class Contract < ActiveRecord::Base
   has_many :seals, dependent: :destroy
   accepts_nested_attributes_for :seals
 
-  date_regexp = %r(\A20[0-9]{2}(/|-)(0[1-9]|1[0-2])(/|-)(0[1-9]|(1|2)[0-9]|3[01])\z)
+  date_regexp =
+    %r(\A20[0-9]{2}(/|-)(0[1-9]|1[0-2])(/|-)(0[1-9]|(1|2)[0-9]|3[01])\z)
 
   validates :contract_date,
             presence: true,
@@ -54,7 +56,7 @@ class Contract < ActiveRecord::Base
       set_nilcontract_params
     end
 
-    if self.new_record?
+    if new_record?
       # Seals needs to insert parameters before validation.
       # Because first seal parameters depend on inputs from web pages.
       set_contract_params

@@ -5,6 +5,7 @@ class Customer < ActiveRecord::Base
   belongs_to :leaf
 
   read_format = /\A[\p{Katakana}\u30fc\p{blank}]+\z/
+  phone_format = /\A([0-9]|-)+\z/
   cell_format = /\A[0-9]{3}-[0-9]{4}-[0-9]{4}\z/
 
   validates :first_name,
@@ -26,7 +27,7 @@ class Customer < ActiveRecord::Base
             length: { maximum: 50, allow_blank: true }
   validates :phone_number,
             presence: { if: 'cell_number.blank?' },
-            format: { with: /\A([0-9]|-)+\z/, allow_blank: true },
+            format: { with: phone_format, allow_blank: true },
             length: { maximum: 12, allow_blank: true }
   validates :cell_number,
             presence: { if: 'phone_number.blank?', allow_blank: true },

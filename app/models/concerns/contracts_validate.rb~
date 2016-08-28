@@ -1,4 +1,4 @@
 require 'active_support'
-module ContractsValidate
+module RegexpFormats
   extend ActiveSupport::Concern
 end
