@@ -23,7 +23,7 @@ feature "Multi Seals Update" do
 
     # JavaScript is needed to pass the test!
     context 'with valid input', :js => true do
-      it 'updates unsticked seal to be sticked.' do
+      it 'updates unsealed seal to be sealed.' do
         expect(current_path).to eq('/multi_seals_update')
 
         within('form#new_multi_seals_update') do

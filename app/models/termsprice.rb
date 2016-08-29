@@ -17,11 +17,11 @@ class Termsprice
 
     case leaf.vhiecle_type
     when 1
-      first_price(leaf, term)
+      calc_first_price(leaf, term)
     when 2
-      bike_price(leaf, term)
+      calc_bike_price(leaf, term)
     when 3
-      second_price(term)
+      calc_second_price(term)
     end
   end
 
@@ -31,7 +31,7 @@ class Termsprice
     errors.add(:leaf_id, 'は存在しないリーフです。') unless Leaf.exists?(leaf_id)
   end
 
-  def first_price(leaf, term)
+  def calc_first_price(leaf, term)
     # First area has fixed discount prices for longer term,
     # so price list is array for terms.
     first_price = {
@@ -42,7 +42,7 @@ class Termsprice
     first_price[leaf.student_flag][term.to_i - 1]
   end
 
-  def bike_price(leaf, term)
+  def calc_bike_price(leaf, term)
     bike_price = {
       false => 5500,
       true => 6500
@@ -51,7 +51,7 @@ class Termsprice
     bike_price[leaf.largebike_flag] * term.to_i
   end
 
-  def second_price(term)
+  def calc_second_price(term)
     2500 * term.to_i
   end
 end

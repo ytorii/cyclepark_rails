@@ -12,7 +12,7 @@ class Termsprice
             }
   validate :leaf_exist?
 
-  def get_price
+  def calc_price
     leaf = Leaf.find(leaf_id)
 
     case leaf.vhiecle_type

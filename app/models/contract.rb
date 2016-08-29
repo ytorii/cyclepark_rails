@@ -1,7 +1,6 @@
 # Model for customer'S contracts
 class Contract < ActiveRecord::Base
   include StaffsExist
-  include RegexpPatterns
   include ContractsValidate
   include ContractsSetParams
 
@@ -45,7 +44,7 @@ class Contract < ActiveRecord::Base
             inclusion: { in: [true, false] }
   validates :skip_flag,
             inclusion: { in: [true, false] }
-  validate :staffExists?
+  validate :staff_exists?
   validate :month_exists?, on: :create
   validate :same_length_terms?, on: :update
 

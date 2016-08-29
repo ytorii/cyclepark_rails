@@ -37,7 +37,8 @@ class MultiSealsUpdateController < ApplicationController
       else
         format.html { redirect_to multi_seals_update_path,
                       alert: @unsealed_list.errors.full_messages }
-        format.json { render json: errors, status: :unprocessable_entity }
+        format.json { render json: errors,
+                      status: :unprocessable_entity }
       end
     end
   end

@@ -25,8 +25,8 @@
         <tbody>
           <tr>
             <td class="left_align"><a href="app-models-concerns-staffs_exist_rb.html">app/models/concerns/staffs_exist.rb</a></td>
-            <td class='right_align'><tt>11</tt></td>
-            <td class='right_align'><tt>11</tt></td>
+            <td class='right_align'><tt>8</tt></td>
+            <td class='right_align'><tt>8</tt></td>
             <td class="left_align"><div class="percent_graph_legend"><tt class=''>0.00%</tt></div>
       <div class="percent_graph">
         <div class="covered" style="width:0px"></div>
@@ -57,36 +57,27 @@
           <td><pre><a name="line3">3</a> module StaffsExist</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line4">4</a>   extend ActiveSupport::Concern</pre></td>
+          <td><pre><a name="line4">4</a>   def staff_exists?</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line5">5</a> </pre></td>
+          <td><pre><a name="line5">5</a>     unless Staff.where(nickname: self.staff_nickname).exists?</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line6">6</a>   def staffExists?</pre></td>
+          <td><pre><a name="line6">6</a>       errors.add(:staff_nickname, &#39;は存在しないスタッフです。&#39;)</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line7">7</a>     unless Staff.where(nickname: self.staff_nickname).exists?</pre></td>
+          <td><pre><a name="line7">7</a>     end</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line8">8</a>       errors.add(:staff_nickname, &#39;は存在しないスタッフです。&#39;)</pre></td>
+          <td><pre><a name="line8">8</a>   end</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line9">9</a>     end</pre></td>
-        </tr>
-        <tr class="uncovered">
-          <td><pre><a name="line10">10</a>   end</pre></td>
-        </tr>
-        <tr class="uncovered">
-          <td><pre><a name="line11">11</a> </pre></td>
-        </tr>
-        <tr class="uncovered">
-          <td><pre><a name="line12">12</a> end</pre></td>
+          <td><pre><a name="line9">9</a> end</pre></td>
         </tr>
       </tbody>
     </table>
 
-    <p>Generated on 2016-08-28 19:54:44 +0900 with <a href="https://github.com/fguillen/simplecov-rcov">SimpleCov-RCov 0.2.3</a></p>
+    <p>Generated on 2016-08-29 10:00:39 +0900 with <a href="https://github.com/fguillen/simplecov-rcov">SimpleCov-RCov 0.2.3</a></p>
 
   </body>
 </html>
