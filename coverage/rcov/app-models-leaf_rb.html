@@ -26,16 +26,16 @@
           <tr>
             <td class="left_align"><a href="app-models-leaf_rb.html">app/models/leaf.rb</a></td>
             <td class='right_align'><tt>55</tt></td>
-            <td class='right_align'><tt>55</tt></td>
-            <td class="left_align"><div class="percent_graph_legend"><tt class=''>0.00%</tt></div>
+            <td class='right_align'><tt>24</tt></td>
+            <td class="left_align"><div class="percent_graph_legend"><tt class=''>90.91%</tt></div>
       <div class="percent_graph">
-        <div class="covered" style="width:0px"></div>
-        <div class="uncovered" style="width:100px"></div>
+        <div class="covered" style="width:91px"></div>
+        <div class="uncovered" style="width:9px"></div>
       </div></td>
-            <td class="left_align"><div class="percent_graph_legend"><tt class=''>0.00%</tt></div>
+            <td class="left_align"><div class="percent_graph_legend"><tt class=''>79.17%</tt></div>
       <div class="percent_graph">
-        <div class="covered" style="width:0px"></div>
-        <div class="uncovered" style="width:100px"></div>
+        <div class="covered" style="width:79px"></div>
+        <div class="uncovered" style="width:21px"></div>
       </div></td>
           </tr>
         </tbody>
@@ -50,127 +50,127 @@
 
     <table class="details">
       <tbody>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line2">2</a> # Model for customer&#39;s leaf</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="marked">
           <td><pre><a name="line3">3</a> class Leaf &lt; ActiveRecord::Base</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="marked">
           <td><pre><a name="line4">4</a>   has_one :customer, dependent: :destroy</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="marked">
           <td><pre><a name="line5">5</a>   has_many :contracts, dependent: :destroy</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line6">6</a> </pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line7">7</a>   # This parametor is needed to use multiple models in the same form.</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="marked">
           <td><pre><a name="line8">8</a>   accepts_nested_attributes_for :customer</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="marked">
           <td><pre><a name="line9">9</a>   accepts_nested_attributes_for :contracts</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line10">10</a> </pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="marked">
           <td><pre><a name="line11">11</a>   date_format =</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line12">12</a>     %r(\A20[0-9]{2}(/|-)(0[1-9]|1[0-2])(/|-)(0[1-9]|(1|2)[0-9]|3[01])\z)</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="marked">
           <td><pre><a name="line13">13</a> </pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line14">14</a>   validates :number,</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line15">15</a>             presence: true,</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line16">16</a>             numericality: {</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line17">17</a>               greater_than: 0, less_than: 1057, allow_blank: true</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="marked">
           <td><pre><a name="line18">18</a>             }</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line19">19</a>   validates :vhiecle_type,</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line20">20</a>             presence: true,</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line21">21</a>             numericality: {</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line22">22</a>               greater_than: 0, less_than: 10, allow_blank: true</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="marked">
           <td><pre><a name="line23">23</a>             }</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line24">24</a>   validates :student_flag,</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="marked">
           <td><pre><a name="line25">25</a>             inclusion: { in: [true, false] }</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line26">26</a>   validates :largebike_flag,</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="marked">
           <td><pre><a name="line27">27</a>             inclusion: { in: [true, false] }</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line28">28</a>   validates :valid_flag,</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="marked">
           <td><pre><a name="line29">29</a>             inclusion: { in: [true, false] }</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line30">30</a>   validates :start_date,</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line31">31</a>             presence: true,</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="marked">
           <td><pre><a name="line32">32</a>             format: { with: date_format, allow_blank: true }</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line33">33</a>   validates :last_date,</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="marked">
           <td><pre><a name="line34">34</a>             format: { with: date_format, unless: &#39;last_date.blank?&#39; }</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line35">35</a>   validate :number_exists?, on: :create</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="marked">
           <td><pre><a name="line36">36</a> </pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line37">37</a>   before_destroy :invalid_leaf?</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="marked">
           <td><pre><a name="line38">38</a> </pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line39">39</a>   private</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="marked">
           <td><pre><a name="line40">40</a> </pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line41">41</a>   def number_exists?</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="marked">
           <td><pre><a name="line42">42</a>     if Leaf.where(&#39;number = ? and vhiecle_type = ? and valid_flag = ?&#39;,</pre></td>
         </tr>
         <tr class="uncovered">
@@ -179,19 +179,19 @@
         <tr class="uncovered">
           <td><pre><a name="line44">44</a>       errors.add(:number, &#39;指定された番号は既に使用されています。&#39;)</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line45">45</a>       return false</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line46">46</a>     end</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line47">47</a>   end</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line48">48</a> </pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="marked">
           <td><pre><a name="line49">49</a>   # Only the invalid leaf is allowed to be deleted!</pre></td>
         </tr>
         <tr class="uncovered">
@@ -203,22 +203,22 @@
         <tr class="uncovered">
           <td><pre><a name="line52">52</a>       errors.add(:valid_flag, &#39;契約中のリーフは削除できません。&#39;)</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line53">53</a>       return false</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line54">54</a>     end</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line55">55</a>   end</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line56">56</a> end</pre></td>
         </tr>
       </tbody>
     </table>
 
-    <p>Generated on 2016-08-29 10:00:39 +0900 with <a href="https://github.com/fguillen/simplecov-rcov">SimpleCov-RCov 0.2.3</a></p>
+    <p>Generated on 2016-06-03 00:00:02 +0900 with <a href="https://github.com/fguillen/simplecov-rcov">SimpleCov-RCov 0.2.3</a></p>
 
   </body>
 </html>
