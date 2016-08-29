@@ -11,22 +11,20 @@ class CountContractsSummary
 
   def initialize(in_month)
     @month = in_month.presence || Date.current
-    @countContractsArray = CountContractsArray.new(@month)
+    @counts_array = CountContractsArray.new(@month).count_contracts_array
   end
 
   def count_contracts_summary
-    count_array = @countContractsArray.count_contracts_array
 
     {
-      'present_total' => count_array[2],
-      'present_new' => count_array[3],
-      'next_total' => count_array[4],
-      'next_new' => count_array[5],
-      'diffs_prev' => diff_array(count_array[2], count_array[0]),
+      'present_total' => @counts_array[2],
+      'present_new' => @counts_array[3],
+      'next_total' => @counts_array[4],
+      'next_new' => @counts_array[5],
+      'diffs_prev' => diff_array(@counts_array[2], @counts_array[0]),
       'next_unpaid' =>
-      unpaid_array(count_array[2], count_array[4], count_array[5])
+      unpaid_array(@counts_array[2], @counts_array[4], @counts_array[5])
     }
-
   end
 
   private

@@ -16,7 +16,6 @@ class CountContractsSummary
 
   def count_contracts_summary
     count_array = @countContractsArray.count_contracts_array
-    p count_array
 
     {
       'present_total' => count_array[2],
@@ -27,7 +26,6 @@ class CountContractsSummary
       'next_unpaid' =>
       unpaid_array(count_array[2], count_array[4], count_array[5])
     }
-
   end
 
   private

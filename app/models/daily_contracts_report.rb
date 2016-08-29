@@ -14,44 +14,22 @@ class DailyContractsReport
 
   def initialize(in_contracts_date)
     @contracts_date = in_contracts_date.presence || Date.current
+    @query = DailyContractsQuery.new(@contracts_date)
   end
 
-  def getContractsList
-    result = Contract.joins(leaf: :customer)
-                     .where("contract_date = ? and skip_flag = 'f'", @contracts_date)
-                     .select('
-       contracts.id,
-       leafs.number AS number,
-       leafs.vhiecle_type AS vhiecle_type,
-       leafs.student_flag AS student_flag,
-       leafs.largebike_flag AS largebike_flag,
-       customers.first_name AS first_name,
-       customers.last_name AS last_name,
-       contracts.term1,
-       contracts.term2,
-       contracts.money1,
-       contracts.money2,
-       contracts.new_flag,
-       contracts.staff_nickname
-    ')
+  def contracts_list
+    @query.list_each_contract
   end
 
-  def calcContractsSummary
+  def contracts_total
     # Total(1) + vhiecle_type(3)
-    rows = 4
-
-    # [ counts, total money ]
-    result = Array.new(rows) do
+    result = Array.new(4) do
+      # [ counts, total money ]
       [0, 0]
     end
 
     # Get counts and money of each vhiecle types.
-    contracts_counts = Contract.where(
-      "contract_date = ? and skip_flag = 'f'", @contracts_date
-    )
-                               .joins(:leaf)
-                               .group(:vhiecle_type)
-                               .pluck('leafs.vhiecle_type, count(*), sum(money1 + money2)')
+    contracts_counts = @query.list_total_amount
 
     # Insert counts and money to each vhiecle_type's row.
     contracts_counts.each do |count|
