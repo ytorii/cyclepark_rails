@@ -25,8 +25,8 @@
         <tbody>
           <tr>
             <td class="left_align"><a href="app-models-count_contracts_summary_rb.html">app/models/count_contracts_summary.rb</a></td>
-            <td class='right_align'><tt>69</tt></td>
-            <td class='right_align'><tt>27</tt></td>
+            <td class='right_align'><tt>51</tt></td>
+            <td class='right_align'><tt>19</tt></td>
             <td class="left_align"><div class="percent_graph_legend"><tt class=''>100.00%</tt></div>
       <div class="percent_graph">
         <div class="covered" style="width:100px"></div>
@@ -90,7 +90,7 @@
           <td><pre><a name="line14">14</a>     @month = in_month.presence || Date.current</pre></td>
         </tr>
         <tr class="marked">
-          <td><pre><a name="line15">15</a>     @contracts_array = CountContractsArray.new</pre></td>
+          <td><pre><a name="line15">15</a>     @countContractsArray = CountContractsArray.new(@month)</pre></td>
         </tr>
         <tr class="inferred">
           <td><pre><a name="line16">16</a>   end</pre></td>
@@ -101,62 +101,62 @@
         <tr class="marked">
           <td><pre><a name="line18">18</a>   def count_contracts_summary</pre></td>
         </tr>
+        <tr class="marked">
+          <td><pre><a name="line19">19</a>     count_array = @countContractsArray.count_contracts_array</pre></td>
+        </tr>
         <tr class="inferred">
-          <td><pre><a name="line19">19</a>     # 6rows, today, diffs prev, new_today, next, next_unpaid, new_next.</pre></td>
+          <td><pre><a name="line20">20</a> </pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line21">21</a>     {</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line22">22</a>       &#39;present_total&#39; =&gt; count_array[2],</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line23">23</a>       &#39;present_new&#39; =&gt; count_array[3],</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line24">24</a>       &#39;next_total&#39; =&gt; count_array[4],</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line25">25</a>       &#39;next_new&#39; =&gt; count_array[5],</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line26">26</a>       &#39;diffs_prev&#39; =&gt; diff_array(count_array[2], count_array[0]),</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line27">27</a>       &#39;next_unpaid&#39; =&gt;</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line28">28</a>       unpaid_array(count_array[2], count_array[4], count_array[5])</pre></td>
         </tr>
         <tr class="marked">
-          <td><pre><a name="line20">20</a>     count_array = Array.new(6) do</pre></td>
+          <td><pre><a name="line29">29</a>     }</pre></td>
         </tr>
         <tr class="inferred">
-          <td><pre><a name="line21">21</a>       # Vhiecle_type(3) + student_flag(2)+ largebike_flag(2)</pre></td>
-        </tr>
-        <tr class="marked">
-          <td><pre><a name="line22">22</a>       [0, 0, 0, 0, 0, 0, 0]</pre></td>
+          <td><pre><a name="line30">30</a> </pre></td>
         </tr>
         <tr class="inferred">
-          <td><pre><a name="line23">23</a>     end</pre></td>
-        </tr>
-        <tr class="inferred">
-          <td><pre><a name="line24">24</a> </pre></td>
-        </tr>
-        <tr class="inferred">
-          <td><pre><a name="line25">25</a>     # Count starts from previous month</pre></td>
-        </tr>
-        <tr class="marked">
-          <td><pre><a name="line26">26</a>     @month = @month.prev_month.beginning_of_month</pre></td>
-        </tr>
-        <tr class="inferred">
-          <td><pre><a name="line27">27</a> </pre></td>
-        </tr>
-        <tr class="inferred">
-          <td><pre><a name="line28">28</a>     # Count new and extend contracts of prev, present, next month.</pre></td>
-        </tr>
-        <tr class="marked">
-          <td><pre><a name="line29">29</a>     0.step(5, 2) do |i|</pre></td>
-        </tr>
-        <tr class="marked">
-          <td><pre><a name="line30">30</a>       count_array[i] = @contracts_array.present_counts_array(@month)</pre></td>
-        </tr>
-        <tr class="marked">
-          <td><pre><a name="line31">31</a>       count_array[i + 1] = @contracts_array.new_counts_array(@month)</pre></td>
+          <td><pre><a name="line31">31</a>   end</pre></td>
         </tr>
         <tr class="inferred">
           <td><pre><a name="line32">32</a> </pre></td>
         </tr>
         <tr class="marked">
-          <td><pre><a name="line33">33</a>       @month = @month.next_month</pre></td>
+          <td><pre><a name="line33">33</a>   private</pre></td>
         </tr>
         <tr class="inferred">
-          <td><pre><a name="line34">34</a>     end</pre></td>
+          <td><pre><a name="line34">34</a> </pre></td>
         </tr>
         <tr class="inferred">
-          <td><pre><a name="line35">35</a> </pre></td>
-        </tr>
-        <tr class="inferred">
-          <td><pre><a name="line36">36</a>     # Return the result as hash.</pre></td>
+          <td><pre><a name="line35">35</a>   # Diffs from prev_month = this_month - prev_month</pre></td>
         </tr>
         <tr class="marked">
-          <td><pre><a name="line37">37</a>     count_result_hash(count_array)</pre></td>
+          <td><pre><a name="line36">36</a>   def diff_array(ary1, ary2)</pre></td>
+        </tr>
+        <tr class="marked">
+          <td><pre><a name="line37">37</a>     [ary1, ary2].transpose.map { |f, s| f - s }</pre></td>
         </tr>
         <tr class="inferred">
           <td><pre><a name="line38">38</a>   end</pre></td>
@@ -164,98 +164,44 @@
         <tr class="inferred">
           <td><pre><a name="line39">39</a> </pre></td>
         </tr>
-        <tr class="marked">
-          <td><pre><a name="line40">40</a>   private</pre></td>
+        <tr class="inferred">
+          <td><pre><a name="line40">40</a>   # Next_unpaid = present_total - (next_total - next_new)</pre></td>
         </tr>
         <tr class="inferred">
-          <td><pre><a name="line41">41</a> </pre></td>
-        </tr>
-        <tr class="marked">
-          <td><pre><a name="line42">42</a>   def count_result_hash(in_ary)</pre></td>
+          <td><pre><a name="line41">41</a>   # This value should&#39;nt be smaller than 0, and first and bike&#39;s</pre></td>
         </tr>
         <tr class="inferred">
-          <td><pre><a name="line43">43</a>     {</pre></td>
-        </tr>
-        <tr class="inferred">
-          <td><pre><a name="line44">44</a>       &#39;present_total&#39; =&gt; in_ary[2],</pre></td>
-        </tr>
-        <tr class="inferred">
-          <td><pre><a name="line45">45</a>       &#39;present_new&#39; =&gt; in_ary[3],</pre></td>
-        </tr>
-        <tr class="inferred">
-          <td><pre><a name="line46">46</a>       &#39;next_total&#39; =&gt; in_ary[4],</pre></td>
-        </tr>
-        <tr class="inferred">
-          <td><pre><a name="line47">47</a>       &#39;next_new&#39; =&gt; in_ary[5],</pre></td>
-        </tr>
-        <tr class="inferred">
-          <td><pre><a name="line48">48</a>       &#39;diffs_prev&#39; =&gt; diff_array(in_ary[2], in_ary[0]),</pre></td>
-        </tr>
-        <tr class="inferred">
-          <td><pre><a name="line49">49</a>       &#39;next_unpaid&#39; =&gt; unpaid_array(in_ary[2], in_ary[4], in_ary[5])</pre></td>
+          <td><pre><a name="line42">42</a>   # total count should be calculated again to avoid unmatched values.</pre></td>
         </tr>
         <tr class="marked">
-          <td><pre><a name="line50">50</a>     }</pre></td>
+          <td><pre><a name="line43">43</a>   def unpaid_array(ary1, ary2, ary3)</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line44">44</a>     [ary1, ary2, ary3]</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line45">45</a>       .transpose</pre></td>
+        </tr>
+        <tr class="marked">
+          <td><pre><a name="line46">46</a>       .map { |f, s, t| (f - s + t) &gt;= 0 ? f - s + t : 0 }</pre></td>
+        </tr>
+        <tr class="marked">
+          <td><pre><a name="line47">47</a>       .tap do |array|</pre></td>
+        </tr>
+        <tr class="marked">
+          <td><pre><a name="line48">48</a>       array[2] = array[0] + array[1]</pre></td>
+        </tr>
+        <tr class="marked">
+          <td><pre><a name="line49">49</a>       array[5] = array[3] + array[4]</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line50">50</a>     end</pre></td>
         </tr>
         <tr class="inferred">
           <td><pre><a name="line51">51</a>   end</pre></td>
         </tr>
         <tr class="inferred">
-          <td><pre><a name="line52">52</a> </pre></td>
-        </tr>
-        <tr class="inferred">
-          <td><pre><a name="line53">53</a>   # Diffs from prev_month = this_month - prev_month</pre></td>
-        </tr>
-        <tr class="marked">
-          <td><pre><a name="line54">54</a>   def diff_array(ary1, ary2)</pre></td>
-        </tr>
-        <tr class="marked">
-          <td><pre><a name="line55">55</a>     [ary1, ary2].transpose.map { |f, s| f - s }</pre></td>
-        </tr>
-        <tr class="inferred">
-          <td><pre><a name="line56">56</a>   end</pre></td>
-        </tr>
-        <tr class="inferred">
-          <td><pre><a name="line57">57</a> </pre></td>
-        </tr>
-        <tr class="inferred">
-          <td><pre><a name="line58">58</a>   # Next_unpaid = present_total - (next_total - next_new)</pre></td>
-        </tr>
-        <tr class="inferred">
-          <td><pre><a name="line59">59</a>   # This value should&#39;nt be smaller than 0, and first and bike&#39;s</pre></td>
-        </tr>
-        <tr class="inferred">
-          <td><pre><a name="line60">60</a>   # total count should be calculated again to avoid unmatched values.</pre></td>
-        </tr>
-        <tr class="marked">
-          <td><pre><a name="line61">61</a>   def unpaid_array(ary1, ary2, ary3)</pre></td>
-        </tr>
-        <tr class="inferred">
-          <td><pre><a name="line62">62</a>     [ary1, ary2, ary3]</pre></td>
-        </tr>
-        <tr class="inferred">
-          <td><pre><a name="line63">63</a>       .transpose</pre></td>
-        </tr>
-        <tr class="marked">
-          <td><pre><a name="line64">64</a>       .map { |f, s, t| (f - s + t) &gt;= 0 ? f - s + t : 0 }</pre></td>
-        </tr>
-        <tr class="marked">
-          <td><pre><a name="line65">65</a>       .tap do |array|</pre></td>
-        </tr>
-        <tr class="marked">
-          <td><pre><a name="line66">66</a>       array[2] = array[0] + array[1]</pre></td>
-        </tr>
-        <tr class="marked">
-          <td><pre><a name="line67">67</a>       array[5] = array[3] + array[4]</pre></td>
-        </tr>
-        <tr class="inferred">
-          <td><pre><a name="line68">68</a>     end</pre></td>
-        </tr>
-        <tr class="inferred">
-          <td><pre><a name="line69">69</a>   end</pre></td>
-        </tr>
-        <tr class="inferred">
-          <td><pre><a name="line70">70</a> end</pre></td>
+          <td><pre><a name="line52">52</a> end</pre></td>
         </tr>
       </tbody>
     </table>

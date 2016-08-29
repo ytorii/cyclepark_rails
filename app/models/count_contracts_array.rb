@@ -1,33 +1,42 @@
 # Result Array of counting contracts
 class CountContractsArray
+  def initialize(in_month)
+    @month = in_month
+  end
+
+  def count_contracts_array
+    @month = @month.beginning_of_month
+    prev_month = @month.prev_month
+    next_month = @month.next_month
+
+    # Each element is 7 elements below.
+    # Vhiecle_type(3) + student_flag(2)+ largebike_flag(2)
+    [ present_counts_array(prev_month),
+      new_counts_array(prev_month),
+      present_counts_array(@month),
+      new_counts_array(@month),
+      present_counts_array(next_month),
+      new_counts_array(next_month) ]
+  end
+
+  private
+
   def present_counts_array(in_month)
     # The skipped contracts must not be included in counts.
-    present_contracts_count = Leaf.joins(contracts: :seals)
-                                  .where("contracts.skip_flag = 'f'
-                                 and seals.month = ?", in_month)
-                                  .group(:vhiecle_type,
-                                         :student_flag,
-                                         :largebike_flag)
-                                  .count
+    present_contracts =
+      CountContractsQuery.new(in_month).count_present_contracts
 
-    calc_count_array(present_contracts_count)
+    calc_count_array(present_contracts)
   end
 
   def new_counts_array(in_month)
     # New contracts' start_month is requested month.
     # It's NOT seal's month!
-    new_contracts_count = Leaf.joins(:contracts)
-                              .where("contracts.new_flag = 't' and
-                                     contracts.start_month = ?", in_month)
-                              .group(:vhiecle_type,
-                                     :student_flag,
-                                     :largebike_flag)
-                              .count
+    new_contracts =
+      CountContractsQuery.new(in_month).count_new_contracts
 
-    calc_count_array(new_contracts_count)
+    calc_count_array(new_contracts)
   end
-
-  private
 
   # Convert grouped count hash from DB to count array including total
   def calc_count_array(in_counts)

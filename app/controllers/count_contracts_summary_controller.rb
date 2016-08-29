@@ -7,7 +7,7 @@ class CountContractsSummaryController < ApplicationController
   def index
     summary = CountContractsSummary.new(params[:count_month])
     if summary.valid?
-      @counts = summary.count_contracts_summary()
+      @counts = summary.count_contracts_summary
     else
       respond_to do |format|
         format.html {

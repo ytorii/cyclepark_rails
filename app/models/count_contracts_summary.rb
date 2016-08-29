@@ -11,42 +11,25 @@ class CountContractsSummary
 
   def initialize(in_month)
     @month = in_month.presence || Date.current
-    @contracts_array = CountContractsArray.new
+    @countContractsArray = CountContractsArray.new(@month)
   end
 
   def count_contracts_summary
-    # 6rows, today, diffs prev, new_today, next, next_unpaid, new_next.
-    count_array = Array.new(6) do
-      # Vhiecle_type(3) + student_flag(2)+ largebike_flag(2)
-      [0, 0, 0, 0, 0, 0, 0]
-    end
+    count_array = @countContractsArray.count_contracts_array
 
-    # Count starts from previous month
-    @month = @month.prev_month.beginning_of_month
+    {
+      'present_total' => count_array[2],
+      'present_new' => count_array[3],
+      'next_total' => count_array[4],
+      'next_new' => count_array[5],
+      'diffs_prev' => diff_array(count_array[2], count_array[0]),
+      'next_unpaid' =>
+      unpaid_array(count_array[2], count_array[4], count_array[5])
+    }
 
-    # Count new and extend contracts of prev, present, next month.
-    0.step(5, 2) do |i|
-      count_array[i] = @contracts_array.present_counts_array(@month)
-      count_array[i + 1] = @contracts_array.new_counts_array(@month)
-      @month = @month.next_month
-    end
-
-    # Return the result as hash.
-    count_result_hash(count_array)
   end
 
   private
-
-  def count_result_hash(in_ary)
-    {
-      'present_total' => in_ary[2],
-      'present_new' => in_ary[3],
-      'next_total' => in_ary[4],
-      'next_new' => in_ary[5],
-      'diffs_prev' => diff_array(in_ary[2], in_ary[0]),
-      'next_unpaid' => unpaid_array(in_ary[2], in_ary[4], in_ary[5])
-    }
-  end
 
   # Diffs from prev_month = this_month - prev_month
   def diff_array(ary1, ary2)
