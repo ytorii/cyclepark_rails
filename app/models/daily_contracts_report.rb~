@@ -14,7 +14,7 @@ class DailyContractsReport
 
   def initialize(in_contracts_date)
     @contracts_date = in_contracts_date.presence || Date.current
-    @query = 
+    @query = DailyContractsQuery.new(@contracts_date)
   end
 
   def contracts_list

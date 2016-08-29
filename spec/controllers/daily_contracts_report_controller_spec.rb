@@ -21,8 +21,8 @@ RSpec.describe DailyContractsReportController, type: :controller do
       it "assigns contracts report as @report." do
         report = DailyContractsReport.new('2016-05-16')
         expect(assigns(:contracts_date)).to eq(report.contracts_date)
-        expect(assigns(:contracts_list)).to eq(report.getContractsList())
-        expect(assigns(:contracts_total)).to eq(report.calcContractsSummary)
+        expect(assigns(:contracts_list)).to eq(report.contracts_list)
+        expect(assigns(:contracts_total)).to eq(report.contracts_total)
       end
     end
 

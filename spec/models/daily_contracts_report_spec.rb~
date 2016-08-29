@@ -61,12 +61,12 @@ RSpec.describe DailyContractsReport, type: :model do
       report = DailyContractsReport.new(date)
 
       it "has 0 size contracts_list." do
-        expect(report.getContractsList().size).to eq(0)
+        expect(report.get_contracts_list().size).to eq(0)
       end
 
       it "has all 0 amount contracts_total." do
         amount_array = [[0, 0], [0, 0], [0, 0], [0, 0]]
-        expect(report.calcContractsSummary()).to eq(amount_array)
+        expect(report.calc_contracts_summary()).to eq(amount_array)
       end
     end
 
@@ -81,8 +81,6 @@ RSpec.describe DailyContractsReport, type: :model do
       let(:report){DailyContractsReport.new(Date.parse("2016-01-16"))}
 
       before{
-        # staff
-        create(:admin)
         # leafs(contain customers and contracts)
         daily_first_nrm_1
         daily_first_std_1
@@ -93,7 +91,7 @@ RSpec.describe DailyContractsReport, type: :model do
       }
 
       it "has expected size of contracts_list." do
-        expect(report.getContractsList().size).to eq(5)
+        expect(report.get_contracts_list().size).to eq(5)
       end
 
       it "has expected contents of contracts_list." do
@@ -105,7 +103,7 @@ RSpec.describe DailyContractsReport, type: :model do
           daily_second_1
         ]
 
-        list_array = report.getContractsList()
+        list_array = report.get_contracts_list()
 
         0.upto(4) do |i|
           expect(leaf_array[i].number).to eq(list_array[i].number)
@@ -127,7 +125,7 @@ RSpec.describe DailyContractsReport, type: :model do
 
       it "has expected amount contracts_total." do
         amount_array = [[5, 48300], [2, 28500], [2, 14800], [1, 5000]]
-        expect(report.calcContractsSummary()).to eq(amount_array)
+        expect(report.calc_contracts_summary()).to eq(amount_array)
       end
     end
   end
