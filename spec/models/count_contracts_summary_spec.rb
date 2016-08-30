@@ -71,7 +71,7 @@ RSpec.describe CountContractsSummary, type: :model do
 
         month = Date.parse("2016-01-01")
         summary = CountContractsSummary.new(month)
-        counts = summary.countContractsSummary()
+        counts = summary.count_contracts_summary()
         expect(counts).to eq(expected_hash)
       end
     end
@@ -112,7 +112,7 @@ RSpec.describe CountContractsSummary, type: :model do
 
         month = Date.parse("2016-06-01")
         summary = CountContractsSummary.new(month)
-        counts = summary.countContractsSummary()
+        counts = summary.count_contracts_summary()
         expect(counts).to eq(expected_hash)
       end
     end

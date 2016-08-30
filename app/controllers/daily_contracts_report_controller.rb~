@@ -1,9 +1,10 @@
 class DailyContractsReportController < ApplicationController
   def index
-    report = DailyContractsReport.new(params[:contract_date])
+    report = DailyContractsReport.new(params[:contracts_date])
     if report.valid?
-      @contracts_list  = report.getContractsList()
-      @contracts_total = report.calcContractsSummary()
+      @contracts_date  = report.contracts_date
+      @contracts_list  = report.get_contracts_list
+      @contracts_total = report.calc_contracts_summary
     else
       respond_to do |format|
         format.html {

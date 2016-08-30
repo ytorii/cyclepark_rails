@@ -1,0 +1,167 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang='en' xml:lang='en' xmlns='http://www.w3.org/1999/xhtml'>
+  <head>
+    <title>app/models/staffdetail.rb</title>
+    <link href="./assets/0.2.3/screen.css" media="all" rel="stylesheet" type="text/css" />
+    <link href="./assets/0.2.3/print.css" media="print" rel="stylesheet" type="text/css" />
+    <meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
+    <script type="text/javascript" src="./assets/0.2.3/rcov.js"></script>
+  </head>
+  <body>
+    <h1>Cyclepark rails C0 Coverage Information - Simploco - RCov</h1>
+    <h2>app/models/staffdetail.rb</h2>
+
+    <div class="report_table_wrapper">
+      <table class='report' id='report_table'>
+        <thead>
+          <tr>
+            <th class="left_align">Name</th>
+            <th class="right_align">Total Lines</th>
+            <th class="right_align">Lines of Code</th>
+            <th class="left_align">Total Coverage</th>
+            <th class="left_align">Code Coverage</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="left_align"><a href="app-models-staffdetail_rb.html">app/models/staffdetail.rb</a></td>
+            <td class='right_align'><tt>36</tt></td>
+            <td class='right_align'><tt>0</tt></td>
+            <td class="left_align"><div class="percent_graph_legend"><tt class=''>100.00%</tt></div>
+      <div class="percent_graph">
+        <div class="covered" style="width:100px"></div>
+        <div class="uncovered" style="width:0px"></div>
+      </div></td>
+            <td class="left_align"><div class="percent_graph_legend"><tt class=''>100.00%</tt></div>
+      <div class="percent_graph">
+        <div class="covered" style="width:100px"></div>
+        <div class="uncovered" style="width:0px"></div>
+      </div></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Key</h3>
+
+    <div class="key"><pre><span class='marked'>Code reported as executed by Ruby looks like this...</span><span class='marked1'>and this: this line is also marked as covered.</span><span class='inferred'>Lines considered as run by rcov, but not reported by Ruby, look like this,</span><span class='inferred1'>and this: these lines were inferred by rcov (using simple heuristics).</span><span class='uncovered'>Finally, here's a line marked as not executed.</span></pre></div>
+
+    <h3>Coverage Details</h3>
+
+    <table class="details">
+      <tbody>
+        <tr class="inferred">
+          <td><pre><a name="line2">2</a> require &#39;nkf&#39;</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line3">3</a> </pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line4">4</a> # Model for staff data, like name, address, phone number</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line5">5</a> class Staffdetail &lt; ActiveRecord::Base</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line6">6</a>   belongs_to :staff</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line7">7</a> </pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line8">8</a>   kana_format = /\A[\p{Katakana}\u30fc\p{blank}]+\z/</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line9">9</a>   birthday_format =</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line10">10</a>     %r(\A(19|20)[0-9]{2}(/|-)(0[1-9]|1[0-2])(/|-)(0[1-9]|(1|2)[0-9]|3[01])\z)</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line11">11</a>   cell_format = /\A[0-9]{3}-[0-9]{4}-[0-9]{4}\z/</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line12">12</a> </pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line13">13</a>   validates :name,</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line14">14</a>             presence: true,</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line15">15</a>             length: { maximum: 20, allow_blank: true }</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line16">16</a>   validates :read,</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line17">17</a>             presence: true,</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line18">18</a>             format: { with: kana_format, allow_blank: true },</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line19">19</a>             length: { maximum: 40, allow_blank: true }</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line20">20</a>   validates :address,</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line21">21</a>             presence: true,</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line22">22</a>             length: { maximum: 50, allow_blank: true }</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line23">23</a>   validates :birthday,</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line24">24</a>             presence: true,</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line25">25</a>             format: { with: birthday_format, allow_blank: true }</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line26">26</a>   validates :phone_number,</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line27">27</a>             presence: { if: &#39;cell_number.blank?&#39; },</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line28">28</a>             format: { with: /\A([0-9]|-)+\z/, allow_blank: true },</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line29">29</a>             length: { maximum: 12, allow_blank: true }</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line30">30</a>   validates :cell_number,</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line31">31</a>             presence: { if: &#39;phone_number.blank?&#39;, allow_blank: true },</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line32">32</a>             format: { with: cell_format, allow_blank: true }</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line33">33</a> </pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line34">34</a>   before_validation do</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line35">35</a>     self.read = NKF.nkf(&#39;-wh2&#39;, read) if read</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line36">36</a>   end</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line37">37</a> end</pre></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p>Generated on 2016-06-03 00:00:01 +0900 with <a href="https://github.com/fguillen/simplecov-rcov">SimpleCov-RCov 0.2.3</a></p>
+
+  </body>
+</html>

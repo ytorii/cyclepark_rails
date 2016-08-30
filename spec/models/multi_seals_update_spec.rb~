@@ -3,10 +3,7 @@ require 'rails_helper'
 RSpec.describe MultiSealsUpdate, type: :model do
   let(:multi_seals){ build(:multi_seals) }
 
-  before{
-    create(:admin)
-    multi_seals
-  }
+  before{ multi_seals }
 
   describe "Sealed Date" do
     ['2000/01/01', '2000-01-01', '2099/12/31'].each do |value|

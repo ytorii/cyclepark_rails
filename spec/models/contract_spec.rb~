@@ -34,7 +34,7 @@ RSpec.describe Contract, type: :model do
     end
   end
 
-  { term1: 9, money1: 18000, term2: 9, money2: 18000}.each do |key, value|
+  { term1: 12, money1: 36000, term2: 9, money2: 18000}.each do |key, value|
     describe "#{key}" do
       it "is valid with #{value}." do
         first_contract[key] = value
@@ -99,11 +99,11 @@ RSpec.describe Contract, type: :model do
     end
   end
 
-  describe ".setSkipAndNilParams" do
+  describe ".set_skipcontract_params" do
     context "with skip_flag is true" do
       before {
         first_contract.skip_flag = true
-        first_contract.send(:setSkipAndNilParams)
+        first_contract.send(:set_skipcontract_params)
       }
 
       { term1: 1, money1: 0, term2: 0, money2: 0}.each do |key, value|
@@ -112,14 +112,16 @@ RSpec.describe Contract, type: :model do
         end
       end
     end
+  end
 
+  describe ".set_nilcontract_params" do
     [false, nil].each do |value|
-      context "with skip_flag is #{value}" do
+      context "with skip_flag is #{value.to_s}" do
         before {
           first_contract.skip_flag = value
           first_contract.term2 = nil
           first_contract.money2 = nil
-          first_contract.send(:setSkipAndNilParams)
+          first_contract.send(:set_nilcontract_params)
         }
 
         it "sets skip_flag to false" do
@@ -135,9 +137,9 @@ RSpec.describe Contract, type: :model do
     end
   end
 
-  describe ".setContractParams" do
+  describe ".set_contract_params" do
     context "with no contracts" do
-      before { first_contract.send(:setContractParams) }
+      before { first_contract.send(:set_contract_params) }
 
       it "sets new_flag to true." do
         expect(first_contract.new_flag).to eq(true)
@@ -151,7 +153,7 @@ RSpec.describe Contract, type: :model do
       before {
         first_contract.save!
         first.reload
-        first_contract_add.send(:setContractParams)
+        first_contract_add.send(:set_contract_params)
       }
 
       it "sets new_flag to false." do
@@ -164,99 +166,84 @@ RSpec.describe Contract, type: :model do
 
   end
 
-  describe ".setFirstSealParams" do
-    subject { first_contract.seals.first }
+  describe ".set_seals_params" do
+    subject { first_contract.seals }
 
-    context "with first sealed_flag true" do
+    shared_examples "seals except the first seal" do
+      subject { first_contract.seals }
+      let(:seals_size){ subject.size - 1 }
+
+      it "the number of seal is equal to sum of term1 and term2." do
+        expect(seals_size).to eq( first_contract.term1 + first_contract.term2 - 1 )
+      end
+
+      it "increments each seal's month from start_month one by one." do
+        month = first_contract.start_month.beginning_of_month
+        subject.each do |seal|
+          expect(seal.month).to eq(month)
+          month = month.next_month
+        end
+      end
+
+      it "sets false to all seal's sealed_flag except the first seal." do
+        1.upto(seals_size) do |i|
+          expect(subject[i].sealed_flag).to eq(false)
+        end
+      end
+    end
+
+    context "with first sealed_flag true", :focus do
       before {
-        first_contract.send(:setContractParams)
-        first_contract.send(:setFirstSealParams)
+        first_contract.send(:set_contract_params)
+        first_contract.send(:set_seals_params)
       }
 
       it "sets seal's month to start_month." do
-        expect(subject.month).to eq(first_contract.start_month.beginning_of_month)
+        expect(subject.first.month).to eq(first_contract.start_month.beginning_of_month)
       end
+
       it "sets seal's staff_nickname to contract's." do
-        expect(subject.staff_nickname).to eq(first_contract.staff_nickname)
+        expect(subject.first.staff_nickname).to eq(first_contract.staff_nickname)
       end
+
       it "sets seal's sealed_date to contract's contract_date." do
-        expect(subject.sealed_date).to eq(first_contract.contract_date)
+        expect(subject.first.sealed_date).to eq(first_contract.contract_date)
       end
+
+      it_behaves_like 'seals except the first seal'
     end
 
-    context "with first sealed_flag false" do
-      before {
-        subject.sealed_flag = false
-        first_contract.send(:setContractParams)
-        first_contract.send(:setFirstSealParams)
-      }
+    %w{ false nil }.each do |param|
+      context "with first sealed_flag #{param.to_s}" do
+        before {
+          subject.first.sealed_flag = param
+          first_contract.send(:set_contract_params)
+          first_contract.send(:set_seals_params)
+        }
 
-      it "sets seal's month to the first date of contract's start_month." do
-        expect(subject.month).to eq(first_contract.start_month.beginning_of_month)
-      end
-      it "sets seal's staff_nickname to nil." do
-        expect(subject.staff_nickname).to eq(nil)
-      end
-      it "sets seal's sealed_date to nil." do
-        expect(subject.sealed_date).to eq(nil)
-      end
-    end
+        it "sets seal's month to the first date of contract's start_month." do
+          expect(subject.first.month).to eq(first_contract.start_month.beginning_of_month)
+        end
 
-    context "with first sealed_flag nil" do
-      before {
-        subject.sealed_flag = nil
-        first_contract.send(:setContractParams)
-        first_contract.send(:setFirstSealParams)
-      }
+        it "sets seal's staff_nickname to nil." do
+          expect(subject.first.staff_nickname).to eq(nil)
+        end
 
-      it "sets seal's month to the first date of contract's start_month." do
-        expect(subject.month).to eq(first_contract.start_month.beginning_of_month)
-      end
-      it "sets seal's staff_nickname to nil." do
-        expect(subject.staff_nickname).to eq(nil)
-      end
-      it "sets seal's sealed_date to nil." do
-        expect(subject.sealed_date).to eq(nil)
+        it "sets seal's sealed_date to nil." do
+          expect(subject.first.sealed_date).to eq(nil)
+        end
+
+        it_behaves_like 'seals except the first seal'
       end
     end
   end
 
-  describe ".setRestSealsParams" do
+  describe ".set_canceledseals_params" do
     subject { first_contract.seals }
 
     before {
-      subject.first.sealed_flag = false
-      first_contract.send(:setContractParams)
-      first_contract.send(:setFirstSealParams)
-      first_contract.send(:setRestSealsParams)
-    }
-
-    it "the number of seals is equal to sum of term1 and term2." do
-      expect(subject.size).to eq(first_contract.term1 + first_contract.term2)
-    end
-
-    it "increments each seal's month from start_month one by one." do
-      month = first_contract.start_month.beginning_of_month
-      subject.each do |seal|
-        expect(seal.month).to eq(month)
-        month = month.next_month
-      end
-    end
-
-    it "sets false to all seal's sealed_flag." do
-      subject.each do |seal|
-        expect(seal.sealed_flag).to eq(false)
-      end
-    end
-  end
-
-  describe ".setCanceledSealsParams" do
-    subject { first_contract.seals }
-
-    before {
-      first_contract.send(:setFirstSealParams)
-      first_contract.send(:setRestSealsParams)
-      first_contract.send(:setCanceledSealsParams)
+      first_contract.send(:set_seals_params)
+      first_contract.send(:set_canceledseals_params)
     }
 
     context "with true sealed_flag" do
@@ -278,13 +265,12 @@ RSpec.describe Contract, type: :model do
     end
   end
 
-  describe ".updateLeafLastdate" do
+  describe ".update_leaf_lastdate" do
     subject { Leaf.find(first.id).last_date  }
 
     before {
-      first_contract.send(:setFirstSealParams)
-      first_contract.send(:setRestSealsParams)
-      first_contract.send(:updateLeafLastdate)
+      first_contract.send(:set_seals_params)
+      first_contract.send(:update_leaf_lastdate)
     }
 
     it "updates leaf's last_date to contract's last month." do
@@ -292,7 +278,7 @@ RSpec.describe Contract, type: :model do
     end
   end
 
-  describe ".isLastContract?" do
+  describe ".last_contract?" do
     before { 
       first_contract.save!
       first_contract_add.save!
@@ -300,18 +286,18 @@ RSpec.describe Contract, type: :model do
 
     context "with last contract" do
       it "returns nil(means no problem)" do
-        expect(first_contract_add.send(:isLastContract?)).to eq(nil)
+        expect(first_contract_add.send(:last_contract?)).to eq(nil)
       end
     end
 
     context "with not the last contract" do
       it "returns false" do
-        expect(first_contract.send(:isLastContract?)).to eq(false)
+        expect(first_contract.send(:last_contract?)).to eq(false)
       end
     end
   end
 
-  describe ".backdateLeafLastdate" do
+  describe ".backdate_leaf_lastdate" do
     subject { Leaf.find(first.id).last_date  }
 
     context "when leaf has contract" do
@@ -321,14 +307,14 @@ RSpec.describe Contract, type: :model do
       }
 
       it "updates leaf's last_date to contract's last month." do
-        first_contract.send(:backdateLeafLastdate)
+        first_contract.send(:backdate_leaf_lastdate)
         is_expected.to eq(first_contract.seals.last.month)
       end
     end
 
     context "when leaf has no contract" do
       it "updates leaf's last_date to nil." do
-        first_contract.send(:backdateLeafLastdate)
+        first_contract.send(:backdate_leaf_lastdate)
         is_expected.to eq(nil)
       end
     end

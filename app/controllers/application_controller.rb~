@@ -1,29 +1,28 @@
+# Common process for all controllers.
 class ApplicationController < ActionController::Base
   # Prevent CSRF attacks by raising an exception.
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
   before_action :check_logined
-#  before_action :build_ransack_object
-
 
   private
+
   def check_logined
-    if session[:staff] then
+    if session[:staff]
       begin
         @staff = Staff.find(session[:staff])
       rescue ActiveRecord::RecordNotFound
-        reset_session
+        #reset_session deletes all sessions!
+        redirect_to_login
       end
-    end
-
-    unless @staff
-      flash[:referer] = request.fullpath
-      redirect_to controller: :login, action: :index
+    else
+      redirect_to_login
     end
   end
 
-  def build_ransack_object
-    # Ransack object for searching leafs form in the side bar.
-    @query = Leaf.ransack params[:q]
+  def redirect_to_login
+    session[:staff] = nil
+    flash[:referer] = request.fullpath
+    redirect_to controller: :login, action: :index
   end
 end

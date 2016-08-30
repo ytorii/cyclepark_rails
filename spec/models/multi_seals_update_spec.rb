@@ -55,7 +55,7 @@ RSpec.describe MultiSealsUpdate, type: :model do
     end
   end
 
-  describe ".updateSelectedSeals" do
+  describe ".update_selected_seals" do
     before{
       month = Date.parse("2016-04-01")
 
@@ -68,28 +68,28 @@ RSpec.describe MultiSealsUpdate, type: :model do
     context "with empty sealed_date" do
       it 'returns false.' do
         multi_seals.sealed_date = ''
-        expect(multi_seals.updateSelectedSeals).to eq(false)
+        expect(multi_seals.update_selected_seals).to eq(false)
       end
     end
 
     context "with empty staff_nickname" do
       it 'returns false.' do
         multi_seals.staff_nickname = ''
-        expect(multi_seals.updateSelectedSeals).to eq(false)
+        expect(multi_seals.update_selected_seals).to eq(false)
       end
     end
 
     context "with empty sealsid_list" do
       it 'returns false.' do
         multi_seals.sealsid_list = ''
-        expect(multi_seals.updateSelectedSeals).to eq(false)
+        expect(multi_seals.update_selected_seals).to eq(false)
       end
     end
 
     context "with 0 size sealsid_list" do
       it 'returns false.' do
         multi_seals.sealsid_list = []
-        expect(multi_seals.updateSelectedSeals).to eq(false)
+        expect(multi_seals.update_selected_seals).to eq(false)
       end
     end
 
@@ -97,7 +97,7 @@ RSpec.describe MultiSealsUpdate, type: :model do
       let(:selected_seals){ Seal.find(multi_seals.sealsid_list) }
 
       before{
-        multi_seals.updateSelectedSeals
+        multi_seals.update_selected_seals
       }
 
       it 'sets sealed_flag of selected seals to true.' do
@@ -129,7 +129,7 @@ RSpec.describe MultiSealsUpdate, type: :model do
       end
 
       it 'returns true.' do
-        expect(multi_seals.updateSelectedSeals).to eq(true)
+        expect(multi_seals.update_selected_seals).to eq(true)
       end
     end
 
@@ -140,7 +140,7 @@ RSpec.describe MultiSealsUpdate, type: :model do
 
       before{
         multi_seals.sealsid_list = [ 1, 3, 12, 5, 6 ]
-        multi_seals.updateSelectedSeals
+        multi_seals.update_selected_seals
       }
 
       it 'sets sealed_flag of selected seals to false.' do
@@ -162,7 +162,7 @@ RSpec.describe MultiSealsUpdate, type: :model do
       end
 
       it 'returns false.' do
-        expect(multi_seals.updateSelectedSeals).to eq(false)
+        expect(multi_seals.update_selected_seals).to eq(false)
       end
     end
   end

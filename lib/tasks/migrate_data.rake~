@@ -191,7 +191,6 @@ def setContractsParams(leaf_id, contracts)
   end
 
   result
-
 end
 
 def setSealsParams(seals)
@@ -207,5 +206,4 @@ def setSealsParams(seals)
   end
 
   result
-
 end

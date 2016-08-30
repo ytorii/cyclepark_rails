@@ -29,7 +29,7 @@ class MultiSealsUpdateController < ApplicationController
     @unsealed_list.sealsid_list.pop
 
     respond_to do |format|
-      if @unsealed_list.updateSelectedSeals
+      if @unsealed_list.update_selected_seals
         format.html { redirect_to menu_path,
                       notice: 'シール情報を更新しました。' }
         format.json { render :index, status: :ok,

@@ -3,8 +3,6 @@ require 'rails_helper'
 RSpec.describe DailyContractsReportController, type: :controller do
 
   before{
-    create(:admin)
-    create(:normal)
     create(:daily_first_nrm_1) 
     create(:daily_first_std_1) 
     create(:daily_bike_1) 

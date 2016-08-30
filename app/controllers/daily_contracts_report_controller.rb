@@ -3,8 +3,8 @@ class DailyContractsReportController < ApplicationController
     report = DailyContractsReport.new(params[:contracts_date])
     if report.valid?
       @contracts_date  = report.contracts_date
-      @contracts_list  = report.getContractsList()
-      @contracts_total = report.calcContractsSummary()
+      @contracts_list  = report.contracts_list
+      @contracts_total = report.contracts_total
     else
       respond_to do |format|
         format.html {

@@ -42,7 +42,6 @@ class ContractsController < ApplicationController
         }
         format.json { render :show, status: :created, location: @contract }
       else
-        p @contract.errors.full_messages
         # To run Leaf's show method, page needs to be redirected.
         # As Only a few inputs, re-input is a little work!
         format.html {
