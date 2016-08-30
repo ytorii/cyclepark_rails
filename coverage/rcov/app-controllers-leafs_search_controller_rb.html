@@ -27,15 +27,15 @@
             <td class="left_align"><a href="app-controllers-leafs_search_controller_rb.html">app/controllers/leafs_search_controller.rb</a></td>
             <td class='right_align'><tt>31</tt></td>
             <td class='right_align'><tt>16</tt></td>
-            <td class="left_align"><div class="percent_graph_legend"><tt class=''>93.55%</tt></div>
+            <td class="left_align"><div class="percent_graph_legend"><tt class=''>87.10%</tt></div>
       <div class="percent_graph">
-        <div class="covered" style="width:94px"></div>
-        <div class="uncovered" style="width:6px"></div>
+        <div class="covered" style="width:87px"></div>
+        <div class="uncovered" style="width:13px"></div>
       </div></td>
-            <td class="left_align"><div class="percent_graph_legend"><tt class=''>87.50%</tt></div>
+            <td class="left_align"><div class="percent_graph_legend"><tt class=''>75.00%</tt></div>
       <div class="percent_graph">
-        <div class="covered" style="width:88px"></div>
-        <div class="uncovered" style="width:12px"></div>
+        <div class="covered" style="width:75px"></div>
+        <div class="uncovered" style="width:25px"></div>
       </div></td>
           </tr>
         </tbody>
@@ -71,13 +71,13 @@
         <tr class="marked">
           <td><pre><a name="line8">8</a>       if ransack_validator.invalid?</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line9">9</a>         format.html { redirect_to menu_path,</pre></td>
         </tr>
         <tr class="inferred">
           <td><pre><a name="line10">10</a>           alert: ransack_validator.errors.full_messages }</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line11">11</a>         format.json { render json: @ransack_validator.errors,</pre></td>
         </tr>
         <tr class="inferred">
@@ -110,10 +110,10 @@
         <tr class="inferred">
           <td><pre><a name="line21">21</a>         elsif @leafs.size == 1</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line22">22</a>           format.html { redirect_to leaf_path(@leafs.first) }</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line23">23</a>           format.json { render :show, status: :created,</pre></td>
         </tr>
         <tr class="inferred">
@@ -122,10 +122,10 @@
         <tr class="inferred">
           <td><pre><a name="line25">25</a>         else</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="marked">
           <td><pre><a name="line26">26</a>           format.html { render :index }</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="marked">
           <td><pre><a name="line27">27</a>           format.json { render :index, status: :created, location: @leafs }</pre></td>
         </tr>
         <tr class="inferred">
@@ -146,7 +146,7 @@
       </tbody>
     </table>
 
-    <p>Generated on 2016-08-30 10:25:44 +0900 with <a href="https://github.com/fguillen/simplecov-rcov">SimpleCov-RCov 0.2.3</a></p>
+    <p>Generated on 2016-08-30 10:32:16 +0900 with <a href="https://github.com/fguillen/simplecov-rcov">SimpleCov-RCov 0.2.3</a></p>
 
   </body>
 </html>
