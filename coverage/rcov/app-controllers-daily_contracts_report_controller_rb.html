@@ -26,16 +26,16 @@
           <tr>
             <td class="left_align"><a href="app-controllers-daily_contracts_report_controller_rb.html">app/controllers/daily_contracts_report_controller.rb</a></td>
             <td class='right_align'><tt>17</tt></td>
-            <td class='right_align'><tt>10</tt></td>
-            <td class="left_align"><div class="percent_graph_legend"><tt class=''>100.00%</tt></div>
+            <td class='right_align'><tt>17</tt></td>
+            <td class="left_align"><div class="percent_graph_legend"><tt class=''>0.00%</tt></div>
       <div class="percent_graph">
-        <div class="covered" style="width:100px"></div>
-        <div class="uncovered" style="width:0px"></div>
+        <div class="covered" style="width:0px"></div>
+        <div class="uncovered" style="width:100px"></div>
       </div></td>
-            <td class="left_align"><div class="percent_graph_legend"><tt class=''>100.00%</tt></div>
+            <td class="left_align"><div class="percent_graph_legend"><tt class=''>0.00%</tt></div>
       <div class="percent_graph">
-        <div class="covered" style="width:100px"></div>
-        <div class="uncovered" style="width:0px"></div>
+        <div class="covered" style="width:0px"></div>
+        <div class="uncovered" style="width:100px"></div>
       </div></td>
           </tr>
         </tbody>
@@ -50,61 +50,61 @@
 
     <table class="details">
       <tbody>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line2">2</a> class DailyContractsReportController &lt; ApplicationController</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line3">3</a>   def index</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line4">4</a>     report = DailyContractsReport.new(params[:contracts_date])</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line5">5</a>     if report.valid?</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line6">6</a>       @contracts_date  = report.contracts_date</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line7">7</a>       @contracts_list  = report.contracts_list</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line8">8</a>       @contracts_total = report.contracts_total</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line9">9</a>     else</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line10">10</a>       respond_to do |format|</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line11">11</a>         format.html {</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line12">12</a>           redirect_to menu_path,</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line13">13</a>           alert: report.errors.full_messages</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line14">14</a>         }</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line15">15</a>       end</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line16">16</a>     end</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line17">17</a>   end</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line18">18</a> end</pre></td>
         </tr>
       </tbody>
     </table>
 
-    <p>Generated on 2016-08-30 08:53:21 +0900 with <a href="https://github.com/fguillen/simplecov-rcov">SimpleCov-RCov 0.2.3</a></p>
+    <p>Generated on 2016-08-30 10:25:44 +0900 with <a href="https://github.com/fguillen/simplecov-rcov">SimpleCov-RCov 0.2.3</a></p>
 
   </body>
 </html>

@@ -20,11 +20,15 @@ class Staff < ActiveRecord::Base
   # Compares entered password with stored password by digesting with salt.
   class << self
     def authenticate(nickname, password)
-      db_staff = find_by(nickname: nickname)
-      correct_pass = db_staff.password
-      digested_pass = Digest::SHA1.hexdigest(db_staff.salt + password)
+      staff = find_by(nickname: nickname)
 
-      db_staff if db_staff.try(:password) && (correct_pass == digested_pass)
+      staff if staff.try(:password) && correct_password?(staff, password)
+    end
+
+    private
+
+    def correct_password?(staff, password)
+      Digest::SHA1.hexdigest(staff.salt + password) == staff.password
     end
   end
 

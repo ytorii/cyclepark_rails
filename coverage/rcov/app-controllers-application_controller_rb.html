@@ -25,17 +25,17 @@
         <tbody>
           <tr>
             <td class="left_align"><a href="app-controllers-application_controller_rb.html">app/controllers/application_controller.rb</a></td>
-            <td class='right_align'><tt>22</tt></td>
-            <td class='right_align'><tt>12</tt></td>
-            <td class="left_align"><div class="percent_graph_legend"><tt class=''>95.45%</tt></div>
+            <td class='right_align'><tt>28</tt></td>
+            <td class='right_align'><tt>15</tt></td>
+            <td class="left_align"><div class="percent_graph_legend"><tt class=''>92.86%</tt></div>
       <div class="percent_graph">
-        <div class="covered" style="width:95px"></div>
-        <div class="uncovered" style="width:5px"></div>
+        <div class="covered" style="width:93px"></div>
+        <div class="uncovered" style="width:7px"></div>
       </div></td>
-            <td class="left_align"><div class="percent_graph_legend"><tt class=''>91.67%</tt></div>
+            <td class="left_align"><div class="percent_graph_legend"><tt class=''>86.67%</tt></div>
       <div class="percent_graph">
-        <div class="covered" style="width:92px"></div>
-        <div class="uncovered" style="width:8px"></div>
+        <div class="covered" style="width:87px"></div>
+        <div class="uncovered" style="width:13px"></div>
       </div></td>
           </tr>
         </tbody>
@@ -50,62 +50,62 @@
 
     <table class="details">
       <tbody>
+        <tr class="inferred">
+          <td><pre><a name="line2">2</a> # Common process for all controllers.</pre></td>
+        </tr>
         <tr class="marked">
-          <td><pre><a name="line2">2</a> class ApplicationController &lt; ActionController::Base</pre></td>
+          <td><pre><a name="line3">3</a> class ApplicationController &lt; ActionController::Base</pre></td>
         </tr>
         <tr class="inferred">
-          <td><pre><a name="line3">3</a>   # Prevent CSRF attacks by raising an exception.</pre></td>
+          <td><pre><a name="line4">4</a>   # Prevent CSRF attacks by raising an exception.</pre></td>
         </tr>
         <tr class="inferred">
-          <td><pre><a name="line4">4</a>   # For APIs, you may want to use :null_session instead.</pre></td>
+          <td><pre><a name="line5">5</a>   # For APIs, you may want to use :null_session instead.</pre></td>
         </tr>
         <tr class="marked">
-          <td><pre><a name="line5">5</a>   protect_from_forgery with: :exception</pre></td>
+          <td><pre><a name="line6">6</a>   protect_from_forgery with: :exception</pre></td>
         </tr>
         <tr class="marked">
-          <td><pre><a name="line6">6</a>   before_action :check_logined</pre></td>
+          <td><pre><a name="line7">7</a>   before_action :check_logined</pre></td>
         </tr>
         <tr class="inferred">
-          <td><pre><a name="line7">7</a> </pre></td>
+          <td><pre><a name="line8">8</a> </pre></td>
         </tr>
         <tr class="marked">
-          <td><pre><a name="line8">8</a>   private</pre></td>
-        </tr>
-        <tr class="marked">
-          <td><pre><a name="line9">9</a>   def check_logined</pre></td>
-        </tr>
-        <tr class="marked">
-          <td><pre><a name="line10">10</a>     if session[:staff] then</pre></td>
-        </tr>
-        <tr class="marked">
-          <td><pre><a name="line11">11</a>       begin</pre></td>
-        </tr>
-        <tr class="marked">
-          <td><pre><a name="line12">12</a>         @staff = Staff.find(session[:staff])</pre></td>
+          <td><pre><a name="line9">9</a>   private</pre></td>
         </tr>
         <tr class="inferred">
-          <td><pre><a name="line13">13</a>       rescue ActiveRecord::RecordNotFound</pre></td>
+          <td><pre><a name="line10">10</a> </pre></td>
+        </tr>
+        <tr class="marked">
+          <td><pre><a name="line11">11</a>   def check_logined</pre></td>
+        </tr>
+        <tr class="marked">
+          <td><pre><a name="line12">12</a>     if session[:staff]</pre></td>
+        </tr>
+        <tr class="marked">
+          <td><pre><a name="line13">13</a>       begin</pre></td>
+        </tr>
+        <tr class="marked">
+          <td><pre><a name="line14">14</a>         @staff = Staff.find(session[:staff])</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line14">14</a>         reset_session</pre></td>
+          <td><pre><a name="line15">15</a>       rescue ActiveRecord::RecordNotFound</pre></td>
         </tr>
         <tr class="inferred">
-          <td><pre><a name="line15">15</a>       end</pre></td>
+          <td><pre><a name="line16">16</a>         #reset_session deletes all sessions!</pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line17">17</a>         redirect_to_login</pre></td>
         </tr>
         <tr class="inferred">
-          <td><pre><a name="line16">16</a>     end</pre></td>
+          <td><pre><a name="line18">18</a>       end</pre></td>
         </tr>
         <tr class="inferred">
-          <td><pre><a name="line17">17</a> </pre></td>
+          <td><pre><a name="line19">19</a>     else</pre></td>
         </tr>
         <tr class="marked">
-          <td><pre><a name="line18">18</a>     unless @staff</pre></td>
-        </tr>
-        <tr class="marked">
-          <td><pre><a name="line19">19</a>       flash[:referer] = request.fullpath</pre></td>
-        </tr>
-        <tr class="marked">
-          <td><pre><a name="line20">20</a>       redirect_to controller: :login, action: :index</pre></td>
+          <td><pre><a name="line20">20</a>       redirect_to_login</pre></td>
         </tr>
         <tr class="inferred">
           <td><pre><a name="line21">21</a>     end</pre></td>
@@ -114,12 +114,30 @@
           <td><pre><a name="line22">22</a>   end</pre></td>
         </tr>
         <tr class="inferred">
-          <td><pre><a name="line23">23</a> end</pre></td>
+          <td><pre><a name="line23">23</a> </pre></td>
+        </tr>
+        <tr class="marked">
+          <td><pre><a name="line24">24</a>   def redirect_to_login</pre></td>
+        </tr>
+        <tr class="marked">
+          <td><pre><a name="line25">25</a>     session[:staff] = nil</pre></td>
+        </tr>
+        <tr class="marked">
+          <td><pre><a name="line26">26</a>     flash[:referer] = request.fullpath</pre></td>
+        </tr>
+        <tr class="marked">
+          <td><pre><a name="line27">27</a>     redirect_to controller: :login, action: :index</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line28">28</a>   end</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line29">29</a> end</pre></td>
         </tr>
       </tbody>
     </table>
 
-    <p>Generated on 2016-08-30 08:53:21 +0900 with <a href="https://github.com/fguillen/simplecov-rcov">SimpleCov-RCov 0.2.3</a></p>
+    <p>Generated on 2016-08-30 10:25:44 +0900 with <a href="https://github.com/fguillen/simplecov-rcov">SimpleCov-RCov 0.2.3</a></p>
 
   </body>
 </html>

@@ -25,8 +25,8 @@
         <tbody>
           <tr>
             <td class="left_align"><a href="app-models-staff_rb.html">app/models/staff.rb</a></td>
-            <td class='right_align'><tt>40</tt></td>
-            <td class='right_align'><tt>40</tt></td>
+            <td class='right_align'><tt>44</tt></td>
+            <td class='right_align'><tt>44</tt></td>
             <td class="left_align"><div class="percent_graph_legend"><tt class=''>0.00%</tt></div>
       <div class="percent_graph">
         <div class="covered" style="width:0px"></div>
@@ -117,63 +117,75 @@
           <td><pre><a name="line23">23</a>     def authenticate(nickname, password)</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line24">24</a>       db_staff = find_by(nickname: nickname)</pre></td>
+          <td><pre><a name="line24">24</a>       staff = find_by(nickname: nickname)</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line25">25</a>       correct_pass = db_staff.password</pre></td>
+          <td><pre><a name="line25">25</a> </pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line26">26</a>       digested_pass = Digest::SHA1.hexdigest(db_staff.salt + password)</pre></td>
+          <td><pre><a name="line26">26</a>       staff if staff.try(:password) &amp;&amp; correct_password?(staff, password)</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line27">27</a> </pre></td>
+          <td><pre><a name="line27">27</a>     end</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line28">28</a>       db_staff if db_staff.try(:password) &amp;&amp; (correct_pass == digested_pass)</pre></td>
+          <td><pre><a name="line28">28</a> </pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line29">29</a>     end</pre></td>
+          <td><pre><a name="line29">29</a>     private</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line30">30</a>   end</pre></td>
+          <td><pre><a name="line30">30</a> </pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line31">31</a> </pre></td>
+          <td><pre><a name="line31">31</a>     def correct_password?(staff, password)</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line32">32</a>   # Create digested password with salt before save.</pre></td>
+          <td><pre><a name="line32">32</a>       Digest::SHA1.hexdigest(staff.salt + password) == staff.password</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line33">33</a>   # Do not use after_validation because</pre></td>
+          <td><pre><a name="line33">33</a>     end</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line34">34</a>   # that executes follow process even though invalid inputs!</pre></td>
+          <td><pre><a name="line34">34</a>   end</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line35">35</a>   before_save do</pre></td>
+          <td><pre><a name="line35">35</a> </pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line36">36</a>     # Create a SALT value from SecureRandom module.</pre></td>
+          <td><pre><a name="line36">36</a>   # Create digested password with salt before save.</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line37">37</a>     self.salt = SecureRandom.hex(10).to_s</pre></td>
+          <td><pre><a name="line37">37</a>   # Do not use after_validation because</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line38">38</a>     # Create SHA1 digested password with salt.</pre></td>
+          <td><pre><a name="line38">38</a>   # that executes follow process even though invalid inputs!</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line39">39</a>     self.password = Digest::SHA1.hexdigest(salt + self.password)</pre></td>
+          <td><pre><a name="line39">39</a>   before_save do</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line40">40</a>   end</pre></td>
+          <td><pre><a name="line40">40</a>     # Create a SALT value from SecureRandom module.</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line41">41</a> end</pre></td>
+          <td><pre><a name="line41">41</a>     self.salt = SecureRandom.hex(10).to_s</pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line42">42</a>     # Create SHA1 digested password with salt.</pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line43">43</a>     self.password = Digest::SHA1.hexdigest(salt + self.password)</pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line44">44</a>   end</pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line45">45</a> end</pre></td>
         </tr>
       </tbody>
     </table>
 
-    <p>Generated on 2016-08-30 08:53:21 +0900 with <a href="https://github.com/fguillen/simplecov-rcov">SimpleCov-RCov 0.2.3</a></p>
+    <p>Generated on 2016-08-30 10:25:44 +0900 with <a href="https://github.com/fguillen/simplecov-rcov">SimpleCov-RCov 0.2.3</a></p>
 
   </body>
 </html>
