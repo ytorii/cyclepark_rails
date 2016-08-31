@@ -25,8 +25,8 @@
         <tbody>
           <tr>
             <td class="left_align"><a href="app-controllers-daily_contracts_report_controller_rb.html">app/controllers/daily_contracts_report_controller.rb</a></td>
-            <td class='right_align'><tt>17</tt></td>
-            <td class='right_align'><tt>17</tt></td>
+            <td class='right_align'><tt>35</tt></td>
+            <td class='right_align'><tt>35</tt></td>
             <td class="left_align"><div class="percent_graph_legend"><tt class=''>0.00%</tt></div>
       <div class="percent_graph">
         <div class="covered" style="width:0px"></div>
@@ -51,60 +51,114 @@
     <table class="details">
       <tbody>
         <tr class="uncovered">
-          <td><pre><a name="line2">2</a> class DailyContractsReportController &lt; ApplicationController</pre></td>
+          <td><pre><a name="line2">2</a> # Controller for listing DailyContractsReport</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line3">3</a>   def index</pre></td>
+          <td><pre><a name="line3">3</a> class DailyContractsReportController &lt; ApplicationController</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line4">4</a>     report = DailyContractsReport.new(params[:contracts_date])</pre></td>
+          <td><pre><a name="line4">4</a>   def index</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line5">5</a>     if report.valid?</pre></td>
+          <td><pre><a name="line5">5</a>     @report = DailyContractsReport.new(report_params)</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line6">6</a>       @contracts_date  = report.contracts_date</pre></td>
+          <td><pre><a name="line6">6</a> </pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line7">7</a>       @contracts_list  = report.contracts_list</pre></td>
+          <td><pre><a name="line7">7</a>     if @report.valid?</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line8">8</a>       @contracts_total = report.contracts_total</pre></td>
+          <td><pre><a name="line8">8</a>       result_parameters</pre></td>
         </tr>
         <tr class="uncovered">
           <td><pre><a name="line9">9</a>     else</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line10">10</a>       respond_to do |format|</pre></td>
+          <td><pre><a name="line10">10</a>       error_respond</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line11">11</a>         format.html {</pre></td>
+          <td><pre><a name="line11">11</a>     end</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line12">12</a>           redirect_to menu_path,</pre></td>
+          <td><pre><a name="line12">12</a>   end</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line13">13</a>           alert: report.errors.full_messages</pre></td>
+          <td><pre><a name="line13">13</a> </pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line14">14</a>         }</pre></td>
+          <td><pre><a name="line14">14</a>   private</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line15">15</a>       end</pre></td>
+          <td><pre><a name="line15">15</a> </pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line16">16</a>     end</pre></td>
+          <td><pre><a name="line16">16</a>   # strong parameters</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line17">17</a>   end</pre></td>
+          <td><pre><a name="line17">17</a>   def report_params</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line18">18</a> end</pre></td>
+          <td><pre><a name="line18">18</a>     if params[:contracts_date]</pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line19">19</a>       params.permit(:contracts_date).require(:contracts_date)</pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line20">20</a>     end</pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line21">21</a>   end</pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line22">22</a> </pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line23">23</a>   def result_parameters</pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line24">24</a>     @contracts_date  = @report.contracts_date</pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line25">25</a>     @contracts_list  = @report.contracts_list</pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line26">26</a>     @contracts_total = @report.contracts_total</pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line27">27</a>   end</pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line28">28</a> </pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line29">29</a>   def error_respond</pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line30">30</a>     respond_to do |format|</pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line31">31</a>       format.html do</pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line32">32</a>         redirect_to menu_path, alert: @report.errors.full_messages</pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line33">33</a>       end</pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line34">34</a>     end</pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line35">35</a>   end</pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line36">36</a> end</pre></td>
         </tr>
       </tbody>
     </table>
 
-    <p>Generated on 2016-08-31 09:35:03 +0900 with <a href="https://github.com/fguillen/simplecov-rcov">SimpleCov-RCov 0.2.3</a></p>
+    <p>Generated on 2016-08-31 12:19:46 +0900 with <a href="https://github.com/fguillen/simplecov-rcov">SimpleCov-RCov 0.2.3</a></p>
 
   </body>
 </html>
