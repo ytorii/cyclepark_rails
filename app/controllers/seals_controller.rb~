@@ -1,75 +1,58 @@
+# Controller for seals update, delete
 class SealsController < ApplicationController
-  before_action :set_seal, only: [:show, :edit, :update, :destroy]
+  before_action :set_seal, only: [:update, :destroy]
 
-  # GET /seals
-  # GET /seals.json
-  def index
-    @seals = Seal.all
-  end
-
-  # GET /seals/1
-  # GET /seals/1.json
-  def show
-  end
-
-  # GET /seals/new
-  def new
-    @seal = Seal.new
-  end
-
-  # GET /seals/1/edit
-  def edit
-  end
-
-  # POST /seals
-  # POST /seals.json
-  def create
-    @seal = Seal.new(seal_params)
-
-    respond_to do |format|
-      if @seal.save
-        format.html { redirect_to @seal, notice: 'Seal was successfully created.' }
-        format.json { render :show, status: :created, location: @seal }
-      else
-        format.html { render :new }
-        format.json { render json: @seal.errors, status: :unprocessable_entity }
-      end
-    end
-  end
+  UPDATE_SUCCESS = 'シール貼付情報を更新しました。'.freeze
+  UPDATE_SUCCESS = 'シール貼付情報を更新しました。'.freeze
 
   # PATCH/PUT /seals/1
   # PATCH/PUT /seals/1.json
   def update
     respond_to do |format|
       if @seal.update(seal_params)
-        format.html { redirect_to leaf_path(params[:leaf_id]), notice: 'シール貼付情報を更新しました。' }
-        format.json { render :show, status: :ok, location: @seal }
+        update_success_format(format)
       else
         @leaf = Leaf.find(params[:leaf_id])
-        format.html { render "leafs/show" }
-        format.json { render json: @seal.errors, status: :unprocessable_entity }
+        update_error_format(format)
       end
     end
   end
 
-  # DELETE /seals/1
-  # DELETE /seals/1.json
-  def destroy
-    @seal.destroy
-    respond_to do |format|
-      format.html { redirect_to seals_url, notice: 'Seal was successfully destroyed.' }
-      format.json { head :no_content }
+  private
+
+  # Use callbacks to share common setup or constraints between actions.
+  def set_seal
+    @seal = Seal.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet,
+  # only allow the white list through.
+  def seal_params
+    params.require(:seal).permit(
+      :contract_id,
+      :month,
+      :sealed_flag,
+      :sealed_date,
+      :staff_nickname
+    )
+  end
+
+  def update_success_format(format)
+    format.html do
+      redirect_to leaf_path(params[:leaf_id]), notice: UPDATE_SUCCESS
+    end
+    format.json do
+      render :show, status: :ok, location: @seal
     end
   end
 
-  private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_seal
-      @seal = Seal.find(params[:id])
+  def update_error_format(format)
+    format.html do
+      redirect_to leaf_path(params[:leaf_id]),
+                  notice: @seal.errors.full_messages
     end
-
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def seal_params
-      params.require(:seal).permit(:contract_id, :month, :sealed_flag, :sealed_date, :staff_nickname)
+    format.json do
+      render json: @seal.errors, status: :unprocessable_entity
     end
+  end
 end

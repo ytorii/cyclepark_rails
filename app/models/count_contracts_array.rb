@@ -9,7 +9,7 @@ class CountContractsArray
     prev_month = @month.prev_month
     next_month = @month.next_month
 
-    # Each element is 7 elements below.
+    # Each element has 7 elements below.
     # Vhiecle_type(3) + student_flag(2)+ largebike_flag(2)
     [present_counts_array(prev_month),
      new_counts_array(prev_month),
