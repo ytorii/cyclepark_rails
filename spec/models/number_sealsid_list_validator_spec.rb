@@ -46,7 +46,7 @@ RSpec.describe NumberSealsidListValidator, type: :model do
   end
 
   describe "contracts_seals_month_eq" do
-    ['2000/01/01', '2000-01-01', '2099/12/31'].each do |value|
+    ['2000/01/01', '2000-01-01', '2099/12/01'].each do |value|
       context "with #{value}" do
         it 'is valid.' do
           validator.contracts_seals_month_eq = value

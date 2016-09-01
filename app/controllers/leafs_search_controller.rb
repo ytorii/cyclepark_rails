@@ -2,10 +2,10 @@
 class LeafsSearchController < ApplicationController
   def index
     @ransack_validator = LeafsSearchValidator.new(search_params)
+    @query = Leaf.ransack(search_params)
 
     respond_to do |format|
       if @ransack_validator.valid?
-        @query = Leaf.ransack(search_params)
         @leafs = @query.result(distinct: true).includes(:customer)
         allocate_result_format(format)
       else
