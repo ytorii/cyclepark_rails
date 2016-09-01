@@ -25,17 +25,17 @@
         <tbody>
           <tr>
             <td class="left_align"><a href="app-controllers-count_contracts_summary_controller_rb.html">app/controllers/count_contracts_summary_controller.rb</a></td>
-            <td class='right_align'><tt>28</tt></td>
-            <td class='right_align'><tt>13</tt></td>
-            <td class="left_align"><div class="percent_graph_legend"><tt class=''>100.00%</tt></div>
+            <td class='right_align'><tt>21</tt></td>
+            <td class='right_align'><tt>21</tt></td>
+            <td class="left_align"><div class="percent_graph_legend"><tt class=''>0.00%</tt></div>
       <div class="percent_graph">
-        <div class="covered" style="width:100px"></div>
-        <div class="uncovered" style="width:0px"></div>
+        <div class="covered" style="width:0px"></div>
+        <div class="uncovered" style="width:100px"></div>
       </div></td>
-            <td class="left_align"><div class="percent_graph_legend"><tt class=''>100.00%</tt></div>
+            <td class="left_align"><div class="percent_graph_legend"><tt class=''>0.00%</tt></div>
       <div class="percent_graph">
-        <div class="covered" style="width:100px"></div>
-        <div class="uncovered" style="width:0px"></div>
+        <div class="covered" style="width:0px"></div>
+        <div class="uncovered" style="width:100px"></div>
       </div></td>
           </tr>
         </tbody>
@@ -50,94 +50,73 @@
 
     <table class="details">
       <tbody>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line2">2</a> # Controller for list CountContractsSummary.</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line3">3</a> class CountContractsSummaryController &lt; ApplicationController</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line4">4</a>   include SessionAction</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line5">5</a> </pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line6">6</a>   # This action is allowed for only admin staffs.</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line7">7</a>   before_action :check_admin</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line8">8</a> </pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line9">9</a>   def index</pre></td>
         </tr>
-        <tr class="marked">
-          <td><pre><a name="line10">10</a>     summary = CountContractsSummary.new(count_params)</pre></td>
+        <tr class="uncovered">
+          <td><pre><a name="line10">10</a>     summary = CountContractsSummary.new(params[:count_month])</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line11">11</a> </pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line12">12</a>     if summary.valid?</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line13">13</a>       @counts = summary.count_contracts_summary</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line14">14</a>     else</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line15">15</a>       respond_to do |format|</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line16">16</a>         format.html do</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line17">17</a>           redirect_to menu_path, alert: summary.errors.full_messages</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line18">18</a>         end</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line19">19</a>       end</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line20">20</a>     end</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line21">21</a>   end</pre></td>
         </tr>
-        <tr class="inferred">
-          <td><pre><a name="line22">22</a> </pre></td>
-        </tr>
-        <tr class="marked">
-          <td><pre><a name="line23">23</a>   private</pre></td>
-        </tr>
-        <tr class="inferred">
-          <td><pre><a name="line24">24</a> </pre></td>
-        </tr>
-        <tr class="inferred">
-          <td><pre><a name="line25">25</a>   # strong parameters</pre></td>
-        </tr>
-        <tr class="marked">
-          <td><pre><a name="line26">26</a>   def count_params</pre></td>
-        </tr>
-        <tr class="marked">
-          <td><pre><a name="line27">27</a>     params.permit(:count_month).require(:count_month) if params[:count_month]</pre></td>
-        </tr>
-        <tr class="inferred">
-          <td><pre><a name="line28">28</a>   end</pre></td>
-        </tr>
-        <tr class="inferred">
-          <td><pre><a name="line29">29</a> end</pre></td>
+        <tr class="uncovered">
+          <td><pre><a name="line22">22</a> end</pre></td>
         </tr>
       </tbody>
     </table>
 
-    <p>Generated on 2016-08-31 12:19:46 +0900 with <a href="https://github.com/fguillen/simplecov-rcov">SimpleCov-RCov 0.2.3</a></p>
+    <p>Generated on 2016-09-01 10:21:09 +0900 with <a href="https://github.com/fguillen/simplecov-rcov">SimpleCov-RCov 0.2.3</a></p>
 
   </body>
 </html>

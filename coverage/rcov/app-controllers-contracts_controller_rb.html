@@ -25,8 +25,8 @@
         <tbody>
           <tr>
             <td class="left_align"><a href="app-controllers-contracts_controller_rb.html">app/controllers/contracts_controller.rb</a></td>
-            <td class='right_align'><tt>127</tt></td>
-            <td class='right_align'><tt>127</tt></td>
+            <td class='right_align'><tt>128</tt></td>
+            <td class='right_align'><tt>128</tt></td>
             <td class="left_align"><div class="percent_graph_legend"><tt class=''>0.00%</tt></div>
       <div class="percent_graph">
         <div class="covered" style="width:0px"></div>
@@ -369,72 +369,75 @@
           <td><pre><a name="line107">107</a>   def create_params</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line108">108</a>     params.require(:contract).permit(</pre></td>
+          <td><pre><a name="line108">108</a>     p params</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line109">109</a>       :leaf_id, :contract_date,</pre></td>
+          <td><pre><a name="line109">109</a>     params.require(:contract).permit(</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line110">110</a>       :term1, :money1, :term2, :money2,</pre></td>
+          <td><pre><a name="line110">110</a>       :leaf_id, :contract_date,</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line111">111</a>       :skip_flag, :staff_nickname,</pre></td>
+          <td><pre><a name="line111">111</a>       :term1, :money1, :term2, :money2,</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line112">112</a>       seals_attributes: [:id, :sealed_flag]</pre></td>
+          <td><pre><a name="line112">112</a>       :skip_flag, :staff_nickname,</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line113">113</a>     )</pre></td>
+          <td><pre><a name="line113">113</a>       seals_attributes: [:id, :sealed_flag]</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line114">114</a>   end</pre></td>
+          <td><pre><a name="line114">114</a>     )</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line115">115</a> </pre></td>
+          <td><pre><a name="line115">115</a>   end</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line116">116</a>   def update_params</pre></td>
+          <td><pre><a name="line116">116</a> </pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line117">117</a>     params.require(:contract).permit(</pre></td>
+          <td><pre><a name="line117">117</a>   def update_params</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line118">118</a>       :id,</pre></td>
+          <td><pre><a name="line118">118</a>     params.require(:contract).permit(</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line119">119</a>       :leaf_id, :contract_date,</pre></td>
+          <td><pre><a name="line119">119</a>       :id,</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line120">120</a>       :term1, :money1, :term2, :money2,</pre></td>
+          <td><pre><a name="line120">120</a>       :leaf_id, :contract_date,</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line121">121</a>       :skip_flag, :staff_nickname,</pre></td>
+          <td><pre><a name="line121">121</a>       :term1, :money1, :term2, :money2,</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line122">122</a>       seals_attributes: [</pre></td>
+          <td><pre><a name="line122">122</a>       :skip_flag, :staff_nickname,</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line123">123</a>         :id,</pre></td>
+          <td><pre><a name="line123">123</a>       seals_attributes: [</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line124">124</a>         :sealed_flag, :sealed_date, :month, :staff_nickname</pre></td>
+          <td><pre><a name="line124">124</a>         :id,</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line125">125</a>       ]</pre></td>
+          <td><pre><a name="line125">125</a>         :sealed_flag, :sealed_date, :month, :staff_nickname</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line126">126</a>     )</pre></td>
+          <td><pre><a name="line126">126</a>       ]</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line127">127</a>   end</pre></td>
+          <td><pre><a name="line127">127</a>     )</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line128">128</a> end</pre></td>
+          <td><pre><a name="line128">128</a>   end</pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line129">129</a> end</pre></td>
         </tr>
       </tbody>
     </table>
 
-    <p>Generated on 2016-08-31 12:19:46 +0900 with <a href="https://github.com/fguillen/simplecov-rcov">SimpleCov-RCov 0.2.3</a></p>
+    <p>Generated on 2016-09-01 10:21:09 +0900 with <a href="https://github.com/fguillen/simplecov-rcov">SimpleCov-RCov 0.2.3</a></p>
 
   </body>
 </html>

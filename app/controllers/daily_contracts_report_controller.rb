@@ -1,7 +1,7 @@
 # Controller for listing DailyContractsReport
 class DailyContractsReportController < ApplicationController
   def index
-    @report = DailyContractsReport.new(report_params)
+    @report = DailyContractsReport.new(params[:contracts_date])
 
     if @report.valid?
       result_parameters
@@ -11,13 +11,6 @@ class DailyContractsReportController < ApplicationController
   end
 
   private
-
-  # strong parameters
-  def report_params
-    if params[:contracts_date]
-      params.permit(:contracts_date).require(:contracts_date)
-    end
-  end
 
   def result_parameters
     @contracts_date  = @report.contracts_date

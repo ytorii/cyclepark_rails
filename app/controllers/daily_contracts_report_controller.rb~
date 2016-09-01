@@ -15,7 +15,7 @@ class DailyContractsReportController < ApplicationController
   # strong parameters
   def report_params
     params[:contracts_date] = nil
-    params.permit(:contracts_date).require(:contracts_date)
+    params.require(:contracts_date)
   end
 
   def result_parameters

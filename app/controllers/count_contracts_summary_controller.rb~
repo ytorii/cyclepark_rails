@@ -6,8 +6,6 @@ class CountContractsSummaryController < ApplicationController
   before_action :check_admin
 
   def index
-    # p params
-    # summary = CountContractsSummary.new(params[:count_month])
     summary = CountContractsSummary.new(count_params)
 
     if summary.valid?

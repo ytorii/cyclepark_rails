@@ -42,8 +42,7 @@ class ContractsController < ApplicationController
       else
         # To run Leaf's show method, page needs to be redirected.
         # As Only a few inputs, re-input is a little work!
-        format.html { redirect_to_leaf_alert(@contract.errors.full_messages) }
-        format.json { render json: @contract.errors, status: :unprocessable_entity }
+        unprocessable_response(format)
       end
     end
   end
@@ -56,8 +55,7 @@ class ContractsController < ApplicationController
         format.html { redirect_to_leaf_notice(UPDATE_MESSAGE) }
         format.json { render :show, status: :ok, location: @contract }
       else
-        format.html { redirect_to_leaf_alert(@contract.errors.full_messages) }
-        format.json { render json: @contract.errors, status: :unprocessable_entity }
+        unprocessable_response(format)
       end
     end
   end
@@ -70,8 +68,7 @@ class ContractsController < ApplicationController
         format.html { redirect_to_leaf_notice(DELETE_MESSAGE) }
         format.json { render :show, status: :ok, location: @contract }
       else
-        format.html { redirect_to_leaf_alert(@contract.errors.full_messages) }
-        format.json { render json: @contract.errors, status: :unprocessable_entity }
+        unprocessable_response(format)
       end
     end
   end
@@ -89,6 +86,11 @@ class ContractsController < ApplicationController
 
   def redirect_to_leaf_alert(message)
     redirect_to leaf_path(@contract.leaf_id), alert: message
+  end
+
+  def unprocessable_response(format)
+    format.html { redirect_to_leaf_alert(@contract.errors.full_messages) }
+    format.json { render json: @contract.errors, status: :unprocessable_entity }
   end
 
   def create_message
