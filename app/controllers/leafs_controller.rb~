@@ -1,3 +1,4 @@
+# Controller for leafs index, show, edit, update, destroy
 class LeafsController < ApplicationController
   include SessionAction
 
@@ -31,7 +32,6 @@ class LeafsController < ApplicationController
   # POST /leafs
   # POST /leafs.json
   def create
-
     @leaf = Leaf.new(leaf_params)
 
     respond_to do |format|
@@ -70,13 +70,24 @@ class LeafsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_leaf
-      @leaf = Leaf.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def leaf_params
-      params.require(:leaf).permit(:number, :vhiecle_type, :student_flag, :largebike_flag, :valid_flag, :start_date, :last_date, customer_attributes: [:id, :first_name, :last_name, :first_read, :last_read, :sex, :address, :phone_number, :cell_number, :receipt, :comment] )
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_leaf
+    @leaf = Leaf.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet,
+  # only allow the white list through.
+  def leaf_params
+    params.require(:leaf).permit(
+      :number, :vhiecle_type, :student_flag, :largebike_flag,
+      :valid_flag, :start_date, :last_date,
+      customer_attributes: [
+        :id,
+        :first_name, :last_name, :first_read, :last_read,
+        :sex, :address, :phone_number, :cell_number,
+        :receipt, :comment
+      ]
+    )
+  end
 end

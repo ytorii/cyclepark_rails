@@ -57,16 +57,23 @@ RSpec.describe SealsController, type: :controller do
     end
 
     context "with invalid params" do
+      let(:seal){ Seal.where(sealed_flag: false).first }
+
+      before {
+        put :update, {
+          :leaf_id => first.id,
+          :contract_id => first_contract.id,
+          :id => seal.to_param,
+          :seal => invalid_attributes
+        }, valid_session
+      }
+
       it "assigns the seal as @seal" do
-        seal = Seal.where(sealed_flag: false).first 
-        put :update, {:leaf_id => first.id, :contract_id => first_contract.id, :id => seal.to_param, :seal => invalid_attributes}, valid_session
         expect(assigns(:seal)).to eq(seal)
       end
 
-      it "re-renders the leaf's 'show' template" do
-        seal = Seal.where(sealed_flag: false).first 
-        put :update, {:leaf_id => first.id, :contract_id => first_contract.id, :id => seal.to_param, :seal => invalid_attributes}, valid_session
-        expect(response).to render_template("leafs/show")
+      it "redirect to the leaf's 'show' template" do
+        expect(response).to redirect_to(leaf_path(first.id))
       end
     end
   end

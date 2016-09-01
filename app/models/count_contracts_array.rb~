@@ -11,12 +11,12 @@ class CountContractsArray
 
     # Each element is 7 elements below.
     # Vhiecle_type(3) + student_flag(2)+ largebike_flag(2)
-    [ present_counts_array(prev_month),
-      new_counts_array(prev_month),
-      present_counts_array(@month),
-      new_counts_array(@month),
-      present_counts_array(next_month),
-      new_counts_array(next_month) ]
+    [present_counts_array(prev_month),
+     new_counts_array(prev_month),
+     present_counts_array(@month),
+     new_counts_array(@month),
+     present_counts_array(next_month),
+     new_counts_array(next_month)]
   end
 
   private
