@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160323094635) do
+ActiveRecord::Schema.define(version: 20160903075820) do
 
   create_table "contracts", force: :cascade do |t|
     t.integer  "leaf_id"
@@ -75,7 +75,7 @@ ActiveRecord::Schema.define(version: 20160323094635) do
   end
 
   add_index "seals", ["contract_id"], name: "index_seals_on_contract_id"
-  add_index "seals", ["month"], name: "index_seals_on_month"
+  add_index "seals", ["month", "sealed_flag"], name: "index_seals_on_month_and_sealed_flag"
 
   create_table "staffdetails", force: :cascade do |t|
     t.integer  "staff_id"
