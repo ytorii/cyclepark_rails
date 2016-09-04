@@ -4,9 +4,9 @@ require 'securerandom'
 class StaffsController < ApplicationController
   include SessionAction
 
-  CREATE_SUCCESS = 'スタッフ情報を登録しました。'.freeze
-  UPDATE_SUCCESS = 'スタッフ情報を更新しました。'.freeze
-  DELETE_SUCCESS = 'スタッフ情報を削除しました。'.freeze
+  STAFF_CREATE_SUCCESS = 'スタッフ情報を登録しました。'.freeze
+  STAFF_UPDATE_SUCCESS = 'スタッフ情報を更新しました。'.freeze
+  STAFF_DELETE_SUCCESS = 'スタッフ情報を削除しました。'.freeze
 
   # Staff actions are allowed for only admin staffs.
   before_action :check_admin
@@ -40,13 +40,9 @@ class StaffsController < ApplicationController
 
     respond_to do |format|
       if @staff.save
-        format.html { redirect_to @staff, notice: CREATE_SUCCESS }
-        format.json { render :show, status: :created, location: @staff }
+        success_format(format, 'created', STAFF_CREATE_SUCCESS)
       else
-        format.html { render :new }
-        format.json do
-          render json: @staff.errors, status: :unprocessable_entity
-        end
+        error_format(format, 'new')
       end
     end
   end
@@ -56,13 +52,9 @@ class StaffsController < ApplicationController
   def update
     respond_to do |format|
       if @staff.update(staff_params)
-        format.html { redirect_to @staff, notice: UPDATE_SUCCESS }
-        format.json { render :show, status: :ok, location: @staff }
+        success_format(format, 'ok', STAFF_UPDATE_SUCCESS)
       else
-        format.html { render :edit }
-        format.json do
-          render json: @staff.errors, status: :unprocessable_entity
-        end
+        error_format(format, 'edit')
       end
     end
   end
@@ -72,7 +64,7 @@ class StaffsController < ApplicationController
   def destroy
     @staff.destroy
     respond_to do |format|
-      format.html { redirect_to staffs_url, notice: DELETE_SUCCESS }
+      format.html { redirect_to staffs_url, notice: STAFF_DELETE_SUCCESS }
       format.json { head :no_content }
     end
   end
@@ -97,5 +89,17 @@ class StaffsController < ApplicationController
         :phone_number, :cell_number
       ]
     )
+  end
+
+  def success_format(format, status, message)
+    format.html { redirect_to @staff, notice: message }
+    format.json { render :show, status: status.to_sym, location: @staff }
+  end
+
+  def error_format(format, action)
+    format.html { render action.to_sym }
+    format.json do
+      render json: @staff.errors, status: :unprocessable_entity
+    end
   end
 end

@@ -14,7 +14,8 @@ class LeafsController < ApplicationController
   # GET /leafs/1
   # GET /leafs/1.json
   def show
-    @contracts_list = @leaf.contracts.all
+    # To avoid N+1 Query, includes Seal
+    @contracts_list = @leaf.contracts.includes(:seals)
     @contract = @leaf.contracts.build
     @contract.seals.build
   end

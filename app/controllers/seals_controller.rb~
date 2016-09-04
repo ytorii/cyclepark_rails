@@ -49,7 +49,7 @@ class SealsController < ApplicationController
   def update_error_format(format)
     format.html do
       redirect_to leaf_path(params[:leaf_id]),
-                  notice: @seal.errors.full_messages
+                  error: @seal.errors.full_messages
     end
     format.json do
       render json: @seal.errors, status: :unprocessable_entity

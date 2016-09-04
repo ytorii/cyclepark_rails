@@ -136,7 +136,7 @@ feature "Contract Addition" do
     end
 
     context 'with invalid input' do
-      scenario 'Fail to add a ccontract.' do
+      scenario 'Fail to add a contract.' do
         click_button '登録する' 
 
         within(".alert-danger") do

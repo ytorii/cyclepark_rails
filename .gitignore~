@@ -15,4 +15,6 @@
 /log/*
 !/log/.keep
 /tmp
+*.rb~
 cyclepark.db
+production.sqlite3

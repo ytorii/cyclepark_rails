@@ -5,6 +5,10 @@ class LeafsController < ApplicationController
   before_action :set_leaf, only: [:show, :edit, :update, :destroy]
   before_action :check_admin, only: [:index, :destroy]
 
+  CREATE_SUCCESS = '顧客情報を登録しました。'.freeze
+  EDIT_SUCCESS = '顧客情報を変更しました。'.freeze
+  DELETE_SUCCESS = '顧客情報を削除しました。'.freeze
+
   # GET /leafs
   # GET /leafs.json
   def index
@@ -14,7 +18,8 @@ class LeafsController < ApplicationController
   # GET /leafs/1
   # GET /leafs/1.json
   def show
-    @contracts_list = @leaf.contracts.all
+    # To avoid N+1 Query, includes Seal
+    @contracts_list = @leaf.contracts.includes(:seals)
     @contract = @leaf.contracts.build
     @contract.seals.build
   end
@@ -36,7 +41,7 @@ class LeafsController < ApplicationController
 
     respond_to do |format|
       if @leaf.save
-        format.html { redirect_to leaf_path(@leaf), notice: '顧客情報を登録しました。' }
+        format.html { redirect_to leaf_path(@leaf), notice: CREATE_SUCCESS }
         format.json { render :show, status: :created, location: @leaf }
       else
         format.html { render :new }
@@ -50,7 +55,7 @@ class LeafsController < ApplicationController
   def update
     respond_to do |format|
       if @leaf.update(leaf_params)
-        format.html { redirect_to leaf_path(@leaf), notice: '顧客情報を変更しました。' }
+        format.html { redirect_to leaf_path(@leaf), notice: EDIT_SUCCESS }
         format.json { render :show, status: :ok, location: @leaf }
       else
         format.html { render :edit }
@@ -64,7 +69,7 @@ class LeafsController < ApplicationController
   def destroy
     @leaf.destroy
     respond_to do |format|
-      format.html { redirect_to leafs_url, notice: '顧客情報を削除しました。' }
+      format.html { redirect_to leafs_url, notice: DELETE_SUCCESS }
       format.json { head :no_content }
     end
   end

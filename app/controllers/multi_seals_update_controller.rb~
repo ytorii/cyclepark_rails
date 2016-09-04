@@ -85,7 +85,8 @@ class MultiSealsUpdateController < ApplicationController
   end
 
   def list_query_result
-    @query.result.includes(:contracts)
+    #@query.result.includes(:contracts)
+    @query.result.includes(contracts: :seals)
           .select('number, seals.id as seal_id')
           .order(:number)
   end
@@ -107,7 +108,7 @@ class MultiSealsUpdateController < ApplicationController
     end
   end
 
-  def update_error_formar(format)
+  def update_error_format(format)
     format.html do
       redirect_to multi_seals_update_path,
                   alert: @unsealed_list.errors.full_messages

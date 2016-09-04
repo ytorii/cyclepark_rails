@@ -85,7 +85,7 @@ class MultiSealsUpdateController < ApplicationController
   end
 
   def list_query_result
-    @query.result.includes(:contracts)
+    @query.result.includes(contracts: :seals)
           .select('number, seals.id as seal_id')
           .order(:number)
   end
