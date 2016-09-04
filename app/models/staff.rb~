@@ -22,17 +22,18 @@ class Staff < ActiveRecord::Base
     def authenticate(nickname, password)
       staff = find_by(nickname: nickname)
 
-      if staff.try(:password) && correct_password?(staff, password)
-        staff
-      else
-        nil
-      end
+      staff if staff.try(:password) && correct_password?(staff, password)
     end
 
     private
 
     def correct_password?(staff, password)
-      staff.password == Digest::SHA1.hexdigest(staff.salt + password)
+      p staff
+      p staff.password
+      p password
+      p staff.salt
+      p Digest::SHA1.hexdigest(staff.salt + password)
+      Digest::SHA1.hexdigest(staff.salt + password) == staff.password
     end
   end
 
@@ -43,6 +44,8 @@ class Staff < ActiveRecord::Base
     # Create a SALT value from SecureRandom module.
     self.salt = SecureRandom.hex(10).to_s
     # Create SHA1 digested password with salt.
+    p self.password
     self.password = Digest::SHA1.hexdigest(salt + self.password)
+    p self.password
   end
 end

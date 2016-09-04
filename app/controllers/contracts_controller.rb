@@ -6,10 +6,10 @@ class ContractsController < ApplicationController
   before_action :check_admin, only: [:index, :show, :edit, :update, :destroy]
   before_action :set_contract, only: [:show, :edit, :update, :destroy]
 
-  CREATE_MESSAGE = '新規契約を登録しました。'.freeze
-  EXTEND_MESSAGE = '契約を更新しました。'.freeze
-  UPDATE_MESSAGE = '契約が変更されました。'.freeze
-  DELETE_MESSAGE = '契約が削除されました。'.freeze
+  CREATE_SUCCESS = '新規契約を登録しました。'.freeze
+  EXTEND_SUCCESS = '契約を更新しました。'.freeze
+  UPDATE_SUCCESS = '契約が変更されました。'.freeze
+  DELETE_SUCCESS = '契約が削除されました。'.freeze
 
   # GET /contracts
   # GET /contracts.json
@@ -52,7 +52,7 @@ class ContractsController < ApplicationController
   def update
     respond_to do |format|
       if @contract.update(update_params)
-        format.html { redirect_to_leaf_notice(UPDATE_MESSAGE) }
+        format.html { redirect_to_leaf_notice(UPDATE_SUCCESS) }
         format.json { render :show, status: :ok, location: @contract }
       else
         unprocessable_response(format)
@@ -65,7 +65,7 @@ class ContractsController < ApplicationController
   def destroy
     respond_to do |format|
       if @contract.destroy
-        format.html { redirect_to_leaf_notice(DELETE_MESSAGE) }
+        format.html { redirect_to_leaf_notice(DELETE_SUCCESS) }
         format.json { render :show, status: :ok, location: @contract }
       else
         unprocessable_response(format)
@@ -95,9 +95,9 @@ class ContractsController < ApplicationController
 
   def create_message
     if @contract.new_flag
-      CREATE_MESSAGE
+      CREATE_SUCCESS
     else
-      EXTEND_MESSAGE
+      EXTEND_SUCCESS
     end
   end
 

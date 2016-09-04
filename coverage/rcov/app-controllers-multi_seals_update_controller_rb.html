@@ -312,7 +312,7 @@
           <td><pre><a name="line88">88</a>   def list_query_result</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line89">89</a>     @query.result.includes(:contracts)</pre></td>
+          <td><pre><a name="line89">89</a>     @query.result.includes(contracts: :seals)</pre></td>
         </tr>
         <tr class="uncovered">
           <td><pre><a name="line90">90</a>           .select(&#39;number, seals.id as seal_id&#39;)</pre></td>
@@ -410,7 +410,7 @@
       </tbody>
     </table>
 
-    <p>Generated on 2016-09-02 18:33:02 +0900 with <a href="https://github.com/fguillen/simplecov-rcov">SimpleCov-RCov 0.2.3</a></p>
+    <p>Generated on 2016-09-04 20:33:40 +0900 with <a href="https://github.com/fguillen/simplecov-rcov">SimpleCov-RCov 0.2.3</a></p>
 
   </body>
 </html>

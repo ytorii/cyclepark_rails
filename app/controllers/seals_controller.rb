@@ -3,7 +3,6 @@ class SealsController < ApplicationController
   before_action :set_seal, only: [:update, :destroy]
 
   UPDATE_SUCCESS = 'シール貼付情報を更新しました。'.freeze
-  UPDATE_SUCCESS = 'シール貼付情報を更新しました。'.freeze
 
   # PATCH/PUT /seals/1
   # PATCH/PUT /seals/1.json

@@ -104,7 +104,6 @@ class ContractsController < ApplicationController
   # Never trust parameters from the scary internet,
   # only allow the white list through.
   def create_params
-    p params
     params.require(:contract).permit(
       :leaf_id, :contract_date,
       :term1, :money1, :term2, :money2,
