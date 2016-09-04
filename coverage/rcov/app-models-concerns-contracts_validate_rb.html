@@ -26,16 +26,16 @@
           <tr>
             <td class="left_align"><a href="app-models-concerns-contracts_validate_rb.html">app/models/concerns/contracts_validate.rb</a></td>
             <td class='right_align'><tt>35</tt></td>
-            <td class='right_align'><tt>35</tt></td>
-            <td class="left_align"><div class="percent_graph_legend"><tt class=''>0.00%</tt></div>
+            <td class='right_align'><tt>18</tt></td>
+            <td class="left_align"><div class="percent_graph_legend"><tt class=''>65.71%</tt></div>
       <div class="percent_graph">
-        <div class="covered" style="width:0px"></div>
-        <div class="uncovered" style="width:100px"></div>
+        <div class="covered" style="width:66px"></div>
+        <div class="uncovered" style="width:34px"></div>
       </div></td>
-            <td class="left_align"><div class="percent_graph_legend"><tt class=''>0.00%</tt></div>
+            <td class="left_align"><div class="percent_graph_legend"><tt class=''>33.33%</tt></div>
       <div class="percent_graph">
-        <div class="covered" style="width:0px"></div>
-        <div class="uncovered" style="width:100px"></div>
+        <div class="covered" style="width:33px"></div>
+        <div class="uncovered" style="width:67px"></div>
       </div></td>
           </tr>
         </tbody>
@@ -50,34 +50,34 @@
 
     <table class="details">
       <tbody>
-        <tr class="uncovered">
+        <tr class="marked">
           <td><pre><a name="line2">2</a> require &#39;active_support&#39;</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="marked">
           <td><pre><a name="line3">3</a> module ContractsValidate</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="marked">
           <td><pre><a name="line4">4</a>   extend ActiveSupport::Concern</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line5">5</a> </pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line6">6</a>   # Seal&#39;s month must be unique in the leaf.</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="marked">
           <td><pre><a name="line7">7</a>   def month_exists?</pre></td>
         </tr>
         <tr class="uncovered">
           <td><pre><a name="line8">8</a>     seals.each do |seal|</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line9">9</a>       next unless Contract.joins(:seals).where(</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line10">10</a>         &#39;leaf_id = ? and seals.month = ?&#39;,</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line11">11</a>         leaf_id, seal.month</pre></td>
         </tr>
         <tr class="uncovered">
@@ -89,22 +89,22 @@
         <tr class="uncovered">
           <td><pre><a name="line14">14</a>       return false</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line15">15</a>     end</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line16">16</a>   end</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line17">17</a> </pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line18">18</a>   # Terms length must not be changed after create!</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line19">19</a>   # Because this change causes empty terms in the leaf.</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="marked">
           <td><pre><a name="line20">20</a>   def same_length_terms?</pre></td>
         </tr>
         <tr class="uncovered">
@@ -119,19 +119,19 @@
         <tr class="uncovered">
           <td><pre><a name="line24">24</a>       return false</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line25">25</a>     end</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line26">26</a>   end</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line27">27</a> </pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line28">28</a>   # Only the last contract is allowed to be deleted!</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="marked">
           <td><pre><a name="line29">29</a>   def last_contract?</pre></td>
         </tr>
         <tr class="uncovered">
@@ -146,19 +146,19 @@
         <tr class="uncovered">
           <td><pre><a name="line33">33</a>       return false</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line34">34</a>     end</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line35">35</a>   end</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line36">36</a> end</pre></td>
         </tr>
       </tbody>
     </table>
 
-    <p>Generated on 2016-09-04 20:33:40 +0900 with <a href="https://github.com/fguillen/simplecov-rcov">SimpleCov-RCov 0.2.3</a></p>
+    <p>Generated on 2016-06-03 00:00:55 +0900 with <a href="https://github.com/fguillen/simplecov-rcov">SimpleCov-RCov 0.2.3</a></p>
 
   </body>
 </html>
