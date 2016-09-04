@@ -1,7 +1,7 @@
 namespace :migrate_data do
   desc "Migrate datas from old Java DB to new Rails DB"
 
-  task :migrateStaffsDB => :environment do
+  task :migrate_staffsdb => :environment do
     old_db = open_db
     old_staffs = old_db.execute("SELECT * FROM t_staff")
 
@@ -16,7 +16,7 @@ namespace :migrate_data do
     end
   end
 
-  task :migrateLeafsDB => :environment do
+  task :migrate_leafsdb => :environment do
     old_db = open_db
 
     begin

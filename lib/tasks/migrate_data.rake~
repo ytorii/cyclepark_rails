@@ -84,8 +84,6 @@ namespace :migrate_data do
     SUCCESS_MESSAGE = "*** LeafsDB Check successed ***"
     FAILURE_MESSAGE = "*** LeafsDB Check failed ***"
 
-    result_message = SUCCESS_MESSAGE
-
     old_db = open_db
 
     old_customers = old_db.execute("SELECT * FROM t_customer")
@@ -96,12 +94,12 @@ namespace :migrate_data do
       # Checking Leaf and Customer parameters
       if new_leaf.invalid?
         puts new_leaf.errors.full_messages
-        result_message = FAILURE_MESSAGE
+        puts FAILURE_MESSAGE
         break
       end
     end
 
-    puts result_message 
+    puts SUCCESS_MESSAGE
   end
 end
 
