@@ -1,4 +1,0 @@
-class RemoveIndexFromSeal < ActiveRecord::Migration
-  def change
-  end
-end

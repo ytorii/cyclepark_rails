@@ -1,7 +1,0 @@
-module JavascriptMacros
-  def trigger_link(in_text)
-    find('a', text: in_text).trigger('click')
-    # Waiting for completing click by javascript (not by Capybara!)
-    sleep 1
-  end
-end
