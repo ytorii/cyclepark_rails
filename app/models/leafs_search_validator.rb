@@ -9,26 +9,20 @@ class LeafsSearchValidator
 
   validates :vhiecle_type_eq,
             presence: { if: :number_search? },
-            numericality: {
-              greater_than: 0, less_than: 10, allow_blank: true
-            }
+            inclusion: { in: [1, 2, 3], allow_blank: true }
   validates :number_eq,
             presence: { if: :number_search? },
             numericality: {
-              greater_than: 0, less_than: 1013, allow_blank: true
+              greater_than: 0, less_than: 1057, allow_blank: true
             }
   validates :valid_flag_eq,
-            presence: { if: :number_search? }
+            inclusion: { in: [true, false], if: :number_search? }
   validates :customer_first_name_or_customer_last_name_cont,
-            presence: { if: :name_search? }
+            presence: { unless: :number_search? }
 
   # When number query exists, number search is executed
   # even though name input is present!
   def number_search?
     number_eq.present? || vhiecle_type_eq.present? || valid_flag_eq.present?
-  end
-
-  def name_search?
-    number_eq.blank? && vhiecle_type_eq.blank? && valid_flag_eq.blank?
   end
 end
