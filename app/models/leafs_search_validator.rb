@@ -13,7 +13,10 @@ class LeafsSearchValidator
   validates :number_eq,
             presence: { if: :number_search? },
             numericality: {
-              greater_than: 0, less_than: 1057, allow_blank: true
+              greater_than: 0,
+              less_than: 1057,
+              only_integer: true,
+              allow_blank: true
             }
   validates :valid_flag_eq,
             inclusion: { in: [true, false], if: :number_search? }

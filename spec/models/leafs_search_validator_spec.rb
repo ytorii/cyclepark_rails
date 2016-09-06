@@ -35,7 +35,7 @@ RSpec.describe LeafsSearchValidator, type: :model do
         end
       end
 
-      [0, 1057, 'a', 'あ'].each do |value|
+      [0, 1057, 3.5, 'a', 'あ'].each do |value|
         context "with #{value.to_s}." do
           it 'is invalid' do
             validator.number_eq = value
