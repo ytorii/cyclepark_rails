@@ -61,7 +61,6 @@ class LeafsSearchController < ApplicationController
 
   # strong parameters
   def search_params
-    #if params[:q] && name_search_param
     if params.dig(:q, :customer_first_name_or_customer_last_name_cont)
       params.require(:q).permit(
         :customer_first_name_or_customer_last_name_cont

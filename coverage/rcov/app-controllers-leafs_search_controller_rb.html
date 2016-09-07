@@ -25,17 +25,17 @@
         <tbody>
           <tr>
             <td class="left_align"><a href="app-controllers-leafs_search_controller_rb.html">app/controllers/leafs_search_controller.rb</a></td>
-            <td class='right_align'><tt>75</tt></td>
+            <td class='right_align'><tt>74</tt></td>
             <td class='right_align'><tt>37</tt></td>
-            <td class="left_align"><div class="percent_graph_legend"><tt class=''>85.33%</tt></div>
+            <td class="left_align"><div class="percent_graph_legend"><tt class=''>95.95%</tt></div>
       <div class="percent_graph">
-        <div class="covered" style="width:85px"></div>
-        <div class="uncovered" style="width:15px"></div>
+        <div class="covered" style="width:96px"></div>
+        <div class="uncovered" style="width:4px"></div>
       </div></td>
-            <td class="left_align"><div class="percent_graph_legend"><tt class=''>70.27%</tt></div>
+            <td class="left_align"><div class="percent_graph_legend"><tt class=''>91.89%</tt></div>
       <div class="percent_graph">
-        <div class="covered" style="width:70px"></div>
-        <div class="uncovered" style="width:30px"></div>
+        <div class="covered" style="width:92px"></div>
+        <div class="uncovered" style="width:8px"></div>
       </div></td>
           </tr>
         </tbody>
@@ -83,7 +83,7 @@
         <tr class="inferred">
           <td><pre><a name="line12">12</a>       else</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="marked">
           <td><pre><a name="line13">13</a>         validation_error_format(format)</pre></td>
         </tr>
         <tr class="inferred">
@@ -122,7 +122,7 @@
         <tr class="inferred">
           <td><pre><a name="line25">25</a>       # Only one leaf found.</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="marked">
           <td><pre><a name="line26">26</a>       single_result_format(format)</pre></td>
         </tr>
         <tr class="inferred">
@@ -173,10 +173,10 @@
         <tr class="marked">
           <td><pre><a name="line42">42</a>   def single_result_format(format)</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="marked">
           <td><pre><a name="line43">43</a>     format.html { redirect_to leaf_path(@leafs.first) }</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="marked">
           <td><pre><a name="line44">44</a>     format.json do</pre></td>
         </tr>
         <tr class="uncovered">
@@ -209,16 +209,16 @@
         <tr class="marked">
           <td><pre><a name="line54">54</a>   def validation_error_format(format)</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="marked">
           <td><pre><a name="line55">55</a>     format.html do</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="marked">
           <td><pre><a name="line56">56</a>       redirect_to menu_path, alert: @ransack_validator.errors.full_messages</pre></td>
         </tr>
         <tr class="inferred">
           <td><pre><a name="line57">57</a>     end</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="marked">
           <td><pre><a name="line58">58</a>     format.json do</pre></td>
         </tr>
         <tr class="uncovered">
@@ -239,46 +239,43 @@
         <tr class="marked">
           <td><pre><a name="line64">64</a>   def search_params</pre></td>
         </tr>
-        <tr class="inferred">
-          <td><pre><a name="line65">65</a>     #if params[:q] &amp;&amp; name_search_param</pre></td>
+        <tr class="marked">
+          <td><pre><a name="line65">65</a>     if params.dig(:q, :customer_first_name_or_customer_last_name_cont)</pre></td>
         </tr>
         <tr class="marked">
-          <td><pre><a name="line66">66</a>     if params.dig(:q, :customer_first_name_or_customer_last_name_cont)</pre></td>
+          <td><pre><a name="line66">66</a>       params.require(:q).permit(</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line67">67</a>         :customer_first_name_or_customer_last_name_cont</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line68">68</a>       )</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line69">69</a>     else</pre></td>
         </tr>
         <tr class="marked">
-          <td><pre><a name="line67">67</a>       params.require(:q).permit(</pre></td>
+          <td><pre><a name="line70">70</a>       params.require(:q).permit(</pre></td>
         </tr>
         <tr class="inferred">
-          <td><pre><a name="line68">68</a>         :customer_first_name_or_customer_last_name_cont</pre></td>
+          <td><pre><a name="line71">71</a>         :vhiecle_type_eq, :number_eq, :valid_flag_eq</pre></td>
         </tr>
         <tr class="inferred">
-          <td><pre><a name="line69">69</a>       )</pre></td>
+          <td><pre><a name="line72">72</a>       )</pre></td>
         </tr>
         <tr class="inferred">
-          <td><pre><a name="line70">70</a>     else</pre></td>
-        </tr>
-        <tr class="uncovered">
-          <td><pre><a name="line71">71</a>       params.require(:q).permit(</pre></td>
+          <td><pre><a name="line73">73</a>     end</pre></td>
         </tr>
         <tr class="inferred">
-          <td><pre><a name="line72">72</a>         :vhiecle_type_eq, :number_eq, :valid_flag_eq</pre></td>
+          <td><pre><a name="line74">74</a>   end</pre></td>
         </tr>
         <tr class="inferred">
-          <td><pre><a name="line73">73</a>       )</pre></td>
-        </tr>
-        <tr class="inferred">
-          <td><pre><a name="line74">74</a>     end</pre></td>
-        </tr>
-        <tr class="inferred">
-          <td><pre><a name="line75">75</a>   end</pre></td>
-        </tr>
-        <tr class="inferred">
-          <td><pre><a name="line76">76</a> end</pre></td>
+          <td><pre><a name="line75">75</a> end</pre></td>
         </tr>
       </tbody>
     </table>
 
-    <p>Generated on 2016-09-07 10:46:35 +0900 with <a href="https://github.com/fguillen/simplecov-rcov">SimpleCov-RCov 0.2.3</a></p>
+    <p>Generated on 2016-09-07 21:16:52 +0900 with <a href="https://github.com/fguillen/simplecov-rcov">SimpleCov-RCov 0.2.3</a></p>
 
   </body>
 </html>
