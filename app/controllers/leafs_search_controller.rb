@@ -61,7 +61,8 @@ class LeafsSearchController < ApplicationController
 
   # strong parameters
   def search_params
-    if params[:q] && name_search_param
+    #if params[:q] && name_search_param
+    if params.dig(:q, :customer_first_name_or_customer_last_name_cont)
       params.require(:q).permit(
         :customer_first_name_or_customer_last_name_cont
       )
@@ -70,9 +71,5 @@ class LeafsSearchController < ApplicationController
         :vhiecle_type_eq, :number_eq, :valid_flag_eq
       )
     end
-  end
-
-  def name_search_param
-    params[:q][:customer_first_name_or_customer_last_name_cont]
   end
 end

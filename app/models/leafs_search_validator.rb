@@ -7,9 +7,16 @@ class LeafsSearchValidator
   attr_accessor :valid_flag_eq
   attr_accessor :customer_first_name_or_customer_last_name_cont
 
+  # Ransack params are given as String, so vhiecle_types and valid_flags
+  # are checked by string expression!
   validates :vhiecle_type_eq,
             presence: { if: :number_search? },
-            inclusion: { in: [1, 2, 3], allow_blank: true }
+            numericality: {
+              greater_than: 0,
+              less_than: 4,
+              only_integer: true,
+              allow_blank: true
+            }
   validates :number_eq,
             presence: { if: :number_search? },
             numericality: {
@@ -19,7 +26,7 @@ class LeafsSearchValidator
               allow_blank: true
             }
   validates :valid_flag_eq,
-            inclusion: { in: [true, false], if: :number_search? }
+            inclusion: { in: %w(true false), if: :number_search? }
   validates :customer_first_name_or_customer_last_name_cont,
             presence: { unless: :number_search? }
 

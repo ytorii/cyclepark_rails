@@ -5,7 +5,7 @@ RSpec.describe LeafsSearchValidator, type: :model do
 
   describe 'Number search' do
     describe 'vhiecle_type_eq' do
-      [*1..3].each do |value|
+      ['1', '2', '3'].each do |value|
         context "with #{value.to_s}." do
           it 'is valid' do
             validator.vhiecle_type_eq = value
@@ -47,7 +47,7 @@ RSpec.describe LeafsSearchValidator, type: :model do
     end
 
     describe 'valid_flag_eq' do
-      [true, false].each do |value|
+      ['true', 'false'].each do |value|
         context "with #{value.to_s}." do
           it 'is valid' do
             validator.valid_flag_eq = value

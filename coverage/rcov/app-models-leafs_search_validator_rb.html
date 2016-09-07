@@ -25,17 +25,17 @@
         <tbody>
           <tr>
             <td class="left_align"><a href="app-models-leafs_search_validator_rb.html">app/models/leafs_search_validator.rb</a></td>
-            <td class='right_align'><tt>31</tt></td>
-            <td class='right_align'><tt>31</tt></td>
-            <td class="left_align"><div class="percent_graph_legend"><tt class=''>0.00%</tt></div>
+            <td class='right_align'><tt>38</tt></td>
+            <td class='right_align'><tt>12</tt></td>
+            <td class="left_align"><div class="percent_graph_legend"><tt class=''>100.00%</tt></div>
       <div class="percent_graph">
-        <div class="covered" style="width:0px"></div>
-        <div class="uncovered" style="width:100px"></div>
+        <div class="covered" style="width:100px"></div>
+        <div class="uncovered" style="width:0px"></div>
       </div></td>
-            <td class="left_align"><div class="percent_graph_legend"><tt class=''>0.00%</tt></div>
+            <td class="left_align"><div class="percent_graph_legend"><tt class=''>100.00%</tt></div>
       <div class="percent_graph">
-        <div class="covered" style="width:0px"></div>
-        <div class="uncovered" style="width:100px"></div>
+        <div class="covered" style="width:100px"></div>
+        <div class="uncovered" style="width:0px"></div>
       </div></td>
           </tr>
         </tbody>
@@ -50,103 +50,124 @@
 
     <table class="details">
       <tbody>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line2">2</a> # Validate parameters for searching leafs</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="marked">
           <td><pre><a name="line3">3</a> class LeafsSearchValidator</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="marked">
           <td><pre><a name="line4">4</a>   include ActiveModel::Model</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line5">5</a> </pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="marked">
           <td><pre><a name="line6">6</a>   attr_accessor :vhiecle_type_eq</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="marked">
           <td><pre><a name="line7">7</a>   attr_accessor :number_eq</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="marked">
           <td><pre><a name="line8">8</a>   attr_accessor :valid_flag_eq</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="marked">
           <td><pre><a name="line9">9</a>   attr_accessor :customer_first_name_or_customer_last_name_cont</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line10">10</a> </pre></td>
         </tr>
-        <tr class="uncovered">
-          <td><pre><a name="line11">11</a>   validates :vhiecle_type_eq,</pre></td>
+        <tr class="inferred">
+          <td><pre><a name="line11">11</a>   # Ransack params are given as String, so vhiecle_types and valid_flags</pre></td>
         </tr>
-        <tr class="uncovered">
-          <td><pre><a name="line12">12</a>             presence: { if: :number_search? },</pre></td>
+        <tr class="inferred">
+          <td><pre><a name="line12">12</a>   # are checked by string expression!</pre></td>
         </tr>
-        <tr class="uncovered">
-          <td><pre><a name="line13">13</a>             inclusion: { in: [1, 2, 3], allow_blank: true }</pre></td>
+        <tr class="marked">
+          <td><pre><a name="line13">13</a>   validates :vhiecle_type_eq,</pre></td>
         </tr>
-        <tr class="uncovered">
-          <td><pre><a name="line14">14</a>   validates :number_eq,</pre></td>
+        <tr class="inferred">
+          <td><pre><a name="line14">14</a>             presence: { if: :number_search? },</pre></td>
         </tr>
-        <tr class="uncovered">
-          <td><pre><a name="line15">15</a>             presence: { if: :number_search? },</pre></td>
+        <tr class="inferred">
+          <td><pre><a name="line15">15</a>             numericality: {</pre></td>
         </tr>
-        <tr class="uncovered">
-          <td><pre><a name="line16">16</a>             numericality: {</pre></td>
+        <tr class="inferred">
+          <td><pre><a name="line16">16</a>               greater_than: 0,</pre></td>
         </tr>
-        <tr class="uncovered">
-          <td><pre><a name="line17">17</a>               greater_than: 0,</pre></td>
+        <tr class="inferred">
+          <td><pre><a name="line17">17</a>               less_than: 4,</pre></td>
         </tr>
-        <tr class="uncovered">
-          <td><pre><a name="line18">18</a>               less_than: 1057,</pre></td>
+        <tr class="inferred">
+          <td><pre><a name="line18">18</a>               only_integer: true,</pre></td>
         </tr>
-        <tr class="uncovered">
-          <td><pre><a name="line19">19</a>               only_integer: true,</pre></td>
+        <tr class="inferred">
+          <td><pre><a name="line19">19</a>               allow_blank: true</pre></td>
         </tr>
-        <tr class="uncovered">
-          <td><pre><a name="line20">20</a>               allow_blank: true</pre></td>
+        <tr class="inferred">
+          <td><pre><a name="line20">20</a>             }</pre></td>
         </tr>
-        <tr class="uncovered">
-          <td><pre><a name="line21">21</a>             }</pre></td>
+        <tr class="marked">
+          <td><pre><a name="line21">21</a>   validates :number_eq,</pre></td>
         </tr>
-        <tr class="uncovered">
-          <td><pre><a name="line22">22</a>   validates :valid_flag_eq,</pre></td>
+        <tr class="inferred">
+          <td><pre><a name="line22">22</a>             presence: { if: :number_search? },</pre></td>
         </tr>
-        <tr class="uncovered">
-          <td><pre><a name="line23">23</a>             inclusion: { in: [true, false], if: :number_search? }</pre></td>
+        <tr class="inferred">
+          <td><pre><a name="line23">23</a>             numericality: {</pre></td>
         </tr>
-        <tr class="uncovered">
-          <td><pre><a name="line24">24</a>   validates :customer_first_name_or_customer_last_name_cont,</pre></td>
+        <tr class="inferred">
+          <td><pre><a name="line24">24</a>               greater_than: 0,</pre></td>
         </tr>
-        <tr class="uncovered">
-          <td><pre><a name="line25">25</a>             presence: { unless: :number_search? }</pre></td>
+        <tr class="inferred">
+          <td><pre><a name="line25">25</a>               less_than: 1057,</pre></td>
         </tr>
-        <tr class="uncovered">
-          <td><pre><a name="line26">26</a> </pre></td>
+        <tr class="inferred">
+          <td><pre><a name="line26">26</a>               only_integer: true,</pre></td>
         </tr>
-        <tr class="uncovered">
-          <td><pre><a name="line27">27</a>   # When number query exists, number search is executed</pre></td>
+        <tr class="inferred">
+          <td><pre><a name="line27">27</a>               allow_blank: true</pre></td>
         </tr>
-        <tr class="uncovered">
-          <td><pre><a name="line28">28</a>   # even though name input is present!</pre></td>
+        <tr class="inferred">
+          <td><pre><a name="line28">28</a>             }</pre></td>
         </tr>
-        <tr class="uncovered">
-          <td><pre><a name="line29">29</a>   def number_search?</pre></td>
+        <tr class="marked">
+          <td><pre><a name="line29">29</a>   validates :valid_flag_eq,</pre></td>
         </tr>
-        <tr class="uncovered">
-          <td><pre><a name="line30">30</a>     number_eq.present? || vhiecle_type_eq.present? || valid_flag_eq.present?</pre></td>
+        <tr class="inferred">
+          <td><pre><a name="line30">30</a>             inclusion: { in: %w(true false), if: :number_search? }</pre></td>
         </tr>
-        <tr class="uncovered">
-          <td><pre><a name="line31">31</a>   end</pre></td>
+        <tr class="marked">
+          <td><pre><a name="line31">31</a>   validates :customer_first_name_or_customer_last_name_cont,</pre></td>
         </tr>
-        <tr class="uncovered">
-          <td><pre><a name="line32">32</a> end</pre></td>
+        <tr class="inferred">
+          <td><pre><a name="line32">32</a>             presence: { unless: :number_search? }</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line33">33</a> </pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line34">34</a>   # When number query exists, number search is executed</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line35">35</a>   # even though name input is present!</pre></td>
+        </tr>
+        <tr class="marked">
+          <td><pre><a name="line36">36</a>   def number_search?</pre></td>
+        </tr>
+        <tr class="marked">
+          <td><pre><a name="line37">37</a>     number_eq.present? || vhiecle_type_eq.present? || valid_flag_eq.present?</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line38">38</a>   end</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line39">39</a> end</pre></td>
         </tr>
       </tbody>
     </table>
 
-    <p>Generated on 2016-09-06 18:20:35 +0900 with <a href="https://github.com/fguillen/simplecov-rcov">SimpleCov-RCov 0.2.3</a></p>
+    <p>Generated on 2016-09-07 10:46:35 +0900 with <a href="https://github.com/fguillen/simplecov-rcov">SimpleCov-RCov 0.2.3</a></p>
 
   </body>
 </html>
