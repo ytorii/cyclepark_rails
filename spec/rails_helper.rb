@@ -98,13 +98,13 @@ RSpec.configure do |config|
   Capybara.javascript_driver = :poltergeist
 
   # DatabaseCleaner configuration
-  seed_tables = %w{ Staff Staffdetail }
+  seed_tables = %w{ staffs staffdetails }
 
   config.before(:suite) do
-    DatabaseCleaner.clean_with(:truncation, {:except => seed_tables})
-
+    puts 'suite before'
     SeedFu.fixture_paths = [ "#{Rails.root}/db/fixtures/development" ] 
     SeedFu.seed
+    DatabaseCleaner.clean_with(:truncation, {:except => seed_tables})
   end
 
   # For the test WITHOUT JavaScript

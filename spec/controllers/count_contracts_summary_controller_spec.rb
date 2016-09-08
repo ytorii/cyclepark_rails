@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe CountContractsSummaryController, type: :controller do
 
-  before{
+  before :all do
     create(:count_first_normal_1) 
     create(:count_first_normal_2) 
     create(:count_first_normal_3) 
@@ -11,7 +11,12 @@ RSpec.describe CountContractsSummaryController, type: :controller do
     create(:count_largebike_1) 
     create(:count_second_1) 
     create(:count_second_2) 
-  }
+  end 
+
+  after :all do
+    seed_tables = %w{ staffs staffdetails }
+    DatabaseCleaner.clean_with(:truncation, {:except => seed_tables})
+  end
 
   shared_examples "gets count contracts summary index page" do |session|
     before{ get :index, {count_month: nil}, session }

@@ -2,14 +2,19 @@ require 'rails_helper'
 
 RSpec.describe DailyContractsReportController, type: :controller do
 
-  before{
+  before :all do
     create(:daily_first_nrm_1) 
     create(:daily_first_std_1) 
     create(:daily_bike_1) 
     create(:daily_large_bike_1) 
     create(:daily_second_1) 
     create(:daily_first_nrm_2) 
-  }
+  end 
+
+  after :all do
+    seed_tables = %w{ staffs staffdetails }
+    DatabaseCleaner.clean_with(:truncation, {:except => seed_tables})
+  end
 
   shared_examples "gets daily contract index page" do |session|
     context "with valid param" do

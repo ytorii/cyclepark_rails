@@ -2,27 +2,30 @@ require 'rails_helper'
 
 RSpec.describe MultiSealsUpdateController, type: :controller do
 
-  # As FactoryGirl sequence sets incremental numbers across the test case,
-  # numbers needs to be set to fixed value! 
-  let(:leaf_fn1){ 1.upto(3){|i| create(:count_first_normal_1, number: i)} }
-  let(:leaf_fn2){ create(:count_first_normal_2, number: 4) }
+  before :all do
+    create_list(:count_first_normal_1, 3)
+    create(:count_first_normal_2)
+  end 
 
-  before{
-    leaf_fn1
-    leaf_fn2
-  }
+  after :all do
+    seed_tables = %w{ staffs staffdetails }
+    DatabaseCleaner.clean_with(:truncation, {:except => seed_tables})
+  end
 
-  shared_examples "gets page and list correctly" do |expected_list|
+  shared_examples "gets page and list correctly" do |expected_ids|
     it "returns http success" do
       expect(response).to have_http_status(:success)
     end
 
     it "returns seals_list as @unsealed_list." do
       assinged_lists = assigns(:unsealed_list).sealsid_list
+      # Numbers change in rake spec because with multiple specs,
+      # number sequentiality is taken over.
+      expected_numbers = Leaf.all.pluck(:number)
 
       assinged_lists.each_with_index do |list, i|
         expect([ list.number, list.seal_id ]).
-          to eq([ expected_list[i][0], expected_list[i][1] ])
+          to eq([ expected_numbers[i], expected_ids[i] ])
       end
     end
   end
@@ -31,31 +34,31 @@ RSpec.describe MultiSealsUpdateController, type: :controller do
 
     let(:index_valid_params){
       { q: { vhiecle_type_eq: 1,
-          contracts_seals_month_eq: "2016-06",
-          valid_flag_eq: true,
-          contracts_seals_sealed_flag_eq: false }
+             contracts_seals_month_eq: "2016-06",
+             valid_flag_eq: true,
+             contracts_seals_sealed_flag_eq: false }
       }
     }
 
     let(:index_invalid_params){
       { q: { vhiecle_type_eq: 1,
-          contracts_seals_month_eq: "あ",
-          valid_flag_eq: true,
-          contracts_seals_sealed_flag_eq: false }
-      }
+             contracts_seals_month_eq: "あ",
+             valid_flag_eq: true,
+             contracts_seals_sealed_flag_eq: false }
+    }
     }
 
     context "with no params" do
       before{ get :index, {}, session }
 
       it_behaves_like "gets page and list correctly",
-        [ [1, 3], [2, 6], [3, 9], [4, 10] ]
+        [ 3, 6, 9, 10 ]
     end
 
     context "with valid params" do
       before{ post :index, index_valid_params, session }
       it_behaves_like "gets page and list correctly",
-        [ [1, 2], [2, 5], [3, 8] ]
+        [ 2, 5, 8 ]
     end
 
     context "with invalid param" do
@@ -105,7 +108,7 @@ RSpec.describe MultiSealsUpdateController, type: :controller do
       it "unchange Seals with unselected ids."do
         unselected_ids =
           Seal.all.pluck(:id) -
-            update_valid_params[:multi_seals_update][:sealsid_list]
+          update_valid_params[:multi_seals_update][:sealsid_list]
 
         unselected_ids.each do |id|
           seal = Seal.find(id)

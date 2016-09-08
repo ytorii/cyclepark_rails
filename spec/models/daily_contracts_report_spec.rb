@@ -80,28 +80,30 @@ RSpec.describe DailyContractsReport, type: :model do
       let(:daily_first_nrm_2){ create(:daily_first_nrm_2) }
       let(:report){DailyContractsReport.new(Date.parse("2016-01-16"))}
 
-      before{
+      before :all do
         # leafs(contain customers and contracts)
-        daily_first_nrm_1
-        daily_first_std_1
-        daily_bike_1
-        daily_large_bike_1
-        daily_second_1
-        daily_first_nrm_2
-      }
+        create(:daily_first_nrm_1) 
+        create(:daily_first_std_1) 
+        create(:daily_bike_1) 
+        create(:daily_large_bike_1) 
+        create(:daily_second_1) 
+        create(:daily_first_nrm_2) 
+      end
+
+      after :all do
+        seed_tables = %w{ staffs staffdetails }
+        DatabaseCleaner.clean_with(:truncation, {:except => seed_tables})
+      end
 
       it "has expected size of contracts_list." do
         expect(report.contracts_list().size).to eq(5)
       end
 
       it "has expected contents of contracts_list." do
-        leaf_array = [
-          daily_first_nrm_1,
-          daily_first_std_1,
-          daily_bike_1,
-          daily_large_bike_1,
-          daily_second_1
-        ]
+        leaf_array = []
+        1.upto(5) do |i|
+          leaf_array << Leaf.find(i)
+        end
 
         list_array = report.contracts_list()
 

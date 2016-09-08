@@ -15,15 +15,6 @@ RSpec.describe LeafsSearchController, type: :controller do
     { :q => { :customer_first_name_or_customer_last_name_cont => name } }
   }
 
-  let(:create_leafs){
-    create(:daily_first_nrm_1) 
-    create(:daily_first_std_1) 
-    create(:daily_bike_1) 
-    create(:daily_large_bike_1) 
-    create_list(:daily_second_1, 5, number: 10, valid_flag: false) 
-    create(:daily_first_nrm_2) 
-  }
-
   let(:noleaf_error_message){ ['指定したリーフは存在しません。'] }
   let(:nil_name_error_message){ ['名前またはフリガナを入力してください'] }
   let(:invalid_number_error_message){
@@ -32,9 +23,21 @@ RSpec.describe LeafsSearchController, type: :controller do
       '契約状態は一覧にありません' ]
   }
 
-  before{ create_leafs }
+  before :all do
+    create(:daily_first_nrm_1) 
+    create(:daily_first_std_1) 
+    create(:daily_bike_1) 
+    create(:daily_large_bike_1) 
+    create_list(:daily_second_1, 5, number: 10, valid_flag: false) 
+    create(:daily_first_nrm_2) 
+  end
 
-  shared_examples 'gets leafs search index page' do |session|
+  after :all do
+    seed_tables = %w{ staffs staffdetails }
+    DatabaseCleaner.clean_with(:truncation, {:except => seed_tables})
+  end
+
+  shared_examples  'gets leafs search index page' do |session|
     context 'with number search' do
       before { get :index, number_params, session }
 
