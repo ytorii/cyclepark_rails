@@ -6,6 +6,10 @@ class TermspriceController < ApplicationController
       term: params[:term]
     )
 
-    render json: { 'price' => termsprice.calc_price }
+    if termsprice.valid?
+      render json: { 'price' => termsprice.calc_price }
+    else
+      redirect_to menu_path, alert: termsprice.errors.full_messages
+    end
   end
 end

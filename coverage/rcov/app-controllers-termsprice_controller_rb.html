@@ -25,8 +25,8 @@
         <tbody>
           <tr>
             <td class="left_align"><a href="app-controllers-termsprice_controller_rb.html">app/controllers/termsprice_controller.rb</a></td>
-            <td class='right_align'><tt>11</tt></td>
-            <td class='right_align'><tt>4</tt></td>
+            <td class='right_align'><tt>15</tt></td>
+            <td class='right_align'><tt>6</tt></td>
             <td class="left_align"><div class="percent_graph_legend"><tt class=''>100.00%</tt></div>
       <div class="percent_graph">
         <div class="covered" style="width:100px"></div>
@@ -75,18 +75,30 @@
           <td><pre><a name="line9">9</a> </pre></td>
         </tr>
         <tr class="marked">
-          <td><pre><a name="line10">10</a>     render json: { &#39;price&#39; =&gt; termsprice.calc_price }</pre></td>
+          <td><pre><a name="line10">10</a>     if termsprice.valid?</pre></td>
+        </tr>
+        <tr class="marked">
+          <td><pre><a name="line11">11</a>       render json: { &#39;price&#39; =&gt; termsprice.calc_price }</pre></td>
         </tr>
         <tr class="inferred">
-          <td><pre><a name="line11">11</a>   end</pre></td>
+          <td><pre><a name="line12">12</a>     else</pre></td>
+        </tr>
+        <tr class="marked">
+          <td><pre><a name="line13">13</a>       redirect_to menu_path, alert: termsprice.errors.full_messages</pre></td>
         </tr>
         <tr class="inferred">
-          <td><pre><a name="line12">12</a> end</pre></td>
+          <td><pre><a name="line14">14</a>     end</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line15">15</a>   end</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line16">16</a> end</pre></td>
         </tr>
       </tbody>
     </table>
 
-    <p>Generated on 2016-06-03 00:00:52 +0900 with <a href="https://github.com/fguillen/simplecov-rcov">SimpleCov-RCov 0.2.3</a></p>
+    <p>Generated on 2016-06-03 00:00:46 +0900 with <a href="https://github.com/fguillen/simplecov-rcov">SimpleCov-RCov 0.2.3</a></p>
 
   </body>
 </html>

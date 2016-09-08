@@ -10,33 +10,38 @@ feature "Daily Contracts Report" do
   let(:daily_first_nrm_2){ create(:daily_first_nrm_2) }
   let(:today){ Date.today.strftime('%Y年%-m月%-d日').concat('の契約一覧') }
 
-  before{
+  before :all do
     # leafs(contain customers and contracts)
-    daily_first_nrm_1
-    daily_first_std_1
-    daily_bike_1
-    daily_large_bike_1
-    daily_second_1
-    daily_first_nrm_2
-  }
+    create(:daily_first_nrm_1) 
+    create(:daily_first_std_1) 
+    create(:daily_bike_1) 
+    create(:daily_large_bike_1) 
+    create(:daily_second_1) 
+    create(:daily_first_nrm_2) 
+  end
 
-  shared_examples "daily contracts report" do |nickname, password|
+  after :all do
+    seed_tables = %w{ staffs staffdetails }
+    DatabaseCleaner.clean_with(:truncation, {:except => seed_tables})
+  end
+
+  shared_examples 'daily contracts report' do |nickname, password|
     before{
       login(nickname, password)
       visit '/daily_contracts_report'
     }
 
-    context "from other page" do
-      it "successes to access to the report page." do
+    context 'from other page' do
+      it 'successes to access to the report page.' do
         expect(page).to have_css('h1', text: '日毎契約一覧')
         expect(page).to have_selector('.lead', text: today)
         expect(page).to have_content('合計  0件 \0')
       end
     end
 
-    context "from same page" do
-      context "with empty date input" do
-        it "successes to access to the report page." do
+    context 'from same page' do
+      context 'with empty date input' do
+        it 'successes to access to the report page.' do
           click_button '指定した日付を表示'
           expect(page).to have_css('h1', text: '日毎契約一覧')
           expect(page).to have_selector('.lead', text: today)
@@ -44,8 +49,8 @@ feature "Daily Contracts Report" do
         end
       end
 
-      context "with selected date input" do
-        it "successes to access to the report page." do
+      context 'with selected date input' do
+        it 'successes to access to the report page.' do
           within('form') do
             fill_in 'contracts_date', with: Date.parse('2016/01/16')
           end
@@ -60,7 +65,7 @@ feature "Daily Contracts Report" do
         end
       end
 
-      context "with invalid contracts date" do
+      context 'with invalid contracts date' do
         before{
           within('form') do
             fill_in 'contracts_date', with: 'あ'
@@ -68,22 +73,22 @@ feature "Daily Contracts Report" do
           click_button '指定した日付を表示'
         }
 
-        it "redirects to menu page." do
+        it 'redirects to menu page.' do
           expect(page).to have_css('h1', text: 'メインメニュー')
         end
 
-        it "displays error message." do
+        it 'displays error message.' do
           expect(find('#system_messages')).to have_content('は不正な値です')
         end
       end
     end
   end
 
-  describe "Admin staff" do
-    it_behaves_like "daily contracts report", "admin", "12345678"
+  describe 'Admin staff' do
+    it_behaves_like 'daily contracts report', 'admin', '12345678'
   end
 
-  describe "Normal staff" do
-    it_behaves_like "daily contracts report", "normal", "abcdefgh"
+  describe 'Normal staff' do
+    it_behaves_like 'daily contracts report', 'normal', 'abcdefgh'
   end
 end

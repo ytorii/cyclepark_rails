@@ -96,12 +96,12 @@ FactoryGirl.define do
   end
 
   factory :daily, class: Leaf do
-    sequence(:number) { |n| n }
     start_date "2016-02-01"
     last_date "2016-02-29"
     valid_flag true
 
     factory :daily_first, class: Leaf do
+      sequence(:number, 1) { |n| n }
       vhiecle_type 1
       largebike_flag false
 
@@ -131,6 +131,7 @@ FactoryGirl.define do
     end
 
     factory :daily_bike, class: Leaf do
+      sequence(:number, 1) { |n| n }
       vhiecle_type 2
       student_flag false
 
@@ -152,6 +153,7 @@ FactoryGirl.define do
     end
 
     factory :daily_second, class: Leaf do
+      sequence(:number, 1) { |n| n }
       vhiecle_type 3
       student_flag false
       largebike_flag false

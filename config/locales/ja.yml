@@ -37,6 +37,8 @@ ja:
     sealed_date: シール貼付け作業日
     skip_flag: 休み
     sealsid_list: 契約番号リスト
+    Term: 期間
+    Leaf: リーフ
 
   activerecord:
     errors:

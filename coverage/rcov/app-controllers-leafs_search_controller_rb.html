@@ -25,14 +25,14 @@
         <tbody>
           <tr>
             <td class="left_align"><a href="app-controllers-leafs_search_controller_rb.html">app/controllers/leafs_search_controller.rb</a></td>
-            <td class='right_align'><tt>78</tt></td>
-            <td class='right_align'><tt>39</tt></td>
-            <td class="left_align"><div class="percent_graph_legend"><tt class=''>96.15%</tt></div>
+            <td class='right_align'><tt>74</tt></td>
+            <td class='right_align'><tt>37</tt></td>
+            <td class="left_align"><div class="percent_graph_legend"><tt class=''>95.95%</tt></div>
       <div class="percent_graph">
         <div class="covered" style="width:96px"></div>
         <div class="uncovered" style="width:4px"></div>
       </div></td>
-            <td class="left_align"><div class="percent_graph_legend"><tt class=''>92.31%</tt></div>
+            <td class="left_align"><div class="percent_graph_legend"><tt class=''>91.89%</tt></div>
       <div class="percent_graph">
         <div class="covered" style="width:92px"></div>
         <div class="uncovered" style="width:8px"></div>
@@ -240,7 +240,7 @@
           <td><pre><a name="line64">64</a>   def search_params</pre></td>
         </tr>
         <tr class="marked">
-          <td><pre><a name="line65">65</a>     if params[:q] &amp;&amp; name_search_param</pre></td>
+          <td><pre><a name="line65">65</a>     if params.dig(:q, :customer_first_name_or_customer_last_name_cont)</pre></td>
         </tr>
         <tr class="marked">
           <td><pre><a name="line66">66</a>       params.require(:q).permit(</pre></td>
@@ -270,24 +270,12 @@
           <td><pre><a name="line74">74</a>   end</pre></td>
         </tr>
         <tr class="inferred">
-          <td><pre><a name="line75">75</a> </pre></td>
-        </tr>
-        <tr class="marked">
-          <td><pre><a name="line76">76</a>   def name_search_param</pre></td>
-        </tr>
-        <tr class="marked">
-          <td><pre><a name="line77">77</a>     params[:q][:customer_first_name_or_customer_last_name_cont]</pre></td>
-        </tr>
-        <tr class="inferred">
-          <td><pre><a name="line78">78</a>   end</pre></td>
-        </tr>
-        <tr class="inferred">
-          <td><pre><a name="line79">79</a> end</pre></td>
+          <td><pre><a name="line75">75</a> end</pre></td>
         </tr>
       </tbody>
     </table>
 
-    <p>Generated on 2016-06-03 00:00:52 +0900 with <a href="https://github.com/fguillen/simplecov-rcov">SimpleCov-RCov 0.2.3</a></p>
+    <p>Generated on 2016-06-03 00:00:46 +0900 with <a href="https://github.com/fguillen/simplecov-rcov">SimpleCov-RCov 0.2.3</a></p>
 
   </body>
 </html>
