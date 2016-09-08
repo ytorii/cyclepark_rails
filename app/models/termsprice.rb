@@ -33,7 +33,7 @@ class Termsprice
   private
 
   def leaf_exists?
-    errors.add(:leaf_id, 'は存在しないリーフです。') unless Leaf.exists?(leaf_id)
+    errors.add(:leaf_id, 'は存在しません。') unless Leaf.exists?(leaf_id)
   end
 
   def calc_first_price
