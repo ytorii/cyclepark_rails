@@ -26,7 +26,7 @@
           <tr>
             <td class="left_align"><a href="app-models-customer_rb.html">app/models/customer.rb</a></td>
             <td class='right_align'><tt>45</tt></td>
-            <td class='right_align'><tt>19</tt></td>
+            <td class='right_align'><tt>0</tt></td>
             <td class="left_align"><div class="percent_graph_legend"><tt class=''>100.00%</tt></div>
       <div class="percent_graph">
         <div class="covered" style="width:100px"></div>
@@ -50,7 +50,7 @@
 
     <table class="details">
       <tbody>
-        <tr class="marked">
+        <tr class="inferred">
           <td><pre><a name="line2">2</a> require &#39;nkf&#39;</pre></td>
         </tr>
         <tr class="inferred">
@@ -59,28 +59,28 @@
         <tr class="inferred">
           <td><pre><a name="line4">4</a> # Model for customer information like name, address, phone number.</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="inferred">
           <td><pre><a name="line5">5</a> class Customer &lt; ActiveRecord::Base</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="inferred">
           <td><pre><a name="line6">6</a>   belongs_to :leaf</pre></td>
         </tr>
         <tr class="inferred">
           <td><pre><a name="line7">7</a> </pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="inferred">
           <td><pre><a name="line8">8</a>   read_format = /\A[\p{Katakana}\u30fc\p{blank}]+\z/</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="inferred">
           <td><pre><a name="line9">9</a>   phone_format = /\A([0-9]|-)+\z/</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="inferred">
           <td><pre><a name="line10">10</a>   cell_format = /\A[0-9]{3}-[0-9]{4}-[0-9]{4}\z/</pre></td>
         </tr>
         <tr class="inferred">
           <td><pre><a name="line11">11</a> </pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="inferred">
           <td><pre><a name="line12">12</a>   validates :first_name,</pre></td>
         </tr>
         <tr class="inferred">
@@ -89,7 +89,7 @@
         <tr class="inferred">
           <td><pre><a name="line14">14</a>             length: { maximum: 10, allow_blank: true }</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="inferred">
           <td><pre><a name="line15">15</a>   validates :last_name,</pre></td>
         </tr>
         <tr class="inferred">
@@ -98,7 +98,7 @@
         <tr class="inferred">
           <td><pre><a name="line17">17</a>             length: { maximum: 10, allow_blank: true }</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="inferred">
           <td><pre><a name="line18">18</a>   validates :first_read,</pre></td>
         </tr>
         <tr class="inferred">
@@ -107,7 +107,7 @@
         <tr class="inferred">
           <td><pre><a name="line20">20</a>             length: { maximum: 20, allow_blank: true }</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="inferred">
           <td><pre><a name="line21">21</a>   validates :last_read,</pre></td>
         </tr>
         <tr class="inferred">
@@ -116,13 +116,13 @@
         <tr class="inferred">
           <td><pre><a name="line23">23</a>             length: { maximum: 20, allow_blank: true }</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="inferred">
           <td><pre><a name="line24">24</a>   validates :sex,</pre></td>
         </tr>
         <tr class="inferred">
           <td><pre><a name="line25">25</a>             inclusion: { in: [true, false] }</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="inferred">
           <td><pre><a name="line26">26</a>   validates :address,</pre></td>
         </tr>
         <tr class="inferred">
@@ -131,7 +131,7 @@
         <tr class="inferred">
           <td><pre><a name="line28">28</a>             length: { maximum: 50, allow_blank: true }</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="inferred">
           <td><pre><a name="line29">29</a>   validates :phone_number,</pre></td>
         </tr>
         <tr class="inferred">
@@ -143,7 +143,7 @@
         <tr class="inferred">
           <td><pre><a name="line32">32</a>             length: { maximum: 12, allow_blank: true }</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="inferred">
           <td><pre><a name="line33">33</a>   validates :cell_number,</pre></td>
         </tr>
         <tr class="inferred">
@@ -152,7 +152,7 @@
         <tr class="inferred">
           <td><pre><a name="line35">35</a>             format: { with: cell_format, allow_blank: true }</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="inferred">
           <td><pre><a name="line36">36</a>   validates :receipt,</pre></td>
         </tr>
         <tr class="inferred">
@@ -161,7 +161,7 @@
         <tr class="inferred">
           <td><pre><a name="line38">38</a>             length: { maximum: 50 }</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="inferred">
           <td><pre><a name="line39">39</a>   validates :comment,</pre></td>
         </tr>
         <tr class="inferred">
@@ -170,13 +170,13 @@
         <tr class="inferred">
           <td><pre><a name="line41">41</a> </pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="inferred">
           <td><pre><a name="line42">42</a>   before_validation do</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="inferred">
           <td><pre><a name="line43">43</a>     self.first_read = NKF.nkf(&#39;-wh2&#39;, first_read) if first_read</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="inferred">
           <td><pre><a name="line44">44</a>     self.last_read = NKF.nkf(&#39;-wh2&#39;, last_read) if last_read</pre></td>
         </tr>
         <tr class="inferred">
@@ -188,7 +188,7 @@
       </tbody>
     </table>
 
-    <p>Generated on 2016-06-03 00:00:31 +0900 with <a href="https://github.com/fguillen/simplecov-rcov">SimpleCov-RCov 0.2.3</a></p>
+    <p>Generated on 2016-06-03 00:00:26 +0900 with <a href="https://github.com/fguillen/simplecov-rcov">SimpleCov-RCov 0.2.3</a></p>
 
   </body>
 </html>

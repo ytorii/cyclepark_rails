@@ -26,7 +26,7 @@
           <tr>
             <td class="left_align"><a href="app-models-staff_rb.html">app/models/staff.rb</a></td>
             <td class='right_align'><tt>44</tt></td>
-            <td class='right_align'><tt>16</tt></td>
+            <td class='right_align'><tt>0</tt></td>
             <td class="left_align"><div class="percent_graph_legend"><tt class=''>100.00%</tt></div>
       <div class="percent_graph">
         <div class="covered" style="width:100px"></div>
@@ -53,10 +53,10 @@
         <tr class="inferred">
           <td><pre><a name="line2">2</a> # Model for cyclepark staff</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="inferred">
           <td><pre><a name="line3">3</a> class Staff &lt; ActiveRecord::Base</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="inferred">
           <td><pre><a name="line4">4</a>   has_one :staffdetail, dependent: :destroy</pre></td>
         </tr>
         <tr class="inferred">
@@ -65,13 +65,13 @@
         <tr class="inferred">
           <td><pre><a name="line6">6</a>   # This parametor is needed to use multiple models in the same form.</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="inferred">
           <td><pre><a name="line7">7</a>   accepts_nested_attributes_for :staffdetail</pre></td>
         </tr>
         <tr class="inferred">
           <td><pre><a name="line8">8</a> </pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="inferred">
           <td><pre><a name="line9">9</a>   validates :nickname,</pre></td>
         </tr>
         <tr class="inferred">
@@ -83,7 +83,7 @@
         <tr class="inferred">
           <td><pre><a name="line12">12</a>             length: { maximum: 10, allow_blank: true }</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="inferred">
           <td><pre><a name="line13">13</a>   validates :password,</pre></td>
         </tr>
         <tr class="inferred">
@@ -95,7 +95,7 @@
         <tr class="inferred">
           <td><pre><a name="line16">16</a>             length: { minimum: 8, maximum: 16, allow_blank: true }</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="inferred">
           <td><pre><a name="line17">17</a>   validates :admin_flag,</pre></td>
         </tr>
         <tr class="inferred">
@@ -110,19 +110,19 @@
         <tr class="inferred">
           <td><pre><a name="line21">21</a>   # Compares entered password with stored password by digesting with salt.</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="inferred">
           <td><pre><a name="line22">22</a>   class &lt;&lt; self</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="inferred">
           <td><pre><a name="line23">23</a>     def authenticate(nickname, password)</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="inferred">
           <td><pre><a name="line24">24</a>       staff = find_by(nickname: nickname)</pre></td>
         </tr>
         <tr class="inferred">
           <td><pre><a name="line25">25</a> </pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="inferred">
           <td><pre><a name="line26">26</a>       staff if staff.try(:password) &amp;&amp; correct_password?(staff, password)</pre></td>
         </tr>
         <tr class="inferred">
@@ -131,16 +131,16 @@
         <tr class="inferred">
           <td><pre><a name="line28">28</a> </pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="inferred">
           <td><pre><a name="line29">29</a>     private</pre></td>
         </tr>
         <tr class="inferred">
           <td><pre><a name="line30">30</a> </pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="inferred">
           <td><pre><a name="line31">31</a>     def correct_password?(staff, password)</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="inferred">
           <td><pre><a name="line32">32</a>       Digest::SHA1.hexdigest(staff.salt + password) == staff.password</pre></td>
         </tr>
         <tr class="inferred">
@@ -161,19 +161,19 @@
         <tr class="inferred">
           <td><pre><a name="line38">38</a>   # that executes follow process even though invalid inputs!</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="inferred">
           <td><pre><a name="line39">39</a>   before_save do</pre></td>
         </tr>
         <tr class="inferred">
           <td><pre><a name="line40">40</a>     # Create a SALT value from SecureRandom module.</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="inferred">
           <td><pre><a name="line41">41</a>     self.salt = SecureRandom.hex(10).to_s</pre></td>
         </tr>
         <tr class="inferred">
           <td><pre><a name="line42">42</a>     # Create SHA1 digested password with salt.</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="inferred">
           <td><pre><a name="line43">43</a>     self.password = Digest::SHA1.hexdigest(salt + self.password)</pre></td>
         </tr>
         <tr class="inferred">
@@ -185,7 +185,7 @@
       </tbody>
     </table>
 
-    <p>Generated on 2016-06-03 00:00:31 +0900 with <a href="https://github.com/fguillen/simplecov-rcov">SimpleCov-RCov 0.2.3</a></p>
+    <p>Generated on 2016-06-03 00:00:26 +0900 with <a href="https://github.com/fguillen/simplecov-rcov">SimpleCov-RCov 0.2.3</a></p>
 
   </body>
 </html>

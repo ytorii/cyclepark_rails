@@ -26,7 +26,7 @@
           <tr>
             <td class="left_align"><a href="app-models-concerns-contracts_validate_rb.html">app/models/concerns/contracts_validate.rb</a></td>
             <td class='right_align'><tt>35</tt></td>
-            <td class='right_align'><tt>18</tt></td>
+            <td class='right_align'><tt>0</tt></td>
             <td class="left_align"><div class="percent_graph_legend"><tt class=''>100.00%</tt></div>
       <div class="percent_graph">
         <div class="covered" style="width:100px"></div>
@@ -50,13 +50,13 @@
 
     <table class="details">
       <tbody>
-        <tr class="marked">
+        <tr class="inferred">
           <td><pre><a name="line2">2</a> require &#39;active_support&#39;</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="inferred">
           <td><pre><a name="line3">3</a> module ContractsValidate</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="inferred">
           <td><pre><a name="line4">4</a>   extend ActiveSupport::Concern</pre></td>
         </tr>
         <tr class="inferred">
@@ -65,10 +65,10 @@
         <tr class="inferred">
           <td><pre><a name="line6">6</a>   # Seal&#39;s month must be unique in the leaf.</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="inferred">
           <td><pre><a name="line7">7</a>   def month_exists?</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="inferred">
           <td><pre><a name="line8">8</a>     seals.each do |seal|</pre></td>
         </tr>
         <tr class="inferred">
@@ -80,13 +80,13 @@
         <tr class="inferred">
           <td><pre><a name="line11">11</a>         leaf_id, seal.month</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="inferred">
           <td><pre><a name="line12">12</a>       ).exists?</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="inferred">
           <td><pre><a name="line13">13</a>       errors.add(:month, &#39;は既に契約済みです。&#39;)</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="inferred">
           <td><pre><a name="line14">14</a>       return false</pre></td>
         </tr>
         <tr class="inferred">
@@ -104,19 +104,19 @@
         <tr class="inferred">
           <td><pre><a name="line19">19</a>   # Because this change causes empty terms in the leaf.</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="inferred">
           <td><pre><a name="line20">20</a>   def same_length_terms?</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="inferred">
           <td><pre><a name="line21">21</a>     prev = Contract.find(id)</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="inferred">
           <td><pre><a name="line22">22</a>     unless term1 == prev.term1 &amp;&amp; term2 == prev.term2</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="inferred">
           <td><pre><a name="line23">23</a>       errors.add(:term1, &#39;契約期間の変更はできません。&#39;)</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="inferred">
           <td><pre><a name="line24">24</a>       return false</pre></td>
         </tr>
         <tr class="inferred">
@@ -131,19 +131,19 @@
         <tr class="inferred">
           <td><pre><a name="line28">28</a>   # Only the last contract is allowed to be deleted!</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="inferred">
           <td><pre><a name="line29">29</a>   def last_contract?</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="inferred">
           <td><pre><a name="line30">30</a>     last = Leaf.find(leaf_id).contracts.last</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="inferred">
           <td><pre><a name="line31">31</a>     unless id == last.id</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="inferred">
           <td><pre><a name="line32">32</a>       errors.add(:start_month, &#39;最後尾以外の契約は削除できません。&#39;)</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="inferred">
           <td><pre><a name="line33">33</a>       return false</pre></td>
         </tr>
         <tr class="inferred">
@@ -158,7 +158,7 @@
       </tbody>
     </table>
 
-    <p>Generated on 2016-06-03 00:00:31 +0900 with <a href="https://github.com/fguillen/simplecov-rcov">SimpleCov-RCov 0.2.3</a></p>
+    <p>Generated on 2016-06-03 00:00:26 +0900 with <a href="https://github.com/fguillen/simplecov-rcov">SimpleCov-RCov 0.2.3</a></p>
 
   </body>
 </html>

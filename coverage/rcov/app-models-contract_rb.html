@@ -26,7 +26,7 @@
           <tr>
             <td class="left_align"><a href="app-models-contract_rb.html">app/models/contract.rb</a></td>
             <td class='right_align'><tt>75</tt></td>
-            <td class='right_align'><tt>30</tt></td>
+            <td class='right_align'><tt>0</tt></td>
             <td class="left_align"><div class="percent_graph_legend"><tt class=''>100.00%</tt></div>
       <div class="percent_graph">
         <div class="covered" style="width:100px"></div>
@@ -53,34 +53,34 @@
         <tr class="inferred">
           <td><pre><a name="line2">2</a> # Model for customer&#39;S contracts</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="inferred">
           <td><pre><a name="line3">3</a> class Contract &lt; ActiveRecord::Base</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="inferred">
           <td><pre><a name="line4">4</a>   include StaffsExist</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="inferred">
           <td><pre><a name="line5">5</a>   include ContractsValidate</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="inferred">
           <td><pre><a name="line6">6</a>   include ContractsSetParams</pre></td>
         </tr>
         <tr class="inferred">
           <td><pre><a name="line7">7</a> </pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="inferred">
           <td><pre><a name="line8">8</a>   belongs_to :leaf, counter_cache: true</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="inferred">
           <td><pre><a name="line9">9</a>   has_many :seals, dependent: :destroy</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="inferred">
           <td><pre><a name="line10">10</a>   accepts_nested_attributes_for :seals</pre></td>
         </tr>
         <tr class="inferred">
           <td><pre><a name="line11">11</a> </pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="inferred">
           <td><pre><a name="line12">12</a>   date_regexp =</pre></td>
         </tr>
         <tr class="inferred">
@@ -89,7 +89,7 @@
         <tr class="inferred">
           <td><pre><a name="line14">14</a> </pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="inferred">
           <td><pre><a name="line15">15</a>   validates :contract_date,</pre></td>
         </tr>
         <tr class="inferred">
@@ -98,7 +98,7 @@
         <tr class="inferred">
           <td><pre><a name="line17">17</a>             format: { with: date_regexp, allow_blank: true }</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="inferred">
           <td><pre><a name="line18">18</a>   validates :start_month,</pre></td>
         </tr>
         <tr class="inferred">
@@ -110,7 +110,7 @@
         <tr class="inferred">
           <td><pre><a name="line21">21</a>   # Term1 must be longer than 0 because 0 length contract is not allowed.</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="inferred">
           <td><pre><a name="line22">22</a>   validates :term1,</pre></td>
         </tr>
         <tr class="inferred">
@@ -122,7 +122,7 @@
         <tr class="inferred">
           <td><pre><a name="line25">25</a>               { greater_than: 0, less_than: 13, allow_blank: true }</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="inferred">
           <td><pre><a name="line26">26</a>   validates :money1,</pre></td>
         </tr>
         <tr class="inferred">
@@ -140,7 +140,7 @@
         <tr class="inferred">
           <td><pre><a name="line31">31</a>                 allow_blank: true }</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="inferred">
           <td><pre><a name="line32">32</a>   validates :term2,</pre></td>
         </tr>
         <tr class="inferred">
@@ -158,7 +158,7 @@
         <tr class="inferred">
           <td><pre><a name="line37">37</a>                 allow_blank: true }</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="inferred">
           <td><pre><a name="line38">38</a>   validates :money2,</pre></td>
         </tr>
         <tr class="inferred">
@@ -176,43 +176,43 @@
         <tr class="inferred">
           <td><pre><a name="line43">43</a>                 allow_blank: true }</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="inferred">
           <td><pre><a name="line44">44</a>   validates :new_flag,</pre></td>
         </tr>
         <tr class="inferred">
           <td><pre><a name="line45">45</a>             inclusion: { in: [true, false] }</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="inferred">
           <td><pre><a name="line46">46</a>   validates :skip_flag,</pre></td>
         </tr>
         <tr class="inferred">
           <td><pre><a name="line47">47</a>             inclusion: { in: [true, false] }</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="inferred">
           <td><pre><a name="line48">48</a>   validate :staff_exists?</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="inferred">
           <td><pre><a name="line49">49</a>   validate :month_exists?, on: :create</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="inferred">
           <td><pre><a name="line50">50</a>   validate :same_length_terms?, on: :update</pre></td>
         </tr>
         <tr class="inferred">
           <td><pre><a name="line51">51</a> </pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="inferred">
           <td><pre><a name="line52">52</a>   before_validation do</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="inferred">
           <td><pre><a name="line53">53</a>     if skip_flag</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="inferred">
           <td><pre><a name="line54">54</a>       set_skipcontract_params</pre></td>
         </tr>
         <tr class="inferred">
           <td><pre><a name="line55">55</a>     else</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="inferred">
           <td><pre><a name="line56">56</a>       set_nilcontract_params</pre></td>
         </tr>
         <tr class="inferred">
@@ -221,7 +221,7 @@
         <tr class="inferred">
           <td><pre><a name="line58">58</a> </pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="inferred">
           <td><pre><a name="line59">59</a>     if new_record?</pre></td>
         </tr>
         <tr class="inferred">
@@ -230,10 +230,10 @@
         <tr class="inferred">
           <td><pre><a name="line61">61</a>       # Because first seal parameters depend on inputs from web pages.</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="inferred">
           <td><pre><a name="line62">62</a>       set_contract_params</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="inferred">
           <td><pre><a name="line63">63</a>       set_seals_params</pre></td>
         </tr>
         <tr class="inferred">
@@ -245,7 +245,7 @@
         <tr class="inferred">
           <td><pre><a name="line66">66</a>       # especially in editing seal records.</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="inferred">
           <td><pre><a name="line67">67</a>       set_canceledseals_params</pre></td>
         </tr>
         <tr class="inferred">
@@ -257,7 +257,7 @@
         <tr class="inferred">
           <td><pre><a name="line70">70</a> </pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="inferred">
           <td><pre><a name="line71">71</a>   after_create :update_leaf_lastdate</pre></td>
         </tr>
         <tr class="inferred">
@@ -266,10 +266,10 @@
         <tr class="inferred">
           <td><pre><a name="line73">73</a>   # Only the last contract can be deleted</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="inferred">
           <td><pre><a name="line74">74</a>   before_destroy :last_contract?</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="inferred">
           <td><pre><a name="line75">75</a>   after_destroy :backdate_leaf_lastdate</pre></td>
         </tr>
         <tr class="inferred">
@@ -278,7 +278,7 @@
       </tbody>
     </table>
 
-    <p>Generated on 2016-06-03 00:00:31 +0900 with <a href="https://github.com/fguillen/simplecov-rcov">SimpleCov-RCov 0.2.3</a></p>
+    <p>Generated on 2016-06-03 00:00:26 +0900 with <a href="https://github.com/fguillen/simplecov-rcov">SimpleCov-RCov 0.2.3</a></p>
 
   </body>
 </html>
