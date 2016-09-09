@@ -6,7 +6,8 @@
 %input#skip_contract.custom_rd{ name: 'cont_type', type: 'radio', value: 3 }
 %label.custom_rd_label.orange_rd.radius{ for: 'skip_contract' } 休み
 
-= form_for([@leaf, @contract], remote: true) do |c|
+// = form_for([@leaf, @contract], remote: true) do |c|
+= form_for([@leaf, @contract]) do |c|
   %fieldset{id: 'additionForm'}
     #term1
       .field

@@ -8,7 +8,7 @@
     <script type="text/javascript" src="./assets/0.2.3/rcov.js"></script>
   </head>
   <body>
-    <h1>Cyclepark C0 Coverage Information - Simploco - RCov</h1>
+    <h1>Cyclepark rails C0 Coverage Information - Simploco - RCov</h1>
     <h2>app/models/concerns/contracts_set_params.rb</h2>
 
     <div class="report_table_wrapper">
@@ -26,7 +26,7 @@
           <tr>
             <td class="left_align"><a href="app-models-concerns-contracts_set_params_rb.html">app/models/concerns/contracts_set_params.rb</a></td>
             <td class='right_align'><tt>94</tt></td>
-            <td class='right_align'><tt>43</tt></td>
+            <td class='right_align'><tt>44</tt></td>
             <td class="left_align"><div class="percent_graph_legend"><tt class=''>100.00%</tt></div>
       <div class="percent_graph">
         <div class="covered" style="width:100px"></div>
@@ -65,25 +65,25 @@
         <tr class="marked">
           <td><pre><a name="line6">6</a>   extend ActiveSupport::Concern</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="inferred">
           <td><pre><a name="line7">7</a> </pre></td>
         </tr>
         <tr class="marked">
           <td><pre><a name="line8">8</a>   def set_contract_params</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="marked">
           <td><pre><a name="line9">9</a>     set_newflag_startmonth_params</pre></td>
         </tr>
         <tr class="inferred">
           <td><pre><a name="line10">10</a>   end</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="inferred">
           <td><pre><a name="line11">11</a> </pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="marked">
           <td><pre><a name="line12">12</a>   def set_skipcontract_params</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="inferred">
           <td><pre><a name="line13">13</a>     # Term1 is 1, terms2 and moneys are set to 0.</pre></td>
         </tr>
         <tr class="marked">
@@ -95,25 +95,25 @@
         <tr class="marked">
           <td><pre><a name="line16">16</a>     self.money1 = 0</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="marked">
           <td><pre><a name="line17">17</a>     self.money2 = 0</pre></td>
         </tr>
         <tr class="inferred">
           <td><pre><a name="line18">18</a>   end</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="inferred">
           <td><pre><a name="line19">19</a> </pre></td>
         </tr>
         <tr class="marked">
           <td><pre><a name="line20">20</a>   def set_nilcontract_params</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="marked">
           <td><pre><a name="line21">21</a>     self.skip_flag = false</pre></td>
         </tr>
         <tr class="inferred">
           <td><pre><a name="line22">22</a>     # Nil inputs is transformed to 0.</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="inferred">
           <td><pre><a name="line23">23</a>     # term1 is not allowed with 0, so validation rejects after this</pre></td>
         </tr>
         <tr class="marked">
@@ -122,7 +122,7 @@
         <tr class="marked">
           <td><pre><a name="line25">25</a>     self.term2 = term2.to_i</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="marked">
           <td><pre><a name="line26">26</a>     self.money2 = money2.to_i</pre></td>
         </tr>
         <tr class="inferred">
@@ -134,19 +134,19 @@
         <tr class="inferred">
           <td><pre><a name="line29">29</a>   # New_flag and start_month should be determined automatically</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="inferred">
           <td><pre><a name="line30">30</a>   # by the model itself, not by inputs from web pages.</pre></td>
         </tr>
         <tr class="marked">
           <td><pre><a name="line31">31</a>   def set_newflag_startmonth_params</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="marked">
           <td><pre><a name="line32">32</a>     leaf = Leaf.find(leaf_id)</pre></td>
         </tr>
         <tr class="inferred">
           <td><pre><a name="line33">33</a> </pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="inferred">
           <td><pre><a name="line34">34</a>     # New contract starts with leaf&#39;s start date</pre></td>
         </tr>
         <tr class="marked">
@@ -155,19 +155,19 @@
         <tr class="marked">
           <td><pre><a name="line36">36</a>       self.new_flag = true</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="marked">
           <td><pre><a name="line37">37</a>       self.start_month = leaf.start_date.beginning_of_month</pre></td>
         </tr>
         <tr class="inferred">
           <td><pre><a name="line38">38</a>     # Extended contract starts with next month of leaf&#39;s last date</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="inferred">
           <td><pre><a name="line39">39</a>     else</pre></td>
         </tr>
         <tr class="marked">
           <td><pre><a name="line40">40</a>       self.new_flag = false</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="marked">
           <td><pre><a name="line41">41</a>       self.start_month = leaf.last_date.next_month.beginning_of_month</pre></td>
         </tr>
         <tr class="inferred">
@@ -176,13 +176,13 @@
         <tr class="inferred">
           <td><pre><a name="line43">43</a>   end</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="inferred">
           <td><pre><a name="line44">44</a> </pre></td>
         </tr>
         <tr class="marked">
           <td><pre><a name="line45">45</a>   def set_seals_params</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="marked">
           <td><pre><a name="line46">46</a>     set_firstseal_params</pre></td>
         </tr>
         <tr class="inferred">
@@ -191,13 +191,13 @@
         <tr class="inferred">
           <td><pre><a name="line48">48</a>     # Setting rest seals parameters.</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="inferred">
           <td><pre><a name="line49">49</a>     # Excluding the first seal by starting index with 1.</pre></td>
         </tr>
         <tr class="marked">
           <td><pre><a name="line50">50</a>     1.upto(term1 + term2 - 1) do |i|</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="marked">
           <td><pre><a name="line51">51</a>       seals.build(month: start_month + i.months, sealed_flag: false)</pre></td>
         </tr>
         <tr class="inferred">
@@ -206,7 +206,7 @@
         <tr class="inferred">
           <td><pre><a name="line53">53</a>   end</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="inferred">
           <td><pre><a name="line54">54</a> </pre></td>
         </tr>
         <tr class="marked">
@@ -215,7 +215,7 @@
         <tr class="marked">
           <td><pre><a name="line56">56</a>     first_seal = seals.first</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="marked">
           <td><pre><a name="line57">57</a>     first_seal.attributes = { month: start_month }</pre></td>
         </tr>
         <tr class="inferred">
@@ -224,13 +224,13 @@
         <tr class="inferred">
           <td><pre><a name="line59">59</a>     # make nil sealed_flag false</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="inferred">
           <td><pre><a name="line60">60</a>     # if false, attributes below is left to nil.</pre></td>
         </tr>
         <tr class="marked">
           <td><pre><a name="line61">61</a>     if first_seal.sealed_flag ||= false</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="marked">
           <td><pre><a name="line62">62</a>       first_seal.attributes = {</pre></td>
         </tr>
         <tr class="inferred">
@@ -251,7 +251,7 @@
         <tr class="inferred">
           <td><pre><a name="line68">68</a> </pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="inferred">
           <td><pre><a name="line69">69</a>   # All cenceled seal should initialize date and nickname.</pre></td>
         </tr>
         <tr class="marked">
@@ -266,7 +266,7 @@
         <tr class="marked">
           <td><pre><a name="line73">73</a>         seal.sealed_date = nil</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="marked">
           <td><pre><a name="line74">74</a>         seal.staff_nickname = nil</pre></td>
         </tr>
         <tr class="inferred">
@@ -281,13 +281,13 @@
         <tr class="inferred">
           <td><pre><a name="line78">78</a> </pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="inferred">
           <td><pre><a name="line79">79</a>   # The leaf&#39;s last_date is contracts&#39;s last month</pre></td>
         </tr>
         <tr class="marked">
           <td><pre><a name="line80">80</a>   def update_leaf_lastdate</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="marked">
           <td><pre><a name="line81">81</a>     Leaf.find(leaf_id).update_attribute(:last_date, seals.last.month)</pre></td>
         </tr>
         <tr class="inferred">
@@ -296,16 +296,16 @@
         <tr class="inferred">
           <td><pre><a name="line83">83</a> </pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="inferred">
           <td><pre><a name="line84">84</a>   # Leaf&#39;s last_date should be backdated after the last contract deleted.</pre></td>
         </tr>
         <tr class="marked">
           <td><pre><a name="line85">85</a>   def backdate_leaf_lastdate</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="marked">
           <td><pre><a name="line86">86</a>     leaf = Leaf.find(leaf_id)</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="marked">
           <td><pre><a name="line87">87</a>     last_contract = leaf.contracts.last</pre></td>
         </tr>
         <tr class="inferred">
@@ -317,10 +317,10 @@
         <tr class="marked">
           <td><pre><a name="line90">90</a>       leaf.update(last_date: nil)</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="inferred">
           <td><pre><a name="line91">91</a>     else</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="marked">
           <td><pre><a name="line92">92</a>       leaf.update(last_date: last_contract.seals.last.month)</pre></td>
         </tr>
         <tr class="inferred">
@@ -335,7 +335,7 @@
       </tbody>
     </table>
 
-    <p>Generated on 2016-06-03 00:00:46 +0900 with <a href="https://github.com/fguillen/simplecov-rcov">SimpleCov-RCov 0.2.3</a></p>
+    <p>Generated on 2016-06-03 00:00:31 +0900 with <a href="https://github.com/fguillen/simplecov-rcov">SimpleCov-RCov 0.2.3</a></p>
 
   </body>
 </html>
