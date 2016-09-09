@@ -43,7 +43,7 @@
           - elsif sealform_flag && !c.skip_flag then 
             - sealform_flag = false
             .seal_box
-              = form_for([@leaf,c,s]) do |f| 
+              = form_for([@leaf,c,s], remote: true) do |f| 
                 = f.hidden_field :sealed_flag, :value => true 
                 = f.hidden_field :sealed_date, :value => Date.today 
                 = f.hidden_field :staff_nickname, :value => session[:nickname] 
