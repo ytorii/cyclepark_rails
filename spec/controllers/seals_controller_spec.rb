@@ -20,7 +20,7 @@ RSpec.describe SealsController, type: :controller do
       first_contract.save!
     }
 
-    context "with valid params" do
+    context "with valid params", :js => true do
       let(:new_attributes) {
         {
           sealed_flag: true,

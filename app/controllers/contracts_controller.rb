@@ -1,6 +1,7 @@
 # Controller to list, show, edit, create, delete contracts
 class ContractsController < ApplicationController
   include SessionAction
+  include AjaxHelper
 
   # edit action is allowed for only admin staffs.
   before_action :check_admin, only: [:index, :show, :edit, :update, :destroy]
@@ -37,7 +38,9 @@ class ContractsController < ApplicationController
 
     respond_to do |format|
       if @contract.save
+        # Response for ajax request is javascript.
         format.html { redirect_to_leaf_notice(create_message) }
+        format.js { ajax_redirect_to_leaf_notice(create_message) }
         format.json { render :show, status: :created, location: @contract }
       else
         # To run Leaf's show method, page needs to be redirected.
@@ -78,6 +81,13 @@ class ContractsController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_contract
     @contract = Contract.find(params[:id])
+  end
+
+  # In redirect with ajax, flash messages should be set directly,
+  # not as format method's argument.
+  def ajax_redirect_to_leaf_notice(message)
+    flash[:notice] = message
+    render ajax_redirect_to(@contract.leaf_id)
   end
 
   def redirect_to_leaf_notice(message)
