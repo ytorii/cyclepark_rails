@@ -1,5 +1,7 @@
 # Controller for seals update, delete
 class SealsController < ApplicationController
+  include AjaxHelper
+
   before_action :set_seal, only: [:update, :destroy]
 
   UPDATE_SUCCESS = 'シール貼付情報を更新しました。'.freeze
@@ -40,6 +42,10 @@ class SealsController < ApplicationController
     format.html do
       redirect_to leaf_path(params[:leaf_id]), notice: UPDATE_SUCCESS
     end
+    format.js do
+      flash[:notice] = UPDATE_SUCCESS
+      render ajax_redirect_to("/leafs/#{params[:leaf_id]}")
+    end
     format.json do
       render :show, status: :ok, location: @seal
     end
@@ -48,7 +54,7 @@ class SealsController < ApplicationController
   def update_error_format(format)
     format.html do
       redirect_to leaf_path(params[:leaf_id]),
-                  error: @seal.errors.full_messages
+        error: @seal.errors.full_messages
     end
     format.json do
       render json: @seal.errors, status: :unprocessable_entity
