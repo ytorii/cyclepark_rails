@@ -117,10 +117,11 @@ RSpec.configure do |config|
     DatabaseCleaner.strategy = :truncation, {:except => seed_tables}
   end
 
-  config.after(:each) do
+  #config.after(:each) do
     #DatabaseCleaner.clean
-  end
+  #end
 
+  # Clean DB records created by before :all blocks
   config.after(:all) do
     DatabaseCleaner.clean_with(:truncation, {:except => seed_tables})
   end
