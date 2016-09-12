@@ -90,11 +90,6 @@ RSpec.describe DailyContractsReport, type: :model do
         create(:daily_first_nrm_2) 
       end
 
-      after :all do
-        seed_tables = %w{ staffs staffdetails }
-        DatabaseCleaner.clean_with(:truncation, {:except => seed_tables})
-      end
-
       it "has expected size of contracts_list." do
         expect(report.contracts_list().size).to eq(5)
       end

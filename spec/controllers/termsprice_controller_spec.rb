@@ -9,11 +9,6 @@ RSpec.describe TermspriceController, type: :controller do
     create(:first) 
   end 
 
-  after :all do
-    seed_tables = %w{ staffs staffdetails }
-    DatabaseCleaner.clean_with(:truncation, {:except => seed_tables})
-  end
-
   shared_examples 'gets terms price as json' do |session|
     context 'with valid param' do
       before do

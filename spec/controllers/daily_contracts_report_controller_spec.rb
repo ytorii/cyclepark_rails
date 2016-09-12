@@ -11,11 +11,6 @@ RSpec.describe DailyContractsReportController, type: :controller do
     create(:daily_first_nrm_2) 
   end 
 
-  after :all do
-    seed_tables = %w{ staffs staffdetails }
-    DatabaseCleaner.clean_with(:truncation, {:except => seed_tables})
-  end
-
   shared_examples "gets daily contract index page" do |session|
     context "with valid param" do
       before{ get :index, {:contracts_date => '2016-05-16'}, session }
