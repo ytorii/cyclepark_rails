@@ -10,10 +10,11 @@ class SealsController < ApplicationController
   # PATCH/PUT /seals/1.json
   def update
     respond_to do |format|
+      @leaf = Leaf.find(params[:leaf_id])
+
       if @seal.update(seal_params)
         update_success_format(format)
       else
-        @leaf = Leaf.find(params[:leaf_id])
         update_error_format(format)
       end
     end
@@ -40,24 +41,17 @@ class SealsController < ApplicationController
 
   def update_success_format(format)
     format.html do
-      redirect_to leaf_path(params[:leaf_id]), notice: UPDATE_SUCCESS
+      redirect_to @leaf, notice: UPDATE_SUCCESS
     end
     format.js do
       flash[:notice] = UPDATE_SUCCESS
-      render ajax_redirect_to("/leafs/#{params[:leaf_id]}")
-    end
-    format.json do
-      render :show, status: :ok, location: @seal
+      render ajax_redirect_to(@leaf.id)
     end
   end
 
   def update_error_format(format)
     format.html do
-      redirect_to leaf_path(params[:leaf_id]),
-        error: @seal.errors.full_messages
-    end
-    format.json do
-      render json: @seal.errors, status: :unprocessable_entity
+      redirect_to @leaf, error: @seal.errors.full_messages
     end
   end
 end

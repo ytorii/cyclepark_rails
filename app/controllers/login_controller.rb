@@ -28,12 +28,23 @@ class LoginController < ApplicationController
     reset_session
     session[:staff] = staff.id
     session[:nickname] = staff.nickname
-    redirect_to params[:referer]
+    redirect_to validate_referer(params[:referer])
   end
 
   def fail_login
     flash.now[:referer] = params[:referer]
     @error = 'ユーザ名／パスワードが間違っています。'
     render 'index'
+  end
+
+  def validate_referer(url)
+    begin
+      # TODO: Validate referer with RegExp.
+      if path =  URI.parse(url).path
+        path
+      end
+    rescue URI::InvalidURIError
+      '/login'
+    end
   end
 end
