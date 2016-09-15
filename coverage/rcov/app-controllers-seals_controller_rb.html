@@ -25,17 +25,17 @@
         <tbody>
           <tr>
             <td class="left_align"><a href="app-controllers-seals_controller_rb.html">app/controllers/seals_controller.rb</a></td>
-            <td class='right_align'><tt>57</tt></td>
-            <td class='right_align'><tt>24</tt></td>
-            <td class="left_align"><div class="percent_graph_legend"><tt class=''>92.98%</tt></div>
+            <td class='right_align'><tt>55</tt></td>
+            <td class='right_align'><tt>23</tt></td>
+            <td class="left_align"><div class="percent_graph_legend"><tt class=''>100.00%</tt></div>
       <div class="percent_graph">
-        <div class="covered" style="width:93px"></div>
-        <div class="uncovered" style="width:7px"></div>
+        <div class="covered" style="width:100px"></div>
+        <div class="uncovered" style="width:0px"></div>
       </div></td>
-            <td class="left_align"><div class="percent_graph_legend"><tt class=''>83.33%</tt></div>
+            <td class="left_align"><div class="percent_graph_legend"><tt class=''>100.00%</tt></div>
       <div class="percent_graph">
-        <div class="covered" style="width:83px"></div>
-        <div class="uncovered" style="width:17px"></div>
+        <div class="covered" style="width:100px"></div>
+        <div class="uncovered" style="width:0px"></div>
       </div></td>
           </tr>
         </tbody>
@@ -101,7 +101,7 @@
         <tr class="inferred">
           <td><pre><a name="line18">18</a>       else</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="marked">
           <td><pre><a name="line19">19</a>         update_error_format(format)</pre></td>
         </tr>
         <tr class="inferred">
@@ -177,54 +177,48 @@
           <td><pre><a name="line43">43</a>   def update_success_format(format)</pre></td>
         </tr>
         <tr class="marked">
-          <td><pre><a name="line44">44</a>     format.html do</pre></td>
-        </tr>
-        <tr class="uncovered">
-          <td><pre><a name="line45">45</a>       redirect_to @leaf, notice: UPDATE_SUCCESS</pre></td>
-        </tr>
-        <tr class="inferred">
-          <td><pre><a name="line46">46</a>     end</pre></td>
+          <td><pre><a name="line44">44</a>     format.js do</pre></td>
         </tr>
         <tr class="marked">
-          <td><pre><a name="line47">47</a>     format.js do</pre></td>
+          <td><pre><a name="line45">45</a>       flash[:notice] = UPDATE_SUCCESS</pre></td>
         </tr>
         <tr class="marked">
-          <td><pre><a name="line48">48</a>       flash[:notice] = UPDATE_SUCCESS</pre></td>
+          <td><pre><a name="line46">46</a>       render ajax_redirect_to(@leaf.id)</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line47">47</a>     end</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line48">48</a>   end</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line49">49</a> </pre></td>
         </tr>
         <tr class="marked">
-          <td><pre><a name="line49">49</a>       render ajax_redirect_to(@leaf.id)</pre></td>
-        </tr>
-        <tr class="inferred">
-          <td><pre><a name="line50">50</a>     end</pre></td>
-        </tr>
-        <tr class="inferred">
-          <td><pre><a name="line51">51</a>   end</pre></td>
-        </tr>
-        <tr class="inferred">
-          <td><pre><a name="line52">52</a> </pre></td>
+          <td><pre><a name="line50">50</a>   def update_error_format(format)</pre></td>
         </tr>
         <tr class="marked">
-          <td><pre><a name="line53">53</a>   def update_error_format(format)</pre></td>
+          <td><pre><a name="line51">51</a>     format.js do</pre></td>
         </tr>
-        <tr class="uncovered">
-          <td><pre><a name="line54">54</a>     format.html do</pre></td>
+        <tr class="marked">
+          <td><pre><a name="line52">52</a>       flash[:alert] = @seal.errors.full_messages</pre></td>
         </tr>
-        <tr class="uncovered">
-          <td><pre><a name="line55">55</a>       redirect_to @leaf, error: @seal.errors.full_messages</pre></td>
-        </tr>
-        <tr class="inferred">
-          <td><pre><a name="line56">56</a>     end</pre></td>
+        <tr class="marked">
+          <td><pre><a name="line53">53</a>       render ajax_redirect_to(@leaf.id)</pre></td>
         </tr>
         <tr class="inferred">
-          <td><pre><a name="line57">57</a>   end</pre></td>
+          <td><pre><a name="line54">54</a>     end</pre></td>
         </tr>
         <tr class="inferred">
-          <td><pre><a name="line58">58</a> end</pre></td>
+          <td><pre><a name="line55">55</a>   end</pre></td>
+        </tr>
+        <tr class="inferred">
+          <td><pre><a name="line56">56</a> end</pre></td>
         </tr>
       </tbody>
     </table>
 
-    <p>Generated on 2016-09-15 18:24:30 +0900 with <a href="https://github.com/fguillen/simplecov-rcov">SimpleCov-RCov 0.2.3</a></p>
+    <p>Generated on 2016-09-15 18:48:44 +0900 with <a href="https://github.com/fguillen/simplecov-rcov">SimpleCov-RCov 0.2.3</a></p>
 
   </body>
 </html>

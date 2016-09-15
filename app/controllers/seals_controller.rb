@@ -40,9 +40,6 @@ class SealsController < ApplicationController
   end
 
   def update_success_format(format)
-    format.html do
-      redirect_to @leaf, notice: UPDATE_SUCCESS
-    end
     format.js do
       flash[:notice] = UPDATE_SUCCESS
       render ajax_redirect_to(@leaf.id)
@@ -50,8 +47,9 @@ class SealsController < ApplicationController
   end
 
   def update_error_format(format)
-    format.html do
-      redirect_to @leaf, error: @seal.errors.full_messages
+    format.js do
+      flash[:alert] = @seal.errors.full_messages
+      render ajax_redirect_to(@leaf.id)
     end
   end
 end

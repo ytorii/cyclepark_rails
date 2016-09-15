@@ -40,6 +40,10 @@ RSpec.describe SealsController, type: :controller do
         seal.reload
       }
 
+      it "returns http success." do
+        expect(response.status).to eq(200)
+      end
+
       it "updates the requested seal" do
         expect(seal.sealed_flag).to eq(true)
         expect(seal.sealed_date).to eq(Date.parse("2016-02-28"))
@@ -48,11 +52,6 @@ RSpec.describe SealsController, type: :controller do
 
       it "assigns the requested seal as @seal" do
         expect(assigns(:seal)).to eq(seal)
-      end
-
-      it "rerender the leaf's page." do
-        expect(response.status).to eq(200)
-        expect(response).to render_template("leafs/#{first.id}/show")
       end
     end
 
@@ -67,12 +66,12 @@ RSpec.describe SealsController, type: :controller do
         }, valid_session
       }
 
-      it "assigns the seal as @seal" do
-        expect(assigns(:seal)).to eq(seal)
+      it "returns http success." do
+        expect(response.status).to eq(200)
       end
 
-      it "redirect to the leaf's 'show' template" do
-        expect(response).to redirect_to(leaf_path(first.id))
+      it "assigns the seal as @seal" do
+        expect(assigns(:seal)).to eq(seal)
       end
     end
   end
