@@ -27,15 +27,15 @@
             <td class="left_align"><a href="app-controllers-application_controller_rb.html">app/controllers/application_controller.rb</a></td>
             <td class='right_align'><tt>28</tt></td>
             <td class='right_align'><tt>15</tt></td>
-            <td class="left_align"><div class="percent_graph_legend"><tt class=''>92.86%</tt></div>
+            <td class="left_align"><div class="percent_graph_legend"><tt class=''>78.57%</tt></div>
       <div class="percent_graph">
-        <div class="covered" style="width:93px"></div>
-        <div class="uncovered" style="width:7px"></div>
+        <div class="covered" style="width:79px"></div>
+        <div class="uncovered" style="width:21px"></div>
       </div></td>
-            <td class="left_align"><div class="percent_graph_legend"><tt class=''>86.67%</tt></div>
+            <td class="left_align"><div class="percent_graph_legend"><tt class=''>60.00%</tt></div>
       <div class="percent_graph">
-        <div class="covered" style="width:87px"></div>
-        <div class="uncovered" style="width:13px"></div>
+        <div class="covered" style="width:60px"></div>
+        <div class="uncovered" style="width:40px"></div>
       </div></td>
           </tr>
         </tbody>
@@ -104,7 +104,7 @@
         <tr class="inferred">
           <td><pre><a name="line19">19</a>     else</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line20">20</a>       redirect_to_login</pre></td>
         </tr>
         <tr class="inferred">
@@ -119,13 +119,13 @@
         <tr class="marked">
           <td><pre><a name="line24">24</a>   def redirect_to_login</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line25">25</a>     session[:staff] = nil</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line26">26</a>     flash[:referer] = request.fullpath</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line27">27</a>     redirect_to controller: :login, action: :index</pre></td>
         </tr>
         <tr class="inferred">
@@ -137,7 +137,7 @@
       </tbody>
     </table>
 
-    <p>Generated on 2016-09-15 19:01:06 +0900 with <a href="https://github.com/fguillen/simplecov-rcov">SimpleCov-RCov 0.2.3</a></p>
+    <p>Generated on 2016-09-16 08:47:45 +0900 with <a href="https://github.com/fguillen/simplecov-rcov">SimpleCov-RCov 0.2.3</a></p>
 
   </body>
 </html>
