@@ -58,58 +58,57 @@ RSpec.describe ContractsController, type: :controller do
 
   describe "POST #create" do
     context "with valid params" do
+      it "returns http success." do
+        xhr :post, :create, {:contract => valid_attributes, :leaf_id => first.id}, valid_session
+        expect(response.status).to eq(200)
+      end
+
       it "creates one new Contract." do
         expect {
-          post :create, {:contract => valid_attributes, :leaf_id => first.id}, valid_session
+          xhr :post, :create, {:contract => valid_attributes, :leaf_id => first.id}, valid_session
         }.to change(Contract, :count).by(1)
       end
 
       it "creates seven new Seals." do
         expect {
-          post :create, {:contract => valid_attributes, :leaf_id => first.id}, valid_session
+          xhr :post, :create, {:contract => valid_attributes, :leaf_id => first.id}, valid_session
         }.to change(Seal, :count).by(7)
       end
 
       it "updates leaf's last month to Seals' last month." do
-        post :create, {:contract => valid_attributes, :leaf_id => first.id}, valid_session
+        xhr :post, :create, {:contract => valid_attributes, :leaf_id => first.id}, valid_session
         expect(Leaf.find(first.id).last_date).to eq(Seal.all.last.month)
-      end
-
-      it "redirects to the leaf's page." do
-        post :create, {:contract => valid_attributes, :leaf_id => first.id}, valid_session
-        expect(response).to redirect_to(first)
       end
     end
 
     context "with invalid params" do
+      it "returns http success." do
+        xhr :post, :create, {:contract => invalid_attributes, :leaf_id => first.id}, valid_session
+        expect(response.status).to eq(200)
+      end
+
       it "fails to create new Contract." do
         expect {
-          post :create, {:contract => invalid_attributes, :leaf_id => first.id}, valid_session
+          xhr :post, :create, {:contract => invalid_attributes, :leaf_id => first.id}, valid_session
         }.to change(Contract, :count).by(0)
       end
 
       it "fails to create new Seals." do
         expect {
-          post :create, {:contract => invalid_attributes, :leaf_id => first.id}, valid_session
+          xhr :post, :create, {:contract => invalid_attributes, :leaf_id => first.id}, valid_session
         }.to change(Seal, :count).by(0)
       end
 
       it "fails to update leaf's last month to Seals' last month." do
         last_date = first.last_date 
-        post :create, {:contract => invalid_attributes, :leaf_id => first.id}, valid_session
+          xhr :post, :create, {:contract => invalid_attributes, :leaf_id => first.id}, valid_session
         first.reload
         expect(first.last_date).to eq(last_date)
       end
 
       it "assigns a newly created but unsaved contract as @contract" do
-        post :create, {:contract => invalid_attributes, :leaf_id => first.id}, valid_session
+        xhr :post, :create, {:contract => invalid_attributes, :leaf_id => first.id}, valid_session
         expect(assigns(:contract)).to be_a_new(Contract)
-      end
-
-      it "redirects to the leaf's page." do
-        post :create, {:contract => invalid_attributes, :leaf_id => first.id}, valid_session
-        expect(assigns(:contract)).to be_a_new(Contract)
-        expect(response).to redirect_to(first)
       end
     end
   end
