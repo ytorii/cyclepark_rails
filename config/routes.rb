@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   resources :staffs
   
   get  'login' => 'login#index'
+  get  'login/logout' => 'login#logout'
   post 'login/auth' => 'login#auth'
 
   get  'menu' => 'menu#index'
