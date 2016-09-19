@@ -35,6 +35,7 @@
       - month = s.object.month.strftime('%-m')
       = field_set_tag "#{month}月シール状態", class:'seal_legend' do
         = s.hidden_field :contract_id, :value => @contract.id
+        = s.hidden_field :month, :value => s.object.month
         .form-group
           = s.label :sealed_flag
           %br/

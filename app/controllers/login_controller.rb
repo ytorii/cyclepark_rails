@@ -38,7 +38,7 @@ class LoginController < ApplicationController
   end
 
   def validate_referer
-    if referer =~ URI::regexp
+    if params[:referer] =~ URI::regexp
       URI.parse(referer_params).path
     else
       '/login'

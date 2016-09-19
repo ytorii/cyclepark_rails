@@ -25,8 +25,8 @@
         <tbody>
           <tr>
             <td class="left_align"><a href="app-models-concerns-contracts_validate_rb.html">app/models/concerns/contracts_validate.rb</a></td>
-            <td class='right_align'><tt>35</tt></td>
-            <td class='right_align'><tt>35</tt></td>
+            <td class='right_align'><tt>37</tt></td>
+            <td class='right_align'><tt>37</tt></td>
             <td class="left_align"><div class="percent_graph_legend"><tt class=''>0.00%</tt></div>
       <div class="percent_graph">
         <div class="covered" style="width:0px"></div>
@@ -108,57 +108,63 @@
           <td><pre><a name="line20">20</a>   def same_length_terms?</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line21">21</a>     prev = Contract.find(id)</pre></td>
+          <td><pre><a name="line21">21</a>     #prev = Contract.find(id)</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line22">22</a>     unless term1 == prev.term1 &amp;&amp; term2 == prev.term2</pre></td>
+          <td><pre><a name="line22">22</a>     #unless term1 == prev.term1 &amp;&amp; term2 == prev.term2</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line23">23</a>       errors.add(:term1, &#39;契約期間の変更はできません。&#39;)</pre></td>
+          <td><pre><a name="line23">23</a>     if term1_changed? || term2_changed?</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line24">24</a>       return false</pre></td>
+          <td><pre><a name="line24">24</a>       p &#39;changed!!&#39;</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line25">25</a>     end</pre></td>
+          <td><pre><a name="line25">25</a>       errors.add(:term1, &#39;契約期間の変更はできません。&#39;)</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line26">26</a>   end</pre></td>
+          <td><pre><a name="line26">26</a>       return false</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line27">27</a> </pre></td>
+          <td><pre><a name="line27">27</a>     end</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line28">28</a>   # Only the last contract is allowed to be deleted!</pre></td>
+          <td><pre><a name="line28">28</a>   end</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line29">29</a>   def last_contract?</pre></td>
+          <td><pre><a name="line29">29</a> </pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line30">30</a>     last = Leaf.find(leaf_id).contracts.last</pre></td>
+          <td><pre><a name="line30">30</a>   # Only the last contract is allowed to be deleted!</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line31">31</a>     unless id == last.id</pre></td>
+          <td><pre><a name="line31">31</a>   def last_contract?</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line32">32</a>       errors.add(:start_month, &#39;最後尾以外の契約は削除できません。&#39;)</pre></td>
+          <td><pre><a name="line32">32</a>     last = Leaf.find(leaf_id).contracts.last</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line33">33</a>       return false</pre></td>
+          <td><pre><a name="line33">33</a>     unless id == last.id</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line34">34</a>     end</pre></td>
+          <td><pre><a name="line34">34</a>       errors.add(:start_month, &#39;最後尾以外の契約は削除できません。&#39;)</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line35">35</a>   end</pre></td>
+          <td><pre><a name="line35">35</a>       return false</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line36">36</a> end</pre></td>
+          <td><pre><a name="line36">36</a>     end</pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line37">37</a>   end</pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line38">38</a> end</pre></td>
         </tr>
       </tbody>
     </table>
 
-    <p>Generated on 2016-09-16 19:05:15 +0900 with <a href="https://github.com/fguillen/simplecov-rcov">SimpleCov-RCov 0.2.3</a></p>
+    <p>Generated on 2016-09-19 18:10:31 +0900 with <a href="https://github.com/fguillen/simplecov-rcov">SimpleCov-RCov 0.2.3</a></p>
 
   </body>
 </html>
