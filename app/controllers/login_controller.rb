@@ -28,7 +28,7 @@ class LoginController < ApplicationController
     reset_session
     session[:staff] = staff.id
     session[:nickname] = staff.nickname
-    redirect_to validate_referer
+    redirect_to referer_params
   end
 
   def fail_login
@@ -37,14 +37,7 @@ class LoginController < ApplicationController
     render 'index'
   end
 
-  def validate_referer
-    if params[:referer] =~ URI::regexp
-      URI.parse(referer_params).path
-    else
-      '/login'
-    end
-  end
-
+  # TODO: referer URL should be white listed
   def referer_params
     params.require(:referer)
   end
