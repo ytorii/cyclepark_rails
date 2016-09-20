@@ -7,7 +7,7 @@ class Staff < ActiveRecord::Base
 
   validates :nickname,
             presence: true,
-            uniqueness: { allow_blank: true },
+            uniqueness: { allow_blank: true }, 
             length: { maximum: 10, allow_blank: true }
   validates :password,
             presence: true,

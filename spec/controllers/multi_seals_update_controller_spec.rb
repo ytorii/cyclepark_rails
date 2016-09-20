@@ -7,11 +7,6 @@ RSpec.describe MultiSealsUpdateController, type: :controller do
     create(:count_first_normal_2)
   end 
 
-  after :all do
-    seed_tables = %w{ staffs staffdetails }
-    DatabaseCleaner.clean_with(:truncation, {:except => seed_tables})
-  end
-
   shared_examples "gets page and list correctly" do |expected_ids|
     it "returns http success" do
       expect(response).to have_http_status(:success)

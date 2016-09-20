@@ -39,13 +39,12 @@ class ContractsController < ApplicationController
     respond_to do |format|
       if @contract.save
         # Response for ajax request is javascript.
-        format.html { redirect_to_leaf_notice(create_message) }
         format.js { ajax_redirect_to_leaf_notice(create_message) }
-        format.json { render :show, status: :created, location: @contract }
       else
         # To run Leaf's show method, page needs to be redirected.
         # As Only a few inputs, re-input is a little work!
-        ajax_unprocessable_response(format)
+        alert_message = @contract.errors.full_messages
+        format.js { ajax_redirect_to_leaf_alert(alert_message) }
       end
     end
   end
@@ -106,12 +105,6 @@ class ContractsController < ApplicationController
   def ajax_redirect_to_leaf_alert(message)
     flash[:alert] = message
     render ajax_redirect_to(@contract.leaf_id)
-  end
-
-  def ajax_unprocessable_response(format)
-    format.html { redirect_to_leaf_alert(@contract.errors.full_messages) }
-    format.js   { ajax_redirect_to_leaf_alert(@contract.errors.full_messages) }
-    format.json { render json: @contract.errors, status: :unprocessable_entity }
   end
 
   def create_message

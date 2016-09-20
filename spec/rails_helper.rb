@@ -101,7 +101,6 @@ RSpec.configure do |config|
   seed_tables = %w{ staffs staffdetails }
 
   config.before(:suite) do
-    puts 'suite before'
     SeedFu.fixture_paths = [ "#{Rails.root}/db/fixtures/development" ] 
     SeedFu.seed
     DatabaseCleaner.clean_with(:truncation, {:except => seed_tables})
@@ -118,8 +117,13 @@ RSpec.configure do |config|
     DatabaseCleaner.strategy = :truncation, {:except => seed_tables}
   end
 
-  config.after(:each) do
+  #config.after(:each) do
     #DatabaseCleaner.clean
+  #end
+
+  # Clean DB records created by before :all blocks
+  config.after(:all) do
+    DatabaseCleaner.clean_with(:truncation, {:except => seed_tables})
   end
 
   ActiveRecord::Base.shared_connection = ActiveRecord::Base.connection

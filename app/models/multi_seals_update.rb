@@ -27,12 +27,7 @@ class MultiSealsUpdate
     end
 
     # Successed all update, return true
-    return true
-
-    # RecordNotFound exception raised with unexist id
-  rescue ActiveRecord::RecordNotFound
-    errors.add(:sealsid_list, '存在しないシール情報です。')
-    return false
+    true
   end
 
   private

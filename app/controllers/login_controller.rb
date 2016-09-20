@@ -28,12 +28,17 @@ class LoginController < ApplicationController
     reset_session
     session[:staff] = staff.id
     session[:nickname] = staff.nickname
-    redirect_to params[:referer]
+    redirect_to referer_params
   end
 
   def fail_login
     flash.now[:referer] = params[:referer]
     @error = 'ユーザ名／パスワードが間違っています。'
     render 'index'
+  end
+
+  # TODO: referer URL should be white listed
+  def referer_params
+    params.require(:referer)
   end
 end

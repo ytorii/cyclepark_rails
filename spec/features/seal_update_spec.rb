@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 feature "Seal State Update" do
-  describe 'Seal Update' do
+  describe 'Seal Update', :js => true do
 
     before{
       # create leaf and customer
