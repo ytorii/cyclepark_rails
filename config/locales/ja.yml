@@ -81,7 +81,10 @@ ja:
     formats:
       default: "%Y/%m/%d"
       long: "%Y年%m月%d日(%a)"
-      short: "%m/%d"
+      short: "%-m/%-d"
+      ymd: "%Y年%-m月%-d日"
+      ym: "%Y年%-m月"
+      md: "%-m月%-d日"
     month_names:
     -
     - 1月
