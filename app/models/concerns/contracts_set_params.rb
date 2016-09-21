@@ -82,13 +82,12 @@ module ContractsSetParams
 
   # Leaf's last_date should be backdated after the last contract deleted.
   def backdate_leaf_lastdate
-    leaf = Leaf.find(leaf_id)
-    last_contract = leaf.contracts.last
+    last_contract = self.leaf.contracts.last
 
     if last_contract.nil?
-      leaf.update(last_date: nil)
+      self.leaf.update(last_date: nil)
     else
-      leaf.update(last_date: last_contract.seals.last.month)
+      self.leaf.update(last_date: last_contract.seals.last.month)
     end
   end
 end

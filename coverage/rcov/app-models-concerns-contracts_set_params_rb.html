@@ -8,7 +8,7 @@
     <script type="text/javascript" src="./assets/0.2.3/rcov.js"></script>
   </head>
   <body>
-    <h1>Cyclepark C0 Coverage Information - Simploco - RCov</h1>
+    <h1>Cyclepark rails C0 Coverage Information - Simploco - RCov</h1>
     <h2>app/models/concerns/contracts_set_params.rb</h2>
 
     <div class="report_table_wrapper">
@@ -25,8 +25,8 @@
         <tbody>
           <tr>
             <td class="left_align"><a href="app-models-concerns-contracts_set_params_rb.html">app/models/concerns/contracts_set_params.rb</a></td>
-            <td class='right_align'><tt>94</tt></td>
-            <td class='right_align'><tt>94</tt></td>
+            <td class='right_align'><tt>93</tt></td>
+            <td class='right_align'><tt>93</tt></td>
             <td class="left_align"><div class="percent_graph_legend"><tt class=''>0.00%</tt></div>
       <div class="percent_graph">
         <div class="covered" style="width:0px"></div>
@@ -303,39 +303,36 @@
           <td><pre><a name="line85">85</a>   def backdate_leaf_lastdate</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line86">86</a>     leaf = Leaf.find(leaf_id)</pre></td>
+          <td><pre><a name="line86">86</a>     last_contract = self.leaf.contracts.last</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line87">87</a>     last_contract = leaf.contracts.last</pre></td>
+          <td><pre><a name="line87">87</a> </pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line88">88</a> </pre></td>
+          <td><pre><a name="line88">88</a>     if last_contract.nil?</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line89">89</a>     if last_contract.nil?</pre></td>
+          <td><pre><a name="line89">89</a>       self.leaf.update(last_date: nil)</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line90">90</a>       leaf.update(last_date: nil)</pre></td>
+          <td><pre><a name="line90">90</a>     else</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line91">91</a>     else</pre></td>
+          <td><pre><a name="line91">91</a>       self.leaf.update(last_date: last_contract.seals.last.month)</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line92">92</a>       leaf.update(last_date: last_contract.seals.last.month)</pre></td>
+          <td><pre><a name="line92">92</a>     end</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line93">93</a>     end</pre></td>
+          <td><pre><a name="line93">93</a>   end</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line94">94</a>   end</pre></td>
-        </tr>
-        <tr class="uncovered">
-          <td><pre><a name="line95">95</a> end</pre></td>
+          <td><pre><a name="line94">94</a> end</pre></td>
         </tr>
       </tbody>
     </table>
 
-    <p>Generated on 2016-09-20 09:32:06 +0900 with <a href="https://github.com/fguillen/simplecov-rcov">SimpleCov-RCov 0.2.3</a></p>
+    <p>Generated on 2016-09-21 14:40:52 +0900 with <a href="https://github.com/fguillen/simplecov-rcov">SimpleCov-RCov 0.2.3</a></p>
 
   </body>
 </html>
