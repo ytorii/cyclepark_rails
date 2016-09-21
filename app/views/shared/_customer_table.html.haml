@@ -21,10 +21,12 @@
         学生
     #start_date.first_box_content
       - if @leaf.valid_flag then
-        = @leaf.start_date.strftime('%Y年%-m月%-d日')
+        // = @leaf.start_date.strftime('%Y年%-m月%-d日')
+        = I18n.l @leaf.start_date, format: :ymd
         から契約中
       - else
-        = @leaf.last_date.strftime('%Y年%-m月')
+        // = @leaf.last_date.strftime('%Y年%-m月')
+        = I18n.l @leaf.start_date, format: :ym
         末で解約
   #second_box
     #label_address.second_box_content

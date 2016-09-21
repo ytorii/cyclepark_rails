@@ -22,7 +22,7 @@
             = s.month.strftime('%-m')
             月
             %br
-            = c.contract_date.strftime('%-m/%-d')
+            = I18n.l c.contract_date, format: :short
             %br
             = c.staff_nickname
             %br
@@ -36,7 +36,7 @@
             - else 
           - if s.sealed_flag then 
             .seal_box.stamped
-              = s.sealed_date.strftime('%-m/%-d')
+              = I18n.l s.sealed_date, format: :short
               貼済
               %br
               = s.staff_nickname 
