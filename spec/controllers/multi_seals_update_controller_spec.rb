@@ -40,7 +40,7 @@ RSpec.describe MultiSealsUpdateController, type: :controller do
              contracts_seals_month_eq: "あ",
              valid_flag_eq: true,
              contracts_seals_sealed_flag_eq: false }
-    }
+      }
     }
 
     context "with no params" do
