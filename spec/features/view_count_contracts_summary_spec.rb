@@ -66,7 +66,7 @@ feature "Count Contracts Summary" do
       before{
 
         # Fix the date to 2016-06-03 to meet the registered contract date.
-        Timecop.travel("2016-06-03")
+        Timecop.freeze('2016-06-03'.to_date)
 
         # leafs (contain customers and contracts)
         count_first_normal_1
@@ -83,7 +83,7 @@ feature "Count Contracts Summary" do
 
       # Return date to current datetime.
       # Without this, time to elapse of RSpec will be invalid value!
-      Timecop.travel("2016-06-03")
+      Timecop.return
     end
   end
 

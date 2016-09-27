@@ -23,14 +23,19 @@ class NumberSealsidListSearch
   validates :sealed_flag,
             inclusion: { in: [true, false] }
 
-  # before_validation { fix_params }
-
-  def initialize(vhiecle_type = 1, month = Date.current, sealed_flag = false)
+  # Month should be next month of today,
+  # because the most of unsticked seals are of next month.
+  def initialize(
+    vhiecle_type = 1,
+    month = Date.current.next_month,
+    sealed_flag = false
+  )
     @vhiecle_type = vhiecle_type
     @month = month
     @sealed_flag = cast_to_boolean(sealed_flag)
   end
 
+  # DO NOT start with Leaf! That causes a slow query.
   def result
     Seal.where('month = ? and sealed_flag = ? and vhiecle_type = ?',
                change_to_beginning_of_month, @sealed_flag, @vhiecle_type)
@@ -41,10 +46,12 @@ class NumberSealsidListSearch
 
   private
 
+  # Months are recorded as the 1st day of the each month.
   def change_to_beginning_of_month
     @month.to_date.beginning_of_month
   end
 
+  # Params from controllers are String, so need to be casted to Boolean.
   def cast_to_boolean(input)
     ActiveRecord::Type::Boolean.new.type_cast_from_user(input)
   end

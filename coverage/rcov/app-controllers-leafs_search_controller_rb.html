@@ -26,16 +26,16 @@
           <tr>
             <td class="left_align"><a href="app-controllers-leafs_search_controller_rb.html">app/controllers/leafs_search_controller.rb</a></td>
             <td class='right_align'><tt>74</tt></td>
-            <td class='right_align'><tt>74</tt></td>
-            <td class="left_align"><div class="percent_graph_legend"><tt class=''>0.00%</tt></div>
+            <td class='right_align'><tt>37</tt></td>
+            <td class="left_align"><div class="percent_graph_legend"><tt class=''>95.95%</tt></div>
       <div class="percent_graph">
-        <div class="covered" style="width:0px"></div>
-        <div class="uncovered" style="width:100px"></div>
+        <div class="covered" style="width:96px"></div>
+        <div class="uncovered" style="width:4px"></div>
       </div></td>
-            <td class="left_align"><div class="percent_graph_legend"><tt class=''>0.00%</tt></div>
+            <td class="left_align"><div class="percent_graph_legend"><tt class=''>91.89%</tt></div>
       <div class="percent_graph">
-        <div class="covered" style="width:0px"></div>
-        <div class="uncovered" style="width:100px"></div>
+        <div class="covered" style="width:92px"></div>
+        <div class="uncovered" style="width:8px"></div>
       </div></td>
           </tr>
         </tbody>
@@ -50,232 +50,232 @@
 
     <table class="details">
       <tbody>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line2">2</a> # Controller for index leaf search results</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="marked">
           <td><pre><a name="line3">3</a> class LeafsSearchController &lt; ApplicationController</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="marked">
           <td><pre><a name="line4">4</a>   def index</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="marked">
           <td><pre><a name="line5">5</a>     @ransack_validator = LeafsSearchValidator.new(search_params)</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="marked">
           <td><pre><a name="line6">6</a>     @query = Leaf.ransack(search_params)</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line7">7</a> </pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="marked">
           <td><pre><a name="line8">8</a>     respond_to do |format|</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="marked">
           <td><pre><a name="line9">9</a>       if @ransack_validator.valid?</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="marked">
           <td><pre><a name="line10">10</a>         @leafs = @query.result(distinct: true).includes(:customer)</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="marked">
           <td><pre><a name="line11">11</a>         allocate_result_format(format)</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line12">12</a>       else</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="marked">
           <td><pre><a name="line13">13</a>         validation_error_format(format)</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line14">14</a>       end</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line15">15</a>     end</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line16">16</a>   end</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line17">17</a> </pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="marked">
           <td><pre><a name="line18">18</a>   private</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line19">19</a> </pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="marked">
           <td><pre><a name="line20">20</a>   def allocate_result_format(format)</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="marked">
           <td><pre><a name="line21">21</a>     if @leafs.empty?</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line22">22</a>       # No leafs found.</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="marked">
           <td><pre><a name="line23">23</a>       empty_result_format(format)</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="marked">
           <td><pre><a name="line24">24</a>     elsif @leafs.size == 1</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line25">25</a>       # Only one leaf found.</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="marked">
           <td><pre><a name="line26">26</a>       single_result_format(format)</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line27">27</a>     else</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line28">28</a>       # Several leafs found.</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="marked">
           <td><pre><a name="line29">29</a>       multi_results_format(format)</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line30">30</a>     end</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line31">31</a>   end</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line32">32</a> </pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="marked">
           <td><pre><a name="line33">33</a>   def empty_result_format(format)</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="marked">
           <td><pre><a name="line34">34</a>     format.html do</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="marked">
           <td><pre><a name="line35">35</a>       redirect_to menu_path, alert: [&#39;指定したリーフは存在しません。&#39;]</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line36">36</a>     end</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="marked">
           <td><pre><a name="line37">37</a>     format.json do</pre></td>
         </tr>
         <tr class="uncovered">
           <td><pre><a name="line38">38</a>       render json: @leafs.errors, status: :unprocessable_entity</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line39">39</a>     end</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line40">40</a>   end</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line41">41</a> </pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="marked">
           <td><pre><a name="line42">42</a>   def single_result_format(format)</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="marked">
           <td><pre><a name="line43">43</a>     format.html { redirect_to leaf_path(@leafs.first) }</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="marked">
           <td><pre><a name="line44">44</a>     format.json do</pre></td>
         </tr>
         <tr class="uncovered">
           <td><pre><a name="line45">45</a>       render :show, status: :created, location: @leafs.first</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line46">46</a>     end</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line47">47</a>   end</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line48">48</a> </pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="marked">
           <td><pre><a name="line49">49</a>   def multi_results_format(format)</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="marked">
           <td><pre><a name="line50">50</a>     format.html { render :index }</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="marked">
           <td><pre><a name="line51">51</a>     format.json { render :index, status: :created, location: @leafs }</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line52">52</a>   end</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line53">53</a> </pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="marked">
           <td><pre><a name="line54">54</a>   def validation_error_format(format)</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="marked">
           <td><pre><a name="line55">55</a>     format.html do</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="marked">
           <td><pre><a name="line56">56</a>       redirect_to menu_path, alert: @ransack_validator.errors.full_messages</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line57">57</a>     end</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="marked">
           <td><pre><a name="line58">58</a>     format.json do</pre></td>
         </tr>
         <tr class="uncovered">
           <td><pre><a name="line59">59</a>       render json: @ransack_validator.errors, status: :unprocessable_entity</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line60">60</a>     end</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line61">61</a>   end</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line62">62</a> </pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line63">63</a>   # strong parameters</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="marked">
           <td><pre><a name="line64">64</a>   def search_params</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="marked">
           <td><pre><a name="line65">65</a>     if params.dig(:q, :customer_first_name_or_customer_last_name_cont)</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="marked">
           <td><pre><a name="line66">66</a>       params.require(:q).permit(</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line67">67</a>         :customer_first_name_or_customer_last_name_cont</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line68">68</a>       )</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line69">69</a>     else</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="marked">
           <td><pre><a name="line70">70</a>       params.require(:q).permit(</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line71">71</a>         :vhiecle_type_eq, :number_eq, :valid_flag_eq</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line72">72</a>       )</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line73">73</a>     end</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line74">74</a>   end</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line75">75</a> end</pre></td>
         </tr>
       </tbody>
     </table>
 
-    <p>Generated on 2016-09-26 19:25:54 +0900 with <a href="https://github.com/fguillen/simplecov-rcov">SimpleCov-RCov 0.2.3</a></p>
+    <p>Generated on 2016-06-03 00:00:00 +0900 with <a href="https://github.com/fguillen/simplecov-rcov">SimpleCov-RCov 0.2.3</a></p>
 
   </body>
 </html>
