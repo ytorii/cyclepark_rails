@@ -3,7 +3,17 @@ class MultiSealsUpdateController < ApplicationController
   UPDATE_SUCCESS = 'シール情報を更新しました。'.freeze
 
   def index
-    @number_sealsid_list = NumberSealsidListSearch.new.result
+    validator = NumberSealsidListValidator.new(index_params)
+    @query = Leaf.ransack(index_params)
+
+    if validator.valid?
+      numbers_sealsid_list = list_query_result
+    else
+      numbers_sealsid_list = []
+      flash[:alert] = validator.errors.full_messages
+    end
+
+    @unsealed_list = unsealed_list(numbers_sealsid_list)
   end
 
   def update

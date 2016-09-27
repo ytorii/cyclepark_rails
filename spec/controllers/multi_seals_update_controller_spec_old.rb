@@ -7,38 +7,21 @@ RSpec.describe MultiSealsUpdateController, type: :controller do
     create(:count_first_normal_2)
   end 
 
-  shared_examples "routes to #index" do |session|
-    before{
-      Timecop.freeze('2016-06-03'.to_date)
-      get :index, {}, session
-    }
-
-    it "returns http success." do
+  shared_examples "gets page and list correctly" do |expected_ids|
+    it "returns http success" do
       expect(response).to have_http_status(:success)
     end
 
-    it "returns number_sealsid_list as @number_sealid_list." do
-      # The date of the factorygirl's data is fixed,
-      # so change the date with Timecop.
+    it "returns seals_list as @unsealed_list." do
+      assinged_lists = assigns(:unsealed_list).sealsid_list
+      # Numbers change in rake spec because with multiple specs,
+      # number sequentiality is taken over.
+      expected_numbers = Leaf.all.pluck(:number)
 
-      list = NumberSealsidListSearch.new.result
-      expect(assigns(:number_sealsid_list)).to eq(list)
-    end
-
-    after {
-      # Restore the time as current.
-      Timecop.return
-    }
-  end
-
-  shared_examples "routes to #search" do |params|
-    it "returns http success." do
-      expect(response).to have_http_status(:success)
-    end
-
-    it "returns number_sealsid_list as @number_sealid_list." do
-      list = NumberSealsidListSearch.new(*params)
-      assigns(:number_sealsid_list).to eq(list)
+      assinged_lists.each_with_index do |list, i|
+        expect([ list.number, list.seal_id ]).
+          to eq([ expected_numbers[i], expected_ids[i] ])
+      end
     end
   end
 
@@ -63,14 +46,14 @@ RSpec.describe MultiSealsUpdateController, type: :controller do
     context "with no params" do
       before{ get :index, {}, session }
 
-      #it_behaves_like "gets page and list correctly",
-      #  [ 3, 6, 9, 10 ]
+      it_behaves_like "gets page and list correctly",
+        [ 3, 6, 9, 10 ]
     end
 
     context "with valid params" do
       before{ post :index, index_valid_params, session }
-      #it_behaves_like "gets page and list correctly",
-      #  [ 2, 5, 8 ]
+      it_behaves_like "gets page and list correctly",
+        [ 2, 5, 8 ]
     end
 
     context "with invalid param" do
@@ -143,20 +126,7 @@ RSpec.describe MultiSealsUpdateController, type: :controller do
     end
   end
 
-  describe "GET #index", :focus do
-
-    context "with normal staff" do
-      it_behaves_like "routes to #index",
-        { staff: '2', nickname: 'normal' }
-    end
-
-    context "with admin staff" do
-      it_behaves_like "routes to #index",
-        { staff: '1', nickname: 'admin' }
-    end
-  end
-
-  describe "POST #search" do
+  describe "GET #index" do
     context "with admin staff" do
       it_behaves_like "gets multi seals list",
         { staff: '1', nickname: 'admin' }
