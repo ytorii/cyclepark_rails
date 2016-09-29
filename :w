@@ -2,18 +2,23 @@
 class MultiSealsUpdateController < ApplicationController
   UPDATE_SUCCESS = 'シール情報を更新しました。'.freeze
 
+  # Routed from GET index
   def index
-    validator = NumberSealsidListValidator.new(index_params)
-    @query = Leaf.ransack(index_params)
+    @search = NumberSealsidListSearch.new
+    @list = @search.result
+    @multi_seals_update = multi_seals_update_params
+  end
 
-    if validator.valid?
-      numbers_sealsid_list = list_query_result
+  # Routed from POST index
+  def search
+    @search = NumberSealsidListSearch.new()
+    @multi_seals_update = multi_seals_update_params
+
+    if @search.valid?
+      @list = @search.result
     else
-      numbers_sealsid_list = []
-      flash[:alert] = validator.errors.full_messages
+      @list = []
     end
-
-    @unsealed_list = unsealed_list(numbers_sealsid_list)
   end
 
   def update
@@ -32,17 +37,8 @@ class MultiSealsUpdateController < ApplicationController
   end
 
   private
-
-  def index_params
-    fix_params_q
-
-    params.require(:q)
-          .permit(
-            :vhiecle_type_eq,
-            :valid_flag_eq,
-            :contracts_seals_month_eq,
-            :contracts_seals_sealed_flag_eq
-          )
+  def search_params
+    params.require(:search).permit( :vhiecle_type, :month, :sealed_flag )
   end
 
   def update_params
@@ -90,9 +86,8 @@ class MultiSealsUpdateController < ApplicationController
           .order(:number)
   end
 
-  def unsealed_list(numbers_sealsid_list)
+  def multi_seals_update_params
     MultiSealsUpdate.new(
-      sealsid_list: numbers_sealsid_list,
       sealed_date: Date.current,
       staff_nickname: session[:nickname]
     )

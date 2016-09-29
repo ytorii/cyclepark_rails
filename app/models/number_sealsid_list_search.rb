@@ -25,14 +25,10 @@ class NumberSealsidListSearch
 
   # Month should be next month of today,
   # because the most of unsticked seals are of next month.
-  def initialize(
-    vhiecle_type = 1,
-    month = Date.current.next_month,
-    sealed_flag = false
-  )
-    @vhiecle_type = vhiecle_type
-    @month = month
-    @sealed_flag = cast_to_boolean(sealed_flag)
+  def initialize( params = {} )
+    @vhiecle_type = params.fetch(:vhiecle_type, 1)
+    @month = params.fetch(:month, Date.current.next_month)
+    @sealed_flag = cast_to_boolean(params.fetch(:sealed_flag, false))
   end
 
   # DO NOT start with Leaf! That causes a slow query.

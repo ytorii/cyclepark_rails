@@ -14,7 +14,6 @@ ja:
     last_date: 最終更新月
     name: 名前
     nickname: スタッフ名
-    staff_nickname: スタッフ名
     number: 契約番号
     number_eq: 契約番号
     password: パスワード
@@ -30,13 +29,15 @@ ja:
     vhiecle_type_eq: 契約種別
     term1: 契約期間
     money1: 金額
+    month: シール貼付け対象月
     term2: 契約期間２
     money2: 金額２
     contract_date: 契約日
     sealed_flag: シール貼付
     sealed_date: シール貼付け作業日
-    skip_flag: 休み
     sealsid_list: 契約番号リスト
+    skip_flag: 休み
+    staff_nickname: スタッフ名
     Term: 期間
     Leaf: リーフ
 

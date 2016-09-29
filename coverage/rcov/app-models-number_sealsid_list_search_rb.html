@@ -25,7 +25,7 @@
         <tbody>
           <tr>
             <td class="left_align"><a href="app-models-number_sealsid_list_search_rb.html">app/models/number_sealsid_list_search.rb</a></td>
-            <td class='right_align'><tt>58</tt></td>
+            <td class='right_align'><tt>54</tt></td>
             <td class='right_align'><tt>20</tt></td>
             <td class="left_align"><div class="percent_graph_legend"><tt class=''>100.00%</tt></div>
       <div class="percent_graph">
@@ -132,102 +132,90 @@
           <td><pre><a name="line28">28</a>   # because the most of unsticked seals are of next month.</pre></td>
         </tr>
         <tr class="marked">
-          <td><pre><a name="line29">29</a>   def initialize(</pre></td>
-        </tr>
-        <tr class="inferred">
-          <td><pre><a name="line30">30</a>     vhiecle_type = 1,</pre></td>
-        </tr>
-        <tr class="inferred">
-          <td><pre><a name="line31">31</a>     month = Date.current.next_month,</pre></td>
-        </tr>
-        <tr class="inferred">
-          <td><pre><a name="line32">32</a>     sealed_flag = false</pre></td>
-        </tr>
-        <tr class="inferred">
-          <td><pre><a name="line33">33</a>   )</pre></td>
+          <td><pre><a name="line29">29</a>   def initialize( params = {} )</pre></td>
         </tr>
         <tr class="marked">
-          <td><pre><a name="line34">34</a>     @vhiecle_type = vhiecle_type</pre></td>
+          <td><pre><a name="line30">30</a>     @vhiecle_type = params.fetch(:vhiecle_type, 1)</pre></td>
         </tr>
         <tr class="marked">
-          <td><pre><a name="line35">35</a>     @month = month</pre></td>
+          <td><pre><a name="line31">31</a>     @month = params.fetch(:month, Date.current.next_month)</pre></td>
         </tr>
         <tr class="marked">
-          <td><pre><a name="line36">36</a>     @sealed_flag = cast_to_boolean(sealed_flag)</pre></td>
+          <td><pre><a name="line32">32</a>     @sealed_flag = cast_to_boolean(params.fetch(:sealed_flag, false))</pre></td>
         </tr>
         <tr class="inferred">
-          <td><pre><a name="line37">37</a>   end</pre></td>
+          <td><pre><a name="line33">33</a>   end</pre></td>
         </tr>
         <tr class="inferred">
-          <td><pre><a name="line38">38</a> </pre></td>
+          <td><pre><a name="line34">34</a> </pre></td>
         </tr>
         <tr class="inferred">
-          <td><pre><a name="line39">39</a>   # DO NOT start with Leaf! That causes a slow query.</pre></td>
+          <td><pre><a name="line35">35</a>   # DO NOT start with Leaf! That causes a slow query.</pre></td>
         </tr>
         <tr class="marked">
-          <td><pre><a name="line40">40</a>   def result</pre></td>
+          <td><pre><a name="line36">36</a>   def result</pre></td>
         </tr>
         <tr class="inferred">
-          <td><pre><a name="line41">41</a>     Seal.where(&#39;month = ? and sealed_flag = ? and vhiecle_type = ?&#39;,</pre></td>
+          <td><pre><a name="line37">37</a>     Seal.where(&#39;month = ? and sealed_flag = ? and vhiecle_type = ?&#39;,</pre></td>
         </tr>
         <tr class="inferred">
-          <td><pre><a name="line42">42</a>                change_to_beginning_of_month, @sealed_flag, @vhiecle_type)</pre></td>
+          <td><pre><a name="line38">38</a>                change_to_beginning_of_month, @sealed_flag, @vhiecle_type)</pre></td>
         </tr>
         <tr class="inferred">
-          <td><pre><a name="line43">43</a>         .joins(contract: :leaf)</pre></td>
+          <td><pre><a name="line39">39</a>         .joins(contract: :leaf)</pre></td>
         </tr>
         <tr class="inferred">
-          <td><pre><a name="line44">44</a>         .select(&#39;number, seals.id as seal_id&#39;)</pre></td>
+          <td><pre><a name="line40">40</a>         .select(&#39;number, seals.id as seal_id&#39;)</pre></td>
         </tr>
         <tr class="marked">
-          <td><pre><a name="line45">45</a>         .order(&#39;number&#39;)</pre></td>
+          <td><pre><a name="line41">41</a>         .order(&#39;number&#39;)</pre></td>
         </tr>
         <tr class="inferred">
-          <td><pre><a name="line46">46</a>   end</pre></td>
+          <td><pre><a name="line42">42</a>   end</pre></td>
         </tr>
         <tr class="inferred">
-          <td><pre><a name="line47">47</a> </pre></td>
+          <td><pre><a name="line43">43</a> </pre></td>
         </tr>
         <tr class="marked">
-          <td><pre><a name="line48">48</a>   private</pre></td>
+          <td><pre><a name="line44">44</a>   private</pre></td>
         </tr>
         <tr class="inferred">
-          <td><pre><a name="line49">49</a> </pre></td>
+          <td><pre><a name="line45">45</a> </pre></td>
         </tr>
         <tr class="inferred">
-          <td><pre><a name="line50">50</a>   # Months are recorded as the 1st day of the each month.</pre></td>
+          <td><pre><a name="line46">46</a>   # Months are recorded as the 1st day of the each month.</pre></td>
         </tr>
         <tr class="marked">
-          <td><pre><a name="line51">51</a>   def change_to_beginning_of_month</pre></td>
+          <td><pre><a name="line47">47</a>   def change_to_beginning_of_month</pre></td>
         </tr>
         <tr class="marked">
-          <td><pre><a name="line52">52</a>     @month.to_date.beginning_of_month</pre></td>
+          <td><pre><a name="line48">48</a>     @month.to_date.beginning_of_month</pre></td>
         </tr>
         <tr class="inferred">
-          <td><pre><a name="line53">53</a>   end</pre></td>
+          <td><pre><a name="line49">49</a>   end</pre></td>
         </tr>
         <tr class="inferred">
-          <td><pre><a name="line54">54</a> </pre></td>
+          <td><pre><a name="line50">50</a> </pre></td>
         </tr>
         <tr class="inferred">
-          <td><pre><a name="line55">55</a>   # Params from controllers are String, so need to be casted to Boolean.</pre></td>
+          <td><pre><a name="line51">51</a>   # Params from controllers are String, so need to be casted to Boolean.</pre></td>
         </tr>
         <tr class="marked">
-          <td><pre><a name="line56">56</a>   def cast_to_boolean(input)</pre></td>
+          <td><pre><a name="line52">52</a>   def cast_to_boolean(input)</pre></td>
         </tr>
         <tr class="marked">
-          <td><pre><a name="line57">57</a>     ActiveRecord::Type::Boolean.new.type_cast_from_user(input)</pre></td>
+          <td><pre><a name="line53">53</a>     ActiveRecord::Type::Boolean.new.type_cast_from_user(input)</pre></td>
         </tr>
         <tr class="inferred">
-          <td><pre><a name="line58">58</a>   end</pre></td>
+          <td><pre><a name="line54">54</a>   end</pre></td>
         </tr>
         <tr class="inferred">
-          <td><pre><a name="line59">59</a> end</pre></td>
+          <td><pre><a name="line55">55</a> end</pre></td>
         </tr>
       </tbody>
     </table>
 
-    <p>Generated on 2016-09-27 10:51:16 +0900 with <a href="https://github.com/fguillen/simplecov-rcov">SimpleCov-RCov 0.2.3</a></p>
+    <p>Generated on 2016-09-29 09:46:18 +0900 with <a href="https://github.com/fguillen/simplecov-rcov">SimpleCov-RCov 0.2.3</a></p>
 
   </body>
 </html>

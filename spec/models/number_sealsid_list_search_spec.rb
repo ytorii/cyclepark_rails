@@ -113,9 +113,11 @@ RSpec.describe NumberSealsidListSearch, type: :model do
 
     context 'with valid params' do
       let(:expected_ids){ [ 2, 5, 8 ] }
-      let(:list){
-        NumberSealsidListSearch.new('1', '2016-06-25', 'false').result 
+      let(:valid_params){
+        { vhiecle_type: '1', month: '2016-06-25', sealed_flag: false }
       }
+      let(:list){ NumberSealsidListSearch.new(valid_params).result }
+
       it_behaves_like 'returns the list'
     end
   end
