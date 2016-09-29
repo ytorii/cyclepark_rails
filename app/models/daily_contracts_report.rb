@@ -2,9 +2,7 @@
 class DailyContractsReport
   include ActiveModel::Model
 
-  attr_accessor :contracts_date
-  attr_reader   :contracts_list
-  attr_reader   :contracts_total
+  attr_reader :contracts_date
 
   date_regexp =
     %r(\A20[0-9]{2}(/|-)(0[1-9]|1[0-2])(/|-)(0[1-9]|(1|2)[0-9]|3[01])\z)

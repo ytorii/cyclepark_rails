@@ -2,28 +2,35 @@
 class MultiSealsUpdateController < ApplicationController
   UPDATE_SUCCESS = 'シール情報を更新しました。'.freeze
 
+  # Routed from GET index
   def index
-    validator = NumberSealsidListValidator.new(index_params)
-    @query = Leaf.ransack(index_params)
+    @search = NumberSealsidListSearch.new
+    @list = @search.result
+    @multi_seals_update = multi_seals_update_params
+  end
 
-    if validator.valid?
-      numbers_sealsid_list = list_query_result
-    else
-      numbers_sealsid_list = []
-      flash[:alert] = validator.errors.full_messages
+  # Routed from POST index
+  def search
+    # Setting values for @search, @multi_seals_update
+    search_instance_values
+
+    respond_to do |format|
+      if @search.valid?
+        @list = @search.result
+      else
+        @list = []
+        flash.now[:alert] = @search.errors.full_messages
+      end
+      format.html { render :index }
     end
-
-    @unsealed_list = unsealed_list(numbers_sealsid_list)
   end
 
   def update
-    # The last of the list is always '' by the tag helper,
-    # and it needs to be removed!
-    @unsealed_list = MultiSealsUpdate.new(update_params)
-    @unsealed_list.sealsid_list.pop
+    # Setting values for @multi_seals_update
+    update_instance_values
 
     respond_to do |format|
-      if @unsealed_list.update_selected_seals
+      if @multi_seals_update.update_selected_seals
         update_success_format(format)
       else
         update_error_format(format)
@@ -33,69 +40,33 @@ class MultiSealsUpdateController < ApplicationController
 
   private
 
-  def index_params
-    fix_params_q
+  def search_instance_values
+    @search = NumberSealsidListSearch.new(search_params)
+    @multi_seals_update = multi_seals_update_params
+  end
 
-    params.require(:q)
-          .permit(
-            :vhiecle_type_eq,
-            :valid_flag_eq,
-            :contracts_seals_month_eq,
-            :contracts_seals_sealed_flag_eq
-          )
+  def update_instance_values
+    # The last of the list is always '' by the tag helper,
+    # and it needs to be removed!
+    @multi_seals_update = MultiSealsUpdate.new(update_params)
+    @multi_seals_update.sealsid_list.pop
+  end
+
+  def multi_seals_update_params
+    MultiSealsUpdate.new(
+      sealed_date: Date.current,
+      staff_nickname: session[:nickname]
+    )
+  end
+
+  def search_params
+    params.require(:number_sealsid_list_search).
+      permit(:vhiecle_type, :month, :sealed_flag)
   end
 
   def update_params
     params.require(:multi_seals_update)
-          .permit(
-            :staff_nickname,
-            :sealed_date,
-            sealsid_list: []
-          )
-  end
-
-  def fix_params_q
-    # Get method has no params, so fixed conditions are inserted.
-    if params[:q].nil?
-      fix_regular_params
-    else
-      fix_day_param
-    end
-
-    # Pameters below are always same value.
-    params[:q][:valid_flag_eq] = true
-    params[:q][:contracts_seals_sealed_flag_eq] = false
-  end
-
-  def fix_regular_params
-    params[:q] = {
-      'contracts_seals_month_eq' =>
-      Date.current.next_month.beginning_of_month,
-      'vhiecle_type_eq' => 1
-    }
-  end
-
-  def fix_day_param
-    # Month form input needs to be translated to Date form for SQL.
-    # ex. "2016-05" => "2016-05-01"
-    if params[:q][:contracts_seals_month_eq] =~
-       %r(\A20[0-9]{2}(/|-)(0[1-9]|1[0-2])\z)
-      params[:q][:contracts_seals_month_eq].concat('-01')
-    end
-  end
-
-  def list_query_result
-    @query.result.includes(contracts: :seals)
-          .select('number, seals.id as seal_id')
-          .order(:number)
-  end
-
-  def unsealed_list(numbers_sealsid_list)
-    MultiSealsUpdate.new(
-      sealsid_list: numbers_sealsid_list,
-      sealed_date: Date.current,
-      staff_nickname: session[:nickname]
-    )
+          .permit(:staff_nickname, :sealed_date, sealsid_list: [])
   end
 
   def update_success_format(format)
@@ -110,7 +81,7 @@ class MultiSealsUpdateController < ApplicationController
   def update_error_format(format)
     format.html do
       redirect_to multi_seals_update_path,
-                  alert: @unsealed_list.errors.full_messages
+                  alert: @multi_seals_update.errors.full_messages
     end
     format.json do
       render json: errors, status: :unprocessable_entity

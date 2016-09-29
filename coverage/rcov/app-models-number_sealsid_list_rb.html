@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html lang='en' xml:lang='en' xmlns='http://www.w3.org/1999/xhtml'>
   <head>
-    <title>app/models/number_sealsid_list_validator.rb</title>
+    <title>app/models/number_sealsid_list.rb</title>
     <link href="./assets/0.2.3/screen.css" media="all" rel="stylesheet" type="text/css" />
     <link href="./assets/0.2.3/print.css" media="print" rel="stylesheet" type="text/css" />
     <meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
@@ -9,7 +9,7 @@
   </head>
   <body>
     <h1>Cyclepark C0 Coverage Information - Simploco - RCov</h1>
-    <h2>app/models/number_sealsid_list_validator.rb</h2>
+    <h2>app/models/number_sealsid_list.rb</h2>
 
     <div class="report_table_wrapper">
       <table class='report' id='report_table'>
@@ -24,9 +24,9 @@
         </thead>
         <tbody>
           <tr>
-            <td class="left_align"><a href="app-models-number_sealsid_list_validator_rb.html">app/models/number_sealsid_list_validator.rb</a></td>
-            <td class='right_align'><tt>27</tt></td>
-            <td class='right_align'><tt>27</tt></td>
+            <td class="left_align"><a href="app-models-number_sealsid_list_rb.html">app/models/number_sealsid_list.rb</a></td>
+            <td class='right_align'><tt>39</tt></td>
+            <td class='right_align'><tt>39</tt></td>
             <td class="left_align"><div class="percent_graph_legend"><tt class=''>0.00%</tt></div>
       <div class="percent_graph">
         <div class="covered" style="width:0px"></div>
@@ -51,10 +51,10 @@
     <table class="details">
       <tbody>
         <tr class="uncovered">
-          <td><pre><a name="line2">2</a> # Validator for query of searching unsealed numbers at particuler month.</pre></td>
+          <td><pre><a name="line2">2</a> # Creating the list of leafs&#39; numbers and seals&#39; ids of the specified month.</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line3">3</a> class NumberSealsidListValidator</pre></td>
+          <td><pre><a name="line3">3</a> class NumberSealsidList</pre></td>
         </tr>
         <tr class="uncovered">
           <td><pre><a name="line4">4</a>   include ActiveModel::Model</pre></td>
@@ -63,16 +63,16 @@
           <td><pre><a name="line5">5</a> </pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line6">6</a>   attr_accessor :vhiecle_type_eq</pre></td>
+          <td><pre><a name="line6">6</a>   attr_accessor :vhiecle_type</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line7">7</a>   attr_accessor :valid_flag_eq</pre></td>
+          <td><pre><a name="line7">7</a>   attr_accessor :valid_flag</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line8">8</a>   attr_accessor :contracts_seals_month_eq</pre></td>
+          <td><pre><a name="line8">8</a>   attr_accessor :month</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line9">9</a>   attr_accessor :contracts_seals_sealed_flag_eq</pre></td>
+          <td><pre><a name="line9">9</a>   attr_accessor :sealed_flag</pre></td>
         </tr>
         <tr class="uncovered">
           <td><pre><a name="line10">10</a> </pre></td>
@@ -84,7 +84,7 @@
           <td><pre><a name="line12">12</a> </pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line13">13</a>   validates :vhiecle_type_eq,</pre></td>
+          <td><pre><a name="line13">13</a>   validates :vhiecle_type,</pre></td>
         </tr>
         <tr class="uncovered">
           <td><pre><a name="line14">14</a>             presence: true,</pre></td>
@@ -108,13 +108,13 @@
           <td><pre><a name="line20">20</a>             }</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line21">21</a>   validates :valid_flag_eq,</pre></td>
+          <td><pre><a name="line21">21</a>   validates :valid_flag,</pre></td>
         </tr>
         <tr class="uncovered">
           <td><pre><a name="line22">22</a>             inclusion: { in: [true, false] }</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line23">23</a>   validates :contracts_seals_month_eq,</pre></td>
+          <td><pre><a name="line23">23</a>   validates :month,</pre></td>
         </tr>
         <tr class="uncovered">
           <td><pre><a name="line24">24</a>             presence: true,</pre></td>
@@ -123,18 +123,54 @@
           <td><pre><a name="line25">25</a>             format: { with: first_day_format, allow_blank: true }</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line26">26</a>   validates :contracts_seals_sealed_flag_eq,</pre></td>
+          <td><pre><a name="line26">26</a>   validates :sealed_flag,</pre></td>
         </tr>
         <tr class="uncovered">
           <td><pre><a name="line27">27</a>             inclusion: { in: [true, false] }</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line28">28</a> end</pre></td>
+          <td><pre><a name="line28">28</a> </pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line29">29</a>   def initialize</pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line30">30</a>   end</pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line31">31</a> </pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line32">32</a>   def get_number_sealsid_list</pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line33">33</a>     Seal.where( &quot;month = ? and sealed_flag = ? and vhiecle_type = ?&quot;,</pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line34">34</a>                &#39;2016-10-01&#39;, &#39;f&#39;, 1)</pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line35">35</a>     .joins(seals: :contract)</pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line36">36</a>     .joins(contract: :leaf)</pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line37">37</a>     .select(&#39;number, seals.id as seal_id&#39;)</pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line38">38</a>     .order(&#39;number&#39;)</pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line39">39</a>   end</pre></td>
+        </tr>
+        <tr class="uncovered">
+          <td><pre><a name="line40">40</a> end</pre></td>
         </tr>
       </tbody>
     </table>
 
-    <p>Generated on 2016-09-29 09:46:18 +0900 with <a href="https://github.com/fguillen/simplecov-rcov">SimpleCov-RCov 0.2.3</a></p>
+    <p>Generated on 2016-09-24 18:03:46 +0900 with <a href="https://github.com/fguillen/simplecov-rcov">SimpleCov-RCov 0.2.3</a></p>
 
   </body>
 </html>

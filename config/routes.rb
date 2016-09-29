@@ -20,8 +20,9 @@ Rails.application.routes.draw do
   get  'count_contracts_summary' => 'count_contracts_summary#index'
 
   get  'multi_seals_update' => 'multi_seals_update#index'
-  post 'multi_seals_update' => 'multi_seals_update#index'
+  post 'multi_seals_update' => 'multi_seals_update#search'
   post 'multi_seals_update/update' => 'multi_seals_update#update'
+
   post 'termsprice' => 'termsprice#index'
   #match ':controller(/:action(/:id))', via: [ :get, :post, :patch ]
   # The priority is based upon order of creation: first created -> highest priority.
