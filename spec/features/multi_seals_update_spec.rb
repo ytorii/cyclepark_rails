@@ -19,10 +19,10 @@ feature "Multi Seals Update" do
     visit '/multi_seals_update'
   }
 
-  describe 'search unsticked seals' do
+  describe 'search unsticked seals', :js => true do
     context 'with valid params' do
       before {
-        leaf_numbers.each do |leaf_number|
+        leaf_numbers[0..5].each do |leaf_number|
           # create leaf and customer
           leaf = create(
             :second, number: leaf_number, start_date: Date.today.next_month)
@@ -34,17 +34,38 @@ feature "Multi Seals Update" do
 
       it 'shows the list of numbers of selected month.' do
         expect(current_path).to eq('/multi_seals_update')
-        within('form#new_search') do
+
+        within('form#new_number_sealsid_list_search') do
           find('.custom_rd_label', :text => '２号地').click
-          fill_in 'month', with: new_leaf.start_date
+          fill_in 'number_sealsid_list_search_month',
+            with: Date.today.next_month
         end
         click_button 'シール未貼付け番号を表示'
+
         expect(current_path).to eq('/multi_seals_update')
+
+        within('form#new_multi_seals_update') do
+          # Assert the numbers buttons are sorted by number ASC.
+          arr = []
+          all('.number_btn').map{|btn| arr << btn.text.to_i}
+          expect(arr).to eq(leaf_numbers[0..5].sort)
+        end
+        #page.save_screenshot('/home/pi2_test/multi_seals_update.png')
       end
     end
     context 'with invalid params' do
       it 'shows the error messages and empty list.' do
         expect(current_path).to eq('/multi_seals_update')
+
+        within('form#new_number_sealsid_list_search') do
+          fill_in 'number_sealsid_list_search_month',
+            with: 'aaa'
+        end
+        click_button 'シール未貼付け番号を表示'
+
+        expect(page).not_to have_css('.number_btn')
+        expect(page).to have_css(
+          '.alert-danger', text: 'シール貼付け対象月は不正な値です')
       end
     end
   end
@@ -65,7 +86,6 @@ feature "Multi Seals Update" do
             find('.number_btn', text: /#{leaf_numbers[i].to_s}/).click
           end
 
-          #page.save_screenshot('/home/pi2_test/multi_seals_update.png')
           click_button 'シール貼付け処理'
         end
 
