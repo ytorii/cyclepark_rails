@@ -15,6 +15,11 @@ class Leaf < ActiveRecord::Base
             numericality: {
               greater_than: 0, less_than: 1057, allow_blank: true
             }
+  validates :number,
+            uniqueness: {
+              scope: [:valid_flag, :vhiecle_type], if: :valid_flag
+            },
+            on: :create
   validates :vhiecle_type,
             presence: true,
             numericality: {
@@ -31,19 +36,10 @@ class Leaf < ActiveRecord::Base
             format: { with: date_format, allow_blank: true }
   validates :last_date,
             format: { with: date_format, unless: 'last_date.blank?' }
-  validate :number_exists?, on: :create
 
   before_destroy :invalid_leaf?
 
   private
-
-  def number_exists?
-    if Leaf.where('number = ? and vhiecle_type = ? and valid_flag = ?',
-                  number, vhiecle_type, true).exists?
-      errors.add(:number, '指定された番号は既に使用されています。')
-      return false
-    end
-  end
 
   # Only the invalid leaf is allowed to be deleted!
   def invalid_leaf?

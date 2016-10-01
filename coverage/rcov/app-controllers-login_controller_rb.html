@@ -27,15 +27,15 @@
             <td class="left_align"><a href="app-controllers-login_controller_rb.html">app/controllers/login_controller.rb</a></td>
             <td class='right_align'><tt>44</tt></td>
             <td class='right_align'><tt>23</tt></td>
-            <td class="left_align"><div class="percent_graph_legend"><tt class=''>100.00%</tt></div>
+            <td class="left_align"><div class="percent_graph_legend"><tt class=''>86.36%</tt></div>
       <div class="percent_graph">
-        <div class="covered" style="width:100px"></div>
-        <div class="uncovered" style="width:0px"></div>
+        <div class="covered" style="width:86px"></div>
+        <div class="uncovered" style="width:14px"></div>
       </div></td>
-            <td class="left_align"><div class="percent_graph_legend"><tt class=''>100.00%</tt></div>
+            <td class="left_align"><div class="percent_graph_legend"><tt class=''>73.91%</tt></div>
       <div class="percent_graph">
-        <div class="covered" style="width:100px"></div>
-        <div class="uncovered" style="width:0px"></div>
+        <div class="covered" style="width:74px"></div>
+        <div class="uncovered" style="width:26px"></div>
       </div></td>
           </tr>
         </tbody>
@@ -95,7 +95,7 @@
         <tr class="inferred">
           <td><pre><a name="line16">16</a>     else</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line17">17</a>       fail_login</pre></td>
         </tr>
         <tr class="inferred">
@@ -110,10 +110,10 @@
         <tr class="marked">
           <td><pre><a name="line21">21</a>   def logout</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line22">22</a>     reset_session</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line23">23</a>     redirect_to &#39;/login&#39;</pre></td>
         </tr>
         <tr class="inferred">
@@ -152,13 +152,13 @@
         <tr class="marked">
           <td><pre><a name="line35">35</a>   def fail_login</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line36">36</a>     flash.now[:referer] = params[:referer]</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line37">37</a>     @error = &#39;ユーザ名／パスワードが間違っています。&#39;</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line38">38</a>     render &#39;index&#39;</pre></td>
         </tr>
         <tr class="inferred">
@@ -185,7 +185,7 @@
       </tbody>
     </table>
 
-    <p>Generated on 2016-09-29 19:00:21 +0900 with <a href="https://github.com/fguillen/simplecov-rcov">SimpleCov-RCov 0.2.3</a></p>
+    <p>Generated on 2016-10-01 18:33:26 +0900 with <a href="https://github.com/fguillen/simplecov-rcov">SimpleCov-RCov 0.2.3</a></p>
 
   </body>
 </html>

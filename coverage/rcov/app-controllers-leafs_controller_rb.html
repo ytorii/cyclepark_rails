@@ -27,15 +27,15 @@
             <td class="left_align"><a href="app-controllers-leafs_controller_rb.html">app/controllers/leafs_controller.rb</a></td>
             <td class='right_align'><tt>98</tt></td>
             <td class='right_align'><tt>42</tt></td>
-            <td class="left_align"><div class="percent_graph_legend"><tt class=''>100.00%</tt></div>
+            <td class="left_align"><div class="percent_graph_legend"><tt class=''>88.78%</tt></div>
       <div class="percent_graph">
-        <div class="covered" style="width:100px"></div>
-        <div class="uncovered" style="width:0px"></div>
+        <div class="covered" style="width:89px"></div>
+        <div class="uncovered" style="width:11px"></div>
       </div></td>
-            <td class="left_align"><div class="percent_graph_legend"><tt class=''>100.00%</tt></div>
+            <td class="left_align"><div class="percent_graph_legend"><tt class=''>73.81%</tt></div>
       <div class="percent_graph">
-        <div class="covered" style="width:100px"></div>
-        <div class="uncovered" style="width:0px"></div>
+        <div class="covered" style="width:74px"></div>
+        <div class="uncovered" style="width:26px"></div>
       </div></td>
           </tr>
         </tbody>
@@ -92,7 +92,7 @@
         <tr class="marked">
           <td><pre><a name="line15">15</a>   def index</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line16">16</a>     @leafs = Leaf.all</pre></td>
         </tr>
         <tr class="inferred">
@@ -215,25 +215,25 @@
         <tr class="marked">
           <td><pre><a name="line56">56</a>   def update</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line57">57</a>     respond_to do |format|</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line58">58</a>       if @leaf.update(leaf_params)</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line59">59</a>         format.html { redirect_to leaf_path(@leaf), notice: EDIT_SUCCESS }</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line60">60</a>         format.json { render :show, status: :ok, location: @leaf }</pre></td>
         </tr>
         <tr class="inferred">
           <td><pre><a name="line61">61</a>       else</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line62">62</a>         format.html { render :edit }</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line63">63</a>         format.json { render json: @leaf.errors, status: :unprocessable_entity }</pre></td>
         </tr>
         <tr class="inferred">
@@ -257,16 +257,16 @@
         <tr class="marked">
           <td><pre><a name="line70">70</a>   def destroy</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line71">71</a>     @leaf.destroy</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line72">72</a>     respond_to do |format|</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line73">73</a>       format.html { redirect_to leafs_url, notice: DELETE_SUCCESS }</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line74">74</a>       format.json { head :no_content }</pre></td>
         </tr>
         <tr class="inferred">
@@ -347,7 +347,7 @@
       </tbody>
     </table>
 
-    <p>Generated on 2016-09-29 19:00:21 +0900 with <a href="https://github.com/fguillen/simplecov-rcov">SimpleCov-RCov 0.2.3</a></p>
+    <p>Generated on 2016-10-01 18:33:26 +0900 with <a href="https://github.com/fguillen/simplecov-rcov">SimpleCov-RCov 0.2.3</a></p>
 
   </body>
 </html>
