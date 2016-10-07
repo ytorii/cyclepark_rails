@@ -6,11 +6,11 @@ module ContractsValidate
 
   # Seal's month must be unique in the leaf.
   def month_exists?
-    seals.each do |seal|
-      next unless Contract.joins(:seals).where(
-        'leaf_id = ? and seals.month = ?',
-        leaf_id, seal.month
-      ).exists?
+    months = seals.map(&:month)
+
+    if Contract.joins(:seals)
+               .where('leaf_id = ? and seals.month in ( ? )', leaf_id, months)
+               .exists?
       errors.add(:month, 'は既に契約済みです。')
       return false
     end

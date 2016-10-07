@@ -26,16 +26,16 @@
           <tr>
             <td class="left_align"><a href="app-controllers-leafs_controller_rb.html">app/controllers/leafs_controller.rb</a></td>
             <td class='right_align'><tt>98</tt></td>
-            <td class='right_align'><tt>42</tt></td>
-            <td class="left_align"><div class="percent_graph_legend"><tt class=''>78.57%</tt></div>
+            <td class='right_align'><tt>98</tt></td>
+            <td class="left_align"><div class="percent_graph_legend"><tt class=''>0.00%</tt></div>
       <div class="percent_graph">
-        <div class="covered" style="width:79px"></div>
-        <div class="uncovered" style="width:21px"></div>
+        <div class="covered" style="width:0px"></div>
+        <div class="uncovered" style="width:100px"></div>
       </div></td>
-            <td class="left_align"><div class="percent_graph_legend"><tt class=''>50.00%</tt></div>
+            <td class="left_align"><div class="percent_graph_legend"><tt class=''>0.00%</tt></div>
       <div class="percent_graph">
-        <div class="covered" style="width:50px"></div>
-        <div class="uncovered" style="width:50px"></div>
+        <div class="covered" style="width:0px"></div>
+        <div class="uncovered" style="width:100px"></div>
       </div></td>
           </tr>
         </tbody>
@@ -50,88 +50,88 @@
 
     <table class="details">
       <tbody>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line2">2</a> # Controller for leafs index, show, edit, update, destroy</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line3">3</a> class LeafsController &lt; ApplicationController</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line4">4</a>   include SessionAction</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line5">5</a> </pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line6">6</a>   before_action :set_leaf, only: [:show, :edit, :update, :destroy]</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line7">7</a>   before_action :check_admin, only: [:index, :destroy]</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line8">8</a> </pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line9">9</a>   CREATE_SUCCESS = &#39;顧客情報を登録しました。&#39;.freeze</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line10">10</a>   EDIT_SUCCESS = &#39;顧客情報を変更しました。&#39;.freeze</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line11">11</a>   DELETE_SUCCESS = &#39;顧客情報を削除しました。&#39;.freeze</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line12">12</a> </pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line13">13</a>   # GET /leafs</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line14">14</a>   # GET /leafs.json</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line15">15</a>   def index</pre></td>
         </tr>
         <tr class="uncovered">
           <td><pre><a name="line16">16</a>     @leafs = Leaf.all</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line17">17</a>   end</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line18">18</a> </pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line19">19</a>   # GET /leafs/1</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line20">20</a>   # GET /leafs/1.json</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line21">21</a>   def show</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line22">22</a>     # To avoid N+1 Query, includes Seal</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line23">23</a>     @contracts_list = @leaf.contracts.includes(:seals)</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line24">24</a>     @contract = @leaf.contracts.build</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line25">25</a>     @contract.seals.build</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line26">26</a>   end</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line27">27</a> </pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line28">28</a>   # GET /leafs/new</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line29">29</a>   def new</pre></td>
         </tr>
         <tr class="uncovered">
@@ -140,37 +140,37 @@
         <tr class="uncovered">
           <td><pre><a name="line31">31</a>     @leaf.build_customer</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line32">32</a>   end</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line33">33</a> </pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line34">34</a>   # GET /leafs/1/edit</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line35">35</a>   def edit</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line36">36</a>   end</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line37">37</a> </pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line38">38</a>   # POST /leafs</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line39">39</a>   # POST /leafs.json</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line40">40</a>   def create</pre></td>
         </tr>
         <tr class="uncovered">
           <td><pre><a name="line41">41</a>     @leaf = Leaf.new(leaf_params)</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line42">42</a> </pre></td>
         </tr>
         <tr class="uncovered">
@@ -185,7 +185,7 @@
         <tr class="uncovered">
           <td><pre><a name="line46">46</a>         format.json { render :show, status: :created, location: @leaf }</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line47">47</a>       else</pre></td>
         </tr>
         <tr class="uncovered">
@@ -194,25 +194,25 @@
         <tr class="uncovered">
           <td><pre><a name="line49">49</a>         format.json { render json: @leaf.errors, status: :unprocessable_entity }</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line50">50</a>       end</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line51">51</a>     end</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line52">52</a>   end</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line53">53</a> </pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line54">54</a>   # PATCH/PUT /leafs/1</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line55">55</a>   # PATCH/PUT /leafs/1.json</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line56">56</a>   def update</pre></td>
         </tr>
         <tr class="uncovered">
@@ -227,7 +227,7 @@
         <tr class="uncovered">
           <td><pre><a name="line60">60</a>         format.json { render :show, status: :ok, location: @leaf }</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line61">61</a>       else</pre></td>
         </tr>
         <tr class="uncovered">
@@ -236,25 +236,25 @@
         <tr class="uncovered">
           <td><pre><a name="line63">63</a>         format.json { render json: @leaf.errors, status: :unprocessable_entity }</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line64">64</a>       end</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line65">65</a>     end</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line66">66</a>   end</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line67">67</a> </pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line68">68</a>   # DELETE /leafs/1</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line69">69</a>   # DELETE /leafs/1.json</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line70">70</a>   def destroy</pre></td>
         </tr>
         <tr class="uncovered">
@@ -269,85 +269,85 @@
         <tr class="uncovered">
           <td><pre><a name="line74">74</a>       format.json { head :no_content }</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line75">75</a>     end</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line76">76</a>   end</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line77">77</a> </pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line78">78</a>   private</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line79">79</a> </pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line80">80</a>   # Use callbacks to share common setup or constraints between actions.</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line81">81</a>   def set_leaf</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line82">82</a>     @leaf = Leaf.find(params[:id])</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line83">83</a>   end</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line84">84</a> </pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line85">85</a>   # Never trust parameters from the scary internet,</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line86">86</a>   # only allow the white list through.</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line87">87</a>   def leaf_params</pre></td>
         </tr>
         <tr class="uncovered">
           <td><pre><a name="line88">88</a>     params.require(:leaf).permit(</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line89">89</a>       :number, :vhiecle_type, :student_flag, :largebike_flag,</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line90">90</a>       :valid_flag, :start_date, :last_date,</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line91">91</a>       customer_attributes: [</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line92">92</a>         :id,</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line93">93</a>         :first_name, :last_name, :first_read, :last_read,</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line94">94</a>         :sex, :address, :phone_number, :cell_number,</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line95">95</a>         :receipt, :comment</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line96">96</a>       ]</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line97">97</a>     )</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line98">98</a>   end</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line99">99</a> end</pre></td>
         </tr>
       </tbody>
     </table>
 
-    <p>Generated on 2016-10-07 17:28:41 +0900 with <a href="https://github.com/fguillen/simplecov-rcov">SimpleCov-RCov 0.2.3</a></p>
+    <p>Generated on 2016-10-07 18:35:19 +0900 with <a href="https://github.com/fguillen/simplecov-rcov">SimpleCov-RCov 0.2.3</a></p>
 
   </body>
 </html>
