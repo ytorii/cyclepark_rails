@@ -69,10 +69,10 @@
           <td><pre><a name="line7">7</a> </pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line8">8</a>   belongs_to :leaf, counter_cache: true</pre></td>
+          <td><pre><a name="line8">8</a>   belongs_to :leaf, counter_cache: true, inverse_of: :contracts</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line9">9</a>   has_many :seals, dependent: :destroy</pre></td>
+          <td><pre><a name="line9">9</a>   has_many :seals, dependent: :destroy, inverse_of: :contract</pre></td>
         </tr>
         <tr class="uncovered">
           <td><pre><a name="line10">10</a>   accepts_nested_attributes_for :seals</pre></td>
@@ -278,7 +278,7 @@
       </tbody>
     </table>
 
-    <p>Generated on 2016-10-01 18:33:26 +0900 with <a href="https://github.com/fguillen/simplecov-rcov">SimpleCov-RCov 0.2.3</a></p>
+    <p>Generated on 2016-10-07 17:28:41 +0900 with <a href="https://github.com/fguillen/simplecov-rcov">SimpleCov-RCov 0.2.3</a></p>
 
   </body>
 </html>

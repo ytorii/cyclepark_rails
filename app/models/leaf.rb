@@ -1,7 +1,7 @@
 # Model for customer's leaf
 class Leaf < ActiveRecord::Base
   has_one :customer, dependent: :destroy
-  has_many :contracts, dependent: :destroy
+  has_many :contracts, dependent: :destroy, inverse_of: :leaf
 
   # This parametor is needed to use multiple models in the same form.
   accepts_nested_attributes_for :customer

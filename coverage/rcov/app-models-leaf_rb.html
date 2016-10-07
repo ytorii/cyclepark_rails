@@ -60,7 +60,7 @@
           <td><pre><a name="line4">4</a>   has_one :customer, dependent: :destroy</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line5">5</a>   has_many :contracts, dependent: :destroy</pre></td>
+          <td><pre><a name="line5">5</a>   has_many :contracts, dependent: :destroy, inverse_of: :leaf</pre></td>
         </tr>
         <tr class="uncovered">
           <td><pre><a name="line6">6</a> </pre></td>
@@ -108,7 +108,7 @@
           <td><pre><a name="line20">20</a>             uniqueness: {</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line21">21</a>               scope: [ :valid_flag, :vhiecle_type ], if: :valid_flag</pre></td>
+          <td><pre><a name="line21">21</a>               scope: [:valid_flag, :vhiecle_type], if: :valid_flag</pre></td>
         </tr>
         <tr class="uncovered">
           <td><pre><a name="line22">22</a>             },</pre></td>
@@ -206,7 +206,7 @@
       </tbody>
     </table>
 
-    <p>Generated on 2016-10-01 18:33:26 +0900 with <a href="https://github.com/fguillen/simplecov-rcov">SimpleCov-RCov 0.2.3</a></p>
+    <p>Generated on 2016-10-07 17:28:41 +0900 with <a href="https://github.com/fguillen/simplecov-rcov">SimpleCov-RCov 0.2.3</a></p>
 
   </body>
 </html>

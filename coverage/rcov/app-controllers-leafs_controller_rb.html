@@ -27,15 +27,15 @@
             <td class="left_align"><a href="app-controllers-leafs_controller_rb.html">app/controllers/leafs_controller.rb</a></td>
             <td class='right_align'><tt>98</tt></td>
             <td class='right_align'><tt>42</tt></td>
-            <td class="left_align"><div class="percent_graph_legend"><tt class=''>88.78%</tt></div>
+            <td class="left_align"><div class="percent_graph_legend"><tt class=''>78.57%</tt></div>
       <div class="percent_graph">
-        <div class="covered" style="width:89px"></div>
-        <div class="uncovered" style="width:11px"></div>
+        <div class="covered" style="width:79px"></div>
+        <div class="uncovered" style="width:21px"></div>
       </div></td>
-            <td class="left_align"><div class="percent_graph_legend"><tt class=''>73.81%</tt></div>
+            <td class="left_align"><div class="percent_graph_legend"><tt class=''>50.00%</tt></div>
       <div class="percent_graph">
-        <div class="covered" style="width:74px"></div>
-        <div class="uncovered" style="width:26px"></div>
+        <div class="covered" style="width:50px"></div>
+        <div class="uncovered" style="width:50px"></div>
       </div></td>
           </tr>
         </tbody>
@@ -134,10 +134,10 @@
         <tr class="marked">
           <td><pre><a name="line29">29</a>   def new</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line30">30</a>     @leaf = Leaf.new</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line31">31</a>     @leaf.build_customer</pre></td>
         </tr>
         <tr class="inferred">
@@ -167,31 +167,31 @@
         <tr class="marked">
           <td><pre><a name="line40">40</a>   def create</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line41">41</a>     @leaf = Leaf.new(leaf_params)</pre></td>
         </tr>
         <tr class="inferred">
           <td><pre><a name="line42">42</a> </pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line43">43</a>     respond_to do |format|</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line44">44</a>       if @leaf.save</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line45">45</a>         format.html { redirect_to leaf_path(@leaf), notice: CREATE_SUCCESS }</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line46">46</a>         format.json { render :show, status: :created, location: @leaf }</pre></td>
         </tr>
         <tr class="inferred">
           <td><pre><a name="line47">47</a>       else</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line48">48</a>         format.html { render :new }</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line49">49</a>         format.json { render json: @leaf.errors, status: :unprocessable_entity }</pre></td>
         </tr>
         <tr class="inferred">
@@ -308,7 +308,7 @@
         <tr class="marked">
           <td><pre><a name="line87">87</a>   def leaf_params</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line88">88</a>     params.require(:leaf).permit(</pre></td>
         </tr>
         <tr class="inferred">
@@ -347,7 +347,7 @@
       </tbody>
     </table>
 
-    <p>Generated on 2016-10-01 18:33:26 +0900 with <a href="https://github.com/fguillen/simplecov-rcov">SimpleCov-RCov 0.2.3</a></p>
+    <p>Generated on 2016-10-07 17:28:41 +0900 with <a href="https://github.com/fguillen/simplecov-rcov">SimpleCov-RCov 0.2.3</a></p>
 
   </body>
 </html>
