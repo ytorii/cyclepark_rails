@@ -44,8 +44,8 @@ RSpec.describe MultiSealsUpdate, type: :model do
   end
 
   describe "sealsid_list" do
-    [ '', 'あ', [""], ["1", "2", 'a'] ].each do |value|
-      context "with #{value}" do
+    [ nil, '', 'あ', [], ["1", "2", 'a'] ].each do |value|
+      context "with #{value.to_s}" do
         it 'is invalid.' do
           multi_seals.sealsid_list = value
           expect(multi_seals).not_to be_valid

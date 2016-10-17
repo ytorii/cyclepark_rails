@@ -99,7 +99,7 @@ RSpec.describe MultiSealsUpdateController, type: :controller do
       { multi_seals_update: {
         staff_nickname: session[:nickname],
         sealed_date: "2016-06-03",
-        sealsid_list: [ 3, 6, "" ] }
+        sealsid_list: [ 3, 6 ] }
       }
     }
 
@@ -107,7 +107,7 @@ RSpec.describe MultiSealsUpdateController, type: :controller do
       { multi_seals_update: {
         staff_nickname: session[:nickname],
         sealed_date: 'あ',
-        sealsid_list: [ 3, 6, "" ] }
+        sealsid_list: [ 3, 6 ] }
       }
     }
 

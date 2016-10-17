@@ -8,7 +8,6 @@ class Seal < ActiveRecord::Base
   validates :month,
             presence: true,
             format: { with: date_regexp, allow_blank: true }
-            #uniqueness: { scope: [:contract] }
   validates :sealed_flag,
             inclusion: { in: [true, false] }
   validates :sealed_date,

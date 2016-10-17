@@ -36,11 +36,11 @@ class MultiSealsUpdate
   def valid_array?
     sealsid_list = self.sealsid_list
 
-    if !sealsid_list.is_a?(Array) || !sealsid_list.all? { |id| id =~ /^\d+/ }
-      errors.add(:sealsid_list, 'は不正な形式です')
-      return false
-    elsif sealsid_list.empty?
+    if sealsid_list.blank?
       errors.add(:sealsid_list, 'が選択されていません。')
+      return false
+    elsif !sealsid_list.is_a?(Array) || !sealsid_list.all? { |id| id =~ /^\d+/ }
+      errors.add(:sealsid_list, 'は不正な形式です')
       return false
     end
   end
