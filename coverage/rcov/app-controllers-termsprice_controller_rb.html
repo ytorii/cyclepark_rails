@@ -26,16 +26,16 @@
           <tr>
             <td class="left_align"><a href="app-controllers-termsprice_controller_rb.html">app/controllers/termsprice_controller.rb</a></td>
             <td class='right_align'><tt>15</tt></td>
-            <td class='right_align'><tt>6</tt></td>
-            <td class="left_align"><div class="percent_graph_legend"><tt class=''>73.33%</tt></div>
+            <td class='right_align'><tt>15</tt></td>
+            <td class="left_align"><div class="percent_graph_legend"><tt class=''>0.00%</tt></div>
       <div class="percent_graph">
-        <div class="covered" style="width:73px"></div>
-        <div class="uncovered" style="width:27px"></div>
+        <div class="covered" style="width:0px"></div>
+        <div class="uncovered" style="width:100px"></div>
       </div></td>
-            <td class="left_align"><div class="percent_graph_legend"><tt class=''>33.33%</tt></div>
+            <td class="left_align"><div class="percent_graph_legend"><tt class=''>0.00%</tt></div>
       <div class="percent_graph">
-        <div class="covered" style="width:33px"></div>
-        <div class="uncovered" style="width:67px"></div>
+        <div class="covered" style="width:0px"></div>
+        <div class="uncovered" style="width:100px"></div>
       </div></td>
           </tr>
         </tbody>
@@ -50,28 +50,28 @@
 
     <table class="details">
       <tbody>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line2">2</a> # Controller for termsprice, to get price by ajax.</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line3">3</a> class TermspriceController &lt; ApplicationController</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line4">4</a>   def index</pre></td>
         </tr>
         <tr class="uncovered">
           <td><pre><a name="line5">5</a>     termsprice = Termsprice.new(</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line6">6</a>       leaf_id: params[:leaf_id],</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line7">7</a>       term: params[:term]</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line8">8</a>     )</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line9">9</a> </pre></td>
         </tr>
         <tr class="uncovered">
@@ -80,25 +80,25 @@
         <tr class="uncovered">
           <td><pre><a name="line11">11</a>       render json: { &#39;price&#39; =&gt; termsprice.calc_price }</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line12">12</a>     else</pre></td>
         </tr>
         <tr class="uncovered">
           <td><pre><a name="line13">13</a>       redirect_to menu_path, alert: termsprice.errors.full_messages</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line14">14</a>     end</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line15">15</a>   end</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line16">16</a> end</pre></td>
         </tr>
       </tbody>
     </table>
 
-    <p>Generated on 2016-10-17 18:23:50 +0900 with <a href="https://github.com/fguillen/simplecov-rcov">SimpleCov-RCov 0.2.3</a></p>
+    <p>Generated on 2016-10-17 21:49:04 +0900 with <a href="https://github.com/fguillen/simplecov-rcov">SimpleCov-RCov 0.2.3</a></p>
 
   </body>
 </html>

@@ -163,7 +163,7 @@ RSpec.describe LeafsController, type: :controller do
       end
     end
 
-    context "with invalid leaf" do
+    context "with invalid leaf", :focus do
       before {
         first_invalid 
         contract.leaf = first_invalid
