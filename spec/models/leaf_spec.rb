@@ -5,7 +5,7 @@ RSpec.describe Leaf, type: :model do
 
   describe 'Number' do
     context 'is valid' do
-      [1, 1012].each do |value|
+      [1, 1056].each do |value|
         it "with #{value}." do
           first[:number] = value
           expect(first).to be_valid
@@ -131,22 +131,27 @@ RSpec.describe Leaf, type: :model do
   end
 
   describe "Number in the same vhiecle_type" do
-    context "with valid leafs" do
+    let(:bike){ create(:bike, number: 1) }
+    let(:second){ create(:second, number: 1) }
+
+    context "with effective leafs" do
       before{
         # As first's number is sequencial,
         # we need to specify the number here!
         first.number = 1
         first.save!
+        bike
+        second
       }
 
-      context "when number doesn't exist" do
+      context "when number doesn't exist in effective leafs" do
         it "is valid." do
           first_add = build(:first, number: 2)
           expect(first_add).to be_valid
         end
       end
 
-      context "when number already exists" do
+      context "when number already exists in effective leafs" do
         it "is invalid." do
           first_add = build(:first, number: 1)
           expect(first_add).not_to be_valid
@@ -155,21 +160,23 @@ RSpec.describe Leaf, type: :model do
       end
     end
 
-    context "with invalid leafs" do
+    context "with cancelled leafs" do
       before{
         first.number = 1
         first.valid_flag = false
         first.save!
+        second
+        bike
       }
 
-      context "when number doesn't exist" do
+      context "when effective number already exists in concelled leafs" do
         it "is valid." do
-          first_add = build(:first, number: 2, valid_flag: false)
+          first_add = build( :first, number: 1 )
           expect(first_add).to be_valid
         end
       end
 
-      context "when number already exists" do
+      context "when cancelled number already exists in cancelled leafs" do
         it "is valid." do
           first_add = build(:first, number: 1, valid_flag: false)
           expect(first_add).to be_valid

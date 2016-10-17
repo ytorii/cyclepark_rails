@@ -27,7 +27,7 @@ class MultiSealsUpdateController < ApplicationController
 
   def update
     # Setting values for @multi_seals_update
-    update_instance_values
+    @multi_seals_update = MultiSealsUpdate.new(update_params)
 
     respond_to do |format|
       if @multi_seals_update.update_selected_seals
@@ -45,13 +45,6 @@ class MultiSealsUpdateController < ApplicationController
     @multi_seals_update = multi_seals_update_params
   end
 
-  def update_instance_values
-    # The last of the list is always '' by the tag helper,
-    # and it needs to be removed!
-    @multi_seals_update = MultiSealsUpdate.new(update_params)
-    @multi_seals_update.sealsid_list.pop
-  end
-
   def multi_seals_update_params
     MultiSealsUpdate.new(
       sealed_date: Date.current,
@@ -60,8 +53,8 @@ class MultiSealsUpdateController < ApplicationController
   end
 
   def search_params
-    params.require(:number_sealsid_list_search).
-      permit(:vhiecle_type, :month, :sealed_flag)
+    params.require(:number_sealsid_list_search)
+          .permit(:vhiecle_type, :month, :sealed_flag)
   end
 
   def update_params

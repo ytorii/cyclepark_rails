@@ -34,7 +34,7 @@
         %br
         %p シール貼付け済みの番号を選択してください
         #number_btns.btn-group{"data-toggle" => "buttons"}
-          = f.collection_check_boxes(:sealsid_list, @list, :seal_id, :number) do |b|
+          = f.collection_check_boxes(:sealsid_list, @list, :seal_id, :number, { include_hidden: false }) do |b|
             = b.label class: 'btn btn-primary number_btn' do
               = b.text
               = b.check_box

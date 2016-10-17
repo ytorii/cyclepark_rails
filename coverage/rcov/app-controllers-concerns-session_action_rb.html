@@ -27,15 +27,15 @@
             <td class="left_align"><a href="app-controllers-concerns-session_action_rb.html">app/controllers/concerns/session_action.rb</a></td>
             <td class='right_align'><tt>11</tt></td>
             <td class='right_align'><tt>6</tt></td>
-            <td class="left_align"><div class="percent_graph_legend"><tt class=''>100.00%</tt></div>
+            <td class="left_align"><div class="percent_graph_legend"><tt class=''>72.73%</tt></div>
       <div class="percent_graph">
-        <div class="covered" style="width:100px"></div>
-        <div class="uncovered" style="width:0px"></div>
+        <div class="covered" style="width:73px"></div>
+        <div class="uncovered" style="width:27px"></div>
       </div></td>
-            <td class="left_align"><div class="percent_graph_legend"><tt class=''>100.00%</tt></div>
+            <td class="left_align"><div class="percent_graph_legend"><tt class=''>50.00%</tt></div>
       <div class="percent_graph">
-        <div class="covered" style="width:100px"></div>
-        <div class="uncovered" style="width:0px"></div>
+        <div class="covered" style="width:50px"></div>
+        <div class="uncovered" style="width:50px"></div>
       </div></td>
           </tr>
         </tbody>
@@ -62,13 +62,13 @@
         <tr class="marked">
           <td><pre><a name="line5">5</a>     unless Staff.find(session[:staff]).admin_flag</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line6">6</a>       flash[:referer] = request.fullpath</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line7">7</a>       flash[:error] = &#39;管理者としてログインして下さい。&#39;</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line8">8</a>       redirect_to controller: :login, action: :index</pre></td>
         </tr>
         <tr class="inferred">
@@ -86,7 +86,7 @@
       </tbody>
     </table>
 
-    <p>Generated on 2016-09-29 19:00:21 +0900 with <a href="https://github.com/fguillen/simplecov-rcov">SimpleCov-RCov 0.2.3</a></p>
+    <p>Generated on 2016-10-17 21:49:04 +0900 with <a href="https://github.com/fguillen/simplecov-rcov">SimpleCov-RCov 0.2.3</a></p>
 
   </body>
 </html>

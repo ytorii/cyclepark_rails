@@ -1,6 +1,6 @@
 # Model for contracts' seals
 class Seal < ActiveRecord::Base
-  belongs_to :contract
+  belongs_to :contract, inverse_of: :seals
 
   date_regexp =
     %r(\A20[0-9]{2}(/|-)(0[1-9]|1[0-2])(/|-)(0[1-9]|(1|2)[0-9]|3[01])\z)

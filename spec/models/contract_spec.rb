@@ -324,7 +324,6 @@ RSpec.describe Contract, type: :model do
     before { first_contract.save! }
 
     context "when month is unique in the leaf." do
-      before{ first_contract_add }
       it "is valid." do
         expect(first_contract_add).to be_valid
       end
@@ -333,7 +332,7 @@ RSpec.describe Contract, type: :model do
     context "when month is NOT unique in the leaf." do
       before{
         first.update(last_date: Date.parse("2016-02-20"))
-        first_contract_add.save
+        first_contract_add.valid?
       }
 
       it "is invalid." do

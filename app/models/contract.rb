@@ -4,8 +4,8 @@ class Contract < ActiveRecord::Base
   include ContractsValidate
   include ContractsSetParams
 
-  belongs_to :leaf, counter_cache: true
-  has_many :seals, dependent: :destroy
+  belongs_to :leaf, counter_cache: true, inverse_of: :contracts
+  has_many :seals, dependent: :destroy, inverse_of: :contract
   accepts_nested_attributes_for :seals
 
   date_regexp =

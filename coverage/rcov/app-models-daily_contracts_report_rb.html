@@ -26,16 +26,16 @@
           <tr>
             <td class="left_align"><a href="app-models-daily_contracts_report_rb.html">app/models/daily_contracts_report.rb</a></td>
             <td class='right_align'><tt>42</tt></td>
-            <td class='right_align'><tt>18</tt></td>
-            <td class="left_align"><div class="percent_graph_legend"><tt class=''>100.00%</tt></div>
+            <td class='right_align'><tt>42</tt></td>
+            <td class="left_align"><div class="percent_graph_legend"><tt class=''>0.00%</tt></div>
       <div class="percent_graph">
-        <div class="covered" style="width:100px"></div>
-        <div class="uncovered" style="width:0px"></div>
+        <div class="covered" style="width:0px"></div>
+        <div class="uncovered" style="width:100px"></div>
       </div></td>
-            <td class="left_align"><div class="percent_graph_legend"><tt class=''>100.00%</tt></div>
+            <td class="left_align"><div class="percent_graph_legend"><tt class=''>0.00%</tt></div>
       <div class="percent_graph">
-        <div class="covered" style="width:100px"></div>
-        <div class="uncovered" style="width:0px"></div>
+        <div class="covered" style="width:0px"></div>
+        <div class="uncovered" style="width:100px"></div>
       </div></td>
           </tr>
         </tbody>
@@ -50,136 +50,136 @@
 
     <table class="details">
       <tbody>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line2">2</a> # Model for count report for daily contracts</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line3">3</a> class DailyContractsReport</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line4">4</a>   include ActiveModel::Model</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line5">5</a> </pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line6">6</a>   attr_reader :contracts_date</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line7">7</a> </pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line8">8</a>   date_regexp =</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line9">9</a>     %r(\A20[0-9]{2}(/|-)(0[1-9]|1[0-2])(/|-)(0[1-9]|(1|2)[0-9]|3[01])\z)</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line10">10</a> </pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line11">11</a>   validates :contracts_date,</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line12">12</a>             format: { with: date_regexp }</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line13">13</a> </pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line14">14</a>   def initialize(in_contracts_date)</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line15">15</a>     @contracts_date = in_contracts_date.presence || Date.current</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line16">16</a>     @query = DailyContractsQuery.new(@contracts_date)</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line17">17</a>   end</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line18">18</a> </pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line19">19</a>   def contracts_list</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line20">20</a>     @query.list_each_contract</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line21">21</a>   end</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line22">22</a> </pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line23">23</a>   def contracts_total</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line24">24</a>     # Total(1) + vhiecle_type(3)</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line25">25</a>     result = Array.new(4) do</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line26">26</a>       # [ counts, total money ]</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line27">27</a>       [0, 0]</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line28">28</a>     end</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line29">29</a> </pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line30">30</a>     # Get counts and money of each vhiecle types.</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line31">31</a>     contracts_counts = @query.list_total_amount</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line32">32</a> </pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line33">33</a>     # Insert counts and money to each vhiecle_type&#39;s row.</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line34">34</a>     contracts_counts.each do |count|</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line35">35</a>       result[count[0]] = [count[1], count[2]]</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line36">36</a>     end</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line37">37</a> </pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line38">38</a>     # Add total counts and money to the first row.</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line39">39</a>     result[0] = result.transpose.map(&amp;:sum)</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line40">40</a> </pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line41">41</a>     result</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line42">42</a>   end</pre></td>
         </tr>
-        <tr class="inferred">
+        <tr class="uncovered">
           <td><pre><a name="line43">43</a> end</pre></td>
         </tr>
       </tbody>
     </table>
 
-    <p>Generated on 2016-09-29 19:00:21 +0900 with <a href="https://github.com/fguillen/simplecov-rcov">SimpleCov-RCov 0.2.3</a></p>
+    <p>Generated on 2016-10-17 21:49:04 +0900 with <a href="https://github.com/fguillen/simplecov-rcov">SimpleCov-RCov 0.2.3</a></p>
 
   </body>
 </html>
