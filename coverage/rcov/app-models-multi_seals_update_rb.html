@@ -27,15 +27,15 @@
             <td class="left_align"><a href="app-models-multi_seals_update_rb.html">app/models/multi_seals_update.rb</a></td>
             <td class='right_align'><tt>56</tt></td>
             <td class='right_align'><tt>26</tt></td>
-            <td class="left_align"><div class="percent_graph_legend"><tt class=''>92.86%</tt></div>
+            <td class="left_align"><div class="percent_graph_legend"><tt class=''>78.57%</tt></div>
       <div class="percent_graph">
-        <div class="covered" style="width:93px"></div>
-        <div class="uncovered" style="width:7px"></div>
+        <div class="covered" style="width:79px"></div>
+        <div class="uncovered" style="width:21px"></div>
       </div></td>
-            <td class="left_align"><div class="percent_graph_legend"><tt class=''>84.62%</tt></div>
+            <td class="left_align"><div class="percent_graph_legend"><tt class=''>53.85%</tt></div>
       <div class="percent_graph">
-        <div class="covered" style="width:85px"></div>
-        <div class="uncovered" style="width:15px"></div>
+        <div class="covered" style="width:54px"></div>
+        <div class="uncovered" style="width:46px"></div>
       </div></td>
           </tr>
         </tbody>
@@ -113,7 +113,7 @@
         <tr class="inferred">
           <td><pre><a name="line22">22</a>     # Check all params exist.</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line23">23</a>     return false if invalid?</pre></td>
         </tr>
         <tr class="inferred">
@@ -122,10 +122,10 @@
         <tr class="inferred">
           <td><pre><a name="line25">25</a>     # If unexist id is contained, all update is cancelled</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line26">26</a>     Seal.transaction do</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line27">27</a>       Seal.update(sealsid_list, set_seals_attributes)</pre></td>
         </tr>
         <tr class="inferred">
@@ -137,7 +137,7 @@
         <tr class="inferred">
           <td><pre><a name="line30">30</a>     # Successed all update, return true</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line31">31</a>     true</pre></td>
         </tr>
         <tr class="inferred">
@@ -158,13 +158,13 @@
         <tr class="marked">
           <td><pre><a name="line37">37</a>   def valid_array?</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line38">38</a>     sealsid_list = self.sealsid_list</pre></td>
         </tr>
         <tr class="inferred">
           <td><pre><a name="line39">39</a> </pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line40">40</a>     if sealsid_list.blank?</pre></td>
         </tr>
         <tr class="uncovered">
@@ -173,7 +173,7 @@
         <tr class="uncovered">
           <td><pre><a name="line42">42</a>       return false</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line43">43</a>     elsif !sealsid_list.is_a?(Array) || !sealsid_list.all? { |id| id =~ /^\d+/ }</pre></td>
         </tr>
         <tr class="uncovered">
@@ -194,7 +194,7 @@
         <tr class="marked">
           <td><pre><a name="line49">49</a>   def set_seals_attributes</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line50">50</a>     Array.new(</pre></td>
         </tr>
         <tr class="inferred">
@@ -221,7 +221,7 @@
       </tbody>
     </table>
 
-    <p>Generated on 2016-10-17 17:51:40 +0900 with <a href="https://github.com/fguillen/simplecov-rcov">SimpleCov-RCov 0.2.3</a></p>
+    <p>Generated on 2016-10-17 18:23:50 +0900 with <a href="https://github.com/fguillen/simplecov-rcov">SimpleCov-RCov 0.2.3</a></p>
 
   </body>
 </html>

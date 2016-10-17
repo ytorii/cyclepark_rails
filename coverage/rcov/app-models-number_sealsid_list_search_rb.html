@@ -27,15 +27,15 @@
             <td class="left_align"><a href="app-models-number_sealsid_list_search_rb.html">app/models/number_sealsid_list_search.rb</a></td>
             <td class='right_align'><tt>54</tt></td>
             <td class='right_align'><tt>20</tt></td>
-            <td class="left_align"><div class="percent_graph_legend"><tt class=''>100.00%</tt></div>
+            <td class="left_align"><div class="percent_graph_legend"><tt class=''>88.89%</tt></div>
       <div class="percent_graph">
-        <div class="covered" style="width:100px"></div>
-        <div class="uncovered" style="width:0px"></div>
+        <div class="covered" style="width:89px"></div>
+        <div class="uncovered" style="width:11px"></div>
       </div></td>
-            <td class="left_align"><div class="percent_graph_legend"><tt class=''>100.00%</tt></div>
+            <td class="left_align"><div class="percent_graph_legend"><tt class=''>70.00%</tt></div>
       <div class="percent_graph">
-        <div class="covered" style="width:100px"></div>
-        <div class="uncovered" style="width:0px"></div>
+        <div class="covered" style="width:70px"></div>
+        <div class="uncovered" style="width:30px"></div>
       </div></td>
           </tr>
         </tbody>
@@ -134,13 +134,13 @@
         <tr class="marked">
           <td><pre><a name="line29">29</a>   def initialize( params = {} )</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line30">30</a>     @vhiecle_type = params.fetch(:vhiecle_type, 1)</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line31">31</a>     @month = params.fetch(:month, Date.current.next_month)</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line32">32</a>     @sealed_flag = cast_to_boolean(params.fetch(:sealed_flag, false))</pre></td>
         </tr>
         <tr class="inferred">
@@ -167,7 +167,7 @@
         <tr class="inferred">
           <td><pre><a name="line40">40</a>         .select(&#39;number, seals.id as seal_id&#39;)</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line41">41</a>         .order(&#39;number&#39;)</pre></td>
         </tr>
         <tr class="inferred">
@@ -188,7 +188,7 @@
         <tr class="marked">
           <td><pre><a name="line47">47</a>   def change_to_beginning_of_month</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line48">48</a>     @month.to_date.beginning_of_month</pre></td>
         </tr>
         <tr class="inferred">
@@ -203,7 +203,7 @@
         <tr class="marked">
           <td><pre><a name="line52">52</a>   def cast_to_boolean(input)</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line53">53</a>     ActiveRecord::Type::Boolean.new.type_cast_from_user(input)</pre></td>
         </tr>
         <tr class="inferred">
@@ -215,7 +215,7 @@
       </tbody>
     </table>
 
-    <p>Generated on 2016-10-17 17:51:40 +0900 with <a href="https://github.com/fguillen/simplecov-rcov">SimpleCov-RCov 0.2.3</a></p>
+    <p>Generated on 2016-10-17 18:23:50 +0900 with <a href="https://github.com/fguillen/simplecov-rcov">SimpleCov-RCov 0.2.3</a></p>
 
   </body>
 </html>

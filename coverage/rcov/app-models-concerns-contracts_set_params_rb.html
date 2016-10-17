@@ -27,15 +27,15 @@
             <td class="left_align"><a href="app-models-concerns-contracts_set_params_rb.html">app/models/concerns/contracts_set_params.rb</a></td>
             <td class='right_align'><tt>93</tt></td>
             <td class='right_align'><tt>43</tt></td>
-            <td class="left_align"><div class="percent_graph_legend"><tt class=''>83.87%</tt></div>
+            <td class="left_align"><div class="percent_graph_legend"><tt class=''>66.67%</tt></div>
       <div class="percent_graph">
-        <div class="covered" style="width:84px"></div>
-        <div class="uncovered" style="width:16px"></div>
+        <div class="covered" style="width:67px"></div>
+        <div class="uncovered" style="width:33px"></div>
       </div></td>
-            <td class="left_align"><div class="percent_graph_legend"><tt class=''>65.12%</tt></div>
+            <td class="left_align"><div class="percent_graph_legend"><tt class=''>27.91%</tt></div>
       <div class="percent_graph">
-        <div class="covered" style="width:65px"></div>
-        <div class="uncovered" style="width:35px"></div>
+        <div class="covered" style="width:28px"></div>
+        <div class="uncovered" style="width:72px"></div>
       </div></td>
           </tr>
         </tbody>
@@ -71,7 +71,7 @@
         <tr class="marked">
           <td><pre><a name="line8">8</a>   def set_contract_params</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line9">9</a>     set_newflag_startmonth_params</pre></td>
         </tr>
         <tr class="inferred">
@@ -107,7 +107,7 @@
         <tr class="marked">
           <td><pre><a name="line20">20</a>   def set_nilcontract_params</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line21">21</a>     self.skip_flag = false</pre></td>
         </tr>
         <tr class="inferred">
@@ -116,13 +116,13 @@
         <tr class="inferred">
           <td><pre><a name="line23">23</a>     # term1 is not allowed with 0, so validation rejects after this</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line24">24</a>     self.term1 = term1.to_i</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line25">25</a>     self.term2 = term2.to_i</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line26">26</a>     self.money2 = money2.to_i</pre></td>
         </tr>
         <tr class="inferred">
@@ -140,7 +140,7 @@
         <tr class="marked">
           <td><pre><a name="line31">31</a>   def set_newflag_startmonth_params</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line32">32</a>     leaf = Leaf.find(leaf_id)</pre></td>
         </tr>
         <tr class="inferred">
@@ -149,13 +149,13 @@
         <tr class="inferred">
           <td><pre><a name="line34">34</a>     # New contract starts with leaf&#39;s start date</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line35">35</a>     if leaf.contracts.size.zero?</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line36">36</a>       self.new_flag = true</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line37">37</a>       self.start_month = leaf.start_date.beginning_of_month</pre></td>
         </tr>
         <tr class="inferred">
@@ -182,7 +182,7 @@
         <tr class="marked">
           <td><pre><a name="line45">45</a>   def set_seals_params</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line46">46</a>     set_firstseal_params</pre></td>
         </tr>
         <tr class="inferred">
@@ -194,10 +194,10 @@
         <tr class="inferred">
           <td><pre><a name="line49">49</a>     # Excluding the first seal by starting index with 1.</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line50">50</a>     1.upto(term1 + term2 - 1) do |i|</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line51">51</a>       seals.build(month: start_month + i.months, sealed_flag: false)</pre></td>
         </tr>
         <tr class="inferred">
@@ -212,10 +212,10 @@
         <tr class="marked">
           <td><pre><a name="line55">55</a>   def set_firstseal_params</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line56">56</a>     first_seal = seals.first</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line57">57</a>     first_seal.attributes = { month: start_month }</pre></td>
         </tr>
         <tr class="inferred">
@@ -227,7 +227,7 @@
         <tr class="inferred">
           <td><pre><a name="line60">60</a>     # if false, attributes below is left to nil.</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line61">61</a>     if first_seal.sealed_flag ||= false</pre></td>
         </tr>
         <tr class="uncovered">
@@ -287,7 +287,7 @@
         <tr class="marked">
           <td><pre><a name="line80">80</a>   def update_leaf_lastdate</pre></td>
         </tr>
-        <tr class="marked">
+        <tr class="uncovered">
           <td><pre><a name="line81">81</a>     Leaf.find(leaf_id).update_attribute(:last_date, seals.last.month)</pre></td>
         </tr>
         <tr class="inferred">
@@ -332,7 +332,7 @@
       </tbody>
     </table>
 
-    <p>Generated on 2016-10-17 17:51:40 +0900 with <a href="https://github.com/fguillen/simplecov-rcov">SimpleCov-RCov 0.2.3</a></p>
+    <p>Generated on 2016-10-17 18:23:50 +0900 with <a href="https://github.com/fguillen/simplecov-rcov">SimpleCov-RCov 0.2.3</a></p>
 
   </body>
 </html>

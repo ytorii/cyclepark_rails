@@ -26,16 +26,16 @@
           <tr>
             <td class="left_align"><a href="app-controllers-seals_controller_rb.html">app/controllers/seals_controller.rb</a></td>
             <td class='right_align'><tt>55</tt></td>
-            <td class='right_align'><tt>55</tt></td>
-            <td class="left_align"><div class="percent_graph_legend"><tt class=''>0.00%</tt></div>
+            <td class='right_align'><tt>23</tt></td>
+            <td class="left_align"><div class="percent_graph_legend"><tt class=''>76.36%</tt></div>
       <div class="percent_graph">
-        <div class="covered" style="width:0px"></div>
-        <div class="uncovered" style="width:100px"></div>
+        <div class="covered" style="width:76px"></div>
+        <div class="uncovered" style="width:24px"></div>
       </div></td>
-            <td class="left_align"><div class="percent_graph_legend"><tt class=''>0.00%</tt></div>
+            <td class="left_align"><div class="percent_graph_legend"><tt class=''>43.48%</tt></div>
       <div class="percent_graph">
-        <div class="covered" style="width:0px"></div>
-        <div class="uncovered" style="width:100px"></div>
+        <div class="covered" style="width:43px"></div>
+        <div class="uncovered" style="width:57px"></div>
       </div></td>
           </tr>
         </tbody>
@@ -50,37 +50,37 @@
 
     <table class="details">
       <tbody>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line2">2</a> # Controller for seals update, delete</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="marked">
           <td><pre><a name="line3">3</a> class SealsController &lt; ApplicationController</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="marked">
           <td><pre><a name="line4">4</a>   include AjaxHelper</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line5">5</a> </pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="marked">
           <td><pre><a name="line6">6</a>   before_action :set_seal, only: [:update, :destroy]</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line7">7</a> </pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="marked">
           <td><pre><a name="line8">8</a>   UPDATE_SUCCESS = &#39;シール貼付情報を更新しました。&#39;.freeze</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line9">9</a> </pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line10">10</a>   # PATCH/PUT /seals/1</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line11">11</a>   # PATCH/PUT /seals/1.json</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="marked">
           <td><pre><a name="line12">12</a>   def update</pre></td>
         </tr>
         <tr class="uncovered">
@@ -89,7 +89,7 @@
         <tr class="uncovered">
           <td><pre><a name="line14">14</a>       @leaf = Leaf.find(params[:leaf_id])</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line15">15</a> </pre></td>
         </tr>
         <tr class="uncovered">
@@ -98,82 +98,82 @@
         <tr class="uncovered">
           <td><pre><a name="line17">17</a>         update_success_format(format)</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line18">18</a>       else</pre></td>
         </tr>
         <tr class="uncovered">
           <td><pre><a name="line19">19</a>         update_error_format(format)</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line20">20</a>       end</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line21">21</a>     end</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line22">22</a>   end</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line23">23</a> </pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="marked">
           <td><pre><a name="line24">24</a>   private</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line25">25</a> </pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line26">26</a>   # Use callbacks to share common setup or constraints between actions.</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="marked">
           <td><pre><a name="line27">27</a>   def set_seal</pre></td>
         </tr>
         <tr class="uncovered">
           <td><pre><a name="line28">28</a>     @seal = Seal.find(params[:id])</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line29">29</a>   end</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line30">30</a> </pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line31">31</a>   # Never trust parameters from the scary internet,</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line32">32</a>   # only allow the white list through.</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="marked">
           <td><pre><a name="line33">33</a>   def seal_params</pre></td>
         </tr>
         <tr class="uncovered">
           <td><pre><a name="line34">34</a>     params.require(:seal).permit(</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line35">35</a>       :contract_id,</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line36">36</a>       :month,</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line37">37</a>       :sealed_flag,</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line38">38</a>       :sealed_date,</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line39">39</a>       :staff_nickname</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line40">40</a>     )</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line41">41</a>   end</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line42">42</a> </pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="marked">
           <td><pre><a name="line43">43</a>   def update_success_format(format)</pre></td>
         </tr>
         <tr class="uncovered">
@@ -185,16 +185,16 @@
         <tr class="uncovered">
           <td><pre><a name="line46">46</a>       render ajax_redirect_to(@leaf.id)</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line47">47</a>     end</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line48">48</a>   end</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line49">49</a> </pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="marked">
           <td><pre><a name="line50">50</a>   def update_error_format(format)</pre></td>
         </tr>
         <tr class="uncovered">
@@ -206,19 +206,19 @@
         <tr class="uncovered">
           <td><pre><a name="line53">53</a>       render ajax_redirect_to(@leaf.id)</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line54">54</a>     end</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line55">55</a>   end</pre></td>
         </tr>
-        <tr class="uncovered">
+        <tr class="inferred">
           <td><pre><a name="line56">56</a> end</pre></td>
         </tr>
       </tbody>
     </table>
 
-    <p>Generated on 2016-10-17 17:51:40 +0900 with <a href="https://github.com/fguillen/simplecov-rcov">SimpleCov-RCov 0.2.3</a></p>
+    <p>Generated on 2016-10-17 18:23:50 +0900 with <a href="https://github.com/fguillen/simplecov-rcov">SimpleCov-RCov 0.2.3</a></p>
 
   </body>
 </html>
