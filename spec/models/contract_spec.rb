@@ -297,25 +297,30 @@ RSpec.describe Contract, type: :model do
     end
   end
 
-  describe ".backdate_leaf_lastdate" do
-    subject { Leaf.find(first.id).last_date  }
-
+  describe ".backdate_leaf_lastdate", :focus do
     context "when leaf has contract" do
       before {
-        first_contract_add.save!
         first_contract.save!
+        first_contract_add.save!
+        first_contract_add.reload
+        first_contract_add.destroy
       }
 
       it "updates leaf's last_date to contract's last month." do
-        first_contract.send(:backdate_leaf_lastdate)
-        is_expected.to eq(first_contract.seals.last.month)
+        first.reload
+        expect(first.last_date).to eq(first_contract.seals.last.month)
       end
     end
 
     context "when leaf has no contract" do
+      before {
+        first_contract.save!
+        first_contract.reload
+        first_contract.destroy
+      }
       it "updates leaf's last_date to nil." do
-        first_contract.send(:backdate_leaf_lastdate)
-        is_expected.to eq(nil)
+        first.reload
+        expect(first.last_date).to eq(nil)
       end
     end
   end

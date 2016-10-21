@@ -86,7 +86,7 @@ module ContractsSetParams
     #last_contract = Leaf.find(self.leaf_id).contracts.last
 
     # No contract when self itself is the last contract of the leaf. 
-    if last_contract == self
+    if last_contract.nil? || last_contract  == self
       self.leaf.update(last_date: nil)
     else
       self.leaf.update(last_date: last_contract.seals.last.month)
