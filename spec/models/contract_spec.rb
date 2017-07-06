@@ -297,7 +297,7 @@ RSpec.describe Contract, type: :model do
     end
   end
 
-  describe ".backdate_leaf_lastdate", :focus do
+  describe ".backdate_leaf_lastdate" do
     context "when leaf has contract" do
       before {
         first_contract.save!
