@@ -11,6 +11,7 @@ class Contract < ActiveRecord::Base
   date_regexp =
     %r(\A20[0-9]{2}(/|-)(0[1-9]|1[0-2])(/|-)(0[1-9]|(1|2)[0-9]|3[01])\z)
 
+  # New_flag is set by this model, so no need to be validated.
   validates :contract_date,
             presence: true,
             format: { with: date_regexp, allow_blank: true }
@@ -40,8 +41,6 @@ class Contract < ActiveRecord::Base
               { greater_than_or_equal_to: 0,
                 less_than: 18_001,
                 allow_blank: true }
-  validates :new_flag,
-            inclusion: { in: [true, false] }
   validates :skip_flag,
             inclusion: { in: [true, false] }
   validate :staff_exists?

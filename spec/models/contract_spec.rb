@@ -49,14 +49,12 @@ RSpec.describe Contract, type: :model do
     end
   end
 
-  %w{skip_flag new_flag}.each do |column|
-    describe "#{column}" do
-      context 'is valid' do
-        [true, false].each do |value|
-          it "with #{value}." do
-            first_contract[column] = value
-            expect(first_contract).to be_valid
-          end
+  describe "skip_flag" do
+    context 'is valid' do
+      [true, false].each do |value|
+        it "with #{value}." do
+          first_contract[:skip_flag] = value
+          expect(first_contract).to be_valid
         end
       end
     end
