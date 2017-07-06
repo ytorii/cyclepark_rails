@@ -29,14 +29,13 @@ class Contract < ActiveRecord::Base
               { greater_than_or_equal_to: 0,
                 less_than: 36_001,
                 allow_blank: true }
+  # Term2 and money2 is allowed to be nil, because nil is set to 0.
   validates :term2,
-            presence: true,
             numericality:
               { greater_than_or_equal_to: 0,
                 less_than: 10,
                 allow_blank: true }
   validates :money2,
-            presence: true,
             numericality:
               { greater_than_or_equal_to: 0,
                 less_than: 18_001,
