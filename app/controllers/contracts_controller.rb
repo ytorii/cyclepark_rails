@@ -41,7 +41,6 @@ class ContractsController < ApplicationController
         # Response for ajax request is javascript.
         format.js { ajax_redirect_to_leaf_notice(create_message) }
       else
-        p @contract.errors
         # To run Leaf's show method, page needs to be redirected.
         # As Only a few inputs, re-input is a little work!
         alert_message = @contract.errors.full_messages

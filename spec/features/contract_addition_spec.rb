@@ -80,7 +80,7 @@ feature "Contract Addition" do
       end
     end
 
-    context 'with skip contract', focus: true do
+    context 'with skip contract' do
       scenario 'Add skip contract succeccfully.' do
         find('.custom_rd_label', text: '休み').click
 
@@ -140,8 +140,7 @@ feature "Contract Addition" do
         click_button '登録する' 
 
         within(".alert-danger") do
-          expect(page).to have_css('li',
-            text: '契約期間は0より大きい値にしてください')
+          expect(page).to have_css('li', text: '契約期間を入力してください')
           expect(page).to have_css('li', text: '金額を入力してください')
         end
       end
