@@ -72,6 +72,7 @@ FactoryGirl.define do
     contract_date "2016-01-16"
     staff_nickname "admin"
     start_month "2016-02-01"
+    skip_flag false
 
     after(:build) do |contract|
       contract.seals.build(sealed_flag: false)
@@ -118,6 +119,7 @@ FactoryGirl.define do
     contract_date "2016-05-16"
     start_month "2016-05-01"
     staff_nickname "admin"
+    skip_flag false
 
     after(:build) do |contract|
       contract.seals.build(sealed_flag: false)

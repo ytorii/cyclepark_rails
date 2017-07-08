@@ -15,9 +15,6 @@ class Contract < ActiveRecord::Base
   validates :contract_date,
             presence: true,
             format: { with: date_regexp, allow_blank: true }
-  validates :start_month,
-            presence: true,
-            format: { with: date_regexp, allow_blank: true }
   # Term1 must be longer than 0 because 0 length contract is not allowed.
   validates :term1,
             presence: true,
@@ -46,7 +43,7 @@ class Contract < ActiveRecord::Base
   validate :month_exists?, on: :create
   validate :same_length_terms?, on: :update
 
-  before_validation do
+  before_save do
     if skip_flag
       set_skipcontract_params
     else

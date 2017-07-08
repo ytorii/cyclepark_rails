@@ -19,7 +19,7 @@ module ContractsValidate
   # Terms length must not be changed after create!
   # Because this change causes empty terms in the leaf.
   def same_length_terms?
-    if term1_changed? || term2_changed?
+    if term1_changed? || (term2.present? && term2_changed?)
       errors.add(:term1, '期間の変更はできません。')
       return false
     end

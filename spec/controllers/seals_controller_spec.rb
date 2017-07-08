@@ -33,8 +33,8 @@ RSpec.describe SealsController, type: :controller do
       before{
         xhr :put, :update, {
           :leaf_id => first.id,
-          :contract_id => first_contract.id,
           :id => seal.to_param,
+          :contract_id => first_contract.id,
           :seal => new_attributes
         }, valid_session
         seal.reload
