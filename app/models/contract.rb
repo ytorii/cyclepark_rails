@@ -40,7 +40,6 @@ class Contract < ActiveRecord::Base
   validates :skip_flag,
             inclusion: { in: [true, false] }
   validate :staff_exists?
-  validate :month_exists?, on: :create
   validate :same_length_terms?, on: :update
 
   before_save do

@@ -25,8 +25,8 @@
         <tbody>
           <tr>
             <td class="left_align"><a href="app-models-contract_rb.html">app/models/contract.rb</a></td>
-            <td class='right_align'><tt>70</tt></td>
-            <td class='right_align'><tt>70</tt></td>
+            <td class='right_align'><tt>69</tt></td>
+            <td class='right_align'><tt>69</tt></td>
             <td class="left_align"><div class="percent_graph_legend"><tt class=''>0.00%</tt></div>
       <div class="percent_graph">
         <div class="covered" style="width:0px"></div>
@@ -177,93 +177,90 @@
           <td><pre><a name="line43">43</a>   validate :staff_exists?</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line44">44</a>   validate :month_exists?, on: :create</pre></td>
+          <td><pre><a name="line44">44</a>   validate :same_length_terms?, on: :update</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line45">45</a>   validate :same_length_terms?, on: :update</pre></td>
+          <td><pre><a name="line45">45</a> </pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line46">46</a> </pre></td>
+          <td><pre><a name="line46">46</a>   before_save do</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line47">47</a>   before_save do</pre></td>
+          <td><pre><a name="line47">47</a>     if skip_flag</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line48">48</a>     if skip_flag</pre></td>
+          <td><pre><a name="line48">48</a>       set_skipcontract_params</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line49">49</a>       set_skipcontract_params</pre></td>
+          <td><pre><a name="line49">49</a>     else</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line50">50</a>     else</pre></td>
+          <td><pre><a name="line50">50</a>       set_nilcontract_params</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line51">51</a>       set_nilcontract_params</pre></td>
+          <td><pre><a name="line51">51</a>     end</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line52">52</a>     end</pre></td>
+          <td><pre><a name="line52">52</a> </pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line53">53</a> </pre></td>
+          <td><pre><a name="line53">53</a>     if new_record?</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line54">54</a>     if new_record?</pre></td>
+          <td><pre><a name="line54">54</a>       # Seals needs to insert parameters before validation.</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line55">55</a>       # Seals needs to insert parameters before validation.</pre></td>
+          <td><pre><a name="line55">55</a>       # Because first seal parameters depend on inputs from web pages.</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line56">56</a>       # Because first seal parameters depend on inputs from web pages.</pre></td>
+          <td><pre><a name="line56">56</a>       set_contract_params</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line57">57</a>       set_contract_params</pre></td>
+          <td><pre><a name="line57">57</a>       set_seals_params</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line58">58</a>       set_seals_params</pre></td>
+          <td><pre><a name="line58">58</a>     else</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line59">59</a>     else</pre></td>
+          <td><pre><a name="line59">59</a>       # Setting params for editing exist records,</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line60">60</a>       # Setting params for editing exist records,</pre></td>
+          <td><pre><a name="line60">60</a>       # especially in editing seal records.</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line61">61</a>       # especially in editing seal records.</pre></td>
+          <td><pre><a name="line61">61</a>       set_canceledseals_params</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line62">62</a>       set_canceledseals_params</pre></td>
+          <td><pre><a name="line62">62</a>     end</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line63">63</a>     end</pre></td>
+          <td><pre><a name="line63">63</a>   end</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line64">64</a>   end</pre></td>
+          <td><pre><a name="line64">64</a> </pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line65">65</a> </pre></td>
+          <td><pre><a name="line65">65</a>   after_create :update_leaf_lastdate</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line66">66</a>   after_create :update_leaf_lastdate</pre></td>
+          <td><pre><a name="line66">66</a> </pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line67">67</a> </pre></td>
+          <td><pre><a name="line67">67</a>   # Only the last contract can be deleted</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line68">68</a>   # Only the last contract can be deleted</pre></td>
+          <td><pre><a name="line68">68</a>   before_destroy :last_contract?</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line69">69</a>   before_destroy :last_contract?</pre></td>
+          <td><pre><a name="line69">69</a>   after_destroy :backdate_leaf_lastdate</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line70">70</a>   after_destroy :backdate_leaf_lastdate</pre></td>
-        </tr>
-        <tr class="uncovered">
-          <td><pre><a name="line71">71</a> end</pre></td>
+          <td><pre><a name="line70">70</a> end</pre></td>
         </tr>
       </tbody>
     </table>
 
-    <p>Generated on 2017-07-08 16:43:49 +0900 with <a href="https://github.com/fguillen/simplecov-rcov">SimpleCov-RCov 0.2.3</a></p>
+    <p>Generated on 2017-07-08 17:01:58 +0900 with <a href="https://github.com/fguillen/simplecov-rcov">SimpleCov-RCov 0.2.3</a></p>
 
   </body>
 </html>
