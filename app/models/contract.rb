@@ -17,11 +17,11 @@ class Contract < ActiveRecord::Base
             format: { with: date_regexp, allow_blank: true }
   # Term1 must be longer than 0 because 0 length contract is not allowed.
   validates :term1,
-            presence: true,
+            presence: { unless: 'skip_flag' },
             numericality:
               { greater_than: 0, less_than: 13, allow_blank: true }
   validates :money1,
-            presence: true,
+            presence: { unless: 'skip_flag' },
             numericality:
               { greater_than_or_equal_to: 0,
                 less_than: 36_001,

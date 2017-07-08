@@ -51,9 +51,18 @@ RSpec.describe Contract, type: :model do
 
   %w{term1 money1}.each do |column|
     describe "#{column}" do
-      it "is invalid with nil" do
-        first_contract[column] = nil
-        expect(first_contract).not_to be_valid
+      context "with skip_flag true" do
+        it "is valid with nil" do
+          first_contract[:skip_flag] =  true
+          first_contract[column] = nil
+          expect(first_contract).to be_valid
+        end
+      end
+      context "with skip_flag false" do
+        it "is invalid with nil" do
+          first_contract[column] = nil
+          expect(first_contract).not_to be_valid
+        end
       end
     end
   end

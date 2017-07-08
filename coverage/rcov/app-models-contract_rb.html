@@ -108,7 +108,7 @@
           <td><pre><a name="line20">20</a>   validates :term1,</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line21">21</a>             presence: true,</pre></td>
+          <td><pre><a name="line21">21</a>             presence: { unless: &#39;skip_flag&#39; },</pre></td>
         </tr>
         <tr class="uncovered">
           <td><pre><a name="line22">22</a>             numericality:</pre></td>
@@ -120,7 +120,7 @@
           <td><pre><a name="line24">24</a>   validates :money1,</pre></td>
         </tr>
         <tr class="uncovered">
-          <td><pre><a name="line25">25</a>             presence: true,</pre></td>
+          <td><pre><a name="line25">25</a>             presence: { unless: &#39;skip_flag&#39; },</pre></td>
         </tr>
         <tr class="uncovered">
           <td><pre><a name="line26">26</a>             numericality:</pre></td>
@@ -260,7 +260,7 @@
       </tbody>
     </table>
 
-    <p>Generated on 2017-07-08 17:12:22 +0900 with <a href="https://github.com/fguillen/simplecov-rcov">SimpleCov-RCov 0.2.3</a></p>
+    <p>Generated on 2017-07-08 18:01:04 +0900 with <a href="https://github.com/fguillen/simplecov-rcov">SimpleCov-RCov 0.2.3</a></p>
 
   </body>
 </html>
