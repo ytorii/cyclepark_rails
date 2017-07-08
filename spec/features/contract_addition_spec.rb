@@ -80,7 +80,7 @@ feature "Contract Addition" do
       end
     end
 
-    context 'with skip contract' do
+    context 'with skip contract', focus: true do
       scenario 'Add skip contract succeccfully.' do
         find('.custom_rd_label', text: '休み').click
 
