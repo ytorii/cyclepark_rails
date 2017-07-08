@@ -45,7 +45,6 @@
   = c.hidden_field :contract_date, :value => Date.current
   = c.hidden_field :skip_flag, :value => false
   = c.hidden_field :leaf_id, :value => @contract.leaf_id 
-  = c.hidden_field :staff_nickname, :value => session[:nickname] 
   .actions
     = c.submit id: 'contadd_submit_btn'
   // Hidden reset button used by javascript.

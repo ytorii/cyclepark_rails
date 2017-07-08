@@ -21,8 +21,8 @@ RSpec.describe ContractsController, type: :controller do
   }
 
   # session infomation for staffs
-  let(:valid_session) { {staff: '1'} }
-  let(:normal_session) { {staff: '2'} }
+  let(:valid_session) { {staff: '1', nickname: 'admin'} }
+  let(:normal_session) { {staff: '2', nickname: 'normal'} }
 
   # first cutomer
   let(:first) {create(:first)}

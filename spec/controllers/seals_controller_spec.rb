@@ -6,19 +6,19 @@ RSpec.describe SealsController, type: :controller do
     {
       sealed_flag: true,
       sealed_date: "2016-02-28",
-      staff_nickname: "admin"
     }
   }
 
   let(:invalid_attributes) {
     {
-      sealed_flag: '',
+      sealed_flag: 'true',
       sealed_date: "2016-02-28",
-      staff_nickname: "admin"
+      staff_nickname: ""
     }
   }
 
-  let(:valid_session) { {staff: '1'} }
+  let(:valid_session) { {staff: '1', nickname: 'admin'} }
+  let(:invalid_session) { {staff: '1'} }
   let(:first) {create(:first)}
   let(:first_contract) {build(:first_contract)}
   let(:seal){ Seal.where(sealed_flag: false).first }
@@ -30,28 +30,39 @@ RSpec.describe SealsController, type: :controller do
     }
 
     context "with valid params", :js => true do
-      before{
-        xhr :put, :update, {
-          :leaf_id => first.id,
-          :id => seal.to_param,
-          :contract_id => first_contract.id,
-          :seal => new_attributes
-        }, valid_session
-        seal.reload
-      }
+      shared_examples 'update seal' do |nickname|
+        before{
+          xhr :put, :update, {
+            :leaf_id => first.id,
+            :id => seal.to_param,
+            :contract_id => first_contract.id,
+            :seal => new_attributes.merge(staff_nickname: nickname)
+          }, valid_session
+          seal.reload
+        }
 
-      it "returns http success." do
-        expect(response.status).to eq(200)
+        it "returns http success." do
+          expect(response.status).to eq(200)
+        end
+
+        it "updates the requested seal" do
+          expect(seal.sealed_flag).to eq(true)
+          expect(seal.sealed_date).to eq(Date.parse("2016-02-28"))
+          expect(seal.staff_nickname).to eq("admin")
+        end
+
+        it "assigns the requested seal as @seal" do
+          expect(assigns(:seal)).to eq(seal)
+        end
       end
 
-      it "updates the requested seal" do
-        expect(seal.sealed_flag).to eq(true)
-        expect(seal.sealed_date).to eq(Date.parse("2016-02-28"))
-        expect(seal.staff_nickname).to eq("admin")
+      context "with staff_nickname attribute" do
+        it_behaves_like 'update seal', 'admin'
+          
       end
 
-      it "assigns the requested seal as @seal" do
-        expect(assigns(:seal)).to eq(seal)
+      context "without staff_nickname attribute" do
+        it_behaves_like 'update seal', nil
       end
     end
 
@@ -63,7 +74,7 @@ RSpec.describe SealsController, type: :controller do
           :contract_id => first_contract.id,
           :id => seal.to_param,
           :seal => invalid_attributes
-        }, valid_session
+        }, invalid_session
       }
 
       it "returns http success." do

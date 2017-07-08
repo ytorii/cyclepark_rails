@@ -121,9 +121,9 @@ class ContractsController < ApplicationController
     params.require(:contract).permit(
       :leaf_id, :contract_date,
       :term1, :money1, :term2, :money2,
-      :skip_flag, :staff_nickname,
+      :skip_flag,
       seals_attributes: [:id, :sealed_flag]
-    )
+    ).merge(staff_nickname: session[:nickname])
   end
 
   def update_params
