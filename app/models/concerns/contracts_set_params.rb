@@ -60,7 +60,7 @@ module ContractsSetParams
     if first_seal.sealed_flag ||= false
       first_seal.attributes = {
         sealed_date: contract_date,
-        staff_nickname: staff_nickname
+        staff_nickname: session[:staff_nickname]
       }
     end
   end
