@@ -48,17 +48,19 @@ class Contract < ActiveRecord::Base
     else
       set_nilcontract_params
     end
+  end
 
-    if new_record?
-      # Seals needs to insert parameters before validation.
-      # Because first seal parameters depend on inputs from web pages.
-      set_contract_params
-      set_seals_params
-    else
-      # Setting params for editing exist records,
-      # especially in editing seal records.
-      set_canceledseals_params
-    end
+  before_create do
+    # Seals needs to insert parameters before validation.
+    # Because first seal parameters depend on inputs from web pages.
+    set_contract_params
+    set_seals_params
+  end
+
+  before_update do
+    # Setting params for editing exist records,
+    # especially in editing seal records.
+    set_canceledseals_params
   end
 
   after_create :update_leaf_lastdate
