@@ -42,6 +42,9 @@ class Contract < ActiveRecord::Base
   validate :staff_exists?
   validate :same_length_terms?, on: :update
 
+  # Only the last contract can be deleted
+  before_destroy :last_contract?
+
   before_save do
     if skip_flag
       set_skipcontract_params
@@ -65,7 +68,5 @@ class Contract < ActiveRecord::Base
 
   after_create :update_leaf_lastdate
 
-  # Only the last contract can be deleted
-  before_destroy :last_contract?
   after_destroy :backdate_leaf_lastdate
 end

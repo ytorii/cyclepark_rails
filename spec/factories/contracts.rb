@@ -11,8 +11,17 @@ FactoryGirl.define do
     skip_flag false
     staff_nickname "admin"
 
-    after(:build) do |first_contract|
-      first_contract.seals.build(sealed_flag: true)
+    after(:build) do |contract|
+      contract.seals.build(sealed_flag: true)
+    end
+
+    factory :first_contract_reset_callbacks, class: Contract do
+      after(:build) do |contract|
+        Contract.reset_callbacks :create
+        Contract.reset_callbacks :update
+        Contract.reset_callbacks :destroy
+        contract.seals.build(sealed_flag: true)
+      end
     end
   end
 
