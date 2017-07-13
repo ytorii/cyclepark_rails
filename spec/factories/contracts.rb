@@ -2,7 +2,7 @@ FactoryGirl.define do
   factory :first_contract, class: Contract do
     Leaf
     contract_date "2016-02-20"
-    start_month "2016-02-20"
+    start_month "2016-02-01"
     term1 1
     money1 1000 
     term2 6
@@ -15,12 +15,20 @@ FactoryGirl.define do
       contract.seals.build(sealed_flag: true)
     end
 
-    factory :first_contract_reset_callbacks, class: Contract do
+    factory :first_contract_no_callbacks, class: Contract do
       after(:build) do |contract|
         Contract.reset_callbacks :create
         Contract.reset_callbacks :update
         Contract.reset_callbacks :destroy
-        contract.seals.build(sealed_flag: true)
+      end
+
+      factory :first_contract_no_callbacks_seals, class: Contract do
+        after(:build) do |contract|
+          contract.seals.first.month = contract.start_month
+          1.upto 6 do |i|
+            contract.seals.build(month: contract.start_month + i.months)
+          end
+        end
       end
     end
   end
@@ -44,8 +52,8 @@ FactoryGirl.define do
 
   factory :first_contract_add, class: Contract do
     Leaf
-    contract_date "2016-01-01"
-    start_month nil
+    contract_date "2016-02-01"
+    start_month "2016-02-01"
     term1 1
     money1 3500 
     term2 nil
