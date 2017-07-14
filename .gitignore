@@ -15,7 +15,7 @@
 /log/*
 !/log/.keep
 /tmp
-/coverage/*
+/coverage
 cyclepark.db
 production.sqlite3
 *~

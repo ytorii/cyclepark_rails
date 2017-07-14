@@ -97,7 +97,7 @@ RSpec.describe ContractSetup do
         end
       end
 
-      it "sets false to all seal's sealed_flag except the first seal." do
+      it "sets rest seal as unsealed ones." do
         1.upto(seals.size - 1) do |i|
           expect(seals[i].sealed_flag).to eq(false)
           expect(seals[i].staff_nickname).to eq(nil)
