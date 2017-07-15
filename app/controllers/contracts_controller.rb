@@ -34,7 +34,8 @@ class ContractsController < ApplicationController
   # POST /contracts
   # POST /contracts.json
   def create
-    @contract = Contract.new(create_params)
+    @contract =
+      Contract.new(create_params.merge(staff_nickname: session[:nickname]))
 
     respond_to do |format|
       if @contract.save
@@ -123,7 +124,7 @@ class ContractsController < ApplicationController
       :term1, :money1, :term2, :money2,
       :skip_flag,
       seals_attributes: [:id, :sealed_flag]
-    ).merge(staff_nickname: session[:nickname])
+    )
   end
 
   def update_params

@@ -2,10 +2,10 @@
 ENV['RAILS_ENV'] ||= 'test'
 
 # Starting checking coverage with simpleconv
-require 'simplecov'
-require 'simplecov-rcov'
-SimpleCov.formatter = SimpleCov::Formatter::RcovFormatter
-SimpleCov.start 'rails'
+#require 'simplecov'
+#require 'simplecov-rcov'
+#SimpleCov.formatter = SimpleCov::Formatter::RcovFormatter
+#SimpleCov.start 'rails'
 
 require File.expand_path('../../config/environment', __FILE__)
 
@@ -18,6 +18,7 @@ abort("The Rails environment is running in production mode!") if Rails.env.produ
 require 'spec_helper'
 require 'rspec/rails'
 require 'capybara/poltergeist'
+require 'shoulda/matchers'
 
 # Add additional requires below this line. Rails is not loaded until this point!
 
@@ -127,4 +128,11 @@ RSpec.configure do |config|
   end
 
   ActiveRecord::Base.shared_connection = ActiveRecord::Base.connection
+end
+
+Shoulda::Matchers.configure do |config|
+  config.integrate do |with|
+    with.test_framework :rspec
+    with.library :rails
+  end
 end

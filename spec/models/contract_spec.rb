@@ -3,126 +3,106 @@ require 'rails_helper'
 RSpec.describe Contract, type: :model do
   let(:leaf){ create(:first) }
   let(:contract){ build(:first_contract, leaf_id: leaf.id) }
-  let(:contract_add){ build(:first_contract_add, leaf_id: leaf.id) }
 
   describe 'association' do
     it { is_expected.to belong_to(:leaf) }
-    it { is_expected.to has_many(:seals) }
+    it { is_expected.to have_many(:seals) }
   end
 
   describe 'validation' do
-    it { is_expected.to validate_presence_of(:contract_date) }
 
-  end
+    context "with skip_flag true" do
+      subject{ Contract.new(skip_flag: true) }
+      it { is_expected.not_to validate_presence_of(:term1) }
+      it { is_expected.not_to validate_presence_of(:money1) }
+    end
 
-  describe "contract_date" do
-    context 'is valid' do
-      ['2000/1/1', '2000-1-1', '2099/12/31'].each do |value|
-        it "with #{value}." do
-          contract[:contract_date] = value
-          expect(contract).to be_valid
+    context "with skip_flag false" do
+      subject{ Contract.new(skip_flag: false) }
+      it { is_expected.to validate_presence_of(:term1) }
+      it { is_expected.to validate_presence_of(:money1) }
+    end
+
+    describe '#contract_date' do
+      it { is_expected.to validate_presence_of(:contract_date) }
+      it { is_expected.to allow_value('2000/1/1', '2099/12/31').
+           for(:contract_date) }
+      it { is_expected.not_to allow_value('1999/12/31', '2100/01/01').
+           for(:contract_date) }
+    end
+
+    describe '#term1' do
+      it { is_expected.to validate_numericality_of(:term1).
+           is_greater_than_or_equal_to(1).
+           is_less_than_or_equal_to(12).
+           allow_nil }
+    end
+
+    describe '#term2' do
+      it { is_expected.to validate_numericality_of(:term2).
+           is_greater_than_or_equal_to(0).
+           is_less_than_or_equal_to(6).
+           allow_nil }
+    end
+
+    describe '#money1' do
+      it { is_expected.to validate_numericality_of(:money1).
+           is_greater_than_or_equal_to(0).
+           is_less_than_or_equal_to(36_000).
+           allow_nil }
+    end
+
+    describe '#money2' do
+      it { is_expected.to validate_numericality_of(:money2).
+           is_greater_than_or_equal_to(0).
+           is_less_than_or_equal_to(18_000).
+           allow_nil }
+    end
+
+
+    describe '#skip_flag' do
+      it { is_expected.to validate_inclusion_of(:skip_flag).in_array([true, false])}
+    end
+
+    context 'on update' do
+      before { contract.save! }
+      describe '#staff_nickname' do
+        context 'with nickname in Staffs DB' do
+          before{ contract.update(staff_nickname: 'admin') }
+          it "is valid." do
+            expect(contract).to be_valid
+          end
+        end
+
+        context 'with nickname NOT in Staffs DB' do
+          before{ contract.update(staff_nickname: 'nostaff') }
+          it "is invalid." do
+            expect(contract).not_to be_valid
+          end
         end
       end
-    end
 
-    context 'is invalid' do
-      ['1999/12/31', '2100/01/01'].each do |value|
-        it "with #{value}." do
-          contract[:contract_date] = value
-          expect(contract).not_to be_valid
-          expect(contract.errors[:contract_date]).to be_present
+      describe "term1 and term2" do
+        context "with unchanged terms" do
+          before{ contract.update(term1: 1, term2: 6) }
+          it "is valid." do
+            expect(contract).to be_valid
+          end
         end
-      end
-    end
-  end
 
-  { term1: 12, money1: 36000, term2: 9, money2: 18000}.each do |key, value|
-    describe "#{key}" do
-      it "is valid with #{value}." do
-        contract[key] = value
-        expect(contract).to be_valid
-      end
-
-      it "is invalid with #{value + 1}." do
-        contract[key] = value + 1
-        expect(contract).not_to be_valid
-        expect(contract.errors[key]).to be_present
-      end
-    end
-  end
-
-  %w{term1 money1}.each do |column|
-    describe "#{column}" do
-      context "with skip_flag true" do
-        it "is valid with nil" do
-          contract[:skip_flag] =  true
-          contract[column] = nil
-          expect(contract).to be_valid
+        context "with changed term1." do
+          before{ contract.update(term1: 3)}
+          it "is invalid" do
+            expect(contract).not_to be_valid
+          end
         end
-      end
-      context "with skip_flag false" do
-        it "is invalid with nil" do
-          contract[column] = nil
-          expect(contract).not_to be_valid
+
+        context "with changed term2." do
+          before{ contract.update(term2: 3)}
+          it "is invalid" do
+            expect(contract).not_to be_valid
+          end
         end
-      end
-    end
-  end
-
-  %w{term2 money2}.each do |column|
-    describe "#{column}" do
-      it "is valid with nil" do
-        contract[column] = nil
-        expect(contract).to be_valid
-      end
-    end
-  end
-
-
-  describe "skip_flag" do
-    context 'is valid' do
-      [true, false].each do |value|
-        it "with #{value}." do
-          contract[:skip_flag] = value
-          expect(contract).to be_valid
-        end
-      end
-    end
-  end
-
-  describe "staff_nickname" do
-    it "is valid with nickanme in Staffs DB." do
-      expect(contract).to be_valid
-    end
-
-    it "is invalid with nickanme NOT in Staffs DB." do
-      contract[:staff_nickname] = 'nostaff'
-      expect(contract).not_to be_valid
-      expect(contract.errors[:staff_nickname]).to be_present
-    end
-  end
-
-  describe "term1 and term2" do
-    before { contract.save! }
-
-    context "with unchanged terms" do
-      before{ contract.update(term1: 1) }
-      it "is valid." do
-        expect(contract).to be_valid
-      end
-    end
-
-    context "with changed term1." do
-      before{ contract.update(term1: 3)}
-      it "is invalid" do
-        expect(contract).not_to be_valid
-      end
-    end
-
-    context "with changed term2." do
-      before{ contract.update(term2: 3)}
-      it "is invalid" do
-        expect(contract).not_to be_valid
       end
     end
   end

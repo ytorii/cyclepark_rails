@@ -19,27 +19,28 @@ class Contract < ActiveRecord::Base
   validates :term1,
             presence: { unless: 'skip_flag' },
             numericality:
-              { greater_than: 0, less_than: 13, allow_blank: true }
+              { greater_than_or_equal_to: 1,
+                less_than_or_equal_to: 12,
+                allow_blank: true }
   validates :money1,
             presence: { unless: 'skip_flag' },
             numericality:
               { greater_than_or_equal_to: 0,
-                less_than: 36_001,
+                less_than_or_equal_to: 36_000,
                 allow_blank: true }
   # Term2 and money2 is allowed to be nil, because nil is set to 0.
   validates :term2,
             numericality:
               { greater_than_or_equal_to: 0,
-                less_than: 10,
+                less_than_or_equal_to: 6,
                 allow_blank: true }
   validates :money2,
             numericality:
               { greater_than_or_equal_to: 0,
-                less_than: 18_001,
+                less_than_or_equal_to: 18_000,
                 allow_blank: true }
-  validates :skip_flag,
-            inclusion: { in: [true, false] }
-  validate :staff_exists?
+  validates :skip_flag, inclusion: { in: [true, false] }
+  validate :staff_exists?, on: :update
   validate :same_length_terms?, on: :update
 
   # Only the last contract can be deleted

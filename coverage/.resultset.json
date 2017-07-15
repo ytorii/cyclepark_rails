@@ -2048,6 +2048,7 @@
         0,
         0,
         0,
+        0,
         0
       ],
       "/app/app/controllers/concerns/session_action.rb": [
@@ -3181,6 +3182,7 @@
         0,
         0,
         0,
+        0,
         0
       ],
       "/app/app/models/customer.rb": [
@@ -3518,6 +3520,6 @@
         0
       ]
     },
-    "timestamp": 1499995978
+    "timestamp": 1500111058
   }
 }
