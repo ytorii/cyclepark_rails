@@ -48,6 +48,8 @@ group :development, :test do
   gem 'shoulda-matchers'
   gem 'factory_girl_rails'
   gem 'pry-rails'
+  gem 'pry-coolline'
+  gem 'rb-readline'
   gem 'seedbank'
   gem 'seed_dump'
   gem 'seed-fu'
