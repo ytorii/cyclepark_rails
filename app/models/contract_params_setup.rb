@@ -1,4 +1,4 @@
-class ContractSetup
+class ContractParamsSetup
   def before_save(contract)
     set_term_and_money_params(contract)
   end
@@ -71,22 +71,22 @@ class ContractSetup
 
   # The leaf's last_date is contracts's last month
   def update_leaf_lastdate(contract)
-    contract.leaf.update(last_date: end_of_contract(contract))
+    contract.leaf.update(last_date: end_of_contract_month(contract))
   end
 
   def set_seals_params(contract) 
-    set_first_seals_params(contract)
+    first_seal = contract.seals.first
+    first_seal.month = contract_start_month(contract.leaf)
+    set_seal_date_and_nickname(first_seal)
     set_rest_seals_params(contract)
   end
 
-  def set_first_seals_params(contract)
-    first_seal = contract.seals.first
-    first_seal.month = contract_start_month(contract.leaf)
-    if first_seal.sealed_flag
-      first_seal.sealed_date = contract.contract_date
-      first_seal.staff_nickname = contract.staff_nickname
+  def set_seal_date_and_nickname(seal)
+    if seal.sealed_flag
+      seal.sealed_date = seal.contract.contract_date
+      seal.staff_nickname = seal.contract.staff_nickname
     else
-      first_seal.sealed_date = first_seal.staff_nickname = nil
+      seal.sealed_date = seal.staff_nickname = nil
     end
   end
 
@@ -106,7 +106,7 @@ class ContractSetup
     end
   end
 
-  def end_of_contract(contract)
+  def end_of_contract_month(contract)
     contract.seals.last.month.end_of_month
   end
 

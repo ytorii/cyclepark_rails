@@ -2,7 +2,6 @@
 class Contract < ActiveRecord::Base
   include StaffsExist
   include ContractsValidate
-  include ContractsSetParams
 
   belongs_to :leaf, counter_cache: true, inverse_of: :contracts
   has_many :seals, dependent: :destroy, inverse_of: :contract
@@ -46,13 +45,13 @@ class Contract < ActiveRecord::Base
   # Only the last contract can be deleted
   before_destroy :last_contract?
 
-  before_save ContractSetup.new
+  before_save ContractParamsSetup.new
 
-  before_create ContractSetup.new
+  before_create ContractParamsSetup.new
 
-  before_update ContractSetup.new
+  before_update ContractParamsSetup.new
 
-  after_create ContractSetup.new
+  after_create ContractParamsSetup.new
 
-  after_destroy ContractSetup.new
+  after_destroy ContractParamsSetup.new
 end
