@@ -66,7 +66,8 @@ RSpec.describe ContractSetup do
 
     context "with contracts existed for its leaf" do
       before{
-        existing_contract.save!
+        #existing_contract.save!
+        leaf.contracts.push existing_contract
         subject
       }
       it "sets contract new_flag to false." do

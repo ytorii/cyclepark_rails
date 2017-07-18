@@ -41,33 +41,18 @@ class Contract < ActiveRecord::Base
                 allow_blank: true }
   validates :skip_flag, inclusion: { in: [true, false] }
   validate :staff_exists?, on: :update
-  validate :same_length_terms?, on: :update
+  validate :terms_unchanged?, on: :update
 
   # Only the last contract can be deleted
   before_destroy :last_contract?
 
-  before_save do
-    if skip_flag
-      set_skipcontract_params
-    else
-      set_nilcontract_params
-    end
-  end
+  before_save ContractSetup.new(self, nil)
 
-  before_create do
-    # Seals needs to insert parameters before validation.
-    # Because first seal parameters depend on inputs from web pages.
-    set_contract_params
-    set_seals_params
-  end
+  before_create ContractSetup.new(self, nil)
 
-  before_update do
-    # Setting params for editing exist records,
-    # especially in editing seal records.
-    set_canceledseals_params
-  end
+  before_update ContractSetup.new(self, nil)
 
-  after_create :update_leaf_lastdate
+  after_create ContractSetup.new(self, nil)
 
-  after_destroy :backdate_leaf_lastdate
+  after_destroy ContractSetup.new(self, nil)
 end

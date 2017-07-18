@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe Contract, type: :model do
   let(:leaf){ create(:first) }
   let(:contract){ build(:first_contract, leaf_id: leaf.id) }
+  let(:contract2){ build(:first_contract_add, leaf_id: leaf.id) }
 
   describe 'association' do
     it { is_expected.to belong_to(:leaf) }
@@ -64,44 +65,59 @@ RSpec.describe Contract, type: :model do
       it { is_expected.to validate_inclusion_of(:skip_flag).in_array([true, false])}
     end
 
-    context 'on update' do
+    context '.update' do
       before { contract.save! }
-      describe '#staff_nickname' do
-        context 'with nickname in Staffs DB' do
-          before{ contract.update(staff_nickname: 'admin') }
-          it "is valid." do
-            expect(contract).to be_valid
-          end
-        end
-
-        context 'with nickname NOT in Staffs DB' do
-          before{ contract.update(staff_nickname: 'nostaff') }
-          it "is invalid." do
-            expect(contract).not_to be_valid
-          end
+      context 'with nickname in Staffs DB' do
+        before{ contract.update(staff_nickname: 'admin') }
+        it "is valid." do
+          expect(contract).to be_valid
         end
       end
 
-      describe "term1 and term2" do
-        context "with unchanged terms" do
-          before{ contract.update(term1: 1, term2: 6) }
-          it "is valid." do
-            expect(contract).to be_valid
-          end
+      context 'with nickname NOT in Staffs DB' do
+        before{ contract.update(staff_nickname: 'nostaff') }
+        it "is invalid." do
+          expect(contract).not_to be_valid
         end
+      end
 
-        context "with changed term1." do
-          before{ contract.update(term1: 3)}
-          it "is invalid" do
-            expect(contract).not_to be_valid
-          end
+      context "with unchanged terms" do
+        before{ contract.update(term1: 1, term2: 6) }
+        it "is valid." do
+          expect(contract).to be_valid
         end
+      end
 
-        context "with changed term2." do
-          before{ contract.update(term2: 3)}
-          it "is invalid" do
-            expect(contract).not_to be_valid
-          end
+      context "with changed term1." do
+        before{ contract.update(term1: 3)}
+        it "is invalid" do
+          expect(contract).not_to be_valid
+        end
+      end
+
+      context "with changed term2." do
+        before{ contract.update(term2: 3)}
+        it "is invalid" do
+          expect(contract).not_to be_valid
+        end
+      end
+    end
+
+    describe '.destroy' do
+      subject{ contract.destroy }
+      before{
+        leaf
+        contract.save!
+      }
+      context "with leaf's last contract" do
+        it 'successes to destroy contract.' do
+          is_expected.to eq(contract)
+        end
+      end
+      context "with not leaf's last contract" do
+        before{ contract2.save! }
+        it 'fails to destroy contract.' do
+          is_expected.to be_falsey
         end
       end
     end

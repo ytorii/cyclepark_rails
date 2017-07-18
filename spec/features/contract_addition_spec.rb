@@ -59,7 +59,7 @@ feature "Contract Addition" do
       scenario 'Add new contract succeccfully.' do
         find('.custom_rd_label', text: '中途契約').click
         click_term(1, 1)
-        fill_in 'contract_money1', with: 1200
+        fill_in_val 'contract_money1', with: 1200
         click_term(2, 6)
 
         # Fill the money2 to 18000 by selecting term.
@@ -118,7 +118,7 @@ feature "Contract Addition" do
         open_contadd_modal
         find('.custom_rd_label', text: '中途契約').click
         click_term(1, 1)
-        fill_in 'contract_money1', with: 1200
+        fill_in_val 'contract_money1', with: 1200
         click_term(2, 3)
         check 'contract_seals_attributes_0_sealed_flag'
         click_button '登録する'
@@ -174,6 +174,7 @@ def click_term(index, length)
 end
 
 def open_contadd_modal
+  page.save_screenshot('./leaf_show.png')
   find('.add_cont_btn', text: '契約の更新').click
   # Waiting for the modal opened
   sleep 1

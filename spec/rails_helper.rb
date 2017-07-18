@@ -17,7 +17,9 @@ abort("The Rails environment is running in production mode!") if Rails.env.produ
 
 require 'spec_helper'
 require 'rspec/rails'
-require 'capybara/poltergeist'
+require 'selenium-webdriver'
+require 'capybara/rspec'
+#require 'capybara/poltergeist'
 require 'shoulda/matchers'
 
 # Add additional requires below this line. Rails is not loaded until this point!
@@ -35,7 +37,7 @@ require 'shoulda/matchers'
 # directory. Alternatively, in the individual `*_spec.rb` files, manually
 # require only the support files necessary.
 #
-# Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
+Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 
 # Checks for pending migration and applies them before tests are run.
 # If you are not using ActiveRecord, you can remove this line.
@@ -83,6 +85,7 @@ RSpec.configure do |config|
   # Enable using Macros
   config.include LoginMacros
   config.include LinkMacros
+  config.include HeadlessAction
 
   # FactoryGirl configuration
   config.before(:suite) do
@@ -90,13 +93,26 @@ RSpec.configure do |config|
   end
 
   # Poltergeist configuration
-  Capybara.register_driver :poltergeist do |app|
-    Capybara::Poltergeist::Driver.new(
-      #app, :js_errors => true, :timeout => 60, :debug => false
-      app, :js_errors => true, :timeout => 60, :inspector => true
-    )
+#  Capybara.register_driver :poltergeist do |app|
+#    Capybara::Poltergeist::Driver.new(
+#      app, :js_errors => true, :timeout => 60, :debug => true
+#      #app, :js_errors => true, :timeout => 60, :inspector => true
+#    )
+#  end
+#  Capybara.javascript_driver = :poltergeist
+ caps = Selenium::WebDriver::Remote::Capabilities.chrome(
+   chrome_options: {
+     binary: '/usr/bin/chromium-browser',
+     args: %w(headless disable-gpu no-sandbox window-size=1680,1050)
+   })
+  Capybara.register_driver :selenium do |app|  
+    Capybara::Selenium::Driver.new(app,
+      browser: :chrome,
+      driver_path: '/usr/bin/chromedriver',
+      desired_capabilities: caps)
   end
-  Capybara.javascript_driver = :poltergeist
+  Capybara.javascript_driver = :selenium
+  Capybara.default_driver = :selenium
 
   # DatabaseCleaner configuration
   seed_tables = %w{ staffs staffdetails }
@@ -119,7 +135,7 @@ RSpec.configure do |config|
   end
 
   #config.after(:each) do
-    #DatabaseCleaner.clean
+  #DatabaseCleaner.clean
   #end
 
   # Clean DB records created by before :all blocks

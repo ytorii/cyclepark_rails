@@ -152,7 +152,7 @@ describe 'Staff management feature' do
     end
   end
 
-  describe 'DELETE delete Staff' do
+  describe 'DELETE delete Staff', focus: true do
     let(:new_account) {
       {   
         nickname: "test",
@@ -173,10 +173,11 @@ describe 'Staff management feature' do
       click_button '登録する'
       visit "/staffs"
 
-      trigger_last_link('削除')
+      # Wrapping the click method to accept 'OK' in the dialog
+      accept_alert do
+        all('a', text: '削除').last.click
+      end
 
-      # As polergiest always returns true for a call to window.confirm,
-      # method for alert acceptance is not needed.
       expect(page).to have_css('p#notice', text: 'スタッフ情報を削除しました。')
     end
   end
@@ -184,19 +185,19 @@ end
 
 def fill_form(form_id, input_account)
   within(form_id) do
-    fill_in 'staff_nickname', with: input_account[:nickname]
-    fill_in 'staff_password', with: input_account[:password]
+    fill_in_val 'staff_nickname', with: input_account[:nickname]
+    fill_in_val 'staff_password', with: input_account[:password]
     check '管理者フラグ'
-    fill_in 'staff_staffdetail_attributes_name', with: input_account[:name]
-    fill_in 'staff_staffdetail_attributes_read', with: input_account[:read]
-    fill_in 'staff_staffdetail_attributes_address',
+    fill_in_val 'staff_staffdetail_attributes_name', with: input_account[:name]
+    fill_in_val 'staff_staffdetail_attributes_read', with: input_account[:read]
+    fill_in_val 'staff_staffdetail_attributes_address',
       with: input_account[:address]
     select "2014", from: "staff_staffdetail_attributes_birthday_1i"
     select "4月", from: "staff_staffdetail_attributes_birthday_2i"
     select "1", from: "staff_staffdetail_attributes_birthday_3i"
-    fill_in 'staff_staffdetail_attributes_phone_number',
+    fill_in_val 'staff_staffdetail_attributes_phone_number',
       with: input_account[:phone_number]
-    fill_in 'staff_staffdetail_attributes_cell_number',
+    fill_in_val 'staff_staffdetail_attributes_cell_number',
       with: input_account[:cell_number]
   end
 end

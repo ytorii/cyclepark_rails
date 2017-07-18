@@ -1,7 +1,6 @@
 FROM ruby:2.3.4-alpine
 
-RUN sed -i -e 's/v3\.4/edge/g' /etc/apk/repositories
-RUN apk update && apk upgrade && apk add --update --no-cache sqlite-dev nodejs alpine-sdk tzdata udev ttf-freefont 'chromium>59.0' 'chromium-chromedriver>59.0'
+RUN apk update && apk upgrade && apk add --update --no-cache sqlite-dev nodejs alpine-sdk tzdata udev ttf-freefont chromium chromium-chromedriver
 
 RUN mkdir /noto
 ADD NotoSansCJKjp-hinted.zip /noto 
