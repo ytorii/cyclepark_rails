@@ -2,14 +2,14 @@ require 'rails_helper'
 
 RSpec.describe ContractSetup do
   let(:leaf){ build(:first, id: 1) }
-  let(:validated_contract){ build(:first_contract_no_callbacks, leaf_id: leaf.id) }
-  let(:validated_contract_seals){ build(:first_contract_no_callbacks_seals, leaf_id: leaf.id) }
+  let(:validated_contract){ build(:first_contract_no_callbacks, leaf_id: leaf.id, leaf: leaf) }
+  let(:validated_contract_seals){ build(:first_contract_no_callbacks_seals, leaf_id: leaf.id, leaf: leaf) }
   let(:seals){ validated_contract.seals }
   let(:multiple_seals){ validated_contract_seals.seals }
   let(:existing_contract){ build(:first_contract_add, leaf_id: leaf.id) }
 
   describe ".before_save" do
-    subject{ ContractSetup.new(validated_contract, leaf).before_save }
+    subject{ ContractSetup.new.before_save(validated_contract) }
     context "with skip contract" do
       before{
         validated_contract.skip_flag = true
@@ -50,7 +50,7 @@ RSpec.describe ContractSetup do
   end
 
   describe ".before_create" do
-    subject{ ContractSetup.new(validated_contract, leaf).before_create }
+    subject{ ContractSetup.new.before_create(validated_contract) }
 
     context "with no contracts for its leaf" do
       before{ subject }
@@ -127,7 +127,7 @@ RSpec.describe ContractSetup do
   end
 
   describe ".before_update" do
-    subject{ ContractSetup.new(validated_contract_seals, leaf).before_update }
+    subject{ ContractSetup.new.before_update(validated_contract_seals) }
 
     before {
       # Set all seal true and set nickname and date,
@@ -164,7 +164,7 @@ RSpec.describe ContractSetup do
   describe ".after_create" do
     subject { leaf.last_date }
 
-    before { ContractSetup.new(validated_contract_seals, leaf).after_create }
+    before { ContractSetup.new.after_create(validated_contract_seals) }
 
     it "updates leaf's last_date to contract's last day." do
       is_expected.
@@ -177,20 +177,21 @@ RSpec.describe ContractSetup do
     context "when leaf has contract" do
       before {
         # leaf's last_date and last contract's month is different
-        leaf.contracts.push(validated_contract_seals)
         leaf.last_date = multiple_seals.last.month.end_of_month + 1.months
-        ContractSetup.new(validated_contract_seals, leaf).after_destroy
+        leaf.contracts_count = 2
+        ContractSetup.new.after_destroy(validated_contract_seals)
       }
 
       it "updates leaf's last_date to contract's last month." do
-        is_expected.to eq(multiple_seals.last.month.end_of_month)
+        is_expected.to eq(validated_contract_seals.start_month.last_month.end_of_month)
       end
     end
 
     context "when leaf has no contract" do
       before {
         leaf.last_date = multiple_seals.last.month.end_of_month + 1.months
-        ContractSetup.new(validated_contract_seals, leaf).after_destroy
+        leaf.contracts_count = 1
+        ContractSetup.new.after_destroy(validated_contract_seals)
       }
       it "updates leaf's last_date to nil." do
         is_expected.to eq(nil)

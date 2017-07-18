@@ -46,13 +46,13 @@ class Contract < ActiveRecord::Base
   # Only the last contract can be deleted
   before_destroy :last_contract?
 
-  before_save ContractSetup.new(self, nil)
+  before_save ContractSetup.new
 
-  before_create ContractSetup.new(self, nil)
+  before_create ContractSetup.new
 
-  before_update ContractSetup.new(self, nil)
+  before_update ContractSetup.new
 
-  after_create ContractSetup.new(self, nil)
+  after_create ContractSetup.new
 
-  after_destroy ContractSetup.new(self, nil)
+  after_destroy ContractSetup.new
 end

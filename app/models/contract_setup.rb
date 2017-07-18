@@ -1,6 +1,4 @@
 class ContractSetup
-  def initialize(a,b)
-  end
   def before_save(contract)
     set_term_and_money_params(contract)
   end
@@ -19,10 +17,7 @@ class ContractSetup
   end
 
   def after_destroy(contract)
-    # Leaf's last_date should be backdated after the last contract deleted.
-    # TODO: Set leaf from Leaf table only in after_destroy!
-    leaf = Leaf.find(contract.leaf_id)
-    backdate_leaf_lastdate(leaf)
+    backdate_leaf_lastdate(contract)
   end
     
   private
@@ -86,7 +81,7 @@ class ContractSetup
 
   def set_first_seals_params(contract)
     first_seal = contract.seals.first
-    first_seal.month = contract_start_month(contract)
+    first_seal.month = contract_start_month(contract.leaf)
     if first_seal.sealed_flag
       first_seal.sealed_date = contract.contract_date
       first_seal.staff_nickname = contract.staff_nickname
@@ -115,16 +110,15 @@ class ContractSetup
     contract.seals.last.month.end_of_month
   end
 
-  def backdate_leaf_lastdate(leaf)
+  def backdate_leaf_lastdate(contract)
     # No contract when self itself is the last contract of the leaf. 
-    if leaf.contracts.size.zero?
-      leaf.update(last_date: nil)
+    if contract.leaf.contracts.size > 1
+      contract.leaf.update(last_date: end_of_previous_month(contract))
     else
-      update_leaf_lastdate(leaf.contracts.last)
+      contract.leaf.update(last_date: nil)
     end
   end
-
-  def update_leaf_lastdate(contract)
-    contract.leaf.update_attribute(:last_date, end_of_contract(contract))
+  def end_of_previous_month(contract)
+    contract.start_month.last_month.end_of_month
   end
 end
