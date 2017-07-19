@@ -51,7 +51,7 @@ class Contract < ActiveRecord::Base
 
   before_update ContractParamsSetup.new
 
-  after_create ContractParamsSetup.new
+  after_create LeafLastDateUpdator.new
 
-  after_destroy ContractParamsSetup.new
+  after_destroy LeafLastDateUpdator.new
 end

@@ -109,7 +109,7 @@ RSpec.describe ContractParamsSetup do
 
     context "with sealed_flag false" do
       before { 
-        validated_contract.seals.first.sealed_flag = false
+        seals.first.sealed_flag = false
         subject
       }
 
@@ -157,44 +157,6 @@ RSpec.describe ContractParamsSetup do
           expect(seal.sealed_date).to eq(nil)
           expect(seal.staff_nickname).to eq(nil)
         end
-      end
-    end
-  end
-
-  describe ".after_create" do
-    subject { leaf.last_date }
-
-    before { ContractParamsSetup.new.after_create(validated_contract_seals) }
-
-    it "updates leaf's last_date to contract's last day." do
-      is_expected.
-        to eq(validated_contract_seals.seals.last.month.end_of_month)
-    end
-  end
-
-  describe ".after_destroy" do
-    subject { leaf.last_date }
-    context "when leaf has contract" do
-      before {
-        # leaf's last_date and last contract's month is different
-        leaf.last_date = multiple_seals.last.month.end_of_month + 1.months
-        leaf.contracts_count = 2
-        ContractParamsSetup.new.after_destroy(validated_contract_seals)
-      }
-
-      it "updates leaf's last_date to contract's last month." do
-        is_expected.to eq(validated_contract_seals.start_month.last_month.end_of_month)
-      end
-    end
-
-    context "when leaf has no contract" do
-      before {
-        leaf.last_date = multiple_seals.last.month.end_of_month + 1.months
-        leaf.contracts_count = 1
-        ContractParamsSetup.new.after_destroy(validated_contract_seals)
-      }
-      it "updates leaf's last_date to nil." do
-        is_expected.to eq(nil)
       end
     end
   end

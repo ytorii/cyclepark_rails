@@ -11,14 +11,6 @@ class ContractParamsSetup
   def before_update(contract)
     set_canceledseals_params(contract)
   end
-
-  def after_create(contract)
-    update_leaf_lastdate(contract)
-  end
-
-  def after_destroy(contract)
-    backdate_leaf_lastdate(contract)
-  end
     
   private
   def set_term_and_money_params(contract)

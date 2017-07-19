@@ -106,8 +106,7 @@ RSpec.describe Contract, type: :model do
     describe '.destroy' do
       subject{ contract.destroy }
       before{
-        leaf
-        contract.save!
+        leaf.contracts.push contract
       }
       context "with leaf's last contract" do
         it 'successes to destroy contract.' do
@@ -115,7 +114,9 @@ RSpec.describe Contract, type: :model do
         end
       end
       context "with not leaf's last contract" do
-        before{ contract2.save! }
+        before{ 
+          leaf.contracts.push contract2
+        }
         it 'fails to destroy contract.' do
           is_expected.to be_falsey
         end
