@@ -11,7 +11,6 @@ RSpec.describe Contract, type: :model do
   end
 
   describe 'validation' do
-
     context "with skip_flag true" do
       subject{ Contract.new(skip_flag: true) }
       it { is_expected.not_to validate_presence_of(:term1) }
@@ -65,7 +64,7 @@ RSpec.describe Contract, type: :model do
       it { is_expected.to validate_inclusion_of(:skip_flag).in_array([true, false])}
     end
 
-    context '.update' do
+    describe '.update' do
       before { contract.save! }
       context 'with nickname in Staffs DB' do
         before{ contract.update(staff_nickname: 'admin') }
@@ -106,7 +105,7 @@ RSpec.describe Contract, type: :model do
     describe '.destroy' do
       subject{ contract.destroy }
       before{
-        leaf.contracts.push contract
+        leaf.contracts.push(contract)
       }
       context "with leaf's last contract" do
         it 'successes to destroy contract.' do
@@ -115,11 +114,54 @@ RSpec.describe Contract, type: :model do
       end
       context "with not leaf's last contract" do
         before{ 
-          leaf.contracts.push contract2
+          leaf.contracts.push(contract2)
         }
         it 'fails to destroy contract.' do
           is_expected.to be_falsey
         end
+      end
+    end
+  end
+
+  describe 'callback' do
+    let(:contract_params_setup) { expect_any_instance_of(ContractParamsSetup) } 
+    let(:leaf_updator) { expect_any_instance_of(LeafLastDateUpdator) } 
+
+    describe '.save' do
+      after{ contract.save }
+
+      it 'calls ContractParamsSetup.before_save once.' do
+        contract_params_setup.to receive(:before_save).once
+      end
+
+      it 'calls ContractParamsSetup.before_create once.' do
+        contract_params_setup.to receive(:before_save).once
+      end
+
+      it 'calls LeafLastDateUpdator.after_create once.' do
+        leaf_updator.to receive(:after_create).once
+      end
+    end
+
+    describe '.update' do
+      before{ contract.save }
+      after{ contract.update(money1: 2000) }
+
+      it 'calls ContractParamsSetup.before_save once.' do
+        contract_params_setup.to receive(:before_save).once
+      end
+
+      it 'calls ContractParamsSetup.before_update once.' do
+        contract_params_setup.to receive(:before_update).once
+      end
+    end
+
+    describe '.destroy' do
+      before{ leaf.contracts.push(contract) }
+      after{ contract.destroy }
+
+      it 'calls LeafLastDateUpdator.after_destroy once.' do
+        leaf_updator.to receive(:after_destroy).once
       end
     end
   end

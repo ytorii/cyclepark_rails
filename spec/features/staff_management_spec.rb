@@ -152,7 +152,7 @@ describe 'Staff management feature' do
     end
   end
 
-  describe 'DELETE delete Staff', focus: true do
+  describe 'DELETE delete Staff' do
     let(:new_account) {
       {   
         nickname: "test",
