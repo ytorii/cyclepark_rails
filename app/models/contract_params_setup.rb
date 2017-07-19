@@ -1,4 +1,6 @@
-class ContractParamsSetup
+class ContractParamsSetup 
+  include LeafUtilities
+
   def before_save(contract)
     set_term_and_money_params(contract)
   end
@@ -36,34 +38,14 @@ class ContractParamsSetup
   # New_flag and start_month should be determined automatically
   # by the model itself, not by inputs from web pages.
   def set_contract_params(contract)
-    contract.new_flag = new_contract?(contract.leaf)
+    contract.new_flag = new_leaf?(contract.leaf)
     contract.start_month = contract_start_month(contract.leaf)
   end
 
   # New contract starts with leaf's start date
   # Extended contract starts with next month of leaf's last date
   def contract_start_month(leaf)
-    new_contract?(leaf) ? leaf_start_month(leaf) : next_month_of_last_contract(leaf)
-  end
-
-  #TODO: should move to leaf concern module
-  def new_contract?(leaf)
-    leaf.contracts.size.zero?
-  end
-
-  #TODO: should move to leaf concern module
-  def leaf_start_month(leaf)
-    leaf.start_date.beginning_of_month
-  end
-
-  #TODO: should move to leaf concern module
-  def next_month_of_last_contract(leaf)
-    leaf.last_date.next_month.beginning_of_month
-  end
-
-  # The leaf's last_date is contracts's last month
-  def update_leaf_lastdate(contract)
-    contract.leaf.update(last_date: end_of_contract_month(contract))
+    new_leaf?(leaf) ? leaf_start_month(leaf) : next_month_of_leaf_last_contract(leaf)
   end
 
   def set_seals_params(contract) 
@@ -96,21 +78,5 @@ class ContractParamsSetup
     contract.seals.select{|s| !s.sealed_flag}.each do |seal|
       seal.sealed_date = seal.staff_nickname = nil
     end
-  end
-
-  def end_of_contract_month(contract)
-    contract.seals.last.month.end_of_month
-  end
-
-  def backdate_leaf_lastdate(contract)
-    # No contract when self itself is the last contract of the leaf. 
-    if contract.leaf.contracts.size > 1
-      contract.leaf.update(last_date: end_of_previous_month(contract))
-    else
-      contract.leaf.update(last_date: nil)
-    end
-  end
-  def end_of_previous_month(contract)
-    contract.start_month.last_month.end_of_month
   end
 end
