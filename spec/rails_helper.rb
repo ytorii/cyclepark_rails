@@ -19,7 +19,6 @@ require 'spec_helper'
 require 'rspec/rails'
 require 'selenium-webdriver'
 require 'capybara/rspec'
-#require 'capybara/poltergeist'
 require 'shoulda/matchers'
 
 # Add additional requires below this line. Rails is not loaded until this point!
@@ -44,8 +43,6 @@ Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 ActiveRecord::Migration.maintain_test_schema!
 
 RSpec.configure do |config|
-  config.before(:suite) do
-  end
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
 
@@ -92,15 +89,8 @@ RSpec.configure do |config|
     FactoryGirl.reload
   end
 
-  # Poltergeist configuration
-#  Capybara.register_driver :poltergeist do |app|
-#    Capybara::Poltergeist::Driver.new(
-#      app, :js_errors => true, :timeout => 60, :debug => true
-#      #app, :js_errors => true, :timeout => 60, :inspector => true
-#    )
-#  end
-#  Capybara.javascript_driver = :poltergeist
- caps = Selenium::WebDriver::Remote::Capabilities.chrome(
+  # Chrome headless mode configuration
+  caps = Selenium::WebDriver::Remote::Capabilities.chrome(
    chrome_options: {
      binary: '/usr/bin/chromium-browser',
      args: %w(headless disable-gpu no-sandbox window-size=1680,1050)
@@ -121,6 +111,10 @@ RSpec.configure do |config|
     SeedFu.fixture_paths = [ "#{Rails.root}/db/fixtures/development" ] 
     SeedFu.seed
     DatabaseCleaner.clean_with(:truncation, {:except => seed_tables})
+  end
+
+  config.before(:all) do
+    DatabaseCleaner.start
   end
 
   # For the test WITHOUT JavaScript

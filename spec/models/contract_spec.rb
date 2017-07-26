@@ -3,7 +3,6 @@ require 'rails_helper'
 RSpec.describe Contract, type: :model do
   let(:leaf){ create(:first) }
   let(:contract){ build(:first_contract, leaf_id: leaf.id) }
-  let(:contract2){ build(:first_contract_add, leaf_id: leaf.id) }
 
   describe 'association' do
     it { is_expected.to belong_to(:leaf) }
@@ -111,6 +110,7 @@ RSpec.describe Contract, type: :model do
         end
       end
       context "with not leaf's last contract" do
+        let(:contract2){ build(:first_contract_add, leaf_id: leaf.id) }
         before{ 
           leaf.contracts.push(contract2)
         }
