@@ -45,13 +45,13 @@ class Contract < ActiveRecord::Base
   # Only the last contract can be deleted
   before_destroy :last_contract?
 
-  before_save ContractParamsSetup.new
+  before_save ContractParamsSetup
 
-  before_create ContractParamsSetup.new
+  before_create ContractParamsSetup
 
-  before_update ContractParamsSetup.new
+  before_update ContractParamsSetup
 
-  after_create LeafLastDateUpdator.new
+  after_create LeafLastDateUpdator
 
-  after_destroy LeafLastDateUpdator.new
+  after_destroy LeafLastDateUpdator
 end

@@ -8,7 +8,7 @@ RSpec.describe LeafLastDateUpdator do
   describe ".after_create" do
     subject { leaf.last_date }
 
-    before { LeafLastDateUpdator.new.after_create(contract_with_seals) }
+    before { LeafLastDateUpdator.after_create(contract_with_seals) }
 
     it "updates leaf's last_date to contract's last day." do
       is_expected.
@@ -24,7 +24,7 @@ RSpec.describe LeafLastDateUpdator do
         leaf.last_date = seals.last.month.end_of_month + 1.months
         # This contract and one more contract existed before destroy.
         leaf.contracts_count = 2
-        LeafLastDateUpdator.new.after_destroy(contract_with_seals)
+        LeafLastDateUpdator.after_destroy(contract_with_seals)
       }
 
       it "updates leaf's last_date to contract's last month." do
@@ -37,7 +37,7 @@ RSpec.describe LeafLastDateUpdator do
         leaf.last_date = seals.last.month.end_of_month + 1.months
         # Only this contract existed before destroy.
         leaf.contracts_count = 1
-        LeafLastDateUpdator.new.after_destroy(contract_with_seals)
+        LeafLastDateUpdator.after_destroy(contract_with_seals)
       }
       it "updates leaf's last_date to nil." do
         is_expected.to eq(nil)

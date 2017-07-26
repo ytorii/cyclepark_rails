@@ -6,20 +6,11 @@ RSpec.describe SealParamsSetup do
     build(:first_contract_no_callbacks, leaf: leaf) }
   let(:validated_contract_seals){
     build(:first_contract_no_callbacks_seals, leaf: leaf) }
-  let(:sealParamsSetup){ SealParamsSetup.new(validated_contract) }
-
-
-  describe ".initialize" do
-    it 'has @contract as instance valuable' do
-      expect(sealParamsSetup.instance_variable_get(:@contract)).
-        to eq validated_contract
-    end
-  end
 
   describe ".before_create" do
     subject { validated_contract.seals }
     context "with first sealed_flag true" do
-      before { sealParamsSetup.before_create }
+      before { SealParamsSetup.before_create(validated_contract) }
       it "sets seal's staff_nickname same as the contract." do
         expect(subject.first.staff_nickname).
           to eq(validated_contract.staff_nickname)
@@ -51,7 +42,7 @@ RSpec.describe SealParamsSetup do
     context "with sealed_flag false" do
       before {
         subject.first.sealed_flag = false
-        sealParamsSetup.before_create
+        SealParamsSetup.before_create(validated_contract)
       }
 
       it "sets seals params as not sealed ones." do
@@ -78,7 +69,7 @@ RSpec.describe SealParamsSetup do
         seal.sealed_date = validated_contract_seals.contract_date
       end
       subject.sample(3).each { |seal| seal.sealed_flag = false }
-      SealParamsSetup.new(validated_contract_seals).before_update
+      SealParamsSetup.before_update(validated_contract_seals)
     }
 
     context "with true sealed_flag" do

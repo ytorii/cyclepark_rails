@@ -6,7 +6,7 @@ RSpec.describe ContractParamsSetup do
   let(:existing_contract){ build(:first_contract_add) }
 
   describe ".before_save" do
-    subject{ ContractParamsSetup.new.before_save(validated_contract) }
+    subject{ ContractParamsSetup.before_save(validated_contract) }
     context "with skip contract" do
       before{
         validated_contract.skip_flag = true
@@ -47,7 +47,7 @@ RSpec.describe ContractParamsSetup do
   end
 
   describe ".before_create" do
-    subject{ ContractParamsSetup.new.before_create(validated_contract) }
+    subject{ ContractParamsSetup.before_create(validated_contract) }
 
     context "with no contracts for its leaf" do
       before{ subject }
@@ -76,15 +76,17 @@ RSpec.describe ContractParamsSetup do
     end
 
     it 'calls SealParamsSetup once with @contract' do
-      expect_any_instance_of(SealParamsSetup).to receive(:before_create).once
+      expect(SealParamsSetup).
+        to receive(:before_create).once.with(validated_contract)
       subject
     end
   end
 
   describe ".before_update" do
     it 'calls SealParamsSetup once with @contract' do
-      expect_any_instance_of(SealParamsSetup).to receive(:before_update).once
-      ContractParamsSetup.new.before_update(validated_contract)
+      expect(SealParamsSetup).
+        to receive(:before_update).once.with(validated_contract)
+      ContractParamsSetup.before_update(validated_contract)
     end
   end
 end
