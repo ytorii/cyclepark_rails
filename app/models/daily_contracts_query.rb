@@ -22,13 +22,13 @@ class DailyContractsQuery
               ')
     end
 
-    def list_total_amount(contracts_date)
+    def list_each_vhiecle_type(contracts_date)
       Contract.where(
         "contract_date = ? and skip_flag = 'f'", contracts_date
       )
       .joins(:leaf)
       .group(:vhiecle_type)
-      .pluck('leafs.vhiecle_type, count(*), sum(money1 + money2)')
+      .pluck('count(*), sum(money1 + money2)')
     end
   end
 end
