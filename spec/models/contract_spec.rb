@@ -26,6 +26,7 @@ RSpec.describe Contract, type: :model do
       it { is_expected.to validate_presence_of(:contract_date) }
       it { is_expected.to allow_value('2000/1/1', '2099/12/31').for(:contract_date) }
       it { is_expected.not_to allow_value('1999/12/31', '2100/01/01').for(:contract_date) }
+      it { is_expected.not_to allow_value(0, true, 'a', 'あ').for(:contract_date) }
     end
 
     describe '#term1' do
