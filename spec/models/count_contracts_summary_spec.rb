@@ -76,7 +76,7 @@ RSpec.describe CountContractsSummary, type: :model do
       end
     end
 
-    context 'with some contracts around the month' do
+    context 'with some contracts around the month', focus: true do
 
       let(:count_first_normal_1){ create(:count_first_normal_1) }
       let(:count_first_normal_2){ create(:count_first_normal_2) }
@@ -97,6 +97,8 @@ RSpec.describe CountContractsSummary, type: :model do
         count_largebike_1
         count_second_1
         count_second_2
+        #p Contract.where("skip_flag = ? and start_month > ?", true, '2016-06-30')
+        p Leaf.where("last_date < ?", '2016-07-01').group(:vhiecle_type, :student_flag, :largebike_flag).count
       }
 
       it "counts results are as expected." do

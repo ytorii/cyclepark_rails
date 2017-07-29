@@ -207,6 +207,7 @@ FactoryGirl.define do
           3.times do
             create(:contract_skip, leaf: leaf, start_month: month)
             month = month.next_month
+            leaf.reload
           end
         end
       end
@@ -234,7 +235,10 @@ FactoryGirl.define do
           2.times do
             create(:contract_1_bike, leaf: leaf, start_month: month)
             month = month.next_month
+            leaf.reload
           end
+          create(:contract_skip, leaf: leaf, start_month: month3)
+          leaf.reload
         end
       end
 
@@ -244,7 +248,9 @@ FactoryGirl.define do
         after(:create) do |leaf|
           create(:large_bike_customer, leaf: leaf)
           create(:contract_1_largebike, leaf: leaf, start_month: month1)
+          leaf.reload
           create(:contract_skip, leaf: leaf, start_month: month2)
+          leaf.reload
           create(:contract_1_largebike, leaf: leaf, start_month: month3)
         end
       end
