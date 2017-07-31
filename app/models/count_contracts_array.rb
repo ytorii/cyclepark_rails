@@ -1,80 +1,79 @@
 # Result Array of counting contracts
+#
+# Returns Hash of array below:
+#
+# this_total,
+# prev_total,
+# next_total,
+# next_unsigned,
+# next_skip,
+# this_new,
+# next_new
 class CountContractsArray
-  def initialize(in_month)
-    @month = in_month
+  def initialize(params)
+    @month = params[:month]
+    @query = params[:query]
   end
 
-  def count_contracts_array
-    @month = @month.beginning_of_month
-    prev_month = @month.prev_month
-    next_month = @month.next_month
-
-    # Each element has 7 elements below.
-    # Vhiecle_type(3) + student_flag(2)+ largebike_flag(2)
-    [present_counts_array(prev_month),
-     new_counts_array(prev_month),
-     present_counts_array(@month),
-     new_counts_array(@month),
-     present_counts_array(next_month),
-     new_counts_array(next_month)]
+  def count_contracts
+    set_hash_value_to_array(count_hash)
   end
 
   private
 
-  def present_counts_array(in_month)
-    # The skipped contracts must not be included in counts.
-    present_contracts =
-      CountContractsQuery.new(in_month).count_present_contracts
-
-    calc_count_array(present_contracts)
+  def count_hash
+    { this_total: this_total_count,
+      prev_total: prev_total_count,
+      next_total: next_total_count,
+      next_unsigned: next_unsigned_count,
+      next_skip: next_skip_count,
+      this_new: this_new_count,
+      next_new: next_new_count }
   end
 
-  def new_counts_array(in_month)
-    # New contracts' start_month is requested month.
-    # It's NOT seal's month!
-    new_contracts =
-      CountContractsQuery.new(in_month).count_new_contracts
-
-    calc_count_array(new_contracts)
+  def this_total_count
+    @query.count_total_contracts(@month)
   end
 
-  # Convert grouped count hash from DB to count array including total
-  def calc_count_array(in_counts)
-    [first_normal_count(in_counts),
-     first_student_count(in_counts),
-     first_total_count(in_counts),
-     bike_normal_count(in_counts),
-     bike_large_count(in_counts),
-     bike_total_count(in_counts),
-     second_count(in_counts)]
+  def prev_total_count
+    @query.count_total_contracts(@month.prev_month)
   end
 
-  # SQL results are grouped by 3 columns and can be selected by them.
-  def first_normal_count(in_counts)
-    in_counts[[1, false, false]].to_i
+  def next_total_count
+    @query.count_total_contracts(@month.next_month)
   end
 
-  def first_student_count(in_counts)
-    in_counts[[1, true, false]].to_i
+  def this_new_count
+    @query.count_new_contracts(@month)
   end
 
-  def first_total_count(in_counts)
-    in_counts[[1, false, false]].to_i + in_counts[[1, true, false]].to_i
+  def next_new_count
+    @query.count_new_contracts(@month.next_month)
   end
 
-  def bike_normal_count(in_counts)
-    in_counts[[2, false, false]].to_i
+  def next_skip_count
+    @query.count_next_skip_contracts(@month)
   end
 
-  def bike_large_count(in_counts)
-    in_counts[[2, false, true]].to_i
+  def next_unsigned_count
+    @query.count_next_unsigned_contracts(@month)
   end
 
-  def bike_total_count(in_counts)
-    in_counts[[2, false, false]].to_i + in_counts[[2, false, true]].to_i
+  def set_hash_value_to_array(hash)
+    hash.each{ |k, v| hash[k] = hash_to_array(v) }
   end
 
-  def second_count(in_counts)
-    in_counts[[3, false, false]].to_i
+  def hash_to_array(hash)
+    array = Array.new(5){0}
+    hash.each{ |k, v| array[position[k]] = v }
+    array
+  end
+
+  def position
+    { [1, false, false] => 0,
+      [1, true,  false] => 1,
+      [2, false, false] => 2,
+      [2, false, true]  => 3,
+      [3, false, false] => 4 }
   end
 end

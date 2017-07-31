@@ -2,7 +2,7 @@
 class CountContractsQuery
   class << self
     # The skipped contracts must not be included in counts.
-    def count_present_contracts(month)
+    def count_total_contracts(month)
       Leaf.joins(contracts: :seals)
       .where("contracts.skip_flag = 'f'
                                 and seals.month = ?", month)
@@ -28,7 +28,7 @@ class CountContractsQuery
 
     def count_next_skip_contracts(month)
       query = ActiveRecord::Base.send(:sanitize_sql_array,
-              [ count_next_skip_raw_sql, month.next_month, month ])
+                [ count_next_skip_raw_sql, month.next_month, month ])
 
       count_array = ActiveRecord::Base.connection.select_all(query).rows
 
@@ -48,9 +48,7 @@ class CountContractsQuery
     end
 
     def count_array_to_hash(array, hash={})
-      array.map{ |e|
-        hash[[e[0], to_boolean(e[1]), to_boolean(e[2])]] = e[3]
-      }
+      array.map{ |e| hash[[e[0], to_boolean(e[1]), to_boolean(e[2])]] = e[3] }
       hash
     end
 

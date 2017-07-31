@@ -76,7 +76,7 @@ RSpec.describe CountContractsSummary, type: :model do
       end
     end
 
-    context 'with some contracts around the month', focus: true do
+    context 'with some contracts around the month' do
 
       let(:count_first_normal_1){ create(:count_first_normal_1) }
       let(:count_first_normal_2){ create(:count_first_normal_2) }

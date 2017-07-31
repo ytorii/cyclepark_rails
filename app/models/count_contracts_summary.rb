@@ -1,3 +1,4 @@
+# TODO: Check month is set to the biginning of month!!
 # Models to count the number of customer's for statistics.
 class CountContractsSummary
   include ActiveModel::Model
