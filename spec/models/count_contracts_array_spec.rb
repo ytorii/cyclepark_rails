@@ -43,30 +43,27 @@ RSpec.describe CountContractsArray do
     end
   end
 
-  context 'with no contracts at that month' do
-    describe 'count_contracts' do
-      subject { array.count_contracts }
+  describe 'count_contracts' do
+    subject { array.count_contracts }
+
+    context 'with no contracts at that month' do
       it 'returns empty hash.' do
         is_expected.to eq(empty_result)
       end
     end
-  end
 
-  context 'with some contracts at that month' do
+    context 'with some contracts at that month' do
+      before do
+        create(:count_first_normal_1) 
+        create(:count_first_normal_2) 
+        create(:count_first_normal_3) 
+        create(:count_first_student_1) 
+        create(:count_bike_1) 
+        create(:count_largebike_1) 
+        create(:count_second_1) 
+        create(:count_second_2) 
+      end
 
-    before(:all) do
-      create(:count_first_normal_1) 
-      create(:count_first_normal_2) 
-      create(:count_first_normal_3) 
-      create(:count_first_student_1) 
-      create(:count_bike_1) 
-      create(:count_largebike_1) 
-      create(:count_second_1) 
-      create(:count_second_2) 
-    end
-
-    describe 'count_contracts' do
-      subject { array.count_contracts }
       it 'returns expected hash.' do
         is_expected.to eq(expected_result)
       end

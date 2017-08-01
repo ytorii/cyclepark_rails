@@ -14,26 +14,24 @@ RSpec.describe CountContractsSummaryController, type: :controller do
   end 
 
   shared_examples "gets count contracts summary index page" do |session|
-    before{ get :index, {count_month: nil}, session }
+    let(:month){ '2016-06-11' }
+    let(:expected_summary){
+      { present_total: [1, 1, 2, 1, 0, 1, 1],
+        present_new:   [0, 1, 1, 0, 0, 0, 1],
+        next_total:    [2, 0, 2, 0, 1, 1, 1],
+        next_new:      [1, 0, 1, 0, 0, 0, 1],
+        diffs_prev:    [0, 1, 1, 0, -1, -1, 1],
+        next_unpaid:   [0, 1, 1, 1, 0, 1, 1] }
+    }
+
+    before{ get :index, { count_month: month }, session }
 
     it "returns http success." do
       expect(response).to have_http_status(:success)
     end
 
     it "assigns contracts count summary as @count." do
-
-      expected_hash = {
-        "present_total" => [1, 1, 2, 1, 0, 1, 1],
-        "present_new"   => [0, 1, 1, 0, 0, 0, 1],
-        "next_total"    => [2, 0, 2, 0, 1, 1, 1],
-        "next_new"      => [1, 0, 1, 0, 0, 0, 1],
-        "diffs_prev"    => [0, 1, 1, 0, -1, -1, 1],
-        "next_unpaid"   => [0, 1, 1, 1, 0, 1, 1]
-      }
-
-      month = Date.parse('2016-06-01')
-      counts = CountContractsSummary.new(month).count_contracts_summary
-      expect(counts).to eq(expected_hash)
+      expect(assigns(:counts)).to eq(expected_summary)
     end
   end
 

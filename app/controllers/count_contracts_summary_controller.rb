@@ -6,16 +6,24 @@ class CountContractsSummaryController < ApplicationController
   before_action :check_admin
 
   def index
-    summary = CountContractsSummary.new(params[:count_month])
-
-    if summary.valid?
-      @counts = summary.count_contracts_summary
+    if month_validator.valid?
+      @counts = counts_summary.report_summary
     else
       respond_to do |format|
         format.html do
-          redirect_to menu_path, alert: summary.errors.full_messages
+          redirect_to menu_path, alert: month_validator.errors.full_messages
         end
       end
     end
+  end
+
+  private
+
+  def month_validator
+    @validator ||= DateFormatValidator.new(params[:count_month])
+  end
+
+  def counts_summary
+    CountContractsSummary.new(params[:count_month])
   end
 end
