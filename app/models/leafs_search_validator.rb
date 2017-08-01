@@ -12,21 +12,21 @@ class LeafsSearchValidator
   validates :vhiecle_type_eq,
             presence: { if: :number_search? },
             numericality: {
-              greater_than: 0,
-              less_than: 4,
+              greater_than_or_equal_to: 1,
+              less_than_or_equal_to: 3,
               only_integer: true,
               allow_blank: true
             }
   validates :number_eq,
             presence: { if: :number_search? },
             numericality: {
-              greater_than: 0,
-              less_than: 1057,
+              greater_than_or_equal_to: 1,
+              less_than_or_equal_to: 1056,
               only_integer: true,
               allow_blank: true
             }
   validates :valid_flag_eq,
-            inclusion: { in: %w(true false), if: :number_search? }
+            inclusion: { in: [true, false], if: :number_search? }
   validates :customer_first_name_or_customer_last_name_cont,
             presence: { unless: :number_search? }
 

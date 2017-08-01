@@ -184,6 +184,7 @@ FactoryGirl.define do
         start_date month1
         student_flag false
         after(:create) do |leaf|
+          leaf.reload
           create(:first_customer, leaf: leaf)
           create(:contract_3_normal, leaf: leaf, start_month: month1)
         end
