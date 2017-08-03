@@ -4,11 +4,6 @@ RSpec.describe NumberSealsidListSearch, type: :model do
 
   let(:numid_list){ build(:number_sealsid_list_search) }
 
-  before do
-    create_list(:count_first_normal_1, 3)
-    create(:count_first_normal_2).save!
-  end 
-
   describe 'validation' do
     describe '#vhiecle_type' do
       it { is_expected.to validate_presence_of(:vhiecle_type) }
@@ -38,11 +33,13 @@ RSpec.describe NumberSealsidListSearch, type: :model do
   end
 
   describe '.result' do
+    before(:all) do
+      create_list(:count_first_normal_1, 3)
+      create(:count_first_normal_2)
+    end 
+
     shared_examples 'returns the list' do
       it 'as expected numbers and ids.' do
-
-        puts Leaf.all
-        puts Contract.all
         
         # The date of the factorygirl's data is fixed,
         # so change the date with Timecop.

@@ -29,7 +29,7 @@ RSpec.describe DailyContractsQuery, type: :model do
   end
 
   context 'with some contracts at the day' do
-    before do
+    before(:all) do
       # leafs(contain customers and contracts)
       create(:daily_first_nrm_1) 
       create(:daily_first_std_1) 
@@ -58,6 +58,7 @@ RSpec.describe DailyContractsQuery, type: :model do
         end
       end
     end
+
     describe 'self.list_each_vhiecle_type' do
       subject { DailyContractsQuery.list_each_vhiecle_type(date) }
       it 'returns expected list of each vhiecle type.' do

@@ -4,7 +4,7 @@ RSpec.describe Staff, type: :model do
   let(:test){ build(:test) }
   let(:test2){ build(:test2) }
 
-  specify 'Valid object' do
+  it 'Valid object' do
     expect(test).to be_valid
   end
 
@@ -15,7 +15,7 @@ RSpec.describe Staff, type: :model do
   end
 
   specify "nickname must be unique" do
-    create(:test2)
+    test.save!
     expect(test2).not_to be_valid
     expect(test2.errors[:nickname]).to be_present
   end

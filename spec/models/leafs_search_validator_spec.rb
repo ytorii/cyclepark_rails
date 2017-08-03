@@ -22,7 +22,7 @@ RSpec.describe LeafsSearchValidator, type: :model do
       end
 
       describe '#valid_flag_eq' do
-        it { is_expected.to validate_inclusion_of(:valid_flag_eq).in_array([true, false])}
+        it { is_expected.to validate_inclusion_of(:valid_flag_eq).in_array(['true', 'false'])}
       end
 
       describe '#customer_first_name_or_customer_last_name_cont' do

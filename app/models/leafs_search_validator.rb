@@ -24,7 +24,7 @@ class LeafsSearchValidator
               allow_blank: true
             }
   validates :valid_flag_eq,
-            inclusion: { in: [true, false], if: :number_search? }
+            inclusion: { in: ['true', 'false'], if: :number_search? }
   validates :customer_first_name_or_customer_last_name_cont,
             presence: { unless: :number_search? }
 

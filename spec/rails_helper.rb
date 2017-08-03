@@ -113,10 +113,6 @@ RSpec.configure do |config|
     DatabaseCleaner.clean_with(:truncation, {:except => seed_tables})
   end
 
-  config.before(:all) do
-    #DatabaseCleaner.start
-  end
-
   # For the test WITHOUT JavaScript
   config.before(:each) do
     DatabaseCleaner.strategy = :transaction
