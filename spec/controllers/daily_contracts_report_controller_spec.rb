@@ -6,7 +6,7 @@ RSpec.describe DailyContractsReportController, type: :controller do
     contracts_date: '2016-01-16',
     query: DailyContractsQuery) }
 
-  before :all do
+  before do
     create(:daily_first_nrm_1) 
     create(:daily_first_std_1) 
     create(:daily_bike_1) 

@@ -4,9 +4,9 @@ RSpec.describe NumberSealsidListSearch, type: :model do
 
   let(:numid_list){ build(:number_sealsid_list_search) }
 
-  before :all do
+  before do
     create_list(:count_first_normal_1, 3)
-    create(:count_first_normal_2)
+    create(:count_first_normal_2).save!
   end 
 
   describe 'validation' do
@@ -40,6 +40,9 @@ RSpec.describe NumberSealsidListSearch, type: :model do
   describe '.result' do
     shared_examples 'returns the list' do
       it 'as expected numbers and ids.' do
+
+        puts Leaf.all
+        puts Contract.all
         
         # The date of the factorygirl's data is fixed,
         # so change the date with Timecop.

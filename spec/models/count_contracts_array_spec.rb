@@ -54,14 +54,14 @@ RSpec.describe CountContractsArray do
 
     context 'with some contracts at that month' do
       before do
-        create(:count_first_normal_1) 
-        create(:count_first_normal_2) 
-        create(:count_first_normal_3) 
-        create(:count_first_student_1) 
-        create(:count_bike_1) 
-        create(:count_largebike_1) 
-        create(:count_second_1) 
-        create(:count_second_2) 
+        create(:count_first_normal_1)
+        create(:count_first_normal_2)
+        create(:count_first_normal_3)
+        create(:count_first_student_1)
+        create(:count_bike_1)
+        create(:count_largebike_1)
+        create(:count_second_1)
+        create(:count_second_2)
       end
 
       it 'returns expected hash.' do

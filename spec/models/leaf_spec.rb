@@ -1,132 +1,48 @@
 require 'rails_helper'
 
 RSpec.describe Leaf, type: :model do
-  let(:first){ build(:first) }
+  let(:first){ build(:first, number: 1) }
 
-  describe 'Number' do
-    context 'is valid' do
-      [1, 1056].each do |value|
-        it "with #{value}." do
-          first[:number] = value
-          expect(first).to be_valid
-        end
-      end
+  describe 'validation' do
+    describe '#vhiecle_type' do
+      it { is_expected.to validate_presence_of(:vhiecle_type) }
+      it { is_expected.to validate_numericality_of(:vhiecle_type).
+           is_greater_than_or_equal_to(1).
+           is_less_than_or_equal_to(3).
+           only_integer.allow_nil }
     end
 
-    context 'is invalid' do
-      [0, 1057, 'a', 'あ'].each do |value|
-        it "with #{value}." do
-          first[:number] = value
-          expect(first).not_to be_valid
-          expect(first.errors[:number]).to be_present
-        end
-      end
-    end
-  end
-
-  describe 'Vhiecle Type' do
-    context 'is valid' do
-      [1, 9].each do |value|
-        it "with #{value}." do
-          first[:vhiecle_type] = value
-          expect(first).to be_valid
-        end
-      end
+    describe "number" do
+      it { is_expected.to validate_presence_of(:number) }
+      it { is_expected.to validate_numericality_of(:number).
+           is_greater_than_or_equal_to(1).
+           is_less_than_or_equal_to(1056).
+           only_integer.allow_nil }
     end
 
-    context 'is invalid' do
-      [0, 10, 'a', 'あ'].each do |value|
-        it "with #{value}." do
-          first[:vhiecle_type] = value
-          expect(first).not_to be_valid
-          expect(first.errors[:vhiecle_type]).to be_present
-        end
-      end
-    end
-  end
-
-  describe 'Student flag' do
-    context 'is valid' do
-      [true, false].each do |value|
-        it "with #{value}." do
-          first[:student_flag] = value
-          expect(first).to be_valid
-        end
-      end
+    describe '#student_flag' do
+      it { is_expected.to validate_inclusion_of(:student_flag).in_array([true, false])}
     end
 
-    context 'is invalid' do
-      [''].each do |value|
-        it "with empty." do
-          first[:student_flag] = value
-          expect(first).not_to be_valid
-          expect(first.errors[:student_flag]).to be_present
-        end
-      end
-    end
-  end
-
-  describe 'Large Bike flag' do
-    context 'is valid' do
-      [true, false].each do |value|
-        it "with #{value}." do
-          first[:largebike_flag] = value
-          expect(first).to be_valid
-        end
-      end
-    end
-  end
-
-  describe 'Valid flag' do
-    context 'is valid' do
-      [true, false].each do |value|
-        it "with #{value}." do
-          first[:valid_flag] = value
-          expect(first).to be_valid
-        end
-      end
-    end
-  end
-
-  describe 'Start Date' do
-    context 'is valid' do
-      ['2000/01/01', '2000-01-01', '2099/12/31'].each do |value|
-        it "with #{value}." do
-          first[:start_date] = value
-          expect(first).to be_valid
-        end
-      end
+    describe '#largebike_flag' do
+      it { is_expected.to validate_inclusion_of(:largebike_flag).in_array([true, false])}
     end
 
-    context 'is invalid' do
-      ['1999/12/31', '2100/01/01'].each do |value|
-        it "with #{value}." do
-          first[:start_date] = value
-          expect(first).not_to be_valid
-          expect(first.errors[:start_date]).to be_present
-        end
-      end
-    end
-  end
-
-  describe 'Last Date' do
-    context 'is valid' do
-      ['2000/1/1', '2000-1-1', '2099/12/31'].each do |value|
-        it "with #{value}." do
-          first[:last_date] = value
-          expect(first).to be_valid
-        end
-      end
+    describe '#valid_flag' do
+      it { is_expected.to validate_inclusion_of(:valid_flag).in_array([true, false])}
     end
 
-    context 'is invalid' do
-      ['1999/12/31', '2100/01/01'].each do |value|
-        it "with #{value}." do
-          first[:last_date] = value
-          expect(first).not_to be_valid
-          expect(first.errors[:last_date]).to be_present
-        end
-      end
+    describe '#start_date' do
+      it { is_expected.to validate_presence_of(:number) }
+      it { is_expected.to allow_value('2000/01/01', '2099/12/31').for(:start_date) }
+      it { is_expected.not_to allow_value('1999/12/31', '2100/01/01').for(:start_date) }
+      it { is_expected.not_to allow_value(nil, 0, true, 'a', 'あ').for(:start_date) }
+    end
+
+    describe '#last_date' do
+      it { is_expected.to allow_value('2000/01/01', '2099/12/31').for(:last_date) }
+      it { is_expected.not_to allow_value('1999/12/31', '2100/01/01').for(:last_date) }
+      it { is_expected.not_to allow_value(0, true).for(:last_date) }
     end
   end
 
@@ -134,24 +50,21 @@ RSpec.describe Leaf, type: :model do
     let(:bike){ create(:bike, number: 1) }
     let(:second){ create(:second, number: 1) }
 
-    context "with effective leafs" do
+    context "with valid leafs" do
       before{
-        # As first's number is sequencial,
-        # we need to specify the number here!
-        first.number = 1
         first.save!
         bike
         second
       }
 
-      context "when number doesn't exist in effective leafs" do
+      context "when number doesn't exist in valid leafs" do
         it "is valid." do
           first_add = build(:first, number: 2)
           expect(first_add).to be_valid
         end
       end
 
-      context "when number already exists in effective leafs" do
+      context "when number already exists in valid leafs" do
         it "is invalid." do
           first_add = build(:first, number: 1)
           expect(first_add).not_to be_valid
@@ -162,24 +75,23 @@ RSpec.describe Leaf, type: :model do
 
     context "with cancelled leafs" do
       before{
-        first.number = 1
         first.valid_flag = false
         first.save!
         second
         bike
       }
 
-      context "when effective number already exists in concelled leafs" do
+      context "when valid number already exists in cancelled leafs" do
+        subject{ build( :first, number: 1 ) }
         it "is valid." do
-          first_add = build( :first, number: 1 )
-          expect(first_add).to be_valid
+          is_expected.to be_valid
         end
       end
 
       context "when cancelled number already exists in cancelled leafs" do
+        subject{ build(:first, number: 1, valid_flag: false) }
         it "is valid." do
-          first_add = build(:first, number: 1, valid_flag: false)
-          expect(first_add).to be_valid
+          is_expected.to be_valid
         end
       end
     end

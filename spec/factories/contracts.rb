@@ -15,12 +15,9 @@ FactoryGirl.define do
       contract.seals.build(sealed_flag: true)
     end
 
+    # DO NOT use skip or reset callback for Class influencing latter tests!!
     factory :first_contract_no_callbacks, class: Contract do
-      after(:build) do |contract|
-        Contract.reset_callbacks :create
-        Contract.reset_callbacks :update
-        Contract.reset_callbacks :destroy
-      end
+      _skip_callback true
 
       factory :first_contract_no_callbacks_seals, class: Contract do
         after(:build) do |contract|

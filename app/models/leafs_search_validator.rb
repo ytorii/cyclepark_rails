@@ -14,7 +14,6 @@ class LeafsSearchValidator
             numericality: {
               greater_than_or_equal_to: 1,
               less_than_or_equal_to: 3,
-              only_integer: true,
               allow_blank: true
             }
   validates :number_eq,
@@ -22,7 +21,6 @@ class LeafsSearchValidator
             numericality: {
               greater_than_or_equal_to: 1,
               less_than_or_equal_to: 1056,
-              only_integer: true,
               allow_blank: true
             }
   validates :valid_flag_eq,

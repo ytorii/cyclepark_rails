@@ -10,7 +10,7 @@ RSpec.describe LeafsSearchValidator, type: :model do
         it { is_expected.to validate_numericality_of(:vhiecle_type_eq).
              is_greater_than_or_equal_to(1).
              is_less_than_or_equal_to(3).
-             only_integer.allow_nil }
+             allow_nil }
       end
 
       describe "number_eq" do
@@ -18,7 +18,7 @@ RSpec.describe LeafsSearchValidator, type: :model do
         it { is_expected.to validate_numericality_of(:number_eq).
              is_greater_than_or_equal_to(1).
              is_less_than_or_equal_to(1056).
-             only_integer.allow_nil }
+             allow_nil }
       end
 
       describe '#valid_flag_eq' do

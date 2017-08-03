@@ -3,6 +3,8 @@ class Contract < ActiveRecord::Base
   include StaffsExist
   include ContractsValidate
 
+  attr_accessor :_skip_callback
+
   belongs_to :leaf, counter_cache: true, inverse_of: :contracts
   has_many :seals, dependent: :destroy, inverse_of: :contract
   accepts_nested_attributes_for :seals
@@ -43,15 +45,15 @@ class Contract < ActiveRecord::Base
   validate :terms_unchanged?, on: :update
 
   # Only the last contract can be deleted
-  before_destroy :last_contract?
+  before_destroy :last_contract?, prepend: true
 
   before_save ContractParamsSetup
 
-  before_create ContractParamsSetup
+  before_create ContractParamsSetup, unless: :_skip_callback
 
-  before_update ContractParamsSetup
+  before_update ContractParamsSetup, unless: :_skip_callback
 
-  after_create LeafLastDateUpdator
+  after_create LeafLastDateUpdator, unless: :_skip_callback
 
-  after_destroy LeafLastDateUpdator
+  after_destroy LeafLastDateUpdator, unless: :_skip_callback
 end

@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe CountContractsSummaryController, type: :controller do
 
-  before :all do
+  before do
     create(:count_first_normal_1) 
     create(:count_first_normal_2) 
     create(:count_first_normal_3) 
