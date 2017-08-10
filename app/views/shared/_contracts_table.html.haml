@@ -47,7 +47,7 @@
                 = f.hidden_field :sealed_flag, :value => true 
                 = f.hidden_field :sealed_date, :value => Date.today 
                 = f.submit(["#{s.month.strftime('%-m月')}分貼付"], class: 'seal_btn radius')
-          - elsif 
+          - else
             .seal_box
               シール未貼
     - last_month = @leaf.last_date.month.to_i
