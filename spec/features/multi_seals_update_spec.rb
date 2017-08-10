@@ -37,7 +37,7 @@ feature "Multi Seals Update" do
 
         within('form#new_number_sealsid_list_search') do
           find('.custom_rd_label', :text => '２号地').click
-          fill_in 'number_sealsid_list_search_month',
+          fill_in_val 'number_sealsid_list_search_month',
             with: Date.today.next_month
         end
         click_button 'シール未貼付け番号を表示'
@@ -58,7 +58,7 @@ feature "Multi Seals Update" do
         expect(current_path).to eq('/multi_seals_update')
 
         within('form#new_number_sealsid_list_search') do
-          fill_in 'number_sealsid_list_search_month',
+          fill_in_val 'number_sealsid_list_search_month',
             with: 'aaa'
         end
         click_button 'シール未貼付け番号を表示'
@@ -102,7 +102,7 @@ feature "Multi Seals Update" do
     context 'with invalid input' do
       it 'fail to update seals.' do
         within('form#new_multi_seals_update') do
-          fill_in 'multi_seals_update_sealed_date', with: nil
+          fill_in_val 'multi_seals_update_sealed_date', with: nil
           click_button 'シール貼付け処理'
         end
 

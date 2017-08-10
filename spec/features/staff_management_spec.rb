@@ -160,8 +160,8 @@ describe 'Staff management feature' do
         name: "テスト　ユーザ",
         read: "テスト　ユーザ",
         address: "寝屋川市八坂町１７－１",
-        phone_number: "072-838-2058",
-        cell_number: "090-4563-6103"
+        phone_number: "072-838-9999",
+        cell_number: "090-4563-6666"
       }
     }
 

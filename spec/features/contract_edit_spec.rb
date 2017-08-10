@@ -34,9 +34,9 @@ feature "Contract Edit" do
         expect(current_path).to eq(
           "/leafs/#{first.id}/contracts/#{contract_id}/edit")
 
-        fill_in 'contract_contract_date', with: '2016-09-01'
-        fill_in 'contract_money1', with: 3000
-        fill_in 'contract_staff_nickname', with: 'normal'
+        fill_in_val 'contract_contract_date', with: '2016-09-01'
+        fill_in_val 'contract_money1', with: 3000
+        fill_in_val 'contract_staff_nickname', with: 'normal'
 
         click_button '更新する'
 

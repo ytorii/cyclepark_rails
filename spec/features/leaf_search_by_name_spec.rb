@@ -19,7 +19,7 @@ feature "Leaf search by name" do
         leaf_id = 5
 
         within('#name_form') do
-          fill_in 'name_input', with: '自転車'
+          fill_in_val 'name_input', with: '自転車'
           click_button '探す'
         end
 
@@ -37,7 +37,7 @@ feature "Leaf search by name" do
     context 'with invalid input' do
       it 'fails to show the selected leaf with non-exist number.' do
         within('#name_form') do
-          fill_in 'name_input', with: 'ssssss'
+          fill_in_val 'name_input', with: 'ssssss'
           click_button '探す'
         end
 

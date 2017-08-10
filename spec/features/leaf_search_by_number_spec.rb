@@ -23,7 +23,7 @@ feature "Leaf search by number" do
 
         within('#number_form') do
           find('.custom_rd_label', :text => '１号地').click
-          fill_in 'number_input', with: leaf_num
+          fill_in_val 'number_input', with: leaf_num
           click_button '探す'
         end
         #page.save_screenshot('/home/pi2_test/multi_seals_update.png')
@@ -52,7 +52,7 @@ feature "Leaf search by number" do
 
         within('#number_form') do
           find('.custom_rd_label', :text => '１号地').click
-          fill_in 'number_input', with: leaf_num
+          fill_in_val 'number_input', with: leaf_num
           click_button '探す'
         end
 

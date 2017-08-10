@@ -49,24 +49,24 @@ end
 
 def fill_leaf_form(form_id, new_leaf)
   within(form_id) do
-    fill_in 'leaf_number', with: new_leaf.number
+    fill_in_val 'leaf_number', with: new_leaf.number
     choose "vtype_1"
     check 'leaf_student_flag' if new_leaf.student_flag
     check 'leaf_largebike_flag' if new_leaf.largebike_flag
-    fill_in 'leaf_start_date', with: '2016-02-01'
-    fill_in 'leaf_customer_attributes_first_name', with: new_leaf.customer.first_name
-    fill_in 'leaf_customer_attributes_last_name', with: new_leaf.customer.last_name
-    fill_in 'leaf_customer_attributes_first_read', with: new_leaf.customer.first_read
-    fill_in 'leaf_customer_attributes_last_read', with: new_leaf.customer.last_read
+    fill_in_val 'leaf_start_date', with: '2016-02-01'
+    fill_in_val 'leaf_customer_attributes_first_name', with: new_leaf.customer.first_name
+    fill_in_val 'leaf_customer_attributes_last_name', with: new_leaf.customer.last_name
+    fill_in_val 'leaf_customer_attributes_first_read', with: new_leaf.customer.first_read
+    fill_in_val 'leaf_customer_attributes_last_read', with: new_leaf.customer.last_read
     if new_leaf.customer.sex
       choose 'sex_male' 
     else
       choose 'sex_female' 
     end
-    fill_in 'leaf_customer_attributes_address', with: new_leaf.customer.address
-    fill_in 'leaf_customer_attributes_phone_number', with: new_leaf.customer.phone_number
-    fill_in 'leaf_customer_attributes_cell_number', with: new_leaf.customer.cell_number
-    fill_in 'leaf_customer_attributes_receipt', with: new_leaf.customer.receipt
-    fill_in 'leaf_customer_attributes_comment', with: new_leaf.customer.comment
+    fill_in_val 'leaf_customer_attributes_address', with: new_leaf.customer.address
+    fill_in_val 'leaf_customer_attributes_phone_number', with: new_leaf.customer.phone_number
+    fill_in_val 'leaf_customer_attributes_cell_number', with: new_leaf.customer.cell_number
+    fill_in_val 'leaf_customer_attributes_receipt', with: new_leaf.customer.receipt
+    fill_in_val 'leaf_customer_attributes_comment', with: new_leaf.customer.comment
   end
 end
