@@ -63,7 +63,7 @@ feature "Daily Contracts Report" do
       context 'with invalid contracts date' do
         before{
           within('form') do
-            fill_in_val 'contracts_date', with: 'あ'
+            fill_in_val 'contracts_date', with: Date.parse('1900/01/01')
           end
           click_button '指定した日付を表示'
         }
