@@ -4,20 +4,19 @@ feature "Leaf search by name" do
 
   describe 'Searching the leaf by name' do
 
-    before{
+    before(:all){
       # Create leaf and customer. (contracts are not needed)
       5.times { create(:first) }
       2.times { create(:student) }
       2.times { create(:bike) }
       create(:second)
-
-      login("admin", "12345678")
     }
 
-    context 'with valid input' do
-      it 'successes  to show the list of leafs and jump to the leaf.' do
-        leaf_id = 5
+    before(:each) { login("admin", "12345678") }
 
+    context 'with valid input' do
+      let(:leaf_id){ 5 }
+      it 'successes  to show the list of leafs and jump to the leaf.' do
         within('#name_form') do
           fill_in_val 'name_input', with: '自転車'
           click_button '探す'
@@ -26,9 +25,13 @@ feature "Leaf search by name" do
         expect(current_path).to eq('/leafs_search')
 
         within('tbody') do
-          expect(page).to have_css('tr', count: 5)
-          all('a', text: '詳細を見る')[leaf_id - 1].click
+          #expect(page).to have_css('tr', count: 5)
+          #all('a', text: '詳細を見る').last.click
+          all('a', text: '詳細を見る').last.click
         end
+
+        # Wait until the page moves to the linked page.
+        sleep 1
 
         expect(current_path).to eq("/leafs/#{leaf_id}")
       end
