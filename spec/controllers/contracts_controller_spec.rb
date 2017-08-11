@@ -21,8 +21,8 @@ RSpec.describe ContractsController, type: :controller do
   }
 
   # session infomation for staffs
-  let(:valid_session) { {staff: '1'} }
-  let(:normal_session) { {staff: '2'} }
+  let(:valid_session) { {staff: '1', nickname: 'admin'} }
+  let(:normal_session) { {staff: '2', nickname: 'normal'} }
 
   # first cutomer
   let(:first) {create(:first)}
@@ -77,7 +77,7 @@ RSpec.describe ContractsController, type: :controller do
 
       it "updates leaf's last month to Seals' last month." do
         xhr :post, :create, {:contract => valid_attributes, :leaf_id => first.id}, valid_session
-        expect(Leaf.find(first.id).last_date).to eq(Seal.all.last.month)
+        expect(Leaf.find(first.id).last_date).to eq(Seal.all.last.month.end_of_month)
       end
     end
 
@@ -183,7 +183,7 @@ RSpec.describe ContractsController, type: :controller do
     it "changes leaf's last_date to the last seal's month after deleted." do
         delete :destroy, {:id => contract.to_param, :leaf_id => contract.leaf_id}, valid_session
         first.reload
-        expect(first.last_date).to eq(contract_add.seals.last.month)
+        expect(first.last_date).to eq(contract_add.seals.last.month.end_of_month)
     end
 
     it "rejects to destroy contract unless it is the last contract." do

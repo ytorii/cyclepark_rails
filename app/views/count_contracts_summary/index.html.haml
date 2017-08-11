@@ -21,11 +21,11 @@
           - vtypes.each_with_index do |vtype, i|
             %tr
               %td= vtype
-              %td #{@counts["present_total"][i]} 台
-              %td #{@counts["diffs_prev"][i]} 台
-              %td.warning #{@counts["next_unpaid"][i]} 台
-              %td #{@counts["present_new"][i]} 台
-              %td #{@counts["next_total"][i]} 台
-              %td #{@counts["next_new"][i]} 台
+              %td #{@counts[:present_total][i]} 台
+              %td #{@counts[:diffs_prev][i]} 台
+              %td.warning #{@counts[:next_unpaid][i]} 台
+              %td #{@counts[:present_new][i]} 台
+              %td #{@counts[:next_total][i]} 台
+              %td #{@counts[:next_new][i]} 台
 %footer#footer
   #inner

@@ -18,8 +18,8 @@ RSpec.describe LeafsSearchController, type: :controller do
   let(:noleaf_error_message){ ['指定したリーフは存在しません。'] }
   let(:nil_name_error_message){ ['名前またはフリガナを入力してください'] }
   let(:invalid_number_error_message){
-    [ '契約種別は0より大きい値にしてください',
-      '契約番号は1057より小さい値にしてください',
+    [ '契約種別は1以上の値にしてください',
+      '契約番号は1056以下の値にしてください',
       '契約状態は一覧にありません' ]
   }
 

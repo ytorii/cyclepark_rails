@@ -1,7 +1,7 @@
 # Controller for listing DailyContractsReport
 class DailyContractsReportController < ApplicationController
   def index
-    @report = DailyContractsReport.new(params[:contracts_date])
+    @report = DailyContractsReport.new(report_params)
 
     if @report.valid?
       result_parameters
@@ -11,6 +11,11 @@ class DailyContractsReportController < ApplicationController
   end
 
   private
+
+  def report_params
+    { contracts_date: params[:contracts_date],
+      query: DailyContractsQuery }
+  end
 
   def result_parameters
     @contracts_date  = @report.contracts_date

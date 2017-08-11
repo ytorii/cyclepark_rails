@@ -2,10 +2,10 @@
 ENV['RAILS_ENV'] ||= 'test'
 
 # Starting checking coverage with simpleconv
-require 'simplecov'
-require 'simplecov-rcov'
-SimpleCov.formatter = SimpleCov::Formatter::RcovFormatter
-SimpleCov.start 'rails'
+#require 'simplecov'
+#require 'simplecov-rcov'
+#SimpleCov.formatter = SimpleCov::Formatter::RcovFormatter
+#SimpleCov.start 'rails'
 
 require File.expand_path('../../config/environment', __FILE__)
 
@@ -17,7 +17,9 @@ abort("The Rails environment is running in production mode!") if Rails.env.produ
 
 require 'spec_helper'
 require 'rspec/rails'
-require 'capybara/poltergeist'
+require 'selenium-webdriver'
+require 'capybara/rspec'
+require 'shoulda/matchers'
 
 # Add additional requires below this line. Rails is not loaded until this point!
 
@@ -34,22 +36,20 @@ require 'capybara/poltergeist'
 # directory. Alternatively, in the individual `*_spec.rb` files, manually
 # require only the support files necessary.
 #
-# Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
+Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 
 # Checks for pending migration and applies them before tests are run.
 # If you are not using ActiveRecord, you can remove this line.
 ActiveRecord::Migration.maintain_test_schema!
 
 RSpec.configure do |config|
-  config.before(:suite) do
-  end
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
 
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false
   # instead of true.
-  config.use_transactional_fixtures = true
+  config.use_transactional_fixtures = false
 
   # RSpec Rails can automatically mix in different behaviours to your tests
   # based on their file location, for example enabling you to call `get` and
@@ -82,20 +82,27 @@ RSpec.configure do |config|
   # Enable using Macros
   config.include LoginMacros
   config.include LinkMacros
+  config.include HeadlessAction
 
   # FactoryGirl configuration
   config.before(:suite) do
     FactoryGirl.reload
   end
 
-  # Poltergeist configuration
-  Capybara.register_driver :poltergeist do |app|
-    Capybara::Poltergeist::Driver.new(
-      #app, :js_errors => true, :timeout => 60, :debug => false
-      app, :js_errors => true, :timeout => 60, :inspector => true
-    )
+  # Chrome headless mode configuration
+  caps = Selenium::WebDriver::Remote::Capabilities.chrome(
+   chrome_options: {
+     binary: '/usr/bin/chromium-browser',
+     args: %w(headless disable-gpu no-sandbox window-size=1680,1050)
+   })
+  Capybara.register_driver :selenium do |app|  
+    Capybara::Selenium::Driver.new(app,
+      browser: :chrome,
+      driver_path: '/usr/bin/chromedriver',
+      desired_capabilities: caps)
   end
-  Capybara.javascript_driver = :poltergeist
+  Capybara.javascript_driver = :selenium
+  Capybara.default_driver = :selenium
 
   # DatabaseCleaner configuration
   seed_tables = %w{ staffs staffdetails }
@@ -109,7 +116,7 @@ RSpec.configure do |config|
   # For the test WITHOUT JavaScript
   config.before(:each) do
     DatabaseCleaner.strategy = :transaction
-    #DatabaseCleaner.start
+    DatabaseCleaner.start
   end
 
   # For the test WITH JavaScript
@@ -117,9 +124,9 @@ RSpec.configure do |config|
     DatabaseCleaner.strategy = :truncation, {:except => seed_tables}
   end
 
-  #config.after(:each) do
-    #DatabaseCleaner.clean
-  #end
+  config.after(:each) do
+    DatabaseCleaner.clean
+  end
 
   # Clean DB records created by before :all blocks
   config.after(:all) do
@@ -127,4 +134,11 @@ RSpec.configure do |config|
   end
 
   ActiveRecord::Base.shared_connection = ActiveRecord::Base.connection
+end
+
+Shoulda::Matchers.configure do |config|
+  config.integrate do |with|
+    with.test_framework :rspec
+    with.library :rails
+  end
 end

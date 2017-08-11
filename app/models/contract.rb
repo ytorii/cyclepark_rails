@@ -2,7 +2,8 @@
 class Contract < ActiveRecord::Base
   include StaffsExist
   include ContractsValidate
-  include ContractsSetParams
+
+  attr_accessor :_skip_callback
 
   belongs_to :leaf, counter_cache: true, inverse_of: :contracts
   has_many :seals, dependent: :destroy, inverse_of: :contract
@@ -11,65 +12,48 @@ class Contract < ActiveRecord::Base
   date_regexp =
     %r(\A20[0-9]{2}(/|-)(0[1-9]|1[0-2])(/|-)(0[1-9]|(1|2)[0-9]|3[01])\z)
 
+  # New_flag is set by this model, so no need to be validated.
   validates :contract_date,
-            presence: true,
-            format: { with: date_regexp, allow_blank: true }
-  validates :start_month,
             presence: true,
             format: { with: date_regexp, allow_blank: true }
   # Term1 must be longer than 0 because 0 length contract is not allowed.
   validates :term1,
-            presence: true,
+            presence: { unless: 'skip_flag' },
             numericality:
-              { greater_than: 0, less_than: 13, allow_blank: true }
-  validates :money1,
-            presence: true,
-            numericality:
-              { greater_than_or_equal_to: 0,
-                less_than: 36_001,
+              { greater_than_or_equal_to: 1,
+                less_than_or_equal_to: 12,
                 allow_blank: true }
-  validates :term2,
-            presence: true,
+  validates :money1,
+            presence: { unless: 'skip_flag' },
             numericality:
               { greater_than_or_equal_to: 0,
-                less_than: 10,
+                less_than_or_equal_to: 36_000,
+                allow_blank: true }
+  # Term2 and money2 is allowed to be nil, because nil is set to 0.
+  validates :term2,
+            numericality:
+              { greater_than_or_equal_to: 0,
+                less_than_or_equal_to: 6,
                 allow_blank: true }
   validates :money2,
-            presence: true,
             numericality:
               { greater_than_or_equal_to: 0,
-                less_than: 18_001,
+                less_than_or_equal_to: 18_000,
                 allow_blank: true }
-  validates :new_flag,
-            inclusion: { in: [true, false] }
-  validates :skip_flag,
-            inclusion: { in: [true, false] }
-  validate :staff_exists?
-  validate :month_exists?, on: :create
-  validate :same_length_terms?, on: :update
-
-  before_validation do
-    if skip_flag
-      set_skipcontract_params
-    else
-      set_nilcontract_params
-    end
-
-    if new_record?
-      # Seals needs to insert parameters before validation.
-      # Because first seal parameters depend on inputs from web pages.
-      set_contract_params
-      set_seals_params
-    else
-      # Setting params for editing exist records,
-      # especially in editing seal records.
-      set_canceledseals_params
-    end
-  end
-
-  after_create :update_leaf_lastdate
+  validates :skip_flag, inclusion: { in: [true, false] }
+  validate :staff_exists?, on: :update
+  validate :terms_unchanged?, on: :update
 
   # Only the last contract can be deleted
-  before_destroy :last_contract?
-  after_destroy :backdate_leaf_lastdate
+  before_destroy :last_contract?, prepend: true
+
+  before_save ContractParamsSetup
+
+  before_create ContractParamsSetup, unless: :_skip_callback
+
+  before_update ContractParamsSetup, unless: :_skip_callback
+
+  after_create LeafLastDateUpdator, unless: :_skip_callback
+
+  after_destroy LeafLastDateUpdator, unless: :_skip_callback
 end

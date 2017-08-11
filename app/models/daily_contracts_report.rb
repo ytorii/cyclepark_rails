@@ -2,7 +2,7 @@
 class DailyContractsReport
   include ActiveModel::Model
 
-  attr_reader :contracts_date
+  attr_accessor :contracts_date
 
   date_regexp =
     %r(\A20[0-9]{2}(/|-)(0[1-9]|1[0-2])(/|-)(0[1-9]|(1|2)[0-9]|3[01])\z)
@@ -10,33 +10,37 @@ class DailyContractsReport
   validates :contracts_date,
             format: { with: date_regexp }
 
-  def initialize(in_contracts_date)
-    @contracts_date = in_contracts_date.presence || Date.current
-    @query = DailyContractsQuery.new(@contracts_date)
+  def initialize(params={})
+    @contracts_date = params[:contracts_date].presence || Date.current
+    @query = params[:query]
   end
 
   def contracts_list
-    @query.list_each_contract
+    @query.list_each_contract(@contracts_date)
   end
 
   def contracts_total
-    # Total(1) + vhiecle_type(3)
-    result = Array.new(4) do
-      # [ counts, total money ]
-      [0, 0]
-    end
-
-    # Get counts and money of each vhiecle types.
-    contracts_counts = @query.list_total_amount
-
-    # Insert counts and money to each vhiecle_type's row.
-    contracts_counts.each do |count|
-      result[count[0]] = [count[1], count[2]]
-    end
+    list = vhiecle_type_list
+    list = blank_list if list.blank?
 
     # Add total counts and money to the first row.
-    result[0] = result.transpose.map(&:sum)
+    list.unshift(total_count(list))
+  end
 
-    result
+  private
+
+  # Get counts and money of each vhiecle types.
+  def vhiecle_type_list
+    @query.list_each_vhiecle_type(@contracts_date)
+  end
+
+  def blank_list
+    # vhiecle_type(3)
+    # [ counts, total_money ]
+    result = Array.new(3) { [0, 0] }
+  end
+
+  def total_count(list)
+    list.transpose.map(&:sum)
   end
 end

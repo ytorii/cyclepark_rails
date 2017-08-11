@@ -12,7 +12,7 @@ class SealsController < ApplicationController
     respond_to do |format|
       @leaf = Leaf.find(params[:leaf_id])
 
-      if @seal.update(seal_params)
+      if @seal.update(update_params)
         update_success_format(format)
       else
         update_error_format(format)
@@ -29,6 +29,14 @@ class SealsController < ApplicationController
 
   # Never trust parameters from the scary internet,
   # only allow the white list through.
+  def update_params
+    if seal_params[:staff_nickname]
+      seal_params
+    else
+      seal_params.merge(staff_nickname: session[:nickname])
+    end
+  end
+
   def seal_params
     params.require(:seal).permit(
       :contract_id,

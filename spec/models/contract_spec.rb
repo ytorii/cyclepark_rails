@@ -1,351 +1,180 @@
 require 'rails_helper'
 
 RSpec.describe Contract, type: :model do
-  let(:first){ create(:first) }
-  let(:first_contract){ build(:first_contract, leaf_id: first.id) }
-  let(:first_contract_add){ build(:first_contract_add, leaf_id: first.id) }
+  let(:leaf){ create(:first) }
+  let(:contract){ build(:first_contract, leaf_id: leaf.id) }
 
-  before{ first }
+  describe 'association' do
+    it { is_expected.to belong_to(:leaf) }
+    it { is_expected.to have_many(:seals) }
+  end
 
-  %w{contract_date}.each do |column|
-    describe "#{column}" do
+  describe 'validation' do
+    context "with skip_flag true" do
+      subject{ Contract.new(skip_flag: true) }
+      it { is_expected.not_to validate_presence_of(:term1) }
+      it { is_expected.not_to validate_presence_of(:money1) }
+    end
+
+    context "with skip_flag false" do
+      subject{ Contract.new(skip_flag: false) }
+      it { is_expected.to validate_presence_of(:term1) }
+      it { is_expected.to validate_presence_of(:money1) }
+    end
+
+    describe '#contract_date' do
+      it { is_expected.to validate_presence_of(:contract_date) }
+      it { is_expected.to allow_value('2000/1/1', '2099/12/31').for(:contract_date) }
+      it { is_expected.not_to allow_value('1999/12/31', '2100/01/01').for(:contract_date) }
+      it { is_expected.not_to allow_value(0, true, 'a', 'あ').for(:contract_date) }
+    end
+
+    describe '#term1' do
+      it { is_expected.to validate_numericality_of(:term1).
+           is_greater_than_or_equal_to(1).
+           is_less_than_or_equal_to(12).
+           allow_nil }
+    end
+
+    describe '#term2' do
+      it { is_expected.to validate_numericality_of(:term2).
+           is_greater_than_or_equal_to(0).
+           is_less_than_or_equal_to(6).
+           allow_nil }
+    end
+
+    describe '#money1' do
+      it { is_expected.to validate_numericality_of(:money1).
+           is_greater_than_or_equal_to(0).
+           is_less_than_or_equal_to(36_000).
+           allow_nil }
+    end
+
+    describe '#money2' do
+      it { is_expected.to validate_numericality_of(:money2).
+           is_greater_than_or_equal_to(0).
+           is_less_than_or_equal_to(18_000).
+           allow_nil }
+    end
+
+
+    describe '#skip_flag' do
+      it { is_expected.to validate_inclusion_of(:skip_flag).in_array([true, false])}
+    end
+
+    describe '.update' do
+      before { contract.save! }
+      context 'with nickname in Staffs DB' do
+        before{ contract.update(staff_nickname: 'admin') }
+        it "is valid." do
+          expect(contract).to be_valid
+        end
+      end
+
+      context 'with nickname NOT in Staffs DB' do
+        before{ contract.update(staff_nickname: 'nostaff') }
+        it "is invalid." do
+          expect(contract).not_to be_valid
+        end
+      end
+
+      context "with unchanged terms" do
+        before{ contract.update(term1: 1, term2: 6) }
+        it "is valid." do
+          expect(contract).to be_valid
+        end
+      end
+
+      context "with changed term1." do
+        before{ contract.update(term1: 3)}
+        it "is invalid" do
+          expect(contract).not_to be_valid
+        end
+      end
+
+      context "with changed term2." do
+        before{ contract.update(term2: 3)}
+        it "is invalid" do
+          expect(contract).not_to be_valid
+        end
+      end
+    end
+
+    describe '.destroy' do
+      subject{ contract.last_contract? }
       before{
-        first_contract.save!
+        leaf.contracts.push(contract)
       }
-
-      context 'is valid' do
-        ['2000/1/1', '2000-1-1', '2099/12/31'].each do |value|
-          it "with #{value}." do
-            first_contract[column] = value
-            expect(first_contract).to be_valid
-          end
+      context "with leaf's last contract" do
+        it 'successes to destroy contract.' do
+          is_expected.to be_truthy
         end
       end
-
-      context 'is invalid' do
-        ['1999/12/31', '2100/01/01'].each do |value|
-          it "with #{value}." do
-            first_contract[column] = value
-            expect(first_contract).not_to be_valid
-            expect(first_contract.errors[column]).to be_present
-          end
-        end
-      end
-    end
-  end
-
-  { term1: 12, money1: 36000, term2: 9, money2: 18000}.each do |key, value|
-    describe "#{key}" do
-      it "is valid with #{value}." do
-        first_contract[key] = value
-        expect(first_contract).to be_valid
-      end
-
-      it "is invalid with #{value + 1}." do
-        first_contract[key] = value + 1
-        expect(first_contract).not_to be_valid
-        expect(first_contract.errors[key]).to be_present
-      end
-    end
-  end
-
-  %w{skip_flag new_flag}.each do |column|
-    describe "#{column}" do
-      context 'is valid' do
-        [true, false].each do |value|
-          it "with #{value}." do
-            first_contract[column] = value
-            expect(first_contract).to be_valid
-          end
-        end
-      end
-    end
-  end
-
-  describe "staff_nickname" do
-    it "is valid with nickanme in Staffs DB." do
-      expect(first_contract).to be_valid
-    end
-
-    it "is invalid with nickanme NOT in Staffs DB." do
-      first_contract[:staff_nickname] = 'nostaff'
-      expect(first_contract).not_to be_valid
-      expect(first_contract.errors[:staff_nickname]).to be_present
-    end
-  end
-
-  describe "term1 and term2" do
-    before { first_contract.save! }
-
-    context "with unchanged terms" do
-      before{ first_contract.update(term1: 1) }
-      it "is valid." do
-        expect(first_contract).to be_valid
-      end
-    end
-
-    context "with changed term1." do
-      before{ first_contract.update(term1: 3)}
-      it "is invalid" do
-        expect(first_contract).not_to be_valid
-      end
-    end
-
-    context "with changed term2." do
-      before{ first_contract.update(term2: 3)}
-      it "is invalid" do
-        expect(first_contract).not_to be_valid
-      end
-    end
-  end
-
-  describe ".set_skipcontract_params" do
-    context "with skip_flag is true" do
-      before {
-        first_contract.skip_flag = true
-        first_contract.send(:set_skipcontract_params)
-      }
-
-      { term1: 1, money1: 0, term2: 0, money2: 0}.each do |key, value|
-        it "sets #{key} to #{value}" do
-          expect(first_contract[key]).to eq(value)
-        end
-      end
-    end
-  end
-
-  describe ".set_nilcontract_params" do
-    [false, nil].each do |value|
-      context "with skip_flag is #{value.to_s}" do
-        before {
-          first_contract.skip_flag = value
-          first_contract.term2 = nil
-          first_contract.money2 = nil
-          first_contract.send(:set_nilcontract_params)
+      context "with not leaf's last contract" do
+        let(:contract2){ build(:first_contract_add, leaf_id: leaf.id) }
+        before{ 
+          leaf.contracts.push(contract2)
         }
-
-        it "sets skip_flag to false" do
-          expect(first_contract.skip_flag).to eq(false)
-        end
-
-        ["term2", "money2"].each do |column|
-          it "sets nil #{column} to 0" do
-            expect(first_contract[column]).to eq(0)
-          end
+        it 'fails to destroy contract.' do
+          is_expected.to be_falsey
         end
       end
     end
   end
 
-  describe ".set_contract_params" do
-    context "with no contracts" do
-      before { first_contract.send(:set_contract_params) }
+  describe 'callback' do
+    let(:contract_params_setup) { expect(ContractParamsSetup) } 
+    let(:leaf_updator) { expect(LeafLastDateUpdator) } 
 
-      it "sets new_flag to true." do
-        expect(first_contract.new_flag).to eq(true)
-      end
-      it "sets start_month to leaf's start_date." do
-        expect(first_contract.start_month).to eq(first.start_date)
-      end
-    end
+    describe '.save' do
+      #after{ contract.save! }
 
-    context "with existed contracts" do
-      before {
-        first_contract.save!
-        first.reload
-        first_contract_add.send(:set_contract_params)
-      }
-
-      it "sets new_flag to false." do
-        expect(first_contract_add.new_flag).to eq(false)
+      it 'calls ContractParamsSetup.before_save once.' do
+        contract_params_setup.to receive(:before_save).once.with(contract)
+        contract.run_callbacks(:save){ false }
       end
-      it "sets start_month to next month of leaf's last_date." do
-        expect(first_contract_add.start_month).to eq(first.last_date.next_month)
+
+      it 'calls ContractParamsSetup.before_create once.' do
+        contract_params_setup.to receive(:before_create).once.with(contract)
+        contract.run_callbacks(:create){ false }
+      end
+
+      it 'calls LeafLastDateUpdator.after_create once.' do
+        leaf_updator.to receive(:after_create).once.with(contract)
+        contract.save!
       end
     end
 
-  end
-
-  describe ".set_seals_params" do
-    subject { first_contract.seals }
-
-    shared_examples "seals except the first seal" do
-      subject { first_contract.seals }
-      let(:seals_size){ subject.size - 1 }
-
-      it "the number of seal is equal to sum of term1 and term2." do
-        expect(seals_size).to eq( first_contract.term1 + first_contract.term2 - 1 )
-      end
-
-      it "increments each seal's month from start_month one by one." do
-        month = first_contract.start_month.beginning_of_month
-        subject.each do |seal|
-          expect(seal.month).to eq(month)
-          month = month.next_month
-        end
-      end
-
-      it "sets false to all seal's sealed_flag except the first seal." do
-        1.upto(seals_size) do |i|
-          expect(subject[i].sealed_flag).to eq(false)
-        end
-      end
-    end
-
-    context "with first sealed_flag true" do
-      before {
-        first_contract.send(:set_contract_params)
-        first_contract.send(:set_seals_params)
-      }
-
-      it "sets seal's month to start_month." do
-        expect(subject.first.month).to eq(first_contract.start_month.beginning_of_month)
-      end
-
-      it "sets seal's staff_nickname to contract's." do
-        expect(subject.first.staff_nickname).to eq(first_contract.staff_nickname)
-      end
-
-      it "sets seal's sealed_date to contract's contract_date." do
-        expect(subject.first.sealed_date).to eq(first_contract.contract_date)
-      end
-
-      it_behaves_like 'seals except the first seal'
-    end
-
-    %w{ false nil }.each do |param|
-      context "with first sealed_flag #{param.to_s}" do
-        before {
-          subject.first.sealed_flag = param
-          first_contract.send(:set_contract_params)
-          first_contract.send(:set_seals_params)
-        }
-
-        it "sets seal's month to the first date of contract's start_month." do
-          expect(subject.first.month).to eq(first_contract.start_month.beginning_of_month)
-        end
-
-        it "sets seal's staff_nickname to nil." do
-          expect(subject.first.staff_nickname).to eq(nil)
-        end
-
-        it "sets seal's sealed_date to nil." do
-          expect(subject.first.sealed_date).to eq(nil)
-        end
-
-        it_behaves_like 'seals except the first seal'
-      end
-    end
-  end
-
-  describe ".set_canceledseals_params" do
-    subject { first_contract.seals }
-
-    before {
-      first_contract.send(:set_seals_params)
-      first_contract.send(:set_canceledseals_params)
-    }
-
-    context "with true sealed_flag" do
-      it "keeps sealed_date and staff_nickname." do
-        tmp_sealed_date = subject.first.sealed_date
-        tmp_staff_nickname = subject.first.staff_nickname
-        expect(subject.first.sealed_date).to eq(tmp_sealed_date)
-        expect(subject.first.staff_nickname).to eq(tmp_staff_nickname)
-      end
-    end
-
-    context "with false sealed_flag" do
-      it "sets sealed_date and staff_nickname to nil." do
-        for i in 1..(subject.size-1)
-          expect(subject[i].sealed_date).to eq(nil)
-          expect(subject[i].staff_nickname).to eq(nil)
-        end
-      end
-    end
-  end
-
-  describe ".update_leaf_lastdate" do
-    subject { Leaf.find(first.id).last_date  }
-
-    before {
-      first_contract.send(:set_seals_params)
-      first_contract.send(:update_leaf_lastdate)
-    }
-
-    it "updates leaf's last_date to contract's last month." do
-      is_expected.to eq(first_contract.seals.last.month)
-    end
-  end
-
-  describe ".last_contract?" do
-    before { 
-      first_contract.save!
-      first_contract_add.save!
-    }
-
-    context "with last contract" do
-      it "returns nil(means no problem)" do
-        expect(first_contract_add.send(:last_contract?)).to eq(nil)
-      end
-    end
-
-    context "with not the last contract" do
-      it "returns false" do
-        expect(first_contract.send(:last_contract?)).to eq(false)
-      end
-    end
-  end
-
-  describe ".backdate_leaf_lastdate", :focus do
-    context "when leaf has contract" do
-      before {
-        first_contract.save!
-        first_contract_add.save!
-        first_contract_add.reload
-        first_contract_add.destroy
-      }
-
-      it "updates leaf's last_date to contract's last month." do
-        first.reload
-        expect(first.last_date).to eq(first_contract.seals.last.month)
-      end
-    end
-
-    context "when leaf has no contract" do
-      before {
-        first_contract.save!
-        first_contract.reload
-        first_contract.destroy
-      }
-      it "updates leaf's last_date to nil." do
-        first.reload
-        expect(first.last_date).to eq(nil)
-      end
-    end
-  end
-
-  describe "Seal's month" do
-    before { first_contract.save! }
-
-    context "when month is unique in the leaf." do
-      it "is valid." do
-        expect(first_contract_add).to be_valid
-      end
-    end
-
-    context "when month is NOT unique in the leaf." do
+    describe '.update' do
       before{
-        first.update(last_date: Date.parse("2016-02-20"))
-        first_contract_add.valid?
+        contract.save
+        contract.reload
       }
+      after{ contract.update(money1: 2000) }
 
-      it "is invalid." do
-        expect(first_contract_add).not_to be_valid
+      it 'calls ContractParamsSetup.before_save once.' do
+        contract_params_setup.to receive(:before_save).once.with(contract)
       end
 
-      it 'returns an error message.' do
-        expect(first_contract_add.errors[:month]).to be_present
+      it 'calls ContractParamsSetup.before_update once.' do
+        contract_params_setup.to receive(:before_update).once.once.with(contract)
+      end
+    end
+
+    describe '.destroy' do
+      before{
+        contract.save
+        contract.reload
+        leaf.contracts.push(contract)
+      }
+      after{ contract.destroy }
+
+      it 'calls .last_contract? once.' do
+        expect(contract).to receive(:last_contract?).once
+      end
+
+      it 'calls LeafLastDateUpdator.after_destroy once.' do
+        leaf_updator.to receive(:after_destroy).once
       end
     end
   end

@@ -46,6 +46,8 @@ leafs_show = ->
     $('#contracts_list').scrollTop($('#contracts_list')[0].scrollHeight)
   # Changes parameters and input forms depending on the contract type.
   $('input[name="cont_type"]:radio').change ->
+    $('#contadd_reset_btn').click()
+    # Values should be set after reset!
     switch $(@).val()
       when "1"
         $('#additionForm').css({'display':'block'})
@@ -58,7 +60,6 @@ leafs_show = ->
       when "3"
         $('#additionForm').css({'display':'none'})
         $('#contract_skip_flag').val(true) 
-    $('#contadd_reset_btn').click()
 
 # Scripts for the leaf's new and edit form.
 leafs_form = ->

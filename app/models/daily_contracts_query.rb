@@ -1,14 +1,11 @@
 # Query for daily contracts report
 class DailyContractsQuery
-  def initialize(in_contracts_date)
-    @contracts_date = in_contracts_date
-  end
-
-  def list_each_contract
-    Contract.joins(leaf: :customer)
-            .where("contract_date = ?
-                            and skip_flag = 'f'", @contracts_date)
-            .select('
+  class << self
+    def list_each_contract(contracts_date)
+      Contract.joins(leaf: :customer)
+      .where("contract_date = ?
+                            and skip_flag = 'f'", contracts_date)
+      .select('
        contracts.id,
        leafs.number AS number,
        leafs.vhiecle_type AS vhiecle_type,
@@ -22,15 +19,16 @@ class DailyContractsQuery
        contracts.money2,
        contracts.new_flag,
        contracts.staff_nickname
-            ')
-  end
+              ')
+    end
 
-  def list_total_amount
-    Contract.where(
-      "contract_date = ? and skip_flag = 'f'", @contracts_date
-    )
-            .joins(:leaf)
-            .group(:vhiecle_type)
-            .pluck('leafs.vhiecle_type, count(*), sum(money1 + money2)')
+    def list_each_vhiecle_type(contracts_date)
+      Contract.where(
+        "contract_date = ? and skip_flag = 'f'", contracts_date
+      )
+      .joins(:leaf)
+      .group(:vhiecle_type)
+      .pluck('count(*), sum(money1 + money2)')
+    end
   end
 end

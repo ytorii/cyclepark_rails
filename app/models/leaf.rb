@@ -13,7 +13,10 @@ class Leaf < ActiveRecord::Base
   validates :number,
             presence: true,
             numericality: {
-              greater_than: 0, less_than: 1057, allow_blank: true
+              greater_than_or_equal_to: 1,
+              less_than_or_equal_to: 1056,
+              only_integer: true,
+              allow_blank: true
             }
   validates :number,
             uniqueness: {
@@ -23,7 +26,10 @@ class Leaf < ActiveRecord::Base
   validates :vhiecle_type,
             presence: true,
             numericality: {
-              greater_than: 0, less_than: 10, allow_blank: true
+              greater_than_or_equal_to: 1,
+              less_than_or_equal_to: 3,
+              only_integer: true,
+              allow_blank: true
             }
   validates :student_flag,
             inclusion: { in: [true, false] }

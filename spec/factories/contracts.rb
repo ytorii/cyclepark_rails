@@ -2,7 +2,7 @@ FactoryGirl.define do
   factory :first_contract, class: Contract do
     Leaf
     contract_date "2016-02-20"
-    start_month "2016-02-20"
+    start_month "2016-02-01"
     term1 1
     money1 1000 
     term2 6
@@ -11,8 +11,22 @@ FactoryGirl.define do
     skip_flag false
     staff_nickname "admin"
 
-    after(:build) do |first_contract|
-      first_contract.seals.build(sealed_flag: true)
+    after(:build) do |contract|
+      contract.seals.build(sealed_flag: true)
+    end
+
+    # DO NOT use skip or reset callback for Class influencing latter tests!!
+    factory :first_contract_no_callbacks, class: Contract do
+      _skip_callback true
+
+      factory :first_contract_no_callbacks_seals, class: Contract do
+        after(:build) do |contract|
+          contract.seals.first.month = contract.start_month
+          1.upto 6 do |i|
+            contract.seals.build(month: contract.start_month + i.months)
+          end
+        end
+      end
     end
   end
 
@@ -35,8 +49,8 @@ FactoryGirl.define do
 
   factory :first_contract_add, class: Contract do
     Leaf
-    contract_date "2016-01-01"
-    start_month nil
+    contract_date "2016-02-01"
+    start_month "2016-02-01"
     term1 1
     money1 3500 
     term2 nil
@@ -72,6 +86,7 @@ FactoryGirl.define do
     contract_date "2016-01-16"
     staff_nickname "admin"
     start_month "2016-02-01"
+    skip_flag false
 
     after(:build) do |contract|
       contract.seals.build(sealed_flag: false)
@@ -116,8 +131,9 @@ FactoryGirl.define do
   factory :contract, class: Contract do
     Leaf
     contract_date "2016-05-16"
-    start_month "2016-05-01"
     staff_nickname "admin"
+    start_month "2016-05-01"
+    skip_flag false
 
     after(:build) do |contract|
       contract.seals.build(sealed_flag: false)

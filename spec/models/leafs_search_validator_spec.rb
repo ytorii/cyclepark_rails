@@ -1,109 +1,54 @@
 require 'rails_helper'
 
 RSpec.describe LeafsSearchValidator, type: :model do
-  let(:validator){ build(:leafs_search_validator)}
+  describe 'validation' do
+    context 'in number search' do
+      before { allow(subject).to receive(:number_search?).and_return(true) }
 
-  describe 'Number search' do
-    describe 'vhiecle_type_eq' do
-      ['1', '2', '3'].each do |value|
-        context "with #{value.to_s}." do
-          it 'is valid' do
-            validator.vhiecle_type_eq = value
-            expect(validator).to be_valid
-          end
-        end
+      describe '#vhiecle_type_eq' do
+        it { is_expected.to validate_presence_of(:vhiecle_type_eq) }
+        it { is_expected.to validate_numericality_of(:vhiecle_type_eq).
+             is_greater_than_or_equal_to(1).
+             is_less_than_or_equal_to(3).
+             allow_nil }
       end
 
-      [0, 3.5, 4, 'a', 'あ'].each do |value|
-        context "with #{value.to_s}." do
-          it 'is invalid' do
-            validator.vhiecle_type_eq = value
-            expect(validator).not_to be_valid
-            expect(validator.errors[:vhiecle_type_eq]).to be_present
-          end
-        end
-      end
-    end
-
-    describe "number_eq" do
-      [1, 500, 1056].each do |value|
-        context "with #{value.to_s}." do
-          it 'is valid' do
-            validator.number_eq = value
-            expect(validator).to be_valid
-          end
-        end
+      describe "number_eq" do
+        it { is_expected.to validate_presence_of(:number_eq) }
+        it { is_expected.to validate_numericality_of(:number_eq).
+             is_greater_than_or_equal_to(1).
+             is_less_than_or_equal_to(1056).
+             allow_nil }
       end
 
-      [0, 1057, 3.5, 'a', 'あ'].each do |value|
-        context "with #{value.to_s}." do
-          it 'is invalid' do
-            validator.number_eq = value
-            expect(validator).not_to be_valid
-            expect(validator.errors[:number_eq]).to be_present
-          end
-        end
+      describe '#valid_flag_eq' do
+        it { is_expected.to validate_inclusion_of(:valid_flag_eq).in_array(['true', 'false'])}
+      end
+
+      describe '#customer_first_name_or_customer_last_name_cont' do
+        it { is_expected.
+             to allow_value(nil).for(:customer_first_name_or_customer_last_name_cont) }
       end
     end
 
-    describe 'valid_flag_eq' do
-      ['true', 'false'].each do |value|
-        context "with #{value.to_s}." do
-          it 'is valid' do
-            validator.valid_flag_eq = value
-            expect(validator).to be_valid
-          end
-        end
+    context 'in name search' do
+      before { allow(subject).to receive(:number_search?).and_return(false) }
+
+      describe '#vhiecle_type_eq' do
+        it { is_expected.to allow_value(nil).for(:vhiecle_type_eq) }
       end
 
-      ['a', 'あ', 0, 1, nil].each do |value|
-        context "with #{value.to_s}." do
-          it 'is invalid' do
-            validator.valid_flag_eq = value
-            expect(validator).not_to be_valid
-            expect(validator.errors[:valid_flag_eq]).to be_present
-          end
-        end
-      end
-    end
-
-    describe 'customer_first_name_or_customer_last_name_cont' do
-      [ 'あ', nil ].each do |value|
-        context "with #{value.to_s}." do
-          it 'is valid' do
-            validator.customer_first_name_or_customer_last_name_cont = value
-            expect(validator).to be_valid
-          end
-        end
-      end
-    end
-  end
-
-  describe 'Nmae search' do
-    before{
-      validator.number_eq = nil
-      validator.vhiecle_type_eq = nil
-      validator.valid_flag_eq = nil
-    }
-
-    describe 'customer_first_name_or_customer_last_name_cont' do
-      ['a', 'あ', 0, 1].each do |value|
-        context "with #{value.to_s}." do
-          it 'is valid' do
-            validator.customer_first_name_or_customer_last_name_cont = value
-            expect(validator).to be_valid
-          end
-        end
+      describe '#number_eq' do
+        it { is_expected.to allow_value(nil).for(:number_eq) }
       end
 
-      context "with nil." do
-        it 'is invalid' do
-          validator.customer_first_name_or_customer_last_name_cont = nil
-          expect(validator).not_to be_valid
-          expect(validator.errors[
-            :customer_first_name_or_customer_last_name_cont
-          ]).to be_present
-        end
+      describe '#valid_flag_eq' do
+        it { is_expected.to allow_value(nil).for(:valid_flag_eq) }
+      end
+
+      describe '#customer_first_name_or_customer_last_name_cont' do
+        it { is_expected.
+             to validate_presence_of(:customer_first_name_or_customer_last_name_cont) }
       end
     end
   end

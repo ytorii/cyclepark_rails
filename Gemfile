@@ -45,8 +45,11 @@ group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   #gem 'byebug'
   gem 'rspec-rails'
+  gem 'shoulda-matchers'
   gem 'factory_girl_rails'
   gem 'pry-rails'
+  gem 'pry-coolline'
+  gem 'rb-readline'
   gem 'seedbank'
   gem 'seed_dump'
   gem 'seed-fu'
@@ -61,7 +64,8 @@ group :test do
   gem 'capybara'
   gem 'database_cleaner'
   gem 'selenium-webdriver'
-  gem 'poltergeist'
+  #gem 'chromedriver-helper'
+  #gem 'poltergeist'
 end
 
 group :development do

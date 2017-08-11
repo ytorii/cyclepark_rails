@@ -2,7 +2,11 @@ require 'rails_helper'
 
 RSpec.describe DailyContractsReportController, type: :controller do
 
-  before :all do
+  let(:report){ DailyContractsReport.new(
+    contracts_date: '2016-01-16',
+    query: DailyContractsQuery) }
+
+  before do
     create(:daily_first_nrm_1) 
     create(:daily_first_std_1) 
     create(:daily_bike_1) 
@@ -13,13 +17,12 @@ RSpec.describe DailyContractsReportController, type: :controller do
 
   shared_examples "gets daily contract index page" do |session|
     context "with valid param" do
-      before{ get :index, {:contracts_date => '2016-05-16'}, session }
+      before{ get :index, {:contracts_date => '2016-01-16'}, session }
       it "returns http success." do
         expect(response).to have_http_status(:success)
       end
 
       it "assigns contracts report as @report." do
-        report = DailyContractsReport.new('2016-05-16')
         expect(assigns(:contracts_date)).to eq(report.contracts_date)
         expect(assigns(:contracts_list)).to eq(report.contracts_list)
         expect(assigns(:contracts_total)).to eq(report.contracts_total)

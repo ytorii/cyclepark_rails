@@ -4,71 +4,22 @@ RSpec.describe NumberSealsidListSearch, type: :model do
 
   let(:numid_list){ build(:number_sealsid_list_search) }
 
-  before :all do
-    create_list(:count_first_normal_1, 3)
-    create(:count_first_normal_2)
-  end 
-
-  describe 'vhiecle_type' do
-    [*1..3].each do |value|
-      context "with #{value}." do
-        it 'is valid' do
-          numid_list.vhiecle_type = value
-          expect(numid_list).to be_valid
-        end
-      end
+  describe 'validation' do
+    describe '#vhiecle_type' do
+      it { is_expected.to validate_presence_of(:vhiecle_type) }
+      it { is_expected.to allow_value('1', '2', '3').for(:vhiecle_type) }
+      it { is_expected.not_to allow_value('0', '3.5', '4', 'a', 'あ').for(:vhiecle_type) }
     end
 
-    [0, 3.5, 4, 'a', 'あ'].each do |value|
-      context "with #{value}." do
-        it 'is invalid' do
-          numid_list.vhiecle_type = value
-          expect(numid_list).not_to be_valid
-          expect(numid_list.errors[:vhiecle_type]).to be_present
-        end
-      end
-    end
-  end
-
-  describe "month" do
-    context 'is valid' do
-      ['2000/01/01', '2000-01-01', '2099/12/31'].each do |value|
-        it "with #{value}." do
-          numid_list.month = value
-          expect(numid_list).to be_valid
-        end
-      end
+    describe '#month' do
+      it { is_expected.to validate_presence_of(:month) }
+      it { is_expected.to allow_value('2000/01/01', '2099/12/31').for(:month) }
+      it { is_expected.not_to allow_value('1999/12/31', '2100/01/01').for(:month) }
+      it { is_expected.not_to allow_value(0, true, 'a', 'あ').for(:month) }
     end
 
-    context 'is invalid' do
-      [ '1999/12/31', '2100/01/01', 'あ', 'a', 1, nil ].each do |value|
-        it "with #{value}." do
-          numid_list.month = value
-          expect(numid_list).not_to be_valid
-          expect(numid_list.errors[:month]).to be_present
-        end
-      end
-    end
-  end
-
-  describe 'sealed_flag' do
-    [true, false].each do |value|
-      context "with #{value}." do
-        it 'is valid' do
-          numid_list.sealed_flag = value
-          expect(numid_list).to be_valid
-        end
-      end
-    end
-
-    ['a', 'あ', 0, 1, nil].each do |value|
-      context "with #{value}." do
-        it 'is invalid' do
-          numid_list.sealed_flag = value
-          expect(numid_list).not_to be_valid
-          expect(numid_list.errors[:sealed_flag]).to be_present
-        end
-      end
+    describe '#skip_flag' do
+      it { is_expected.to validate_inclusion_of(:sealed_flag).in_array([true, false])}
     end
   end
 
@@ -82,6 +33,11 @@ RSpec.describe NumberSealsidListSearch, type: :model do
   end
 
   describe '.result' do
+    before(:all) do
+      create_list(:count_first_normal_1, 3)
+      create(:count_first_normal_2)
+    end 
+
     shared_examples 'returns the list' do
       it 'as expected numbers and ids.' do
         

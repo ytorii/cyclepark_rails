@@ -1,49 +1,56 @@
 # Models to count the number of customer's for statistics.
 class CountContractsSummary
-  include ActiveModel::Model
-
   attr_accessor :month
 
-  date_format =
-    %r(\A20[0-9]{2}(/|-)(0[1-9]|1[0-2])(/|-)(0[1-9]|(1|2)[0-9]|3[01])\z)
-
-  validates :month, format: { with: date_format }
-
   def initialize(in_month)
-    @month = in_month.presence || Date.current
+    @month = in_month ? Date.parse(in_month) : Date.current
   end
 
-  def count_contracts_summary
-    @counts_array = CountContractsArray.new(@month).count_contracts_array
-
-    {
-      'present_total' => @counts_array[2],
-      'present_new' => @counts_array[3],
-      'next_total' => @counts_array[4],
-      'next_new' => @counts_array[5],
-      'diffs_prev' => diff_array(@counts_array[2], @counts_array[0]),
-      'next_unpaid' =>
-      unpaid_array(@counts_array[2], @counts_array[4], @counts_array[5])
-    }
+  def report_summary
+    insert_sums_to_array(summary_hash)
   end
 
   private
-
-  # Diffs from prev_month = this_month - prev_month
-  def diff_array(ary1, ary2)
-    [ary1, ary2].transpose.map { |f, s| f - s }
+  def insert_sums_to_array(hash)
+    hash.each do |key, array| 
+      array.insert(2, array[0] + array[1])
+      array.insert(-2, array[-3] + array[-2])
+    end
   end
 
-  # Next_unpaid = present_total - (next_total - next_new)
-  # This value should'nt be smaller than 0, and first and bike's
-  # total count should be calculated again to avoid unmatched values.
-  def unpaid_array(ary1, ary2, ary3)
-    [ary1, ary2, ary3]
-      .transpose
-      .map { |f, s, t| (f - s + t) >= 0 ? f - s + t : 0 }
-      .tap do |array|
-      array[2] = array[0] + array[1]
-      array[5] = array[3] + array[4]
-    end
+  def summary_hash
+    { present_total: contracts_counts[:this_total],
+      present_new:   contracts_counts[:this_new],
+      next_total:    contracts_counts[:next_total],
+      next_new:      contracts_counts[:next_new],
+      next_unpaid:   sum_array(
+        contracts_counts[:next_unsigned], contracts_counts[:next_skip]),
+      diffs_prev:    diff_array(
+        contracts_counts[:this_total], contracts_counts[:prev_total]) }
+  end
+
+  def contracts_counts
+    @counts ||= counts_array.count_contracts
+  end
+
+  def counts_array
+    CountContractsArray.new(array_params)
+  end
+
+  def array_params
+    { month: @month.beginning_of_month,
+      query: count_contracts_query }
+  end
+
+  def count_contracts_query
+    CountContractsQuery
+  end
+
+  def sum_array(ary1, ary2)
+    ary1.zip(ary2).map{|f, s| f + s }
+  end
+
+  def diff_array(ary1, ary2)
+    ary1.zip(ary2).map{|f, s| f - s }
   end
 end

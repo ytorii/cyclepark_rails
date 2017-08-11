@@ -47,7 +47,7 @@ feature "Daily Contracts Report" do
       context 'with selected date input' do
         it 'successes to access to the report page.' do
           within('form') do
-            fill_in 'contracts_date', with: Date.parse('2016/01/16')
+            fill_in_val 'contracts_date', with: Date.parse('2016/01/16')
           end
           click_button '指定した日付を表示'
           expect(page).to have_css('h1', text: '日毎契約一覧')
@@ -63,7 +63,7 @@ feature "Daily Contracts Report" do
       context 'with invalid contracts date' do
         before{
           within('form') do
-            fill_in 'contracts_date', with: 'あ'
+            fill_in_val 'contracts_date', with: Date.parse('1900/01/01')
           end
           click_button '指定した日付を表示'
         }

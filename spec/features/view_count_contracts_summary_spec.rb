@@ -83,7 +83,7 @@ feature "Count Contracts Summary" do
 
       # Return date to current datetime.
       # Without this, time to elapse of RSpec will be invalid value!
-      Timecop.return
+      after { Timecop.return }
     end
   end
 

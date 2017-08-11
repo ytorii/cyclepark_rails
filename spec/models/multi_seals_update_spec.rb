@@ -5,53 +5,26 @@ RSpec.describe MultiSealsUpdate, type: :model do
 
   before{ multi_seals }
 
-  describe "Sealed Date" do
-    ['2000/01/01', '2000-01-01', '2099/12/31'].each do |value|
-      context "with #{value}" do
-        it 'is valid.' do
-          multi_seals.sealed_date = value
-          expect(multi_seals).to be_valid
-        end
+  describe 'validation' do
+    describe '#sealed_date' do
+      it { is_expected.to allow_value('2000/01/01', '2099/12/31').for(:sealed_date) }
+      it { is_expected.not_to allow_value('1999/12/31', '2100/01/01').for(:sealed_date) }
+      it { is_expected.not_to allow_value(nil, 0, true, 'a', 'あ').for(:sealed_date) }
+    end
+
+    describe "#staff_nickname" do
+      subject{ MultiSealsUpdate.new }
+      it "calls staff_exits? method once." do
+        is_expected.to receive(:staff_exists?).once
+        subject.valid?
       end
     end
 
-    ['1999/12/31', '2100/01/01', '', 'あ'].each do |value|
-      context "with #{value}" do
-        it 'is invalid.' do
-          multi_seals.sealed_date = value
-          expect(multi_seals).not_to be_valid
-          expect(multi_seals.errors[:sealed_date]).to be_present
-        end
-      end
-    end
-  end
-
-  describe "staff_nickname" do
-    context "with nickanme in Staffs DB" do
-      it "is valid." do
-        multi_seals.staff_nickname = 'admin'
-        expect(multi_seals).to be_valid
-      end
-    end
-
-    context "with nickanme NOT in Staffs DB" do
-      it "is invalid." do
-        multi_seals.staff_nickname = 'nostaff'
-        expect(multi_seals).not_to be_valid
-        expect(multi_seals.errors[:staff_nickname]).to be_present
-      end
-    end
-  end
-
-  describe "sealsid_list" do
-    [ nil, '', 'あ', [], ["1", "2", 'a'] ].each do |value|
-      context "with #{value.to_s}" do
-        it 'is invalid.' do
-          multi_seals.sealsid_list = value
-          expect(multi_seals).not_to be_valid
-          expect(multi_seals.errors[:sealsid_list]).to be_present
-        end
-      end
+    describe '#sealsid_list' do
+      it { is_expected.to allow_value(['1', '3', '9']).for(:sealsid_list) }
+      it { is_expected.not_to allow_value([""], [], nil).for(:sealsid_list) }
+      it { is_expected.
+           not_to allow_value('', 'あ', ["1", "2", 'a']).for(:sealsid_list) }
     end
   end
 
