@@ -59,7 +59,7 @@ feature "Multi Seals Update" do
 
         within('form#new_number_sealsid_list_search') do
           fill_in_val 'number_sealsid_list_search_month',
-            with: 'aaa'
+            with: Date.parse('1900-01-01')
         end
         click_button 'シール未貼付け番号を表示'
 
