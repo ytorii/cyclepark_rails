@@ -25,8 +25,6 @@ feature "Leaf search by name" do
         expect(current_path).to eq('/leafs_search')
 
         within('tbody') do
-          #expect(page).to have_css('tr', count: 5)
-          #all('a', text: '詳細を見る').last.click
           all('a', text: '詳細を見る').last.click
         end
 

@@ -13,6 +13,7 @@ feature "Contract Edit" do
         tmp_contract =
           build(:first_contract_add, start_month: month, leaf: first)
         tmp_contract.save! 
+        first.reload
         month = month.next_month
       end
     }
@@ -24,12 +25,15 @@ feature "Contract Edit" do
       }
 
       it "successes to edit a contract." do
-        click_link '契約の変更・削除'
+        clicklink_by_text_script('契約の変更・削除')
         expect(current_path).to eq("/leafs/#{first.id}/contracts")
 
         within('#contracts_index') do
           all('a', text: '編集').last.click
         end
+
+        # Wait until the page has moved to the link page.
+        sleep 1
 
         expect(current_path).to eq(
           "/leafs/#{first.id}/contracts/#{contract_id}/edit")
@@ -49,12 +53,15 @@ feature "Contract Edit" do
       end
 
       it "successes to delete a contract.", :js => true do
-        trigger_link('契約の変更・削除')
+        clicklink_by_text_script('契約の変更・削除')
 
         expect(current_path).to eq("/leafs/#{first.id}/contracts")
 
         within('#contracts_index') do
-          trigger_link('削除')
+          accept_alert do
+            clicklink_by_text_script('削除')
+          end
+          sleep 1
         end
 
         expect(current_path).to eq("/leafs/#{first.id}")
