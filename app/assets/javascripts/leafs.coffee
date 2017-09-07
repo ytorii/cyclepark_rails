@@ -98,4 +98,4 @@ init = ->
 
 $(document).ready(init)
 # ready function for Turbolinks
-$(document).on('page:load', init)
+$(document).on('turbolinks:load', init)

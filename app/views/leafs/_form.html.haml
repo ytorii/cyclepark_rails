@@ -16,14 +16,11 @@
       = f.label :vhiecle_type
       %br/
       = f.radio_button :vhiecle_type, 1, id: 'vtype_1', class: 'custom_rd'
-      = label_tag :vtype_1, '１号地',
-        class: 'custom_rd_label blue_rd radius'
+      = label_tag :vtype_1, '１号地', class: 'custom_rd_label blue_rd radius'
       = f.radio_button :vhiecle_type, 2, id: 'vtype_2', class: 'custom_rd'
-      = label_tag :vtype_2, 'バイク',
-        class: 'custom_rd_label orange_rd radius'
+      = label_tag :vtype_2, 'バイク', class: 'custom_rd_label orange_rd radius'
       = f.radio_button :vhiecle_type, 3, id: 'vtype_3', class: 'custom_rd'
-      = label_tag :vtype_3, '２号地',
-        class: 'custom_rd_label green_rd radius'
+      = label_tag :vtype_3, '２号地', class: 'custom_rd_label green_rd radius'
     #student_checkbox.form-group
       = f.label :student_flag
       = f.check_box :student_flag

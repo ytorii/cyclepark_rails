@@ -18,6 +18,24 @@ feature "Customer Registration" do
 
           expect(page.current_path).to eq("/leafs/1") 
           expect(page).to have_css('.alert-success', text: '顧客情報を登録しました。')
+
+          case leaf.vhiecle_type
+          when 1
+            expect(page).to have_css('#vhiecle_type', text: '自転車')
+            if leaf.student_flag
+              expect(page).to have_css('#student_flag', text: '学生')
+            else
+              expect(page).to have_css('#student_flag', text: '一般')
+            end
+          when 2
+            if leaf.largebike_flag
+              expect(page).to have_css('#vhiecle_type', text: '大型バイク')
+            else
+              expect(page).to have_css('#vhiecle_type', text: 'バイク')
+            end
+          when 3
+            expect(page).to have_css('#vhiecle_type', text: '２号地')
+          end
         end
       end
     end
