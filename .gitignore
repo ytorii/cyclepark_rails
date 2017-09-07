@@ -19,3 +19,4 @@
 cyclepark.db
 production.sqlite3
 *~
+/vendor/bundle
