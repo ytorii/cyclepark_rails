@@ -32,6 +32,7 @@ gem 'autoprefixer-rails'
 # bootwatch template for rails
 gem 'bootswatch-rails'
 
+gem 'jquery-turbolinks'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
