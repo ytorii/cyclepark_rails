@@ -28,7 +28,7 @@ class DailyContractsQuery
       )
       .joins(:leaf)
       .group(:vhiecle_type)
-      .pluck('count(*), sum(money1 + money2)')
+      .pluck('vhiecle_type, count(*), sum(money1 + money2)')
     end
   end
 end
