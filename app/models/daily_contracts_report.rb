@@ -20,11 +20,8 @@ class DailyContractsReport
   end
 
   def contracts_total
-    list = vhiecle_type_list
-    list = blank_list if list.blank?
-
-    # Add total counts and money to the first row.
-    list.unshift(total_count(list))
+    # Fill empty vhiecle_type 
+    list_array_to_hash(vhiecle_type_list, blank_count_hash)
   end
 
   private
@@ -34,13 +31,33 @@ class DailyContractsReport
     @query.list_each_vhiecle_type(@contracts_date)
   end
 
-  def blank_list
-    # vhiecle_type(3)
-    # [ counts, total_money ]
-    result = Array.new(3) { [0, 0] }
+  def list_array_to_hash(list_array, hash)
+    list_array.each do |type_num, count, sum|
+      type = vhiecle_type_map[type_num] 
+
+      hash[type][:count] = count
+      hash[type][:sum] = sum
+
+      hash[:total][:count] += count
+      hash[:total][:sum] += sum
+    end
+
+    hash
   end
 
-  def total_count(list)
-    list.transpose.map(&:sum)
+    # Add total counts and money to the first row.
+  def unshift_total_count(list)
+    list.unshift(list.transpose.map(&:sum))
+  end
+
+  def blank_count_hash
+    { total:  { count: 0, sum: 0 },
+      first:  { count: 0, sum: 0 },
+      bike:  { count: 0, sum: 0 },
+      second:  { count: 0, sum: 0 } }
+  end
+
+  def vhiecle_type_map
+    { 1 => :first, 2 => :bike, 3 => :second } 
   end
 end

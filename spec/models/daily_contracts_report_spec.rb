@@ -20,14 +20,32 @@ RSpec.describe DailyContractsReport, type: :model do
     let(:query) { double('DailyContractsQuery') }
     let(:params){ { contracts_date: date, query: query } }
 
-    let(:total_list) { [ [2, 28500], [2, 14800], [1, 5000] ] }
-    let(:total_result) { [ [5, 48300], [2, 28500], [2, 14800], [1, 5000] ] }
-    let(:blank_result) { [ [0, 0], [0, 0], [0, 0], [0, 0] ] } 
+    let(:first_list) { [ [1, 2, 28500] ] }
+    let(:first_result) {
+      { total:  { count: 2, sum: 28500 },
+        first:  { count: 2, sum: 28500 },
+        bike:   { count: 0, sum: 0 },
+        second: { count: 0, sum: 0 } }
+    }
+
+    let(:all_list) { [ [1, 2, 28500], [2, 2, 14800], [3, 1, 5000] ] }
+    let(:all_result) {
+      { total:  { count: 5, sum: 48300 },
+        first:  { count: 2, sum: 28500 },
+        bike:   { count: 2, sum: 14800 },
+        second: { count: 1, sum: 5000 } }
+    }
+
+    let(:blank_result) {
+      { total:  { count: 0, sum: 0 },
+        first:  { count: 0, sum: 0 },
+        bike:   { count: 0, sum: 0 },
+        second: { count: 0, sum: 0 } }
+    }
 
     before {
-      allow(query).to receive(:list_each_contract).with(date)
       allow(query).
-        to receive(:list_each_vhiecle_type).with(date).and_return(total_list)
+        to receive(:list_each_vhiecle_type).with(date).and_return([])
     }
 
     describe '.initialize' do
@@ -66,18 +84,28 @@ RSpec.describe DailyContractsReport, type: :model do
       end
 
       context 'with no contracts at that day' do
-        before {
-          allow(query).
-            to receive(:list_each_vhiecle_type).with(date).and_return([])
-        }
         it 'returns all 0 array.' do
           is_expected.to eq(blank_result)
         end
       end
 
-      context 'with some contracts at that day' do
-        it 'returns array with total amount of count and money.' do
-          is_expected.to eq(total_result)
+      context 'with only contracts of first vhiecle_type at that day' do
+        before {
+          allow(query).
+          to receive(:list_each_vhiecle_type).with(date).and_return(first_list)
+        }
+        it 'returns array with fist vhiecle_type of count and money.' do
+          is_expected.to eq(first_result)
+        end
+      end
+
+      context 'with contracts of all vhiecle_types at that day' do
+        before {
+          allow(query).
+          to receive(:list_each_vhiecle_type).with(date).and_return(all_list)
+        }
+        it 'returns array with all vhiecle_types of count and money.' do
+          is_expected.to eq(all_result)
         end
       end
     end
