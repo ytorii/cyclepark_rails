@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe DailyContractsQuery, type: :model do
 
   let(:date) { Date.parse('2016/01/16') }
-  let(:vhiecle_type_result){ [[2, 28500], [2, 14800], [1, 5000]] }
+  let(:vhiecle_type_result){ [[1, 2, 28500], [2, 2, 14800], [3, 1, 5000]] }
 
   describe 'class method' do
     subject { DailyContractsQuery }

@@ -13,11 +13,11 @@
       %hr
       #daily_contracts_total
         .lead= @contracts_date.to_date.strftime('%Y年%-m月%-d日').concat('の契約一覧')
-        合計  #{@contracts_total[0][0]}件 #{number_to_currency(@contracts_total[0][1], unit: '\\', format: '%u%n')}
+        合計  #{@contracts_total[:total][:count]}件 #{number_to_currency(@contracts_total[:total][:sum], unit: '\\', format: '%u%n')}
         %br
-        １号地  #{@contracts_total[1][0]}件 #{number_to_currency(@contracts_total[1][1], unit: '\\', format: '%u%n')},
-        バイク  #{@contracts_total[2][0]}件 #{number_to_currency(@contracts_total[2][1], unit: '\\', format: '%u%n')},
-        ２号地  #{@contracts_total[3][0]}件 #{number_to_currency(@contracts_total[3][1], unit: '\\', format: '%u%n')}
+        １号地  #{@contracts_total[:first][:count]}件 #{number_to_currency(@contracts_total[:first][:sum], unit: '\\', format: '%u%n')},
+        バイク  #{@contracts_total[:bike][:count]}件 #{number_to_currency(@contracts_total[:bike][:sum], unit: '\\', format: '%u%n')},
+        ２号地  #{@contracts_total[:second][:count]}件 #{number_to_currency(@contracts_total[:second][:sum], unit: '\\', format: '%u%n')}
 
       %br
       #daily_contracts_list
